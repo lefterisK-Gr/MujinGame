@@ -1,0 +1,202 @@
+﻿  AssetManager.cpp
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(28,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(29,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(30,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(31,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(32,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(33,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(34,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(35,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+          with
+          [
+              T=ColliderComponent
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+          with
+          [
+              T=GridComponent
+          ]
+  Collision.cpp
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(25,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(26,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(30,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(31,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(35,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(36,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(40,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(41,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(45,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(46,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(50,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(51,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(55,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(56,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(60,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(61,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(76,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(77,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(85,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(86,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(95,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(96,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(105,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(106,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(126,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(127,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(144,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(145,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(174,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(175,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+          with
+          [
+              T=ColliderComponent
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+          with
+          [
+              T=GridComponent
+          ]
+  Game.cpp
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(627,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+          with
+          [
+              T=ColliderComponent
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+          with
+          [
+              T=GridComponent
+          ]
+  Map.cpp
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(42,6): warning C4101: 'i': unreferenced local variable
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(37,7): warning C4101: 'c': unreferenced local variable
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(224,56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(225,56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(242,57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(243,57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+          with
+          [
+              T=ColliderComponent
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+          with
+          [
+              T=GridComponent
+          ]
+  SceneManager.cpp
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+          with
+          [
+              T=ColliderComponent
+          ]
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+          with
+          [
+              T=GridComponent
+          ]
+  Generating Code...
+  SuperMarioGame.vcxproj -> D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\x64\Debug\SuperMarioGame.exe
