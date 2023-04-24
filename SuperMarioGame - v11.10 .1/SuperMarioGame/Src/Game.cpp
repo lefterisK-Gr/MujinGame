@@ -89,7 +89,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->AddTexture("terrain", "assets/super_mario_tileset_scaled.png");
 	assets->AddTexture("player", "assets/mario_luigi_animations_1.png");
 	assets->AddTexture("projectile", "assets/my_projectile.png");
-	assets->AddTexture("enemy", "assets/super_mario_tileset_scaled.png");
+	assets->AddTexture("goomba", "assets/super_mario_tileset_scaled.png");
 	assets->AddTexture("greenkoopatroopa", "assets/super_mario_tileset_scaled.png");
 
 	assets->AddFont("arial", "assets/arial.ttf", 20);
@@ -102,7 +102,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player1.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
-	player1.addComponent<PlayerAnimatorComponent>();
+	player1.addComponent<Player_AnimatorComponent>();
 	player1.addComponent<RigidBodyComponent>();
 	player1.addComponent<KeyboardController>();
 	player1.addComponent<ColliderComponent>("player1");
@@ -113,7 +113,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player1.addGroup(groupPlayers);
 	 //remove comment to add second player
 	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
-	player2.addComponent<PlayerAnimatorComponent>();
+	player2.addComponent<Player_AnimatorComponent>();
 	player2.addComponent<RigidBodyComponent>();
 	player2.addComponent<KeyboardController2>();
 	player2.addComponent<ColliderComponent>("player2");
@@ -134,12 +134,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	pauseLabel.addComponent<UILabel>(50, 300, "", "arialBig", white);
 
 	//assets->CreateGoomba(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
-	assets->CreateGoomba(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "enemy");
-	assets->CreateGoomba(Vector2D(500, 300), Vector2D(1, 0), 200, 2, "enemy");
-	assets->CreateGoomba(Vector2D(1000, 300), Vector2D(1, -1), 200, 2, "enemy");
-	assets->CreateGoomba(Vector2D(1400, 288), Vector2D(-1, -1), 200, 2, "enemy");
-	assets->CreateGoomba(Vector2D(1900, 300), Vector2D(-1, -1), 200, 2, "enemy");
-	assets->CreateGoomba(Vector2D(2675, 300), Vector2D(-1, -1), 200, 2, "enemy");
+	assets->CreateGoomba(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "goomba");
+	assets->CreateGoomba(Vector2D(500, 300), Vector2D(1, 0), 200, 2, "goomba");
+	assets->CreateGoomba(Vector2D(1000, 300), Vector2D(1, -1), 200, 2, "goomba");
+	assets->CreateGoomba(Vector2D(1400, 288), Vector2D(-1, -1), 200, 2, "goomba");
+	assets->CreateGoomba(Vector2D(1900, 300), Vector2D(-1, -1), 200, 2, "goomba");
+	assets->CreateGoomba(Vector2D(2675, 300), Vector2D(-1, -1), 200, 2, "goomba");
 
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 300), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
@@ -280,7 +280,10 @@ void Game::update() //game objects updating
 					}
 				}
 				//coin holders update
-				if ((Collision::hittedTopLeft || Collision::hittedTopRight) && (p->getComponent<TransformComponent>().velocity.y < 0) && c != NULL && c->hasComponent<AnimatorComponent>() && !c->getComponent<AnimatorComponent>().getCoinAnimation())
+				if ((Collision::hittedTopLeft || Collision::hittedTopRight) 
+					&& (p->getComponent<TransformComponent>().velocity.y < 0)
+					&& c != NULL && c->hasComponent<AnimatorComponent>() 
+					&& !c->getComponent<AnimatorComponent>().getCoinAnimation())
 				{
 					if (c->getComponent<AnimatorComponent>().blockAnimation)
 					{
@@ -462,8 +465,8 @@ void Game::update() //game objects updating
 						if (enemy == greenkoopatroopas) //green koopa troopa case
 						{
 							e->getComponent<TransformComponent>().velocity.x = 0;
-							e->getComponent<AnimatorComponent>().Play("GreenShell");
-							e->getComponent<AnimatorComponent>().shelltoturtle = true;
+							e->getComponent<GreenKoopaTroopa_AnimatorComponent>().Play("GreenShell");
+							e->getComponent<GreenKoopaTroopa_AnimatorComponent>().shelltoturtle = true;
 						}
 						else //goomba case
 						{
@@ -485,14 +488,16 @@ void Game::update() //game objects updating
 					if (finalColliderHit)
 					{
 						finalColliderHit = false;
-						if (e->getComponent<AnimatorComponent>().animimationName == "GreenShell" && !e->getComponent<TransformComponent>().velocity.x)
+						if (enemy == greenkoopatroopas
+							&& e->getComponent<GreenKoopaTroopa_AnimatorComponent>().animimationName == "GreenShell" 
+							&& !e->getComponent<TransformComponent>().velocity.x)
 						{
 							e->getComponent<TransformComponent>().velocity.x = 5;
 							if(player->getComponent<TransformComponent>().velocity.x < 0)
 							{
 								e->getComponent<TransformComponent>().velocity.x *= -1;
 							}
-							e->getComponent<AnimatorComponent>().shelltoturtle = false;
+							e->getComponent<GreenKoopaTroopa_AnimatorComponent>().shelltoturtle = false;
 							e->getComponent<SpriteComponent>().initTime = 0;
 						}
 						else //player death
@@ -527,7 +532,7 @@ void Game::update() //game objects updating
 
 	for (auto& greenkoopatroopa : greenkoopatroopas)//shells with enemies
 	{
-		if (greenkoopatroopa->getComponent<AnimatorComponent>().getPlayName() == "GreenShell")
+		if (greenkoopatroopa->getComponent<GreenKoopaTroopa_AnimatorComponent>().getPlayName() == "GreenShell")
 		{
 			for (auto& goomba : goombas)
 			{
@@ -647,7 +652,7 @@ void Game::update() //game objects updating
 	
 	for (auto& p : players) //scene transition
 	{
-		if (p->getComponent<PlayerAnimatorComponent>().finishedVertAnimation)
+		if (p->getComponent<Player_AnimatorComponent>().finishedVertAnimation)
 		{
 			scenes->sceneSelected = 1;
 			for (auto& pl : players)
@@ -657,7 +662,7 @@ void Game::update() //game objects updating
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(1);
 		}
-		if (p->getComponent<PlayerAnimatorComponent>().finishedHorAnimation)
+		if (p->getComponent<Player_AnimatorComponent>().finishedHorAnimation)
 		{
 			scenes->sceneSelected = 0;
 			for (auto& pl : players)
@@ -667,8 +672,8 @@ void Game::update() //game objects updating
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(0);
 		}
-		p->getComponent<PlayerAnimatorComponent>().finishedHorAnimation = false;
-		p->getComponent<PlayerAnimatorComponent>().finishedVertAnimation = false;
+		p->getComponent<Player_AnimatorComponent>().finishedHorAnimation = false;
+		p->getComponent<Player_AnimatorComponent>().finishedVertAnimation = false;
 	}
 
 	if (camera.x < scenes->GetSceneCamera(scenes->sceneSelected).x)

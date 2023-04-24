@@ -4,13 +4,22 @@
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "AnimatorComponent.h"
-#include "PlayerAnimatorComponent.h"
+
+#include "Scripts/Player_AnimatorComponent.h"
+#include "Scripts/GreenKoopaTroopa_AnimatorComponent.h"
+#include "Scripts/Goomba_AnimatorComponent.h"
+
+
 #include "RigidBodyComponent.h"
-#include "KeyboardController.h"
-#include "KeyboardController2.h"
+
+#include "Scripts/KeyboardController.h"
+#include "Scripts/KeyboardController2.h"
+
 #include "GridComponent.h"
 #include "ColliderComponent.h"
 #include "TileComponent.h"
-#include "ProjectileComponent.h"
+
+#include "Scripts/ProjectileComponent.h"
+
 #include "UILabel.h"
 #include "ScoreComponent.h"
