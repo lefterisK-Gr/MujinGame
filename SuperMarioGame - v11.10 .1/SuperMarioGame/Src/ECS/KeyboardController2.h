@@ -10,14 +10,14 @@ class KeyboardController2 : public Component
 {
 public:
 	TransformComponent* transform;
-	AnimatorComponent* animation;
+	PlayerAnimatorComponent* animation;
 	RigidBodyComponent* rigidbody;
 	const Uint8* keystate;
 
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
-		animation = &entity->getComponent<AnimatorComponent>();
+		animation = &entity->getComponent<PlayerAnimatorComponent>();
 		rigidbody = &entity->getComponent<RigidBodyComponent>();
 	}
 

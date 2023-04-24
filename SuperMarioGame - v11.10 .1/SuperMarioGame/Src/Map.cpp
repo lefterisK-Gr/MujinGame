@@ -214,10 +214,12 @@ void Map::AddActionTile(int srcX, int srcY, int xpos, int ypos, bool isSolid, bo
 	{
 		tile.addGroup(Game::groupActionLayer);
 	}
+
 	if (isSolid)
 	{
 		tile.addGroup(Game::groupColliders);
 	}
+
 	if (isAnimated)
 	{
 		tile.addComponent<TileComponent>(-32, -32, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)

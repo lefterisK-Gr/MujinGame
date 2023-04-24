@@ -4,6 +4,7 @@
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "AnimatorComponent.h"
+#include "PlayerAnimatorComponent.h"
 #include "RigidBodyComponent.h"
 #include "KeyboardController.h"
 #include "KeyboardController2.h"

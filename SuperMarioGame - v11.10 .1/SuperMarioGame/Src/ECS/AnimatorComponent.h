@@ -17,12 +17,10 @@ public:
 	bool didCoinAnimation = false;
 	bool blockAnimation = false;
 	bool didBlockAnimation = false;
-	bool vertTransitionPlayerAnimation = false;
-	bool horTransitionPlayerAnimation = false;
 	bool finishedVertAnimation = false;
 	bool finishedHorAnimation = false;
 	bool shelltoturtle = false;
-	//std::map<const char*, Animation> animations;
+	//std::map<const char*, Animation> animations; //Animator Manager
 
 	AnimatorComponent()
 	{
@@ -95,46 +93,6 @@ public:
 			else if (timeslice == 5) // on finish
 			{
 				sprite->DestroyTex();
-			}
-		}
-		else if (vertTransitionPlayerAnimation)
-		{
-			if (!sprite->initTime)
-			{
-				sprite->initTime = SDL_GetTicks();
-			}
-			sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
-			if (Game::justResumed)//if we just resumed
-			{
-				resumeTime += SDL_GetTicks() - Game::pauseTime;
-			}
-			timeslice = static_cast<int>(((SDL_GetTicks() - resumeTime -sprite->initTime) / sprite->speed) % (sprite->frames + 16));
-			sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) + (2 * timeslice) - Game::camera.y);
-			if (timeslice == 16)// on finish
-			{
-				vertTransitionPlayerAnimation = false;
-				sprite->initTime = 0;
-				finishedVertAnimation = true;
-			}
-		}
-		else if (horTransitionPlayerAnimation)
-		{
-			if (!sprite->initTime)
-			{
-				sprite->initTime = SDL_GetTicks();
-			}
-			sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera.y; //make player move with the camera, being stable in centre, except on edges
-			if (Game::justResumed)//if we just resumed
-			{
-				resumeTime += SDL_GetTicks() - Game::pauseTime;
-			}
-			timeslice = static_cast<int>(((SDL_GetTicks() - resumeTime - sprite->initTime) / sprite->speed) % (sprite->frames + 16));
-			sprite->destRect.x = (static_cast<int>(sprite->transform->position.x) + (2 * timeslice) - Game::camera.x);
-			if (timeslice == 16)// on finish
-			{
-				horTransitionPlayerAnimation = false;
-				sprite->initTime = 0;
-				finishedHorAnimation = true;
 			}
 		}
 		else if (blockAnimation && didBlockAnimation)

@@ -55,12 +55,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	SDL_Color white = { 255, 255 ,255 ,255 };
 	SDL_Color red = { 255, 0 ,0 ,255 };
 	SDL_Color green = { 0, 255 ,0 ,255 };
-
+	// create renderer
 	if (fullscreen)
 	{
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
-	 
+	
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		std::cout << "Subsystems Initialised..." << std::endl;
@@ -99,10 +99,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(400.0f, 320.0f, 32, 32, 1);
+	player1.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
-	player1.addComponent<AnimatorComponent>("player", true, false);
+	player1.addComponent<PlayerAnimatorComponent>();
 	player1.addComponent<RigidBodyComponent>();
 	player1.addComponent<KeyboardController>();
 	player1.addComponent<ColliderComponent>("player1");
@@ -112,8 +112,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player1.addComponent<UILabel>(160, 600, "", "arial", red);
 	player1.addGroup(groupPlayers);
 	 //remove comment to add second player
-	player2.addComponent<TransformComponent>(300.0f, 320.0f, 32, 32, 1);
-	player2.addComponent<AnimatorComponent>("player", true, false);
+	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
+	player2.addComponent<PlayerAnimatorComponent>();
 	player2.addComponent<RigidBodyComponent>();
 	player2.addComponent<KeyboardController2>();
 	player2.addComponent<ColliderComponent>("player2");
@@ -272,7 +272,7 @@ void Game::update() //game objects updating
 				{
 					if (finalColliderHit)
 					{
-						std::cout << cCol.x << cCol.y << std::endl;
+						//std::cout << cCol.x << cCol.y << std::endl;
 						cColAbove = ccomp->getHasGridAbove();
 						finalColliderHit = false;
 						p->getComponent<RigidBodyComponent>().onPipe = assets->OnPipeTrigger(cCol);
@@ -647,7 +647,7 @@ void Game::update() //game objects updating
 	
 	for (auto& p : players) //scene transition
 	{
-		if (p->getComponent<AnimatorComponent>().finishedVertAnimation)
+		if (p->getComponent<PlayerAnimatorComponent>().finishedVertAnimation)
 		{
 			scenes->sceneSelected = 1;
 			for (auto& pl : players)
@@ -657,7 +657,7 @@ void Game::update() //game objects updating
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(1);
 		}
-		if (p->getComponent<AnimatorComponent>().finishedHorAnimation)
+		if (p->getComponent<PlayerAnimatorComponent>().finishedHorAnimation)
 		{
 			scenes->sceneSelected = 0;
 			for (auto& pl : players)
@@ -667,8 +667,8 @@ void Game::update() //game objects updating
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(0);
 		}
-		p->getComponent<AnimatorComponent>().finishedHorAnimation = false;
-		p->getComponent<AnimatorComponent>().finishedVertAnimation = false;
+		p->getComponent<PlayerAnimatorComponent>().finishedHorAnimation = false;
+		p->getComponent<PlayerAnimatorComponent>().finishedVertAnimation = false;
 	}
 
 	if (camera.x < scenes->GetSceneCamera(scenes->sceneSelected).x)

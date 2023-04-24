@@ -12,9 +12,9 @@ class SpriteComponent : public Component //sprite -> transform
 private:
 	SDL_Texture *texture;
 public:
-	int frames = 1;
-	int initTime = 0;
-	int speed = 100;
+	int frames = 1; // number of differentt sprites for animation
+	int initTime = 0; // time that starts the animation
+	int speed = 100; //speed of exchanging sprites
 	TransformComponent* transform;
 	SDL_Rect srcRect, destRect;
 	Vector2D tempPosition;
@@ -96,6 +96,7 @@ public:
 
 	void DestroyTex()
 	{
+		//TextureManager::DestroyTexture(texture);
 		texture = NULL;
 	}
 };

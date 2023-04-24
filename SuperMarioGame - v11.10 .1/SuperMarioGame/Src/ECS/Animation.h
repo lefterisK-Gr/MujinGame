@@ -11,7 +11,7 @@ struct Animation
 	{
 		
 	}
-	Animation(int ix, int iy , int f, int s)
+	Animation(int ix, int iy , int f, int s) // Animation frames look the next number of frames from the index
 	{
 		indexX = ix;
 		indexY = iy;
