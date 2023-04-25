@@ -8,7 +8,7 @@ public:
 	bool shelltoturtle = false;
 
 	Goomba_AnimatorComponent()
-		: AnimatorComponent("goomba", true, false)
+		: AnimatorComponent("goomba")
 	{
 
 	}

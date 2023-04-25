@@ -37,7 +37,7 @@ void AssetManager::ProjectileExplosion(int camerapos)
 
 void CreatePlayerComponents(Entity& player)
 {
-	player.addComponent<AnimatorComponent>("player", true, false);
+	player.addComponent<Player_AnimatorComponent>();
 	player.addComponent<RigidBodyComponent>();
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player1");
@@ -48,7 +48,7 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D vel,int range, int sp
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());
 	projectile.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
-	projectile.addComponent<AnimatorComponent>(id, false, false);
+	projectile.addComponent<AnimatorComponent>(id);
 	projectile.addComponent<ProjectileComponent>(range, speed, vel);
 	//projectile.getComponent<SpriteComponent>().animIndex = 0; //this actually shouldnt be here, this may result in errors, solution: decouple the character and his/her animations from SpriteComponent so we dont have to zero animIndex
 	projectile.addComponent<ColliderComponent>("projectile");

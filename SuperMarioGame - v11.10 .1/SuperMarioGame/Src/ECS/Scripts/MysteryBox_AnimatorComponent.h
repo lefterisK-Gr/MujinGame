@@ -3,23 +3,23 @@
 #include "../AnimatorComponent.h"
 
 
-class PlatformBlock_AnimatorComponent : public AnimatorComponent //PlayerAnimator -> Animator -> Sprite -> Transform
+class MysteryBox_AnimatorComponent : public AnimatorComponent //PlayerAnimator -> Animator -> Sprite -> Transform
 {
 public: // it is like it has init that creates Animator Component since it inherits it
-	bool didBlockAnimation = false;
+	bool didCoinAnimation = false;
 
-	PlatformBlock_AnimatorComponent()
+	MysteryBox_AnimatorComponent()
 	{
 
 	}
 
-	PlatformBlock_AnimatorComponent(std::string texID)
+	MysteryBox_AnimatorComponent(std::string texID)
 		: AnimatorComponent(texID)
 	{
 
 	}
 
-	~PlatformBlock_AnimatorComponent() {
+	~MysteryBox_AnimatorComponent() {
 
 	}
 
@@ -30,9 +30,9 @@ public: // it is like it has init that creates Animator Component since it inher
 		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / sprite->speed) % sprite->frames));
 		sprite->srcRect.y = sprite->animIndexY * sprite->transform->height;
 
-		if (didBlockAnimation)
+		if (didCoinAnimation) //add finished coin animation so its not checked everytime
 		{
-			if (!sprite->initTime)
+			if (!sprite->initTime) //this code is same for platform
 			{
 				sprite->initTime = SDL_GetTicks();
 			}
@@ -41,18 +41,19 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
-			timeslice = static_cast<int>(((SDL_GetTicks() - resumeTime - sprite->initTime) / sprite->speed) % (sprite->frames + 4));
-			sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) - (8 * (timeslice + 1)) - Game::camera.y);
-
-			if (timeslice == 2)
+			timeslice = static_cast<int>(((SDL_GetTicks() - resumeTime - sprite->initTime) / sprite->speed) % (sprite->frames + 3));
+			sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) - (20 * timeslice) - Game::camera.y);
+			if (timeslice == 3)
 			{
-				sprite->destRect.y += 16;
+				sprite->destRect.y += 40;
 			}
-			else if (timeslice == 3)// on finish
+			else if (timeslice == 4)
 			{
-				sprite->destRect.y += 32;
-				sprite->initTime = 0;
-				didBlockAnimation = false;
+				sprite->destRect.y += 80;
+			}
+			else if (timeslice == 5) // on finish
+			{
+				sprite->DestroyTex();
 			}
 		}
 		else
@@ -63,6 +64,17 @@ public: // it is like it has init that creates Animator Component since it inher
 		}
 		sprite->destRect.w = sprite->transform->width * sprite->transform->scale;
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
+	}
+
+	void DestroyTex()
+	{
+		sprite->DestroyTex();
+		didCoinAnimation = true;
+	}
+
+	bool getCoinAnimation()
+	{
+		return didCoinAnimation;
 	}
 
 };

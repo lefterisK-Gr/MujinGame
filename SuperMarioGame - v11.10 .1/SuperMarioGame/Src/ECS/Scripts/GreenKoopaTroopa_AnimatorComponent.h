@@ -8,7 +8,7 @@ public:
 	bool shelltoturtle = false;
 
 	GreenKoopaTroopa_AnimatorComponent()
-		: AnimatorComponent("greenkoopatroopa", true, false)
+		: AnimatorComponent("greenkoopatroopa")
 	{
 
 	}

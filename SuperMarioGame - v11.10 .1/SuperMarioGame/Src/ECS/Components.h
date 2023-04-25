@@ -19,6 +19,9 @@
 #include "ColliderComponent.h"
 #include "TileComponent.h"
 
+#include "Scripts/PlatformBlock_AnimatorComponent.h"
+#include "Scripts/MysteryBox_AnimatorComponent.h"
+
 #include "Scripts/ProjectileComponent.h"
 
 #include "UILabel.h"

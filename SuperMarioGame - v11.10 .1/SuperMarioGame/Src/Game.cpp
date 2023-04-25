@@ -89,7 +89,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->AddTexture("terrain", "assets/super_mario_tileset_scaled.png");
 	assets->AddTexture("player", "assets/mario_luigi_animations_1.png");
 	assets->AddTexture("projectile", "assets/my_projectile.png");
-	assets->AddTexture("goomba", "assets/super_mario_tileset_scaled.png");
+	assets->AddTexture("goomba", "assets/super_mario_tileset_scaled.png"); // same path since the same png has all entities
 	assets->AddTexture("greenkoopatroopa", "assets/super_mario_tileset_scaled.png");
 
 	assets->AddFont("arial", "assets/arial.ttf", 20);
@@ -280,20 +280,22 @@ void Game::update() //game objects updating
 					}
 				}
 				//coin holders update
-				if ((Collision::hittedTopLeft || Collision::hittedTopRight) 
+				if (
+					(Collision::hittedTopLeft || Collision::hittedTopRight)  // hit from under it
 					&& (p->getComponent<TransformComponent>().velocity.y < 0)
-					&& c != NULL && c->hasComponent<AnimatorComponent>() 
-					&& !c->getComponent<AnimatorComponent>().getCoinAnimation())
+					&& c != NULL )
 				{
-					if (c->getComponent<AnimatorComponent>().blockAnimation)
+					if ( c->hasComponent<PlatformBlock_AnimatorComponent>() )
 					{
-						c->getComponent<AnimatorComponent>().didBlockAnimation = true;
+						c->getComponent<PlatformBlock_AnimatorComponent>().didBlockAnimation = true;
 					}
-					else
+					else if(c->hasComponent<MysteryBox_AnimatorComponent>() 
+						&& !c->getComponent<MysteryBox_AnimatorComponent>().getCoinAnimation()
+					)// hitted mystery box
 					{
 						p->getComponent<ScoreComponent>().addToScore(100);
-						c->getComponent<AnimatorComponent>().didCoinAnimation = true;
-						c->getComponent<AnimatorComponent>().Play("CoinFlip");
+						c->getComponent<MysteryBox_AnimatorComponent>().didCoinAnimation = true;
+						c->getComponent<MysteryBox_AnimatorComponent>().Play("CoinFlip");
 						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
 						ss1 << p->getComponent<ScoreComponent>().getScore();
 						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
@@ -326,7 +328,7 @@ void Game::update() //game objects updating
 				SDL_Rect enemyColAfter = enemy->getComponent<ColliderComponent>().collider;
 				Collision::AABB(cCol, enemyColAfter);
 				if (Collision::countCollisions == 4 ||
-					Collision::countCollisions == 6 ||
+					Collision::countCollisions == 6 || // player hits under block and enemy above is killed
 					Collision::countCollisions == 8 ||
 					Collision::countCollisions == 9 ||
 					Collision::countCollisions == 12 ||
@@ -337,7 +339,7 @@ void Game::update() //game objects updating
 					{
 						cColAbove = ccomp->getHasGridAbove();
 						finalColliderHit = false;
-						if (c != NULL && c->hasComponent<AnimatorComponent>() && c->getComponent<AnimatorComponent>().didBlockAnimation)
+						if (c != NULL && c->hasComponent<PlatformBlock_AnimatorComponent>() && c->getComponent<PlatformBlock_AnimatorComponent>().didBlockAnimation)
 						{
 							enemy->destroy();
 						}
@@ -397,7 +399,7 @@ void Game::update() //game objects updating
 					{
 						cColAbove = ccomp->getHasGridAbove();
 						finalColliderHit = false;
-						if (c != NULL && c->hasComponent<AnimatorComponent>() && c->getComponent<AnimatorComponent>().didBlockAnimation)
+						if (c != NULL && c->hasComponent<PlatformBlock_AnimatorComponent>() && c->getComponent<PlatformBlock_AnimatorComponent>().didBlockAnimation)
 						{
 							enemy->destroy();
 						}

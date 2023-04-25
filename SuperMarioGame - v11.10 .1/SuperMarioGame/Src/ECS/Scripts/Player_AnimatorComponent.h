@@ -13,7 +13,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	bool finishedHorAnimation = false;
 
 	Player_AnimatorComponent()
-		: AnimatorComponent("player", true, false)
+		: AnimatorComponent("player")
 	{
 
 	}
