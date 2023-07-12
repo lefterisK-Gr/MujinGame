@@ -6,7 +6,7 @@
 
 //class RigidBodyComponent;
 
-class KeyboardController2 : public Component
+class KeyboardController2 : public Component //! moving animation
 {
 public:
 	TransformComponent* transform;

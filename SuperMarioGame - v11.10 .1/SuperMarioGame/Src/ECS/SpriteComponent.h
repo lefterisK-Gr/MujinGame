@@ -6,7 +6,7 @@
 #include "Animation.h"
 #include <map>
 #include "../AssetManager.h"
-
+// TODO: (extra): can add states for different states (0 for full solid tile or 1 for no solid
 class SpriteComponent : public Component //sprite -> transform
 {
 private:

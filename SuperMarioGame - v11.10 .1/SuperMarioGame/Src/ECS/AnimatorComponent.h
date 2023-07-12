@@ -4,7 +4,7 @@
 #include <map>
 #include "Animation.h"
 #include "AnimatorManager.h"
-
+// TODO: add OnFinish, OnStart (+OnAction, where it is updated based on conditions, like attacking while on jump (different attack than normal)) functions
 class AnimatorComponent : public Component //Animator -> Sprite -> Transform
 {
 public:

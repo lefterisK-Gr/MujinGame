@@ -7,7 +7,7 @@
 #include <MMSystem.h>
 //class RigidBodyComponent;
 
-class KeyboardController : public Component
+class KeyboardController : public Component //! moving animation
 {
 public:
 	TransformComponent *transform;

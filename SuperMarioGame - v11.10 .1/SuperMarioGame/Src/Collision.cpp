@@ -9,7 +9,7 @@ int Collision::countCollisions;
 Vector2D Collision::storedCollider;
 bool Collision::hittedTopLeft;
 bool Collision::hittedTopRight;
-
+//TODO: cleanup class to be more general to cover the cases
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) //A for terrain B for player
 {
 	if ( //top left
