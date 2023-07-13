@@ -35,11 +35,11 @@ void AssetManager::ProjectileExplosion(int camerapos)
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(-2, -2), 200, 2, "projectile");
 }
 
-void CreatePlayerComponents(Entity& player)
+void CreatePlayerComponents(Entity& player) // todo: this isn't used
 {
 	player.addComponent<Player_AnimatorComponent>();
 	player.addComponent<RigidBodyComponent>();
-	player.addComponent<KeyboardController>();
+	//player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player1");
 	player.addComponent<ScoreComponent>();
 }

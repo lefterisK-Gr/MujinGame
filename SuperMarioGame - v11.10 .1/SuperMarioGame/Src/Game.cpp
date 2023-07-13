@@ -104,7 +104,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//instead of this
 	player1.addComponent<Player_AnimatorComponent>();
 	player1.addComponent<RigidBodyComponent>();
-	player1.addComponent<KeyboardController>();
+	player1.addComponent<KeyboardControllerComponent>(
+		(char*)"P1Idle",
+		(char*)"P1Jump",
+		(char*)"P1Walk",
+		SDL_SCANCODE_W,
+		SDL_SCANCODE_A,
+		SDL_SCANCODE_D,
+		SDL_SCANCODE_S,
+		SDL_SCANCODE_LSHIFT
+		);
 	player1.addComponent<ColliderComponent>("player1");
 	player1.addComponent<ScoreComponent>();
 
@@ -115,7 +124,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
 	player2.addComponent<Player_AnimatorComponent>();
 	player2.addComponent<RigidBodyComponent>();
-	player2.addComponent<KeyboardController2>();
+	player2.addComponent<KeyboardControllerComponent>(
+		(char *) "P2Idle",
+		(char *) "P2Jump", 
+		(char *) "P2Walk", 
+		SDL_SCANCODE_UP, 
+		SDL_SCANCODE_LEFT, 
+		SDL_SCANCODE_RIGHT, 
+		SDL_SCANCODE_DOWN, 
+		SDL_SCANCODE_L
+		);
 	player2.addComponent<ColliderComponent>("player2");
 	player2.addComponent<ScoreComponent>();
 	player2.addComponent<UILabel>(600, 600, "LUIGI SCORE: ", "arial", green);

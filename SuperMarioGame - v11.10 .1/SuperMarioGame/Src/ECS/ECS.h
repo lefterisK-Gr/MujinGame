@@ -97,7 +97,7 @@ public:
 	{
 		return componentBitSet[getComponentTypeID<T>()];
 	}
-
+	//! have addScript function
 	template <typename T, typename... TArgs>
 	T& addComponent(TArgs&&... mArgs)
 	{

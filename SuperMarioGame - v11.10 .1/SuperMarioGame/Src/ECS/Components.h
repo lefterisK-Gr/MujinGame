@@ -12,8 +12,7 @@
 
 #include "RigidBodyComponent.h"
 
-#include "Scripts/KeyboardController.h"
-#include "Scripts/KeyboardController2.h"
+#include "KeyboardControllerComponent.h"
 
 #include "GridComponent.h"
 #include "ColliderComponent.h"
