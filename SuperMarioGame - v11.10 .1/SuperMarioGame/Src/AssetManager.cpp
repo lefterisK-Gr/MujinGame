@@ -37,7 +37,8 @@ void AssetManager::ProjectileExplosion(int camerapos)
 
 void CreatePlayerComponents(Entity& player) // todo: this isn't used
 {
-	player.addComponent<Player_AnimatorComponent>();
+	player.addComponent<AnimatorComponent>("player");
+	player.addComponent<Player_Script>();
 	player.addComponent<RigidBodyComponent>();
 	//player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player1");
@@ -60,11 +61,12 @@ void AssetManager::CreateGoomba(Vector2D pos, Vector2D vel, int range, int speed
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
 	enemy.getComponent<TransformComponent>().storedVelocity = vel;
-	enemy.addComponent<Goomba_AnimatorComponent>();
+	enemy.addComponent<AnimatorComponent>("goomba");
+	enemy.addComponent<Goomba_Script>();
 	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
 	enemy.addComponent<ColliderComponent>("goomba");
 	enemy.addComponent<RigidBodyComponent>();
-	enemy.getComponent<Goomba_AnimatorComponent>().Play("GoombaWalk");
+	enemy.getComponent<AnimatorComponent>().Play("GoombaWalk");
 	//enemy.getComponent<TransformComponent>().velocity.x = 1;
 	
 	enemy.addGroup(Game::groupGoombas);
@@ -75,11 +77,12 @@ void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int range,
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
 	enemy.getComponent<TransformComponent>().storedVelocity = vel;
-	enemy.addComponent<GreenKoopaTroopa_AnimatorComponent>();
+	enemy.addComponent<AnimatorComponent>("greenkoopatroopa");
+	enemy.addComponent<GreenKoopaTroopa_Script>();
 	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
 	enemy.addComponent<ColliderComponent>("greenkoopatroopa");
 	enemy.addComponent<RigidBodyComponent>();
-	enemy.getComponent<GreenKoopaTroopa_AnimatorComponent>().Play("GreenKoopaTroopaWalk");
+	enemy.getComponent<AnimatorComponent>().Play("GreenKoopaTroopaWalk");
 	//enemy.getComponent<TransformComponent>().velocity.x = 1;
 
 	enemy.addGroup(Game::groupGreenKoopaTroopas);

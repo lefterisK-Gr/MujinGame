@@ -5,9 +5,9 @@
 #include "SpriteComponent.h"
 #include "AnimatorComponent.h"
 
-#include "Scripts/Player_AnimatorComponent.h"
-#include "Scripts/GreenKoopaTroopa_AnimatorComponent.h"
-#include "Scripts/Goomba_AnimatorComponent.h"
+#include "Scripts/Player_Script.h"
+#include "Scripts/GreenKoopaTroopa_Script.h"
+#include "Scripts/Goomba_Script.h"
 
 
 #include "RigidBodyComponent.h"

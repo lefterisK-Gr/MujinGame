@@ -6,8 +6,8 @@
 #include "Animation.h"
 #include "AnimatorManager.h"
 // TODO: in comparison to AnimatorComponent, here we also have access to sprite so create functions like SetDx,SetDy,SetRepsOfMove,SetDelayOfMove, IsForeverRepeatedMove
-class MovingAnimatorComponent : public AnimatorComponent //Animator -> Sprite -> Transform
-{
+class MovingAnimatorComponent : public AnimatorComponent //Animator -> Sprite -> Transform 
+{					//! also we use MovingAnimator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation
 public:
 	SpriteComponent* sprite;
 	AnimatorManager animManager;
@@ -18,7 +18,7 @@ public:
 	//std::map<const char*, Animation> animations; //Animator Manager
 
 	MovingAnimatorComponent()
-	{
+	{~
 
 	}
 

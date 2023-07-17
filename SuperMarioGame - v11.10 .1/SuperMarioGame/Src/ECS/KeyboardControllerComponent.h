@@ -12,7 +12,8 @@ class KeyboardControllerComponent : public Component //! moving animation
 {
 public: //TODO: maybe have variables as private
 	TransformComponent* transform;
-	Player_AnimatorComponent* animation;
+	AnimatorComponent* animator;
+	Player_Script* script;
 	RigidBodyComponent* rigidbody;
 	const Uint8* keystate;
 
@@ -55,26 +56,27 @@ public: //TODO: maybe have variables as private
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
-		animation = &entity->getComponent<Player_AnimatorComponent>();
+		animator = &entity->getComponent<AnimatorComponent>();
+		script = &entity->getComponent<Player_Script>();
 		rigidbody = &entity->getComponent<RigidBodyComponent>();
 	}
 
 	void update() override
 	{
 		keystate = SDL_GetKeyboardState(NULL);
-		if (!animation->vertTransitionPlayerAnimation && !animation->horTransitionPlayerAnimation)
+		if (!script->vertTransitionPlayerAnimation && !script->horTransitionPlayerAnimation)
 		{
 			if (!rigidbody->onGround)
 			{
-				animation->Play(jumpAnimation);
+				animator->Play(jumpAnimation);
 			}
 			else if (transform->velocity.x == 0)
 			{
-				animation->Play(idleAnimation);
+				animator->Play(idleAnimation);
 			}
 			else if (transform->velocity.x != 0)
 			{
-				animation->Play(walkAnimation);
+				animator->Play(walkAnimation);
 			}
 			if (Game::event.type == SDL_KEYDOWN)
 			{
@@ -93,27 +95,27 @@ public: //TODO: maybe have variables as private
 					transform->velocity.x = -2;
 					if (rigidbody->onGround)
 					{
-						animation->Play(walkAnimation);
+						animator->Play(walkAnimation);
 					}
-					animation->sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+					script->sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 				}
 				if (keystate[walkRightKey])
 				{
-					if (animation->sprite->spriteFlip == SDL_FLIP_HORIZONTAL)
+					if (script->sprite->spriteFlip == SDL_FLIP_HORIZONTAL)
 					{
-						animation->sprite->spriteFlip = SDL_FLIP_NONE;
+						animator->sprite->spriteFlip = SDL_FLIP_NONE;
 					}
 
 					transform->velocity.x = 2;
 					if (rigidbody->onGround)
 					{
-						animation->Play(walkAnimation);
+						animator->Play(walkAnimation);
 					}
 					if (rigidbody->leftofPipe)
 					{
 						transform->velocity.x = 0;
-						animation->horTransitionPlayerAnimation = true;
-						animation->Play(jumpAnimation);
+						script->horTransitionPlayerAnimation = true;
+						animator->Play(jumpAnimation);
 					}
 				}
 				if (keystate[runKey])
@@ -124,8 +126,8 @@ public: //TODO: maybe have variables as private
 				{
 					if (rigidbody->onPipe)
 					{
-						animation->vertTransitionPlayerAnimation = true;
-						animation->Play(jumpAnimation);
+						script->vertTransitionPlayerAnimation = true;
+						animator->Play(jumpAnimation);
 					}
 				}
 			}

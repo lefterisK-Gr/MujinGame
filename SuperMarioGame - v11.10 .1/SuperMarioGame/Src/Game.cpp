@@ -102,7 +102,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player1.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
-	player1.addComponent<Player_AnimatorComponent>();
+	player1.addComponent<AnimatorComponent>("player");
+	player1.addComponent<Player_Script>();
 	player1.addComponent<RigidBodyComponent>();
 	player1.addComponent<KeyboardControllerComponent>(
 		(char*)"P1Idle",
@@ -122,7 +123,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player1.addGroup(groupPlayers);
 	 //remove comment to add second player
 	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
-	player2.addComponent<Player_AnimatorComponent>();
+	player2.addComponent<AnimatorComponent>("player");
+	player2.addComponent<Player_Script>();
 	player2.addComponent<RigidBodyComponent>();
 	player2.addComponent<KeyboardControllerComponent>(
 		(char *) "P2Idle",
@@ -485,8 +487,8 @@ void Game::update() //game objects updating
 						if (enemy == greenkoopatroopas) //green koopa troopa case
 						{
 							e->getComponent<TransformComponent>().velocity.x = 0;
-							e->getComponent<GreenKoopaTroopa_AnimatorComponent>().Play("GreenShell");
-							e->getComponent<GreenKoopaTroopa_AnimatorComponent>().shelltoturtle = true;
+							e->getComponent<AnimatorComponent>().Play("GreenShell");
+							e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle = true;
 						}
 						else //goomba case
 						{
@@ -509,7 +511,7 @@ void Game::update() //game objects updating
 					{
 						finalColliderHit = false;
 						if (enemy == greenkoopatroopas
-							&& e->getComponent<GreenKoopaTroopa_AnimatorComponent>().animimationName == "GreenShell" 
+							&& e->getComponent<AnimatorComponent>().animimationName == "GreenShell" 
 							&& !e->getComponent<TransformComponent>().velocity.x)
 						{
 							e->getComponent<TransformComponent>().velocity.x = 5;
@@ -517,7 +519,7 @@ void Game::update() //game objects updating
 							{
 								e->getComponent<TransformComponent>().velocity.x *= -1;
 							}
-							e->getComponent<GreenKoopaTroopa_AnimatorComponent>().shelltoturtle = false;
+							e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle = false;
 							e->getComponent<SpriteComponent>().initTime = 0;
 						}
 						else //player death
@@ -552,7 +554,7 @@ void Game::update() //game objects updating
 
 	for (auto& greenkoopatroopa : greenkoopatroopas)//shells with enemies
 	{
-		if (greenkoopatroopa->getComponent<GreenKoopaTroopa_AnimatorComponent>().getPlayName() == "GreenShell")
+		if (greenkoopatroopa->getComponent<AnimatorComponent>().getPlayName() == "GreenShell")
 		{
 			for (auto& goomba : goombas)
 			{
@@ -672,7 +674,7 @@ void Game::update() //game objects updating
 	
 	for (auto& p : players) //scene transition
 	{
-		if (p->getComponent<Player_AnimatorComponent>().finishedVertAnimation)
+		if (p->getComponent<Player_Script>().finishedVertAnimation)
 		{
 			scenes->sceneSelected = 1;
 			for (auto& pl : players)
@@ -682,7 +684,7 @@ void Game::update() //game objects updating
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(1);
 		}
-		if (p->getComponent<Player_AnimatorComponent>().finishedHorAnimation)
+		if (p->getComponent<Player_Script>().finishedHorAnimation)
 		{
 			scenes->sceneSelected = 0;
 			for (auto& pl : players)
@@ -692,8 +694,8 @@ void Game::update() //game objects updating
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(0);
 		}
-		p->getComponent<Player_AnimatorComponent>().finishedHorAnimation = false;
-		p->getComponent<Player_AnimatorComponent>().finishedVertAnimation = false;
+		p->getComponent<Player_Script>().finishedHorAnimation = false;
+		p->getComponent<Player_Script>().finishedVertAnimation = false;
 	}
 
 	if (camera.x < scenes->GetSceneCamera(scenes->sceneSelected).x)

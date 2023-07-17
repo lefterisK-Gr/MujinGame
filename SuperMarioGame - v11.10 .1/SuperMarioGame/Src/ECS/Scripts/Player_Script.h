@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../AnimatorComponent.h"
+#include "../Components.h"
 
 
-class Player_AnimatorComponent : public AnimatorComponent //PlayerAnimator -> Animator -> Sprite -> Transform
+class Player_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Transform
 {
 public: // it is like it has init that creates Animator Component since it inherits it
 	bool vertTransitionPlayerAnimation = false;
@@ -12,14 +12,21 @@ public: // it is like it has init that creates Animator Component since it inher
 	bool finishedVertAnimation = false;
 	bool finishedHorAnimation = false;
 
-	Player_AnimatorComponent()
-		: AnimatorComponent("player")
+	AnimatorComponent* animator;
+	SpriteComponent* sprite;
+
+	Player_Script()
 	{
 
 	}
 
-	~Player_AnimatorComponent() {
+	~Player_Script() {
 
+	}
+
+	void init() override {
+		animator = &entity->getComponent<AnimatorComponent>();
+		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
 	void update() override {
@@ -38,10 +45,10 @@ public: // it is like it has init that creates Animator Component since it inher
 
 			if (Game::justResumed)// if we just resumed
 			{
-				resumeTime += SDL_GetTicks() - Game::pauseTime;
+				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
 			
-			timeslice = static_cast<int>(((SDL_GetTicks() - resumeTime - sprite->initTime) / sprite->speed)); // for on pause
+			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / sprite->speed)); // for on pause
 			vertTransitionPlayerAnimation ? sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) + (2 * timeslice) - Game::camera.y) : sprite->destRect.x = (static_cast<int>(sprite->transform->position.x) + (2 * timeslice) - Game::camera.x);
 			if (timeslice == 16)// on finish
 			{
