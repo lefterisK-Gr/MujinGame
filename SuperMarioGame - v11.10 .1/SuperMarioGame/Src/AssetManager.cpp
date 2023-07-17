@@ -25,6 +25,7 @@ AssetManager::~AssetManager()
 
 void AssetManager::ProjectileExplosion(int camerapos)
 {
+	std::cout << "entered Projectile Explosion" << std::endl;
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(2, 0), 200, 2, "projectile");
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(-2, 0), 200, 2, "projectile");
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(0, 2), 200, 2, "projectile");

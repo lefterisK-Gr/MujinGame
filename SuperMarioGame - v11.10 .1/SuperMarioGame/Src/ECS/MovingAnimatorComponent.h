@@ -18,7 +18,7 @@ public:
 	//std::map<const char*, Animation> animations; //Animator Manager
 
 	MovingAnimatorComponent()
-	{~
+	{
 
 	}
 

@@ -18,8 +18,8 @@
 #include "ColliderComponent.h"
 #include "TileComponent.h"
 
-#include "Scripts/PlatformBlock_AnimatorComponent.h"
-#include "Scripts/MysteryBox_AnimatorComponent.h"
+#include "Scripts/PlatformBlock_Script.h"
+#include "Scripts/MysteryBox_Script.h"
 
 #include "Scripts/ProjectileComponent.h"
 

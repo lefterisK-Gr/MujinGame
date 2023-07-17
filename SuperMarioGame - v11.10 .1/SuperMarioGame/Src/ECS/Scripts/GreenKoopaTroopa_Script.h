@@ -26,6 +26,7 @@ public:
 	void update() override {
 		int timeslice = 0;
 
+		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / sprite->speed) % sprite->frames));
 		sprite->srcRect.y = sprite->animIndexY * sprite->transform->height - 20;
 		sprite->srcRect.h = sprite->transform->height + 20;
 		

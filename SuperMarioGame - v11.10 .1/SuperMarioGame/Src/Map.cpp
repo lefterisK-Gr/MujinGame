@@ -225,14 +225,15 @@ void Map::AddActionTile(int srcX, int srcY, int xpos, int ypos, bool isSolid, bo
 		tile.addComponent<TileComponent>(-32, -32, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
 		tile.getComponent<TransformComponent>().position.x = xpos;
 		tile.getComponent<TransformComponent>().position.y = ypos;
-		tile.addComponent<PlatformBlock_AnimatorComponent>(texID); //insert tile and grid (texID is set in Game::init() ("terrain"))
+		tile.addComponent<AnimatorComponent>(texID);
+		tile.addComponent<PlatformBlock_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
 		if (srcY)
 		{
-			tile.getComponent<PlatformBlock_AnimatorComponent>().Play("DarkBlock");
+			tile.getComponent<AnimatorComponent>().Play("DarkBlock");
 		}
 		else
 		{
-			tile.getComponent<PlatformBlock_AnimatorComponent>().Play("BrownBlock");
+			tile.getComponent<AnimatorComponent>().Play("BrownBlock");
 		}
 		
 	}
@@ -243,8 +244,9 @@ void Map::AddActionTile(int srcX, int srcY, int xpos, int ypos, bool isSolid, bo
 		{
 			tile.getComponent<TransformComponent>().position.x = xpos;
 			tile.getComponent<TransformComponent>().position.y = ypos;
-			tile.addComponent<MysteryBox_AnimatorComponent>(texID); //insert tile and grid (texID is set in Game::init() ("terrain"))
-			tile.getComponent<MysteryBox_AnimatorComponent>().Play("QuestionMark");
+			tile.addComponent<AnimatorComponent>(texID);
+			tile.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
+			tile.getComponent<AnimatorComponent>().Play("QuestionMark");
 		}
 	}
 }

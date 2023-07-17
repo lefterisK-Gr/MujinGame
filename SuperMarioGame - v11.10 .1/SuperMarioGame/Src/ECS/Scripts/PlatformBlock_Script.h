@@ -3,24 +3,31 @@
 #include "../AnimatorComponent.h"
 
 
-class PlatformBlock_AnimatorComponent : public AnimatorComponent //PlayerAnimator -> Animator -> Sprite -> Transform
+class PlatformBlock_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Transform
 {
 public: // it is like it has init that creates Animator Component since it inherits it
 	bool didBlockAnimation = false;
 
-	PlatformBlock_AnimatorComponent()
+	AnimatorComponent* animator;
+	SpriteComponent* sprite;
+
+	PlatformBlock_Script()
 	{
 
 	}
 
-	PlatformBlock_AnimatorComponent(std::string texID)
-		: AnimatorComponent(texID)
+	PlatformBlock_Script(std::string texID)
 	{
 
 	}
 
-	~PlatformBlock_AnimatorComponent() {
+	~PlatformBlock_Script() {
 
+	}
+
+	void init() override {
+		animator = &entity->getComponent<AnimatorComponent>();
+		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
 	void update() override {
@@ -39,9 +46,9 @@ public: // it is like it has init that creates Animator Component since it inher
 			sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 			if (Game::justResumed)//if we just resumed
 			{
-				resumeTime += SDL_GetTicks() - Game::pauseTime;
+				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
-			timeslice = static_cast<int>(((SDL_GetTicks() - resumeTime - sprite->initTime) / sprite->speed) % (sprite->frames + 4));
+			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / sprite->speed) % (sprite->frames + 4));
 			sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) - (8 * (timeslice + 1)) - Game::camera.y);
 
 			if (timeslice == 2)

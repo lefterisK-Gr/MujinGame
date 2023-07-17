@@ -305,17 +305,17 @@ void Game::update() //game objects updating
 					&& (p->getComponent<TransformComponent>().velocity.y < 0)
 					&& c != NULL )
 				{
-					if ( c->hasComponent<PlatformBlock_AnimatorComponent>() )
+					if ( c->hasComponent<PlatformBlock_Script>() )
 					{
-						c->getComponent<PlatformBlock_AnimatorComponent>().didBlockAnimation = true;
+						c->getComponent<PlatformBlock_Script>().didBlockAnimation = true;
 					}
-					else if(c->hasComponent<MysteryBox_AnimatorComponent>() 
-						&& !c->getComponent<MysteryBox_AnimatorComponent>().getCoinAnimation()
+					else if(c->hasComponent<MysteryBox_Script>() 
+						&& !c->getComponent<MysteryBox_Script>().getCoinAnimation()
 					)// hitted mystery box
 					{
 						p->getComponent<ScoreComponent>().addToScore(100);
-						c->getComponent<MysteryBox_AnimatorComponent>().didCoinAnimation = true;
-						c->getComponent<MysteryBox_AnimatorComponent>().Play("CoinFlip");
+						c->getComponent<MysteryBox_Script>().didCoinAnimation = true;
+						c->getComponent<AnimatorComponent>().Play("CoinFlip");
 						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
 						ss1 << p->getComponent<ScoreComponent>().getScore();
 						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
@@ -359,7 +359,7 @@ void Game::update() //game objects updating
 					{
 						cColAbove = ccomp->getHasGridAbove();
 						finalColliderHit = false;
-						if (c != NULL && c->hasComponent<PlatformBlock_AnimatorComponent>() && c->getComponent<PlatformBlock_AnimatorComponent>().didBlockAnimation)
+						if (c != NULL && c->hasComponent<PlatformBlock_Script>() && c->getComponent<PlatformBlock_Script>().didBlockAnimation)
 						{
 							enemy->destroy();
 						}
@@ -419,7 +419,7 @@ void Game::update() //game objects updating
 					{
 						cColAbove = ccomp->getHasGridAbove();
 						finalColliderHit = false;
-						if (c != NULL && c->hasComponent<PlatformBlock_AnimatorComponent>() && c->getComponent<PlatformBlock_AnimatorComponent>().didBlockAnimation)
+						if (c != NULL && c->hasComponent<PlatformBlock_Script>() && c->getComponent<PlatformBlock_Script>().didBlockAnimation)
 						{
 							enemy->destroy();
 						}
