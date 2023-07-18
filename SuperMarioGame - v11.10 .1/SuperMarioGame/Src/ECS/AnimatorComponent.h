@@ -5,6 +5,13 @@
 #include "Animation.h"
 #include "AnimatorManager.h"
 // TODO: add OnFinish, OnStart (+OnAction, where it is updated based on conditions, like attacking while on jump (different attack than normal)) functions
+typedef uint32_t timestamp;
+
+enum animatorstate {
+	ANIMATOR_FINISHED = 0, ANIMATOR_RUNNING = 1, ANIMATOR_STOPPED = 2
+};
+
+
 class AnimatorComponent : public Component //Animator -> Sprite -> Transform
 {
 public:
@@ -12,7 +19,7 @@ public:
 	AnimatorManager animManager;
 	std::string textureid;
 	const char* animimationName = NULL;
-	uint32_t resumeTime = 0; //this may need to be in animatorManager
+	timestamp resumeTime = 0; //this may need to be in animatorManager
 
 	//std::map<const char*, Animation> animations; //Animator Manager
 
