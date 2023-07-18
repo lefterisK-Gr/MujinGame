@@ -16,10 +16,14 @@ public:
 	{
 		transform = &entity->getComponent<TransformComponent>();
 		transform->velocity = velocity;
+		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
 	void update() override
 	{
+		sprite->srcRect.x = 0; //0
+		sprite->srcRect.y = 0; //0
+
 		distance += speed;
 
 		if (distance > range)
@@ -39,6 +43,7 @@ public:
 private:
 
 	TransformComponent* transform;
+	SpriteComponent* sprite;
 
 	int range = 0;
 	int speed = 0;

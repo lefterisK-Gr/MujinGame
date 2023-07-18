@@ -32,9 +32,6 @@ public: // it is like it has init that creates Animator Component since it inher
 	void update() override {
 		int timeslice = 0;
 
-		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / sprite->speed) % sprite->frames));
-		sprite->srcRect.y = sprite->animIndexY * sprite->transform->height;
-
 		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
 		{
 			if (!sprite->initTime)

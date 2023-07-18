@@ -34,9 +34,6 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		int timeslice = 0;
 
-		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / sprite->speed) % sprite->frames));
-		sprite->srcRect.y = sprite->animIndexY * sprite->transform->height;
-
 		if (didBlockAnimation)
 		{
 			if (!sprite->initTime)
