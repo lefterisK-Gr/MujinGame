@@ -28,6 +28,10 @@ public: // it is like it has init that creates Animator Component since it inher
 	void init() override {
 		animator = &entity->getComponent<AnimatorComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
+
+		animator->SetOnAction([](AnimatorComponent* animator, const char* animName) {
+			animator->Play(animName);
+			});
 	}
 
 	void update() override {

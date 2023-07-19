@@ -4,6 +4,7 @@
 #include <map>
 #include "Animation.h"
 #include "AnimatorManager.h"
+#include <functional>
 // TODO: add OnFinish, OnStart (+OnAction, where it is updated based on conditions, like attacking while on jump (different attack than normal)) functions
 typedef uint32_t timestamp;
 
@@ -15,6 +16,15 @@ enum animatorstate {
 class AnimatorComponent : public Component //Animator -> Sprite -> Transform
 {
 public:
+
+	using OnFinish = std::function<void(AnimatorComponent*)>;
+	using OnStart = std::function<void(AnimatorComponent*)>;
+	using OnAction = std::function<void(AnimatorComponent*, const char* animName)>;
+
+	OnFinish onFinish;
+	OnStart onStart;
+	OnAction onAction;
+
 	SpriteComponent* sprite;
 	AnimatorManager animManager;
 	std::string textureid;
@@ -82,5 +92,26 @@ public:
 	{
 		sprite->DestroyTex();
 	}
+
+	void NotifyStarted(void) {
+		if (onStart)
+			(onStart)(this);
+	}
+
+	void NotifyStopped(void) {
+		state = ANIMATOR_STOPPED;
+		if (onFinish)
+			(onFinish)(this);
+	}
+
+	void NotifyAction(const char* animName) {
+		if (onAction) {
+			onAction(this, animName);
+		}
+	}
+
+	template <typename Tfunc> void SetOnFinish(const Tfunc& f) { onFinish = f; }
+	template <typename Tfunc> void SetOnStart(const Tfunc& f) { onStart = f; }
+	template <typename Tfunc> void SetOnAction(const Tfunc& f) { onAction = f; }
 
 };

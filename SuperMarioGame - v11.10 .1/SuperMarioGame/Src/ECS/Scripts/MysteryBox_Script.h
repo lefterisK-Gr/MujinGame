@@ -33,7 +33,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	void update() override {
 
 		int timeslice = 0;
-
+		// todo: responsibility of animator for "if didCoinAnimation"
 		if (didCoinAnimation) //add finished coin animation so its not checked everytime
 		{
 			if (!sprite->initTime) //this code is same for platform
@@ -45,6 +45,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
+			// todo: responsibility of movinganimator for "move sprite on dx,dy with timeslice"
 			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / sprite->speed) % (sprite->frames + 3));
 			sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) - (20 * timeslice) - Game::camera.y);
 			if (timeslice == 3)
