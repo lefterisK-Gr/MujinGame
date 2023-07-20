@@ -63,7 +63,7 @@ public:
 	void Play(const char* animName)
 	{
 		animimationName = animName;
-		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY, animManager.animations[animName].frames, animManager.animations[animName].speed, animManager.animations[animName].type);
+		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY, animManager.animations[animName].total_frames, animManager.animations[animName].speed, animManager.animations[animName].type);
 	}
 
 	const char* getPlayName()

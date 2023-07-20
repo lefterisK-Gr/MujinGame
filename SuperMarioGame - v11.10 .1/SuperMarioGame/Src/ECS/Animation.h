@@ -11,10 +11,15 @@ struct Animation
 
 	int indexX;
 	int indexY;
-	int frames;
+	int total_frames;
 	float speed;
-
 	animType type;
+
+	int cur_frame_index;
+	float cur_frame_index_f;
+	int times_played;
+
+	
 
 	Animation() 
 	{
@@ -24,7 +29,7 @@ struct Animation
 	{
 		indexX = ix;
 		indexY = iy;
-		frames = f;
+		total_frames = f;
 		speed = s;
 
 		type = _type == "play_once" ? ANIMTYPE_PLAY_ONCE :
@@ -37,10 +42,64 @@ struct Animation
 	{
 		indexX = ix;
 		indexY = iy;
-		frames = f;
+		total_frames = f;
 		speed = s;
 
 		type = _type;
 	}
 
+	void advanceFrame() {
+		switch (type) {
+		case Animation::animType::ANIMTYPE_PLAY_ONCE:
+
+			if (cur_frame_index < total_frames) {
+				cur_frame_index_f += speed;
+				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+			}
+			else
+				times_played = 1;
+			break;
+
+		case Animation::animType::ANIMTYPE_LOOPED:
+			if (cur_frame_index < total_frames) {
+				cur_frame_index_f += speed;
+				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+			}
+			else {
+				cur_frame_index = 0;
+				cur_frame_index_f = 0;
+				times_played++;
+			}
+			break;
+
+	/*	case Animation::animType::ANIMTYPE_BACK_FORTH:
+
+			if (additional_data == 1) {
+				if (cur_frame_index < last_base_index) {
+					cur_frame_index_f += speed;
+					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+				}
+				else
+					additional_data = -1;
+			}
+			else if (additional_data == -1) {
+				if (cur_frame_index > 0) {
+					cur_frame_index_f -= speed;
+					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+				}
+				else {
+					additional_data = 1;
+					times_played++;
+				}
+			}
+			break;*/
+
+		case Animation::animType::ANIMTYPE_NONE:
+			break;
+		}
+	}
+
+	//void setFrame() {
+	//	indexX
+	//}
 };
