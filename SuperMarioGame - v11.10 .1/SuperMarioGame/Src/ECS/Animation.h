@@ -33,4 +33,14 @@ struct Animation
 			ANIMTYPE_NONE;
 	}
 
+	Animation(int ix, int iy, int f, int s, const animType _type) // Animation frames look the next number of frames from the index
+	{
+		indexX = ix;
+		indexY = iy;
+		frames = f;
+		speed = s;
+
+		type = _type;
+	}
+
 };

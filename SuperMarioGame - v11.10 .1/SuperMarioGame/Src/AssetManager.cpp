@@ -140,7 +140,7 @@ void AssetManager::AddPipeRingForegroundTile(int srcX, int srcY, Vector2D pos)
 {
 	auto& pipesprite(manager->addEntity());
 	pipesprite.addComponent<SpriteComponent>("terrain", pos, true); //insert piperingforegroundtile (has same texture as simple terrain)
-	pipesprite.getComponent<SpriteComponent>().SetFrames(srcX, srcY, 1, 100);//speed isnt needed
+	pipesprite.getComponent<SpriteComponent>().SetAnimation(srcX, srcY, 1, 100, Animation::animType::ANIMTYPE_LOOPED);//speed isnt needed
 	pipesprite.addGroup(Game::groupPipeRingForeground);
 }
 

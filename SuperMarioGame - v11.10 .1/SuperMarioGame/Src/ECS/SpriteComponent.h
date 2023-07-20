@@ -12,15 +12,16 @@ class SpriteComponent : public Component //sprite -> transform
 private:
 	SDL_Texture *texture;
 public:
-	int frames = 1; // number of differentt sprites for animation
 	int initTime = 0; // time that starts the animation
-	float speed = 1; //speed of exchanging sprites
 	TransformComponent* transform;
 	SDL_Rect srcRect, destRect;
 	Vector2D tempPosition;
 	bool isPipe = false;
+
 	int animIndexX = 0; //index in line of spritesheet
 	int animIndexY = 0; //index in column of spritesheet
+	int frames = 1; // number of differentt sprites for animation
+	float speed = 1; //speed of exchanging sprites
 	
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
@@ -81,7 +82,7 @@ public:
 		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
 	}
 
-	void SetFrames(int idX, int idY, int fr, float sp)
+	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type)
 	{
 		animIndexX = idX;
 		animIndexY = idY;
