@@ -42,7 +42,7 @@ public:
 			{
 				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
-			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / sprite->speed) % (sprite->frames + 2));
+			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / (int)sprite->speed) % (sprite->frames + 2));
 			if (timeslice == 1)// on finish
 			{
 				sprite->initTime = 0;

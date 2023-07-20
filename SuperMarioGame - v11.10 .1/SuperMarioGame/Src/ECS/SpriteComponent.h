@@ -14,7 +14,7 @@ private:
 public:
 	int frames = 1; // number of differentt sprites for animation
 	int initTime = 0; // time that starts the animation
-	int speed = 100; //speed of exchanging sprites
+	float speed = 1; //speed of exchanging sprites
 	TransformComponent* transform;
 	SDL_Rect srcRect, destRect;
 	Vector2D tempPosition;
@@ -81,7 +81,7 @@ public:
 		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
 	}
 
-	void SetFrames(int idX, int idY, int fr, int sp)
+	void SetFrames(int idX, int idY, int fr, float sp)
 	{
 		animIndexX = idX;
 		animIndexY = idY;

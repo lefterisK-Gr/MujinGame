@@ -62,7 +62,7 @@ public:
 
 	void update() override
 	{
-		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / sprite->speed) % sprite->frames));
+		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / (int)sprite->speed) % sprite->frames));
 		sprite->srcRect.y = sprite->animIndexY * sprite->transform->height;
 
 		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
@@ -99,7 +99,7 @@ public:
 	}
 
 	void NotifyStopped(void) {
-		state = ANIMATOR_STOPPED;
+		//state = ANIMATOR_STOPPED;
 		if (onFinish)
 			(onFinish)(this);
 	}

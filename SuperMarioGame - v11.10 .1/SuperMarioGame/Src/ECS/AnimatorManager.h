@@ -11,19 +11,19 @@ public:
 
 	AnimatorManager()
 	{
-		Animation p1idle = Animation(6, 2, 1, 100);
-		Animation p1walk = Animation(0, 2, 3, 100);
-		Animation p1jump = Animation(4, 2, 1, 100);
-		Animation p2idle = Animation(6, 8, 1, 100);
-		Animation p2walk = Animation(0, 8, 3, 100);
-		Animation p2jump = Animation(4, 8, 1, 100);
-		Animation question_mark = Animation(0, 0, 3, 200);
-		Animation brown_block = Animation(3, 0, 1, 50);
-		Animation dark_block = Animation(2, 12, 1, 50);
-		Animation coin_flip = Animation(0, 1, 3, 200);
-		Animation goomba_walk = Animation(17, 1, 2, 400);
-		Animation greenkoopatroopa_walk = Animation(20, 1, 2, 400);
-		Animation greenshell = Animation(25, 1, 1, 10000);
+		Animation p1idle = Animation(6, 2, 1, 100, "looped");
+		Animation p1walk = Animation(0, 2, 3, 100, "looped");
+		Animation p1jump = Animation(4, 2, 1, 100, "looped");
+		Animation p2idle = Animation(6, 8, 1, 100, "looped");
+		Animation p2walk = Animation(0, 8, 3, 100, "looped");
+		Animation p2jump = Animation(4, 8, 1, 100, "looped");
+		Animation question_mark = Animation(0, 0, 3, 200, "looped");
+		Animation brown_block = Animation(3, 0, 1, 50, "looped");
+		Animation dark_block = Animation(2, 12, 1, 50, "looped");
+		Animation coin_flip = Animation(0, 1, 3, 200, "looped");
+		Animation goomba_walk = Animation(17, 1, 2, 400, "looped");
+		Animation greenkoopatroopa_walk = Animation(20, 1, 2, 400, "looped");
+		Animation greenshell = Animation(25, 1, 1, 10000, "looped");
 
 		animations.emplace("P1Idle", p1idle);
 		animations.emplace("P1Walk", p1walk);
