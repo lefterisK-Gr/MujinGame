@@ -136,14 +136,6 @@ bool AssetManager::LeftOfPipeTrigger(SDL_Rect collider)
 	return false;
 }
 
-void AssetManager::AddPipeRingForegroundTile(int srcX, int srcY, Vector2D pos)
-{
-	auto& pipesprite(manager->addEntity());
-	pipesprite.addComponent<SpriteComponent>("terrain", pos, true); //insert piperingforegroundtile (has same texture as simple terrain)
-	pipesprite.getComponent<SpriteComponent>().SetAnimation(srcX, srcY, 1, 100, Animation::animType::ANIMTYPE_LOOPED);//speed isnt needed
-	pipesprite.addGroup(Game::groupPipeRingForeground);
-}
-
 void AssetManager::AddTexture(std::string id, const char* path)
 {
 	textures.emplace(id, TextureManager::LoadTexture(path));

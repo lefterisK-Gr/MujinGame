@@ -16,7 +16,6 @@ public:
 	TransformComponent* transform;
 	SDL_Rect srcRect, destRect;
 	Vector2D tempPosition;
-	bool isPipe = false;
 
 	int animIndexX = 0; //index in line of spritesheet
 	int animIndexY = 0; //index in column of spritesheet
@@ -33,11 +32,10 @@ public:
 		setTex(id);
 	}
 
-	SpriteComponent(std::string id, Vector2D pos, bool isP)
+	SpriteComponent(std::string id, Vector2D pos)
 	{
 		setTex(id);
 		tempPosition = pos;
-		isPipe = isP;
 	}
 
 	~SpriteComponent()
@@ -58,10 +56,6 @@ public:
 		}
 		transform = &entity->getComponent<TransformComponent>();
 		
-		if (isPipe)
-		{
-			transform->position = tempPosition;
-		}
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->width;
 		srcRect.h = transform->height; 
@@ -69,14 +63,7 @@ public:
 
 	void update() override
 	{
-		if (isPipe)
-		{
-			destRect.x = transform->position.x - Game::camera.x; //reminding that destRect is absolutely on the screen that we see
-			destRect.y = transform->position.y - Game::camera.y;
 
-			destRect.w = transform->width * transform->scale;
-			destRect.h = transform->height * transform->scale;
-		}
 	}
 
 	void draw() override
@@ -86,12 +73,6 @@ public:
 
 	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type)
 	{
-		if (isPipe)
-		{
-			srcRect.x = animIndexX * srcRect.w;
-			srcRect.y = animIndexY * srcRect.h;
-		}
-
 		animIndexX = idX;
 		animIndexY = idY;
 		

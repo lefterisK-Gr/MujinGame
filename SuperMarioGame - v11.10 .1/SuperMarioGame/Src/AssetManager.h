@@ -26,7 +26,6 @@ public:
 	bool LeftOfPipeTrigger(SDL_Rect collider);
 
 	//sprite management
-	void AddPipeRingForegroundTile(int srcX, int srcY, Vector2D pos);
 
 	//texture management
 	void AddTexture(std::string id, const char* path);

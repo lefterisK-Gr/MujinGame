@@ -164,20 +164,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 300), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
 
-	assets->AddPipeRingForegroundTile(14, 0, Vector2D(1824, 512));
-	assets->AddPipeRingForegroundTile(14, 1, Vector2D(1824, 544));
-	assets->AddPipeRingForegroundTile(15, 0, Vector2D(1856, 512));
-	assets->AddPipeRingForegroundTile(15, 1, Vector2D(1856, 544));
-
-	assets->AddPipeRingForegroundTile(14, 0, Vector2D(2592, 448));
-	assets->AddPipeRingForegroundTile(14, 1, Vector2D(2592, 480));
-	assets->AddPipeRingForegroundTile(15, 0, Vector2D(2624, 448));
-	assets->AddPipeRingForegroundTile(15, 1, Vector2D(2624, 480));
-
-	assets->AddPipeRingForegroundTile(12, 2, Vector2D(3776, 544));
-	assets->AddPipeRingForegroundTile(13, 2, Vector2D(3808, 544));
-	assets->AddPipeRingForegroundTile(12, 3, Vector2D(3776, 576));
-	assets->AddPipeRingForegroundTile(13, 3, Vector2D(3808, 576));
 }
 
 auto& tiles(manager.getGroup(Game::groupActionLayer));

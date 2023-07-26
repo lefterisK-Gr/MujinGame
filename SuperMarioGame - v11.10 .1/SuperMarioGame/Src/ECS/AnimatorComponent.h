@@ -72,7 +72,7 @@ public:
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
 
 		sprite->animation.advanceFrame();
-		sprite->setFrame();
+		//sprite->setFrame();
 	}
 
 	void draw() override
