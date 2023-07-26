@@ -15,9 +15,9 @@ struct Animation
 	float speed;
 	animType type;
 
-	int cur_frame_index;
-	float cur_frame_index_f;
-	int times_played;
+	int cur_frame_index = 0;
+	float cur_frame_index_f = 0;
+	int times_played = 0;
 
 	
 
@@ -49,25 +49,17 @@ struct Animation
 	}
 
 	void advanceFrame() {
+		cur_frame_index_f += speed;
+		cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 		switch (type) {
 		case Animation::animType::ANIMTYPE_PLAY_ONCE:
-
-			if (cur_frame_index < total_frames) {
-				cur_frame_index_f += speed;
-				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
-			}
-			else
+			if (cur_frame_index > total_frames)
 				times_played = 1;
 			break;
 
 		case Animation::animType::ANIMTYPE_LOOPED:
-			if (cur_frame_index < total_frames) {
-				cur_frame_index_f += speed;
-				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
-			}
-			else {
-				cur_frame_index = 0;
-				cur_frame_index_f = 0;
+			if (cur_frame_index > total_frames) {
+				resetFrameIndex();
 				times_played++;
 			}
 			break;
@@ -97,6 +89,11 @@ struct Animation
 		case Animation::animType::ANIMTYPE_NONE:
 			break;
 		}
+	}
+
+	void resetFrameIndex() {
+		cur_frame_index = 0;
+		cur_frame_index_f = 0;
 	}
 
 };

@@ -72,7 +72,9 @@ public:
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
 
 		sprite->animation.advanceFrame();
-		//sprite->setFrame();
+		std::cout << "before:" << sprite->srcRect.x << std::endl;
+		sprite->setCurrFrame();
+		std::cout << sprite->srcRect.x << std::endl;
 	}
 
 	void draw() override
