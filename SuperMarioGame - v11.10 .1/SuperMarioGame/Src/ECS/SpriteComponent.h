@@ -17,11 +17,6 @@ public:
 	SDL_Rect srcRect, destRect;
 	Vector2D tempPosition;
 
-	int animIndexX = 0; //index in line of spritesheet
-	int animIndexY = 0; //index in column of spritesheet
-	int total_frames = 1; // number of differentt sprites for animation
-	float speed = 1; //speed of exchanging sprites
-
 	Animation animation;
 	
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
@@ -73,12 +68,6 @@ public:
 
 	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type)
 	{
-		animIndexX = idX;
-		animIndexY = idY;
-		
-		total_frames = fr;
-		speed = sp;
-
 		animation = Animation(idX, idY, fr, sp, type);
 	}
 

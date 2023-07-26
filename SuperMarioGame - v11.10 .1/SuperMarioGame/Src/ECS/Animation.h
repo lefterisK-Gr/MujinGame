@@ -25,7 +25,7 @@ struct Animation
 	{
 		
 	}
-	Animation(int ix, int iy , int f, int s, const std::string _type) // Animation frames look the next number of frames from the index
+	Animation(int ix, int iy , int f, float s, const std::string _type) // Animation frames look the next number of frames from the index
 	{
 		indexX = ix;
 		indexY = iy;
@@ -38,7 +38,7 @@ struct Animation
 			ANIMTYPE_NONE;
 	}
 
-	Animation(int ix, int iy, int f, int s, const animType _type) // Animation frames look the next number of frames from the index
+	Animation(int ix, int iy, int f, float s, const animType _type) // Animation frames look the next number of frames from the index
 	{
 		indexX = ix;
 		indexY = iy;
@@ -53,12 +53,12 @@ struct Animation
 		cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 		switch (type) {
 		case Animation::animType::ANIMTYPE_PLAY_ONCE:
-			if (cur_frame_index > total_frames)
+			if (cur_frame_index > total_frames - 1)
 				times_played = 1;
 			break;
 
 		case Animation::animType::ANIMTYPE_LOOPED:
-			if (cur_frame_index > total_frames) {
+			if (cur_frame_index > total_frames - 1) {
 				resetFrameIndex();
 				times_played++;
 			}
