@@ -99,7 +99,4 @@ struct Animation
 		}
 	}
 
-	//void setFrame() {
-	//	indexX
-	//}
 };

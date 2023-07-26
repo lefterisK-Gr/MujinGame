@@ -101,6 +101,11 @@ public:
 		animation = Animation(idX, idY, fr, sp, type);
 	}
 
+	void setFrame() {
+		this->srcRect.x = (this->animation.indexX * this->transform->width) /* init */ + ( this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
+		this->srcRect.y = this->animation.indexY * this->transform->height;
+	}
+
 	void DestroyTex()
 	{
 		//TextureManager::DestroyTexture(texture);

@@ -62,7 +62,7 @@ public:
 
 	void update() override
 	{
-		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / (int)sprite->speed) % sprite->total_frames));
+		sprite->srcRect.x = (sprite->animIndexX * sprite->transform->width) /* init */ + (sprite->srcRect.w * static_cast<int>((SDL_GetTicks() / (int)sprite->speed) % sprite->total_frames)/* curframe from total frams */);
 		sprite->srcRect.y = sprite->animIndexY * sprite->transform->height;
 
 		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
@@ -72,6 +72,7 @@ public:
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
 
 		sprite->animation.advanceFrame();
+		sprite->setFrame();
 	}
 
 	void draw() override
