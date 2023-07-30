@@ -92,11 +92,13 @@ public: //TODO: maybe have variables as private
 				}
 				if (keystate[walkLeftKey])
 				{
-					transform->velocity.x = -2;
+					std::cout << "wtf" << std::endl;
+					transform->velocity.x = -20;
 					if (rigidbody->onGround)
 					{
 						animator->Play(walkAnimation);
 					}
+					std::cout << "turn sprite" << std::endl;
 					script->sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 				}
 				if (keystate[walkRightKey])

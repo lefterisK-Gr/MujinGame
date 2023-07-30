@@ -45,7 +45,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
-			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / (int)sprite->speed) % (sprite->total_frames + 4));
+			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / (int)sprite->animation.speed) % (sprite->animation.total_frames + 4));
 			sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) - (8 * (timeslice + 1)) - Game::camera.y);
 
 			if (timeslice == 2)

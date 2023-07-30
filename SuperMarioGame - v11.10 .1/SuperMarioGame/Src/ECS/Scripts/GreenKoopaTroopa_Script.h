@@ -26,7 +26,7 @@ public:
 	void update() override {
 		int timeslice = 0;
 
-		sprite->srcRect.y = sprite->animIndexY * sprite->transform->height - 20;
+		sprite->srcRect.y = sprite->animation.indexY* sprite->transform->height - 20;
 		sprite->srcRect.h = sprite->transform->height + 20;
 		
 		sprite->destRect.y = static_cast<int>(sprite->transform->position.y - 20) - Game::camera.y; //make player move with the camera, being stable in centre, except on edges
@@ -42,7 +42,7 @@ public:
 			{
 				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
-			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / (int)sprite->speed) % (sprite->total_frames + 2));
+			timeslice = sprite->animation.cur_frame_index;
 			if (timeslice == 1)// on finish
 			{
 				sprite->initTime = 0;

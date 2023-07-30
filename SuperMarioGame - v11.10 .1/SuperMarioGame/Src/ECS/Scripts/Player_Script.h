@@ -45,7 +45,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
 			}
 			
-			timeslice = static_cast<int>(((SDL_GetTicks() - animator->resumeTime - sprite->initTime) / sprite->speed)); // for on pause
+			timeslice = sprite->animation.cur_frame_index; // for on pause
 			vertTransitionPlayerAnimation ? sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) + (2 * timeslice) - Game::camera.y) : sprite->destRect.x = (static_cast<int>(sprite->transform->position.x) + (2 * timeslice) - Game::camera.x);
 			if (timeslice == 16)// on finish
 			{
@@ -54,13 +54,6 @@ public: // it is like it has init that creates Animator Component since it inher
 				sprite->initTime = 0;
 			}
 		}
-		else
-		{
-			sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
-			sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera.y;
-		}
-		sprite->destRect.w = sprite->transform->width * sprite->transform->scale;
-		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
 	}
 
 };
