@@ -59,6 +59,7 @@ struct Animation
 
 		case Animation::animType::ANIMTYPE_LOOPED:
 			if (cur_frame_index > total_frames - 1) {
+				
 				resetFrameIndex();
 				times_played++;
 			}

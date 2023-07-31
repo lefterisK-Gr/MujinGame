@@ -34,6 +34,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
 		{
+			std::cout << "transision" << std::endl;
 			if (!sprite->initTime)
 			{
 				sprite->initTime = SDL_GetTicks();

@@ -20,6 +20,15 @@ public: //TODO: maybe have variables as private
 	char* idleAnimation, *jumpAnimation, *walkAnimation;
 	SDL_Scancode jumpKey, walkLeftKey, walkRightKey, runKey, downKey;
 
+	typedef enum {
+		PLAYERACTION_IDLE = 0,
+		PLAYERACTION_WALK = 1,
+		PLAYERACTION_RUN = 2,
+		PLAYERACTION_JUMP = 3
+	} playerAction;
+
+	playerAction action = playerAction::PLAYERACTION_IDLE;
+
 	KeyboardControllerComponent()
 	{
 
@@ -66,18 +75,6 @@ public: //TODO: maybe have variables as private
 		keystate = SDL_GetKeyboardState(NULL);
 		if (!script->vertTransitionPlayerAnimation && !script->horTransitionPlayerAnimation)
 		{
-			if (!rigidbody->onGround)
-			{
-				animator->Play(jumpAnimation);
-			}
-			else if (transform->velocity.x == 0)
-			{
-				animator->Play(idleAnimation);
-			}
-			else if (transform->velocity.x != 0)
-			{
-				animator->Play(walkAnimation);
-			}
 			if (Game::event.type == SDL_KEYDOWN)
 			{
 				if (keystate[jumpKey])
@@ -92,13 +89,8 @@ public: //TODO: maybe have variables as private
 				}
 				if (keystate[walkLeftKey])
 				{
-					std::cout << "wtf" << std::endl;
-					transform->velocity.x = -20;
-					if (rigidbody->onGround)
-					{
-						animator->Play(walkAnimation);
-					}
-					std::cout << "turn sprite" << std::endl;
+					transform->velocity.x = -2;
+
 					script->sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 				}
 				if (keystate[walkRightKey])
@@ -109,15 +101,12 @@ public: //TODO: maybe have variables as private
 					}
 
 					transform->velocity.x = 2;
-					if (rigidbody->onGround)
-					{
-						animator->Play(walkAnimation);
-					}
+
 					if (rigidbody->leftofPipe)
 					{
 						transform->velocity.x = 0;
 						script->horTransitionPlayerAnimation = true;
-						animator->Play(jumpAnimation);
+						action = playerAction::PLAYERACTION_JUMP;
 					}
 				}
 				if (keystate[runKey])
@@ -129,7 +118,7 @@ public: //TODO: maybe have variables as private
 					if (rigidbody->onPipe)
 					{
 						script->vertTransitionPlayerAnimation = true;
-						animator->Play(jumpAnimation);
+						action = playerAction::PLAYERACTION_JUMP;
 					}
 				}
 			}
@@ -144,6 +133,46 @@ public: //TODO: maybe have variables as private
 				{
 					transform->velocity.x /= 2;
 				}
+			}
+			
+			if (!rigidbody->onGround)
+			{
+				if (action == playerAction::PLAYERACTION_JUMP)
+					return;
+				action = playerAction::PLAYERACTION_JUMP;
+			}
+			else if (rigidbody->onGround && transform->velocity.x == 0)
+			{
+				if (action == playerAction::PLAYERACTION_IDLE)
+					return;
+				action = playerAction::PLAYERACTION_IDLE;
+			}
+			else if (rigidbody->onGround && transform->velocity.x != 0)
+			{
+				if (action == playerAction::PLAYERACTION_WALK)
+				{
+					return;
+				}
+				action = playerAction::PLAYERACTION_WALK;
+			}
+			
+
+			switch (action)
+			{
+			case playerAction::PLAYERACTION_IDLE:
+				animator->Play(idleAnimation);
+				break;
+			case playerAction::PLAYERACTION_WALK:
+				animator->Play(walkAnimation);
+				break;
+			case playerAction::PLAYERACTION_RUN:
+				animator->Play(walkAnimation);
+				break;
+			case playerAction::PLAYERACTION_JUMP:
+				animator->Play(jumpAnimation);
+				break;
+			default:
+				break;
 			}
 		}
 	}
