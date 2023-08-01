@@ -103,7 +103,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
 	player1.addComponent<AnimatorComponent>("player");
-	player1.addComponent<Player_Script>();
 	player1.addComponent<RigidBodyComponent>();
 	player1.addComponent<KeyboardControllerComponent>(
 		(char*)"P1Idle",
@@ -115,6 +114,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		SDL_SCANCODE_S,
 		SDL_SCANCODE_LSHIFT
 		);
+	player1.addComponent<Player_Script>();
 	player1.addComponent<ColliderComponent>("player1");
 	player1.addComponent<ScoreComponent>();
 
@@ -124,7 +124,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	 //remove comment to add second player
 	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
 	player2.addComponent<AnimatorComponent>("player");
-	player2.addComponent<Player_Script>();
 	player2.addComponent<RigidBodyComponent>();
 	player2.addComponent<KeyboardControllerComponent>(
 		(char *) "P2Idle",
@@ -136,6 +135,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		SDL_SCANCODE_DOWN, 
 		SDL_SCANCODE_L
 		);
+	player2.addComponent<Player_Script>();
 	player2.addComponent<ColliderComponent>("player2");
 	player2.addComponent<ScoreComponent>();
 	player2.addComponent<UILabel>(600, 600, "LUIGI SCORE: ", "arial", green);
@@ -245,8 +245,8 @@ void Game::update() //game objects updating
 	for (auto& p : players)
 	{
 		p->getComponent<RigidBodyComponent>().onGround = false;
-		p->getComponent<RigidBodyComponent>().onPipe = false;
-		p->getComponent<RigidBodyComponent>().leftofPipe = false;
+		p->getComponent<Player_Script>().onPipe = false;
+		p->getComponent<Player_Script>().leftofPipe = false;
 	}
 
 	for (auto& enemy : goombas)
@@ -281,8 +281,8 @@ void Game::update() //game objects updating
 						//std::cout << cCol.x << cCol.y << std::endl;
 						cColAbove = ccomp->getHasGridAbove();
 						finalColliderHit = false;
-						p->getComponent<RigidBodyComponent>().onPipe = assets->OnPipeTrigger(cCol);
-						p->getComponent<RigidBodyComponent>().leftofPipe = assets->LeftOfPipeTrigger(cCol);
+						p->getComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
+						p->getComponent<Player_Script>().leftofPipe = assets->LeftOfPipeTrigger(cCol);
 					}
 				}
 				//coin holders update

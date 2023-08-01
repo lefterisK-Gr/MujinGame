@@ -12,8 +12,12 @@ public: // it is like it has init that creates Animator Component since it inher
 	bool finishedVertAnimation = false;
 	bool finishedHorAnimation = false;
 
+	bool onPipe = false;
+	bool leftofPipe = false;
+
 	AnimatorComponent* animator;
 	SpriteComponent* sprite;
+	KeyboardControllerComponent* keyboard;
 
 	Player_Script()
 	{
@@ -27,11 +31,28 @@ public: // it is like it has init that creates Animator Component since it inher
 	void init() override {
 		animator = &entity->getComponent<AnimatorComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
+		keyboard = &entity->getComponent<KeyboardControllerComponent>();
 	}
 
 	void update() override {
 		int timeslice = 0;
-
+		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
+		{
+			if (this->leftofPipe)
+			{
+				sprite->transform->velocity.x = 0;
+				this->horTransitionPlayerAnimation = true;
+				keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_JUMP;
+			}
+			if (keyboard->keystate[SDL_SCANCODE_S])
+			{
+				if (this->onPipe)
+				{
+					this->vertTransitionPlayerAnimation = true;
+					keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_JUMP;
+				}
+			}
+		}
 		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
 		{
 			std::cout << "transision" << std::endl;
@@ -39,7 +60,12 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				sprite->initTime = SDL_GetTicks();
 			}
-			vertTransitionPlayerAnimation  ? sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x : sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera.y; ; //make player move with the camera, being stable in centre, except on edges
+			if (vertTransitionPlayerAnimation) {
+				sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) + (2 * timeslice) - Game::camera.y);
+			}
+			if (horTransitionPlayerAnimation) {
+				sprite->destRect.x = (static_cast<int>(sprite->transform->position.x) + (2 * timeslice) - Game::camera.x);
+			}
 
 			if (Game::justResumed)// if we just resumed
 			{
@@ -47,7 +73,6 @@ public: // it is like it has init that creates Animator Component since it inher
 			}
 			
 			timeslice = sprite->animation.cur_frame_index; // for on pause
-			vertTransitionPlayerAnimation ? sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) + (2 * timeslice) - Game::camera.y) : sprite->destRect.x = (static_cast<int>(sprite->transform->position.x) + (2 * timeslice) - Game::camera.x);
 			if (timeslice == 16)// on finish
 			{
 				vertTransitionPlayerAnimation ? finishedVertAnimation = true : finishedHorAnimation = true;

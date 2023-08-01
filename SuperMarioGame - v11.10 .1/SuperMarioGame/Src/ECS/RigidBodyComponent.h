@@ -10,8 +10,6 @@ public:
 	float accelGravity = 0.5f;
 	float maxGravity = 5.f;
 	bool onGround = false;
-	bool onPipe = false;
-	bool leftofPipe = false;
 	bool justjumped = false;
 	
 	RigidBodyComponent() = default;

@@ -5,7 +5,7 @@
 #include "SpriteComponent.h"
 #include "AnimatorComponent.h"
 
-#include "Scripts/Player_Script.h"
+
 #include "Scripts/GreenKoopaTroopa_Script.h"
 #include "Scripts/Goomba_Script.h"
 
@@ -18,6 +18,7 @@
 #include "ColliderComponent.h"
 #include "TileComponent.h"
 
+#include "Scripts/Player_Script.h"
 #include "Scripts/PlatformBlock_Script.h"
 #include "Scripts/MysteryBox_Script.h"
 
