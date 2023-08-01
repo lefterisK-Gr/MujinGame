@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "../TextureManager.h"
 #include "Animation.h"
+#include "MovingAnimation.h"
 #include <map>
 #include "../AssetManager.h"
 // TODO: (extra): can add states for different states (0 for full solid tile or 1 for no solid
@@ -18,6 +19,7 @@ public:
 	Vector2D tempPosition;
 
 	Animation animation;
+	MovingAnimation moving_animation;
 	
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
@@ -69,6 +71,11 @@ public:
 	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type)
 	{
 		animation = Animation(idX, idY, fr, sp, type);
+	}
+
+	void SetMovingAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int dx, int dy)
+	{
+		moving_animation = MovingAnimation(idX, idY, fr, sp, type, dx, dy);
 	}
 
 	void setCurrFrame() {

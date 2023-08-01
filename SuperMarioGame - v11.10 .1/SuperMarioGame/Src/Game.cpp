@@ -114,12 +114,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		SDL_SCANCODE_S,
 		SDL_SCANCODE_LSHIFT
 		);
-	player1.addComponent<Player_Script>();
 	player1.addComponent<ColliderComponent>("player1");
 	player1.addComponent<ScoreComponent>();
 
 	player1.addComponent<UILabel>(10, 600, "MARIO SCORE: ", "arial", red);
 	player1.addComponent<UILabel>(160, 600, "", "arial", red);
+	player1.addComponent<Player_Script>();
+
 	player1.addGroup(groupPlayers);
 	 //remove comment to add second player
 	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
@@ -135,11 +136,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		SDL_SCANCODE_DOWN, 
 		SDL_SCANCODE_L
 		);
-	player2.addComponent<Player_Script>();
 	player2.addComponent<ColliderComponent>("player2");
 	player2.addComponent<ScoreComponent>();
 	player2.addComponent<UILabel>(600, 600, "LUIGI SCORE: ", "arial", green);
 	player2.addComponent<UILabel>(750, 600, "", "arial", green);
+	player2.addComponent<Player_Script>();
+
 	player2.addGroup(groupPlayers);
 	
 	

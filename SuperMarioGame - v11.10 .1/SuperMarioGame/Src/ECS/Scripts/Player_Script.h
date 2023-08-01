@@ -44,7 +44,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				this->horTransitionPlayerAnimation = true;
 				keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_JUMP;
 			}
-			if (keyboard->keystate[SDL_SCANCODE_S])
+			if (keyboard->keystate[keyboard->downKey])
 			{
 				if (this->onPipe)
 				{
@@ -62,6 +62,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			}
 			if (vertTransitionPlayerAnimation) {
 				sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) + (2 * timeslice) - Game::camera.y);
+				std::cout << sprite->destRect.y << "==" << sprite->destRect.x << std::endl;
 			}
 			if (horTransitionPlayerAnimation) {
 				sprite->destRect.x = (static_cast<int>(sprite->transform->position.x) + (2 * timeslice) - Game::camera.x);

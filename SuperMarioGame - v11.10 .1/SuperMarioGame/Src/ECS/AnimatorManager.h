@@ -2,12 +2,14 @@
 
 #include <map>
 #include "Animation.h"
+#include "MovingAnimation.h"
 
 
 struct AnimatorManager
 {
 public:
 	std::map<const char*, Animation> animations;
+	std::map<const char*, MovingAnimation> moving_animations;
 
 	AnimatorManager()
 	{
@@ -24,7 +26,7 @@ public:
 		Animation dark_block = Animation(2, 12, 1, 0.005, "looped");
 		Animation coin_flip = Animation(0, 1, 3, 0.02, "looped");
 
-		Animation goomba_walk = Animation(17, 1, 2, 0.04, "looped");
+		Animation goomba_walk = Animation(17, 1, 2, 0.04, "play_once");
 		Animation greenkoopatroopa_walk = Animation(20, 1, 2, 0.04, "looped");
 		Animation greenshell = Animation(25, 1, 1, 1, "looped");
 
@@ -41,5 +43,9 @@ public:
 		animations.emplace("GoombaWalk", goomba_walk);
 		animations.emplace("GreenKoopaTroopaWalk", greenkoopatroopa_walk);
 		animations.emplace("GreenShell", greenshell);
+
+		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 0.01, "play_once", 0, 1);
+
+		moving_animations.emplace("PlayerVertTransition", playerVertTransition);
 	}
 };

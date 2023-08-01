@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 struct Animation
 {
 	typedef enum {
@@ -9,7 +11,7 @@ struct Animation
 		ANIMTYPE_BACK_FORTH = 3  // iterate from index=0 to maxframe and back again. keeps holding the first image afterwards.
 	} animType;
 
-	int indexX;
+	int indexX; // initial position
 	int indexY;
 	int total_frames;
 	float speed;
@@ -53,13 +55,20 @@ struct Animation
 		cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 		switch (type) {
 		case Animation::animType::ANIMTYPE_PLAY_ONCE:
-			if (cur_frame_index > total_frames - 1)
+			if (times_played == 1) {
+				resetFrameIndex();
+				break;
+			}
+			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
+			{
+				resetFrameIndex();
 				times_played = 1;
+			}
+
 			break;
 
 		case Animation::animType::ANIMTYPE_LOOPED:
 			if (cur_frame_index > total_frames - 1) {
-				
 				resetFrameIndex();
 				times_played++;
 			}
