@@ -2,7 +2,7 @@
 
 #include <string>
 
-struct Animation
+struct Animation //todo here we can have the onStart and onFinish which are scripts
 {
 	typedef enum {
 		ANIMTYPE_NONE = 0,

@@ -8,22 +8,14 @@
 // TODO: add OnFinish, OnStart (+OnAction, where it is updated based on conditions, like attacking while on jump (different attack than normal)) functions
 typedef uint32_t timestamp;
 
-enum animatorstate {
-	ANIMATOR_FINISHED = 0, ANIMATOR_RUNNING = 1, ANIMATOR_STOPPED = 2
-};
-
 
 class AnimatorComponent : public Component //Animator -> Sprite -> Transform
 {
 public:
 
-	using OnFinish = std::function<void(AnimatorComponent*)>;
-	using OnStart = std::function<void(AnimatorComponent*)>;
-	using OnAction = std::function<void(AnimatorComponent*, const char* animName)>;
-
-	OnFinish onFinish;
-	OnStart onStart;
-	OnAction onAction;
+	// onAction is the same thing as Play()
+	// onFinish and onStart are for when we free Animator and when we initialize it
+	// difference between this and from the lectures is that in lectures it uses seperate animator for each animation
 
 	SpriteComponent* sprite;
 	AnimatorManager animManager;
@@ -56,11 +48,11 @@ public:
 		}
 		sprite = &entity->getComponent<SpriteComponent>();
 
-		Play("P1Idle");
+		Play("P1Idle"); //onStart
 		sprite->setTex(textureid);
 	}
 
-	void update() override
+	void update() override //onAction
 	{
 		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 		sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera.y;
@@ -92,26 +84,5 @@ public:
 	{
 		sprite->DestroyTex();
 	}
-
-	void NotifyStarted(void) {
-		if (onStart)
-			(onStart)(this);
-	}
-
-	void NotifyStopped(void) {
-		//state = ANIMATOR_STOPPED;
-		if (onFinish)
-			(onFinish)(this);
-	}
-
-	void NotifyAction(const char* animName) {
-		if (onAction) {
-			onAction(this, animName);
-		}
-	}
-
-	template <typename Tfunc> void SetOnFinish(const Tfunc& f) { onFinish = f; }
-	template <typename Tfunc> void SetOnStart(const Tfunc& f) { onStart = f; }
-	template <typename Tfunc> void SetOnAction(const Tfunc& f) { onAction = f; }
 
 };
