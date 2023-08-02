@@ -126,7 +126,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	 //remove comment to add second player
 	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
 	player2.addComponent<AnimatorComponent>("player");
-	player1.addComponent<MovingAnimatorComponent>("player");
+	player2.addComponent<MovingAnimatorComponent>("player");
 	player2.addComponent<RigidBodyComponent>();
 	player2.addComponent<KeyboardControllerComponent>(
 		(char *) "P2Idle",

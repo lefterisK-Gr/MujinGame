@@ -45,7 +45,7 @@ public:
 		animations.emplace("GreenShell", greenshell);
 
 		MovingAnimation defaultMoveAnimation = MovingAnimation(0, 0, 0, 0.0, "looped", 0, 0);
-		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 0.1, "play_once", 0, 1);
+		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 0.01, "play_once", 0, 4);
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);
 		moving_animations.emplace("PlayerVertTransition", playerVertTransition);

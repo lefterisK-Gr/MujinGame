@@ -63,13 +63,6 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				sprite->initTime = SDL_GetTicks();
 			}
-			if (vertTransitionPlayerAnimation) {
-				sprite->destRect.y = (static_cast<int>(sprite->transform->position.y) + (2 * timeslice) - Game::camera.y);
-				std::cout << sprite->destRect.y << "==" << sprite->destRect.x << std::endl;
-			}
-			if (horTransitionPlayerAnimation) {
-				sprite->destRect.x = (static_cast<int>(sprite->transform->position.x) + (2 * timeslice) - Game::camera.x);
-			}
 
 			if (Game::justResumed)// if we just resumed
 			{
