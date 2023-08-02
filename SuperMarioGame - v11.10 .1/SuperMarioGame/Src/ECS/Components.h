@@ -4,6 +4,7 @@
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "AnimatorComponent.h"
+#include "MovingAnimatorComponent.h"
 
 
 #include "Scripts/GreenKoopaTroopa_Script.h"

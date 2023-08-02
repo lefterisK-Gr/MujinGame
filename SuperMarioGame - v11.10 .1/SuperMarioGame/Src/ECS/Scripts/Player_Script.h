@@ -16,6 +16,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	bool leftofPipe = false;
 
 	AnimatorComponent* animator;
+	MovingAnimatorComponent* moving_animator;
 	SpriteComponent* sprite;
 	KeyboardControllerComponent* keyboard;
 
@@ -30,6 +31,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 	void init() override {
 		animator = &entity->getComponent<AnimatorComponent>();
+		moving_animator = &entity->getComponent<MovingAnimatorComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
 		keyboard = &entity->getComponent<KeyboardControllerComponent>();
 	}
@@ -48,6 +50,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				if (this->onPipe)
 				{
+					moving_animator->Play("PlayerVertTransition");
 					this->vertTransitionPlayerAnimation = true;
 					keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_JUMP;
 				}

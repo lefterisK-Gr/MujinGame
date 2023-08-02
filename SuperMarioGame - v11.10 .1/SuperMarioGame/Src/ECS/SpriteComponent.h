@@ -83,6 +83,11 @@ public:
 		this->srcRect.y = this->animation.indexY * this->transform->height;
 	}
 
+	void setMoveFrame() {
+		this->destRect.x = (static_cast<int>(this->transform->position.x) - Game::camera.x + this->moving_animation.indexX) /* init */ + (this->moving_animation.distanceX * moving_animation.cur_frame_index);
+		this->destRect.y = (static_cast<int>(this->transform->position.y) - Game::camera.y + this->moving_animation.indexY) + (this->moving_animation.distanceY * moving_animation.cur_frame_index);
+	}
+
 	void DestroyTex()
 	{
 		//TextureManager::DestroyTexture(texture);

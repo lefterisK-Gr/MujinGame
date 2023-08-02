@@ -29,7 +29,7 @@ public:
 	AnimatorManager animManager;
 	std::string textureid;
 	const char* animimationName = NULL;
-	timestamp resumeTime = 0; //this may need to be in animatorManager
+	timestamp resumeTime = 0;
 
 	//std::map<const char*, Animation> animations; //Animator Manager
 

@@ -6,25 +6,20 @@
 #include "Animation.h"
 #include "AnimatorManager.h"
 // TODO: in comparison to AnimatorComponent, here we also have access to sprite so create functions like SetDx,SetDy,SetRepsOfMove,SetDelayOfMove, IsForeverRepeatedMove
+
 class MovingAnimatorComponent : public AnimatorComponent //Animator -> Sprite -> Transform 
 {					//! also we use MovingAnimator instead of simple Animator so that entities use less memory and we use it to entities that have triggers that change their animation
 public:
-	SpriteComponent* sprite;
-	AnimatorManager animManager;
-	std::string textureid;
-	const char* animimationName = NULL;
-	uint32_t resumeTime = 0; //this may need to be in animatorManager
-
 	//std::map<const char*, Animation> animations; //Animator Manager
 
-	MovingAnimatorComponent()
+	MovingAnimatorComponent() : AnimatorComponent()
 	{
 
 	}
 
-	MovingAnimatorComponent(std::string id)
+	MovingAnimatorComponent(std::string id) : AnimatorComponent(id)
 	{
-		textureid = id;
+
 	}
 
 	~MovingAnimatorComponent()
@@ -40,19 +35,20 @@ public:
 		}
 		sprite = &entity->getComponent<SpriteComponent>();
 
-		Play("P1Idle");
+		Play("Default");
 		sprite->setTex(textureid);
 	}
 
 	void update() override
 	{
-		int timeslice = 0;
-
 		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 		sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera.y;
 
 		sprite->destRect.w = sprite->transform->width * sprite->transform->scale;
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
+
+		sprite->moving_animation.advanceFrame();
+		sprite->setMoveFrame();
 	}
 
 	void draw() override
@@ -63,7 +59,12 @@ public:
 	void Play(const char* animName)
 	{
 		animimationName = animName;
-		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY, animManager.animations[animName].total_frames, animManager.animations[animName].speed, animManager.animations[animName].type);
+		sprite->SetMovingAnimation(
+			animManager.moving_animations[animName].indexX, animManager.moving_animations[animName].indexY,
+			animManager.moving_animations[animName].total_frames, animManager.moving_animations[animName].speed,
+			animManager.moving_animations[animName].type,
+			animManager.moving_animations[animName].distanceX, animManager.moving_animations[animName].distanceY
+		);
 	}
 
 	const char* getPlayName()
