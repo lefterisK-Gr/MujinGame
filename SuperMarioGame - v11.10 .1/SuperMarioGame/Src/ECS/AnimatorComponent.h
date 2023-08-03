@@ -5,7 +5,7 @@
 #include "Animation.h"
 #include "AnimatorManager.h"
 #include <functional>
-// TODO: add OnFinish, OnStart (+OnAction, where it is updated based on conditions, like attacking while on jump (different attack than normal)) functions
+
 typedef uint32_t timestamp;
 
 
@@ -54,6 +54,12 @@ public:
 
 	void update() override //onAction
 	{
+		if (sprite->animation.hasFinished()) { // playing again animation
+			sprite->animation.finished = false;
+			sprite->animation.times_played = 0;
+			resetAnimation();
+		}
+
 		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 		sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera.y;
 
@@ -73,6 +79,15 @@ public:
 	{
 		animimationName = animName;
 		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY, animManager.animations[animName].total_frames, animManager.animations[animName].speed, animManager.animations[animName].type );
+	}
+
+	void resetAnimation() {
+		animimationName = "Default";
+		sprite->SetAnimation(
+			animManager.animations[animimationName].indexX, animManager.animations[animimationName].indexY,
+			animManager.animations[animimationName].total_frames, animManager.animations[animimationName].speed,
+			animManager.animations[animimationName].type
+		);
 	}
 
 	const char* getPlayName()

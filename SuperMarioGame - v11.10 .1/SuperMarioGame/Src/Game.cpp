@@ -249,8 +249,6 @@ void Game::update() //game objects updating
 	for (auto& p : players)
 	{
 		p->getComponent<RigidBodyComponent>().onGround = false;
-		p->getComponent<Player_Script>().onPipe = false;
-		p->getComponent<Player_Script>().leftofPipe = false;
 	}
 
 	for (auto& enemy : goombas)
@@ -326,130 +324,74 @@ void Game::update() //game objects updating
 	}
 
 
-	for (auto& enemy : goombas) // goombas with colliders
+	for (auto& enemyGroup : { goombas, greenkoopatroopas }) // enemies with colliders
 	{
-		assets->ActivateEnemy(*enemy);
-		for (auto& c : colliders)
-		{
-			//SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-			for (auto& ccomp : c->components) {
-				SDL_Rect cCol = ccomp->getRect();
+		for (auto& enemy : enemyGroup) {
+			assets->ActivateEnemy(*enemy);
+			for (auto& c : colliders)
+			{
+				//SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
+				for (auto& ccomp : c->components) {
+					SDL_Rect cCol = ccomp->getRect();
 
-				SDL_Rect enemyColAfter = enemy->getComponent<ColliderComponent>().collider;
-				Collision::AABB(cCol, enemyColAfter);
-				if (Collision::countCollisions == 4 ||
-					Collision::countCollisions == 6 || // player hits under block and enemy above is killed
-					Collision::countCollisions == 8 ||
-					Collision::countCollisions == 9 ||
-					Collision::countCollisions == 12 ||
-					Collision::countCollisions == 13 ||
-					Collision::countCollisions == 14)
-				{
-					if (finalColliderHit)
+					SDL_Rect enemyColAfter = enemy->getComponent<ColliderComponent>().collider;
+					Collision::AABB(cCol, enemyColAfter);
+					if (Collision::countCollisions == 4 ||
+						Collision::countCollisions == 6 || // player hits under block and enemy above is killed
+						Collision::countCollisions == 8 ||
+						Collision::countCollisions == 9 ||
+						Collision::countCollisions == 12 ||
+						Collision::countCollisions == 13 ||
+						Collision::countCollisions == 14)
 					{
-						cColAbove = ccomp->getHasGridAbove();
-						finalColliderHit = false;
-						if (c != NULL && c->hasComponent<PlatformBlock_Script>() && c->getComponent<PlatformBlock_Script>().didBlockAnimation)
+						if (finalColliderHit)
 						{
-							enemy->destroy();
+							cColAbove = ccomp->getHasGridAbove();
+							finalColliderHit = false;
+							if (c != NULL && c->hasComponent<PlatformBlock_Script>() && c->getComponent<PlatformBlock_Script>().didBlockAnimation)
+							{
+								enemy->destroy();
+							}
 						}
 					}
-				}
-				else if (Collision::countCollisions == 1 ||
-					Collision::countCollisions == 2 ||
-					Collision::countCollisions == 3 ||
-					Collision::countCollisions == 5 ||
-					Collision::countCollisions == 6 ||
-					Collision::countCollisions == 7 ||
-					Collision::countCollisions == 9 || 
-					Collision::countCollisions == 10 ||
-					Collision::countCollisions == 11 ||
-					Collision::countCollisions == 13 ||
-					Collision::countCollisions == 14)
-				{
-					if (finalColliderHit)
+					else if (Collision::countCollisions == 1 ||
+						Collision::countCollisions == 2 ||
+						Collision::countCollisions == 3 ||
+						Collision::countCollisions == 5 ||
+						Collision::countCollisions == 6 ||
+						Collision::countCollisions == 7 ||
+						Collision::countCollisions == 9 ||
+						Collision::countCollisions == 10 ||
+						Collision::countCollisions == 11 ||
+						Collision::countCollisions == 13 ||
+						Collision::countCollisions == 14)
 					{
-						enemy->getComponent<TransformComponent>().velocity.x *= -1;
-						finalColliderHit = false;
+						if (finalColliderHit)
+						{
+							enemy->getComponent<TransformComponent>().velocity.x *= -1;
+							if ( enemyGroup == greenkoopatroopas ) {
+								if (enemy->getComponent<SpriteComponent>().spriteFlip == SDL_FLIP_HORIZONTAL)
+								{
+									enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_NONE;
+								}
+								else
+									enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
+							}
+							finalColliderHit = false;
+						}
 					}
 				}
 			}
+			Collision::checkCollision(enemy->getComponent<TransformComponent>().velocity
+				, enemy->getComponent<TransformComponent>().position
+				, enemy->getComponent<RigidBodyComponent>().onGround
+				, cColAbove);
+			if (enemy->getComponent<TransformComponent>().position.y > (camera.y + 640))
+				enemy->destroy();
+			finalColliderHit = true;
+			cColAbove = false;
+			Collision::countCollisions = 0;
 		}
-		Collision::checkCollision(enemy->getComponent<TransformComponent>().velocity
-			, enemy->getComponent<TransformComponent>().position
-			, enemy->getComponent<RigidBodyComponent>().onGround
-			, cColAbove);
-		if (enemy->getComponent<TransformComponent>().position.y > (camera.y + 640))
-			enemy->destroy();
-		finalColliderHit = true;
-		cColAbove = false;
-		Collision::countCollisions = 0;
-	}
-
-	for (auto& enemy : greenkoopatroopas) // greenkoopatroopas with colliders
-	{
-		assets->ActivateEnemy(*enemy);
-		for (auto& c : colliders)
-		{
-			//SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-			for (auto& ccomp : c->components) {
-				SDL_Rect cCol = ccomp->getRect();
-
-				SDL_Rect enemyColAfter = enemy->getComponent<ColliderComponent>().collider;
-				Collision::AABB(cCol, enemyColAfter);
-				if (Collision::countCollisions == 4 ||
-					Collision::countCollisions == 6 ||
-					Collision::countCollisions == 8 ||
-					Collision::countCollisions == 9 ||
-					Collision::countCollisions == 12 ||
-					Collision::countCollisions == 13 ||
-					Collision::countCollisions == 14)
-				{
-					if (finalColliderHit)
-					{
-						cColAbove = ccomp->getHasGridAbove();
-						finalColliderHit = false;
-						if (c != NULL && c->hasComponent<PlatformBlock_Script>() && c->getComponent<PlatformBlock_Script>().didBlockAnimation)
-						{
-							enemy->destroy();
-						}
-					}
-				}
-				else if (Collision::countCollisions == 1 ||
-					Collision::countCollisions == 2 ||
-					Collision::countCollisions == 3 ||
-					Collision::countCollisions == 5 ||
-					Collision::countCollisions == 6 ||
-					Collision::countCollisions == 7 ||
-					Collision::countCollisions == 9 ||
-					Collision::countCollisions == 10 ||
-					Collision::countCollisions == 11 ||
-					Collision::countCollisions == 13 ||
-					Collision::countCollisions == 14)
-				{
-					if (finalColliderHit)
-					{
-						enemy->getComponent<TransformComponent>().velocity.x *= -1;
-						if (enemy->getComponent<SpriteComponent>().spriteFlip == SDL_FLIP_HORIZONTAL)
-						{
-							enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_NONE;
-						}
-						else
-							enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
-						finalColliderHit = false;
-					}
-				}
-			}
-		}
-		Collision::checkCollision(enemy->getComponent<TransformComponent>().velocity
-			, enemy->getComponent<TransformComponent>().position
-			, enemy->getComponent<RigidBodyComponent>().onGround
-			, cColAbove);
-		if (enemy->getComponent<TransformComponent>().position.y > (camera.y + 640))
-			enemy->destroy();
-		finalColliderHit = true;
-		cColAbove = false;
-		Collision::countCollisions = 0;
 	}
 
 	for (auto& player : players) //enemies with players

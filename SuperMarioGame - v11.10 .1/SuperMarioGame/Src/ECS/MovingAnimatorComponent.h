@@ -41,6 +41,12 @@ public:
 
 	void update() override
 	{
+		if (sprite->moving_animation.hasFinished()) { // playing again animation
+			sprite->moving_animation.finished = false;
+			sprite->moving_animation.times_played = 0;
+			resetAnimation();
+		}
+
 		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 		sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera.y;
 
@@ -65,6 +71,15 @@ public:
 			animManager.moving_animations[animName].type,
 			animManager.moving_animations[animName].distanceX, animManager.moving_animations[animName].distanceY
 		);
+	}
+
+	void resetAnimation() {
+		animimationName = "Default";
+		sprite->SetMovingAnimation(
+			animManager.moving_animations[animimationName].indexX, animManager.moving_animations[animimationName].indexY,
+			animManager.moving_animations[animimationName].total_frames, animManager.moving_animations[animimationName].speed,
+			animManager.moving_animations[animimationName].type,
+			animManager.moving_animations[animimationName].distanceX, animManager.moving_animations[animimationName].distanceY);
 	}
 
 	const char* getPlayName()

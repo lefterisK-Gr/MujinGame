@@ -2,8 +2,8 @@
 
 #include <string>
 
-struct Animation //todo here we can have the onStart and onFinish which are scripts
-{
+struct Animation //todo for now just add a bool hasFinished (useful for scripts) and much later may need onStop(when game paused)
+{					// todo also we might need to have setReps/getReps and replace "play_once" with "play_n_times" where we pass 1 more value to call
 	typedef enum {
 		ANIMTYPE_NONE = 0,
 		ANIMTYPE_PLAY_ONCE = 1, // just iterates over the images one time. it holds the final image when finished.
@@ -21,7 +21,7 @@ struct Animation //todo here we can have the onStart and onFinish which are scri
 	float cur_frame_index_f = 0;
 	int times_played = 0;
 
-	
+	bool finished = false;
 
 	Animation() 
 	{
@@ -55,13 +55,10 @@ struct Animation //todo here we can have the onStart and onFinish which are scri
 		cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 		switch (type) {
 		case Animation::animType::ANIMTYPE_PLAY_ONCE:
-			if (times_played == 1) {
-				resetFrameIndex();
-				break;
-			}
 			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
 			{
 				resetFrameIndex();
+				finished = true;
 				times_played = 1;
 			}
 
@@ -106,4 +103,7 @@ struct Animation //todo here we can have the onStart and onFinish which are scri
 		cur_frame_index_f = 0;
 	}
 
+	bool hasFinished() {
+		return finished;
+	}
 };

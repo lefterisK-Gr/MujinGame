@@ -37,7 +37,6 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void update() override {
-		int timeslice = 0;
 		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
 		{
 			if (this->leftofPipe)
@@ -57,26 +56,15 @@ public: // it is like it has init that creates Animator Component since it inher
 			}
 		}
 		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
-		{
-			std::cout << "transision" << std::endl;
-			if (!sprite->initTime)
-			{
-				sprite->initTime = SDL_GetTicks();
-			}
-
-			if (Game::justResumed)// if we just resumed
-			{
-				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
-			}
-			
-			timeslice = sprite->animation.cur_frame_index; // for on pause
-			if (timeslice == 16)// on finish
-			{
+		{	
+			if (sprite->moving_animation.hasFinished()) {
 				vertTransitionPlayerAnimation ? finishedVertAnimation = true : finishedHorAnimation = true;
 				vertTransitionPlayerAnimation ? vertTransitionPlayerAnimation = false : horTransitionPlayerAnimation = false;
-				sprite->initTime = 0;
 			}
 		}
+
+		onPipe = false;
+		leftofPipe = false;
 	}
 
 };
