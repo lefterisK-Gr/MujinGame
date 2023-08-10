@@ -18,6 +18,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	AnimatorComponent* animator;
 	MovingAnimatorComponent* moving_animator;
 	SpriteComponent* sprite;
+	TransformComponent* transform;
 	KeyboardControllerComponent* keyboard;
 
 	Player_Script()
@@ -33,6 +34,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		animator = &entity->getComponent<AnimatorComponent>();
 		moving_animator = &entity->getComponent<MovingAnimatorComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
+		transform = &entity->getComponent<TransformComponent>();
 		keyboard = &entity->getComponent<KeyboardControllerComponent>();
 	}
 
@@ -58,8 +60,14 @@ public: // it is like it has init that creates Animator Component since it inher
 		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
 		{	
 			if (sprite->moving_animation.hasFinished()) {
-				vertTransitionPlayerAnimation ? finishedVertAnimation = true : finishedHorAnimation = true;
-				vertTransitionPlayerAnimation ? vertTransitionPlayerAnimation = false : horTransitionPlayerAnimation = false;
+				if (vertTransitionPlayerAnimation) {
+					finishedVertAnimation = true;
+					vertTransitionPlayerAnimation = false;
+				}
+				else {
+					finishedHorAnimation = true;
+					horTransitionPlayerAnimation = false;
+				}
 			}
 		}
 

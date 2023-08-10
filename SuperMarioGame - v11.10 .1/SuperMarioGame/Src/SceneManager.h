@@ -12,7 +12,7 @@ public:
 	SceneManager();
 	~SceneManager();
 
-	Vector2D GetScenePosition(int i);
+	Vector2D GetSceneStartupPosition(int i);
 	SDL_Rect GetSceneCamera(int i);
 private:
 	Vector2D transitionScenePositions[2];

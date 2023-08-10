@@ -30,7 +30,6 @@ uint32_t Game::pauseTime = 0;
 bool Game::justResumed = false;
 
 auto& player1(manager.addEntity());
-auto& player2(manager.addEntity()); //remove comment to add second player
 auto& label(manager.addEntity());
 auto& winningLabel1(manager.addEntity());
 auto& winningLabel2(manager.addEntity());
@@ -123,29 +122,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	player1.addComponent<Player_Script>();
 
 	player1.addGroup(groupPlayers);
-	 //remove comment to add second player
-	player2.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
-	player2.addComponent<AnimatorComponent>("player");
-	player2.addComponent<MovingAnimatorComponent>("player");
-	player2.addComponent<RigidBodyComponent>();
-	player2.addComponent<KeyboardControllerComponent>(
-		(char *) "P2Idle",
-		(char *) "P2Jump", 
-		(char *) "P2Walk", 
-		SDL_SCANCODE_UP, 
-		SDL_SCANCODE_LEFT, 
-		SDL_SCANCODE_RIGHT, 
-		SDL_SCANCODE_DOWN, 
-		SDL_SCANCODE_L
-		);
-	player2.addComponent<ColliderComponent>("player2");
-	player2.addComponent<ScoreComponent>();
-	player2.addComponent<UILabel>(600, 600, "LUIGI SCORE: ", "arial", green);
-	player2.addComponent<UILabel>(750, 600, "", "arial", green);
-	player2.addComponent<Player_Script>();
-
-	player2.addGroup(groupPlayers);
-	
 	
 	label.addComponent<UILabel>(10, 42, "University of Crete", "arial", black);
 	label.addComponent<UILabel>(10, 58, "Department of Computer Science", "arial", black);
@@ -457,7 +433,7 @@ void Game::update() //game objects updating
 						{
 							if (player->getComponent<ColliderComponent>().tag == "player1")
 							{
-								winningss << "LUIGI WINS";
+								winningss << "YOU DIED";
 								winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
 							}
 							else
@@ -537,31 +513,10 @@ void Game::update() //game objects updating
 				if (Collision::AABB(wCol, pl->getComponent<ColliderComponent>().collider))
 				{
 					pl->getComponent<ScoreComponent>().addToScore(100);
-					for (auto& player : players)
-					{
-						if (tempScore1 < 0)
-						{
-							tempScore1 = player->getComponent<ScoreComponent>().getScore();
-							std::cout << "mario score: " << tempScore1 << std::endl;
-						}
-						else if (tempScore2 < 0)
-						{
-							tempScore2 = player->getComponent<ScoreComponent>().getScore();
-							std::cout << "luigi score: " << tempScore2 << std::endl;
-						}
-					}
 
-					if (tempScore1 > tempScore2)
-					{
-						winningss << "MARIO WINS     ";
-						winningLabel1.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-					}
-					else
-					{
-						winningss << "LUIGI WINS     ";
-						winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-					}
-					
+					winningss << "MARIO WINS     ";
+					winningLabel1.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
+
 					for (auto& player : players)
 					{
 						player->destroy();
@@ -583,18 +538,11 @@ void Game::update() //game objects updating
 			plMaxDistance.x = pl->getComponent<TransformComponent>().position.x;
 		}
 		camera.x = plMaxDistance.x - 400;
-		if (pl->getComponent<TransformComponent>().position.x < camera.x || pl->getComponent<TransformComponent>().position.y > (camera.y + 640)) //player death
+		if (pl->getComponent<TransformComponent>().position.y >(camera.y + 640)) //player death
 		{
-			if (pl->getComponent<ColliderComponent>().tag == "player1")
-			{
-				winningss << "LUIGI WINS";
-				winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-			}
-			else
-			{
-				winningss << "MARIO WINS";
-				winningLabel1.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-			}
+			winningss << "YOU DIED";
+			winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
+
 			for (auto& player : players)
 			{
 				player->destroy();
@@ -610,7 +558,7 @@ void Game::update() //game objects updating
 			scenes->sceneSelected = 1;
 			for (auto& pl : players)
 			{
-				pl->getComponent<TransformComponent>().position = scenes->GetScenePosition(1);
+				pl->getComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(1);
 			}
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(1);
@@ -620,7 +568,7 @@ void Game::update() //game objects updating
 			scenes->sceneSelected = 0;
 			for (auto& pl : players)
 			{
-				pl->getComponent<TransformComponent>().position = scenes->GetScenePosition(0);
+				pl->getComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(0);
 			}
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(0);

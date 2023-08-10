@@ -23,7 +23,7 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {}
 
-Vector2D SceneManager::GetScenePosition(int i)
+Vector2D SceneManager::GetSceneStartupPosition(int i)
 {
 	return transitionScenePositions[i];
 }
