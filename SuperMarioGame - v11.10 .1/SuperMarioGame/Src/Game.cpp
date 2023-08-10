@@ -302,7 +302,7 @@ void Game::update() //game objects updating
 					)// hitted mystery box
 					{
 						p->getComponent<ScoreComponent>().addToScore(100);
-						c->getComponent<MysteryBox_Script>().didCoinAnimation = true;
+						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
 						c->getComponent<AnimatorComponent>().Play("CoinFlip");
 						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
 						ss1 << p->getComponent<ScoreComponent>().getScore();
@@ -451,7 +451,6 @@ void Game::update() //game objects updating
 							{
 								e->getComponent<TransformComponent>().velocity.x *= -1;
 							}
-							e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle = false;
 							e->getComponent<SpriteComponent>().initTime = 0;
 						}
 						else //player death

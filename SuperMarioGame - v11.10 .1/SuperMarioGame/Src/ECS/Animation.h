@@ -21,6 +21,8 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	float cur_frame_index_f = 0;
 	int times_played = 0;
 
+	int flow_direction = 1;
+
 	bool finished = false;
 
 	Animation() 
@@ -51,10 +53,11 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	}
 
 	void advanceFrame() {
-		cur_frame_index_f += speed;
-		cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+		
 		switch (type) {
 		case Animation::animType::ANIMTYPE_PLAY_ONCE:
+			cur_frame_index_f += speed;
+			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
 			{
 				resetFrameIndex();
@@ -65,33 +68,36 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 			break;
 
 		case Animation::animType::ANIMTYPE_LOOPED:
+			cur_frame_index_f += speed;
+			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 			if (cur_frame_index > total_frames - 1) {
 				resetFrameIndex();
 				times_played++;
 			}
 			break;
 
-	/*	case Animation::animType::ANIMTYPE_BACK_FORTH:
+		case Animation::animType::ANIMTYPE_BACK_FORTH:
 
-			if (additional_data == 1) {
-				if (cur_frame_index < last_base_index) {
-					cur_frame_index_f += speed;
-					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
-				}
-				else
-					additional_data = -1;
+			if (flow_direction == 1) {
+				cur_frame_index_f += speed;
+				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+
+				if(cur_frame_index > total_frames - 1)
+					flow_direction = -1;
 			}
-			else if (additional_data == -1) {
+			else if (flow_direction == -1) {
 				if (cur_frame_index > 0) {
 					cur_frame_index_f -= speed;
 					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 				}
 				else {
-					additional_data = 1;
-					times_played++;
+					flow_direction = 1;
+					resetFrameIndex();
+					finished = true;
+					times_played = 1;
 				}
 			}
-			break;*/
+			break;
 
 		case Animation::animType::ANIMTYPE_NONE:
 			break;

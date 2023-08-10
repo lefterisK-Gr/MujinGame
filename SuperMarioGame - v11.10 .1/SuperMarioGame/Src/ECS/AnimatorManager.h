@@ -30,7 +30,7 @@ public:
 
 		Animation goomba_walk = Animation(17, 1, 2, 0.04, "looped");
 		Animation greenkoopatroopa_walk = Animation(20, 1, 2, 0.04, "looped");
-		Animation greenshell = Animation(25, 1, 1, 1, "looped");
+		Animation greenshell = Animation(25, 1, 1, 0.01, "play_once");
 
 		animations.emplace("Default", defaultAnimation);
 		animations.emplace("P1Idle", p1idle);
@@ -49,8 +49,13 @@ public:
 
 		MovingAnimation defaultMoveAnimation = MovingAnimation(0, 0, 0, 0.0, "looped", 0, 0);
 		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 0.1, "play_once", 0, 1);
+
+		MovingAnimation block_bounce = MovingAnimation(0, 0, 10, 1, "back_forth", 0, -1);
+		MovingAnimation coin_bounce = MovingAnimation(0, 0, 20, 1, "back_forth", 0, -2);
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);
 		moving_animations.emplace("PlayerVertTransition", playerVertTransition);
+		moving_animations.emplace("BlockBounce", block_bounce);
+		moving_animations.emplace("CoinBounce", coin_bounce);
 	}
 };

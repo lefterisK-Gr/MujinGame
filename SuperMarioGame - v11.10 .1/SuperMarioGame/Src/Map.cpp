@@ -226,6 +226,7 @@ void Map::AddActionTile(int srcX, int srcY, int xpos, int ypos, bool isSolid, bo
 		tile.getComponent<TransformComponent>().position.x = xpos;
 		tile.getComponent<TransformComponent>().position.y = ypos;
 		tile.addComponent<AnimatorComponent>(texID);
+		tile.addComponent<MovingAnimatorComponent>(texID);
 		tile.addComponent<PlatformBlock_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
 		if (srcY)
 		{
@@ -245,6 +246,7 @@ void Map::AddActionTile(int srcX, int srcY, int xpos, int ypos, bool isSolid, bo
 			tile.getComponent<TransformComponent>().position.x = xpos;
 			tile.getComponent<TransformComponent>().position.y = ypos;
 			tile.addComponent<AnimatorComponent>(texID);
+			tile.addComponent<MovingAnimatorComponent>(texID);
 			tile.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
 			tile.getComponent<AnimatorComponent>().Play("QuestionMark");
 		}

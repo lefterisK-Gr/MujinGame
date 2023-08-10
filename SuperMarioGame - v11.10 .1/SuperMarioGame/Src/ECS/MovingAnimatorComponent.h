@@ -66,10 +66,10 @@ public:
 	{
 		animimationName = animName;
 		sprite->SetMovingAnimation(
-			animManager.moving_animations[animName].indexX, animManager.moving_animations[animName].indexY,
-			animManager.moving_animations[animName].total_frames, animManager.moving_animations[animName].speed,
-			animManager.moving_animations[animName].type,
-			animManager.moving_animations[animName].distanceX, animManager.moving_animations[animName].distanceY
+			animManager.moving_animations[animimationName].indexX, animManager.moving_animations[animimationName].indexY,
+			animManager.moving_animations[animimationName].total_frames, animManager.moving_animations[animimationName].speed,
+			animManager.moving_animations[animimationName].type,
+			animManager.moving_animations[animimationName].distanceX, animManager.moving_animations[animimationName].distanceY
 		);
 	}
 

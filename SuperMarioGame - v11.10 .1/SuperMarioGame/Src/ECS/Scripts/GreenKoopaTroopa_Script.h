@@ -32,20 +32,13 @@ public:
 		sprite->destRect.y = static_cast<int>(sprite->transform->position.y - 20) - Game::camera.y; //make player move with the camera, being stable in centre, except on edges
 		sprite->destRect.h = (sprite->transform->height * sprite->transform->scale) + 20;
 
+		
 		if (shelltoturtle)
 		{
-			if (!sprite->initTime)
-			{
-				sprite->initTime = SDL_GetTicks();
+			if (sprite->transform->velocity.x != 0) {
+				sprite->animation.resetFrameIndex();
 			}
-			if (Game::justResumed)//if we just resumed
-			{
-				animator->resumeTime += SDL_GetTicks() - Game::pauseTime;
-			}
-			timeslice = sprite->animation.cur_frame_index;
-			if (timeslice == 1)// on finish
-			{
-				sprite->initTime = 0;
+			if (sprite->animation.hasFinished()) {
 				shelltoturtle = false;
 				animator->Play("GreenKoopaTroopaWalk");
 				sprite->spriteFlip = SDL_FLIP_NONE;
