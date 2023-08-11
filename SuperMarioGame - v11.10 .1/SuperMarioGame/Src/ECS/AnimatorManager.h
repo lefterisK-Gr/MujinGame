@@ -48,13 +48,15 @@ public:
 		animations.emplace("GreenShell", greenshell);
 
 		MovingAnimation defaultMoveAnimation = MovingAnimation(0, 0, 0, 0.0, "looped", 0, 0);
-		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 0.1, "play_once", 0, 1);
+		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 1, "play_once", 0, 1);
+		MovingAnimation playerHorTransition = MovingAnimation(0, 0, 20, 1, "play_once", 1, 0);
 
 		MovingAnimation block_bounce = MovingAnimation(0, 0, 10, 1, "back_forth", 0, -1);
 		MovingAnimation coin_bounce = MovingAnimation(0, 0, 20, 1, "back_forth", 0, -2);
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);
 		moving_animations.emplace("PlayerVertTransition", playerVertTransition);
+		moving_animations.emplace("PlayerHorTransition", playerHorTransition);
 		moving_animations.emplace("BlockBounce", block_bounce);
 		moving_animations.emplace("CoinBounce", coin_bounce);
 	}

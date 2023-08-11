@@ -41,16 +41,21 @@ public: // it is like it has init that creates Animator Component since it inher
 	void update() override {
 		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
 		{
-			if (this->leftofPipe)
+			if (keyboard->keystate[keyboard->walkRightKey])
 			{
-				sprite->transform->velocity.x = 0;
-				this->horTransitionPlayerAnimation = true;
-				keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_JUMP;
+				if (this->leftofPipe)
+				{
+					sprite->transform->velocity.x = 0;
+					moving_animator->Play("PlayerHorTransition");
+					this->horTransitionPlayerAnimation = true;
+					keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_JUMP;
+				}
 			}
 			if (keyboard->keystate[keyboard->downKey])
 			{
 				if (this->onPipe)
 				{
+					sprite->transform->velocity.x = 0;
 					moving_animator->Play("PlayerVertTransition");
 					this->vertTransitionPlayerAnimation = true;
 					keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_JUMP;
