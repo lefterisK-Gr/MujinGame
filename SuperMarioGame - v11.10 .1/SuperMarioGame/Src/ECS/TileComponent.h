@@ -41,11 +41,11 @@ public:
 		destRect.y = ypos;
 		destRect.w = destRect.h = tsize * tscale; //tsize * tscale = 32
 
-		fullSolid = isSolid;
+		fullSolid = isSolid; //todo remove this (have instead an array that shows the indexes in grid where its solid)
 
-		hasGrid = hasgrid;
+		hasGrid = hasgrid; //todo remove this (all have grid but not all are solid)
 
-		isHorizon = ishor;
+		isHorizon = ishor; //todo remove this (use z-order)
 
 		scaledTile = tsize * tscale;
 	}
