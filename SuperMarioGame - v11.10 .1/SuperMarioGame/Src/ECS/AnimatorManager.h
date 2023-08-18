@@ -51,7 +51,7 @@ public:
 		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 1, "play_once", 0, 1);
 		MovingAnimation playerHorTransition = MovingAnimation(0, 0, 20, 1, "play_once", 1, 0);
 
-		MovingAnimation block_bounce = MovingAnimation(0, 0, 10, 1, "back_forth", 0, -1);
+		MovingAnimation block_bounce = MovingAnimation(0, 0, 10, 0.5, "back_forth", 0, -4);
 		MovingAnimation coin_bounce = MovingAnimation(0, 0, 20, 1, "back_forth", 0, -2);
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);

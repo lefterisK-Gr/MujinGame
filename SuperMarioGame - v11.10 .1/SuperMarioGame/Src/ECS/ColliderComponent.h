@@ -35,11 +35,12 @@ public:
 
 	void init() override
 	{
-		if (!entity->hasComponent<TransformComponent>()) //PROBLEM: having transform on top left grid, not every collider its own
+		if (!entity->hasComponent<TransformComponent>()) //todo: problem: having transform on top left grid, not every collider its own
 		{
 			entity->addComponent<TransformComponent>();
 		}
 		transform = &entity->getComponent<TransformComponent>();
+
 		if (tag == "terrain")
 		{
 			tex = TextureManager::LoadTexture("assets/grid_collision.png");

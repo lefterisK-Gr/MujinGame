@@ -16,6 +16,10 @@ public:
 	SDL_Texture* texture;
 	SDL_Rect srcRect, destRect;
 	Vector2D position;
+
+	TransformComponent* transform;
+	SpriteComponent* sprite;
+	MovingAnimatorComponent* moving_animator;
 	GridComponent* grid;
 	int scaledTile;
 
@@ -52,6 +56,19 @@ public:
 	
 	void init() override
 	{
+		if (!entity->hasComponent<TransformComponent>())
+		{
+			entity->addComponent<TransformComponent>(position.x, position.y, 32, 32, 1);
+		}
+		transform = &entity->getComponent<TransformComponent>();
+
+		if (!entity->hasComponent<SpriteComponent>())
+		{
+			entity->addComponent<SpriteComponent>();
+		}
+		sprite = &entity->getComponent<SpriteComponent>();
+		sprite->srcRect = this->srcRect;
+
 		if (hasGrid)
 		{
 			if (!entity->hasComponent<GridComponent>())
@@ -66,13 +83,19 @@ public:
 	{
 		if (isHorizon)
 		{
-			destRect.x = position.x - (Game::camera.x / 2); //reminding that destRect is absolutely on the screen that we see
-			destRect.y = position.y - Game::camera.y;
+			destRect.x = transform->position.x - (Game::camera.x / 2); //reminding that destRect is absolutely on the screen that we see
+			destRect.y = transform->position.y - Game::camera.y;
 		}
 		else
 		{
-			destRect.x = position.x - Game::camera.x; //reminding that destRect is absolutely on the screen that we see
-			destRect.y = position.y - Game::camera.y;
+			destRect.x = transform->position.x - Game::camera.x; //reminding that destRect is absolutely on the screen that we see
+			destRect.y = transform->position.y - Game::camera.y;
+			if (entity->hasComponent<MovingAnimatorComponent>()) {
+				moving_animator = &entity->getComponent<MovingAnimatorComponent>();
+				if (moving_animator->animimationName == "BlockBounce") {
+					std::cout << "in tile component" << std::endl;
+				}
+			}
 		}
 		
 	}

@@ -41,6 +41,10 @@ public:
 
 	void update() override
 	{
+		if (animimationName == "BlockBounce")
+		{
+			std::cout << animimationName << std::endl;
+		}
 		if (sprite->moving_animation.hasFinished()) { // playing again animation
 			sprite->moving_animation.finished = false;
 			sprite->moving_animation.times_played = 0;
