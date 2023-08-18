@@ -13,7 +13,9 @@ public:
 	bool fullSolid;
 	bool hasGrid = false;
 	bool isHorizon = false;
-	SDL_Texture* texture;
+
+	std::string textureid;
+
 	SDL_Rect srcRect, destRect;
 	Vector2D position;
 
@@ -27,12 +29,12 @@ public:
 
 	~TileComponent()
 	{
-		SDL_DestroyTexture(texture);
+		SDL_DestroyTexture(Game::assets->GetTexture(textureid));
 	}
 
 	TileComponent(int srcX, int srcY, int xpos, int ypos,int tsize, int tscale, std::string id , bool isSolid , bool hasgrid , bool ishor)
 	{
-		texture = Game::assets->GetTexture(id);
+		textureid = id;
 
 		position.x = xpos;
 		position.y = ypos;
@@ -64,10 +66,11 @@ public:
 
 		if (!entity->hasComponent<SpriteComponent>())
 		{
-			entity->addComponent<SpriteComponent>();
+			entity->addComponent<SpriteComponent>(textureid);
 		}
 		sprite = &entity->getComponent<SpriteComponent>();
 		sprite->srcRect = this->srcRect;
+		sprite->destRect = this->destRect;
 
 		if (hasGrid)
 		{
@@ -83,25 +86,20 @@ public:
 	{
 		if (isHorizon)
 		{
-			destRect.x = transform->position.x - (Game::camera.x / 2); //reminding that destRect is absolutely on the screen that we see
-			destRect.y = transform->position.y - Game::camera.y;
+			sprite->destRect.x = transform->position.x - (Game::camera.x / 2); //reminding that destRect is absolutely on the screen that we see
+			sprite->destRect.y = transform->position.y - Game::camera.y;
 		}
 		else
 		{
-			destRect.x = transform->position.x - Game::camera.x; //reminding that destRect is absolutely on the screen that we see
-			destRect.y = transform->position.y - Game::camera.y;
-			if (entity->hasComponent<MovingAnimatorComponent>()) {
-				moving_animator = &entity->getComponent<MovingAnimatorComponent>();
-				if (moving_animator->animimationName == "BlockBounce") {
-					std::cout << "in tile component" << std::endl;
-				}
-			}
+			sprite->destRect.x = transform->position.x - Game::camera.x; //reminding that destRect is absolutely on the screen that we see
+			sprite->destRect.y = transform->position.y - Game::camera.y;
 		}
 		
 	}
 
 	void draw() override
 	{
-		TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE);
+		sprite->draw();
+		//TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE);
 	}
 };

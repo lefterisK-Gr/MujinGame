@@ -167,45 +167,32 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 
 void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bool isSolid, bool isBouncy, bool isWinning, bool isMysteryBox)
 {
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
+
+	if (isBouncy)
+	{
+		tile.addComponent<MovingAnimatorComponent>(texID);
+		tile.addComponent<PlatformBlock_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
+	}
+	else if(isMysteryBox)
+	{
+		tile.addComponent<AnimatorComponent>(texID);
+		tile.addComponent<MovingAnimatorComponent>(texID);
+		tile.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
+		tile.getComponent<AnimatorComponent>().Play("QuestionMark");
+	}
+
+	tile.addGroup(Game::groupActionLayer);
+
 	if (isWinning)
 	{
 		tile.addGroup(Game::groupWinningTiles);
 	}
-	
+
 	if (isSolid)
 	{
 		tile.addGroup(Game::groupColliders);
 	}
-
-	if (isBouncy)
-	{
-		tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
-		//tile.addComponent<AnimatorComponent>(texID);
-		tile.addComponent<MovingAnimatorComponent>(texID);
-		tile.addComponent<PlatformBlock_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
-		/*if (srcY)
-		{
-			tile.getComponent<AnimatorComponent>().Play("DarkBlock");
-		}
-		else
-		{
-			tile.getComponent<AnimatorComponent>().Play("BrownBlock");
-		}*/
-		
-	}
-	else
-	{
-		tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
-		if (isMysteryBox)
-		{
-			tile.addComponent<AnimatorComponent>(texID);
-			tile.addComponent<MovingAnimatorComponent>(texID);
-			tile.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
-			tile.getComponent<AnimatorComponent>().Play("QuestionMark");
-		}
-	}
-
-	tile.addGroup(Game::groupActionLayer);
 }
 
 void Map::AddForegroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
