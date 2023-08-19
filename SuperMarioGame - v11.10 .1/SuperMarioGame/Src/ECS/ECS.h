@@ -174,9 +174,6 @@ public:
 		Entity* e = new Entity(*this);
 		std::unique_ptr<Entity> uPtr{ e };
 		entities.emplace_back(std::move(uPtr));
-		/*if (entities.size() == 2410) {
-			std::cout << "reaching overload" << std::endl;
-		}*/
 		return *e;
 	}
 };

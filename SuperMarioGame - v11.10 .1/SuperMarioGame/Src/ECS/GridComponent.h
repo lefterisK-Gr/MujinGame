@@ -14,11 +14,6 @@
 #define MAX_MAP_GRID_HEIGHT (MAX_MAP_TILE_HEIGHT * GRID_ROWS) //80
 #define MAX_MAP_GRID_WIDTH (MAX_MAP_TILE_HEIGHT * GRID_COLUMNS) //100
 
-using GridIndex = unsigned char;
-typedef GridIndex GridMap[20 * 4 * 100 * 4];
-static GridMap grid;
-static GridIndex* grida = grid;
-
 class GridComponent : public Component //GridComp --> ColliderComp
 {
 public:
@@ -47,7 +42,6 @@ public:
 	void init() override
 	{
 		Vector2D gridPos;
-		ComputeTileGridBlocks();
 
 		if (fullSolid)
 		{
@@ -70,16 +64,5 @@ public:
 	void update() override
 	{
 
-	}
-
-	void ComputeTileGridBlocks()
-	{
-		memset(grida,
-			fullSolid ?
-			GRID_SOLID_TILE :
-			GRID_EMPTY_TILE,
-			TILE_NUM_GRID_ELEMENTS
-		);
-		grida += TILE_NUM_GRID_ELEMENTS;
 	}
 };
