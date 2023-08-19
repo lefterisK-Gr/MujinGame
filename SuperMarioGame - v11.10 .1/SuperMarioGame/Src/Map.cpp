@@ -177,14 +177,14 @@ void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bo
 
 	if(isMysteryBox)
 	{
-		//auto& tile2(manager.addEntity());
-		//tile2.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
-		////tile2.addComponent<AnimatorComponent>(texID);
-		////tile2.addComponent<MovingAnimatorComponent>(texID);
-		////tile2.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
-		////tile2.getComponent<AnimatorComponent>().Play("QuestionMark");
-		//tile2.addGroup(Game::groupActionLayer);
-		//tile2.addGroup(Game::groupColliders);
+		auto& tile2(manager.addEntity());
+		tile2.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
+		tile2.addComponent<AnimatorComponent>(texID);
+		tile2.addComponent<MovingAnimatorComponent>(texID);
+		tile2.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
+		tile2.getComponent<AnimatorComponent>().Play("QuestionMark");
+		tile2.addGroup(Game::groupForegroundLayer);
+		tile2.addGroup(Game::groupColliders);
 	}
 
 	tile.addGroup(Game::groupActionLayer);

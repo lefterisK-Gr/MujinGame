@@ -72,7 +72,7 @@ public:
 
 	void draw() override
 	{
-		//sprite->draw();
+		sprite->draw();
 	}
 
 	void Play(const char* animName)
