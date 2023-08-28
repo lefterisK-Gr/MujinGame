@@ -9,6 +9,50 @@ int Collision::countCollisions;
 Vector2D Collision::storedCollider;
 bool Collision::hittedTopLeft;
 bool Collision::hittedTopRight;
+
+bool Collision::checkCollision(const SDL_Rect& moving_recA, const SDL_Rect& recB) {
+	Collision::storedColliderRect = recB;
+
+	if (moving_recA.x > recB.x + recB.w || moving_recA.x + moving_recA.w < recB.x ||
+		moving_recA.y > recB.y + recB.h || moving_recA.y + moving_recA.h < recB.y) {
+		return false; // no collision
+	}
+
+	//calculate distX,distY
+	Collision::dist.x = recB.x - (moving_recA.x + (moving_recA.w / 2)); //positive if collider on right, negative if collider on left of center
+	Collision::dist.y = recB.y - (moving_recA.y + (moving_recA.h / 2));
+	//check if it is sideways collision (bool isSidewaysCollision)
+	if (abs(dist.x) / moving_recA.w > abs(dist.y) / moving_recA.h) {
+		Collision::isSidewaysCollision = true;
+	}
+
+	Collision::isCollision = true;
+	return true;
+}
+
+void Collision::moveFromCollision(Entity& player) {
+	auto& playerPos = player.getComponent<TransformComponent>().position;
+	auto playerCollider = player.getComponent<ColliderComponent>().collider;
+
+	if (Collision::isSidewaysCollision) { //horizontal move
+		if (Collision::dist.x > 0) { //move moving_rect left from collider
+			playerPos.x = storedColliderRect.x - playerCollider.w;
+		}
+		else {
+			playerPos.x = storedColliderRect.x + storedColliderRect.w;
+		}
+	}
+	else {
+		if (Collision::dist.y > 0) { //move moving_rect down from collider
+			playerPos.y = storedColliderRect.y + storedColliderRect.h;
+		}
+		else {
+			playerPos.y = storedColliderRect.y - playerCollider.h;
+		}
+	}
+}
+
+
 //TODO: cleanup class to be more general to cover the cases
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) //A for terrain B for player
 {
