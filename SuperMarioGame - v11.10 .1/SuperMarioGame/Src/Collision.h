@@ -10,6 +10,10 @@ class ColliderComponent;
 class Collision
 {
 public:
+	enum ColSide { NONE = 0, TOP = 1, RIGHT = 2, DOWN = 3, LEFT = 4 };
+
+	ColSide movingRectColSide;
+
 	static int countCollisions;
 	static Vector2D storedCollider;
 

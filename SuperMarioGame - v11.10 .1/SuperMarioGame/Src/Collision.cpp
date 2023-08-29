@@ -11,21 +11,19 @@ bool Collision::hittedTopLeft;
 bool Collision::hittedTopRight;
 
 bool Collision::checkCollision(const SDL_Rect& moving_recA, const SDL_Rect& recB) {
-	Collision::storedColliderRect = recB;
 
 	if (moving_recA.x >= recB.x + recB.w || moving_recA.x + moving_recA.w <= recB.x ||
 		moving_recA.y >= recB.y + recB.h || moving_recA.y + moving_recA.h <= recB.y) {
 		return false; // no collision
 	}
 
+	Collision::storedColliderRect = recB;
+
 	//calculate distX,distY
 	Collision::dist.x = (recB.x + (recB.w / 2) ) - (moving_recA.x + (moving_recA.w / 2)); //positive if collider on right, negative if collider on left of center
 	Collision::dist.y = (recB.y + (recB.h / 2) ) - (moving_recA.y + (moving_recA.h / 2));
 	//check if it is sideways collision (bool isSidewaysCollision)
 	if ((abs(dist.x) / moving_recA.w) > (abs(dist.y) / moving_recA.h)) {
-		std::cout << abs(dist.x)  << std::endl;
-
-		std::cout << (abs(dist.x) / moving_recA.w) << std::endl;
 		Collision::isSidewaysCollision = true;
 	}
 
@@ -39,19 +37,23 @@ void Collision::moveFromCollision(Entity& player) {
 
 	if (Collision::isSidewaysCollision) { //horizontal move
 		if (Collision::dist.x > 0) { //move moving_rect left from collider
-			playerPos.x = storedColliderRect.x - playerCollider.w - 1;
+			playerPos.x = storedColliderRect.x - playerCollider.w - 9;
+			Collision::movingRectColSide = Collision::ColSide::RIGHT;
 		}
 		else {
-			playerPos.x = storedColliderRect.x + 1; //consider position based on collider
+			playerPos.x = storedColliderRect.x; //consider position based on collider
+			Collision::movingRectColSide = Collision::ColSide::LEFT;
 		}
 	}
 	else {
 		if (Collision::dist.y > 0) { //move moving_rect down from collider
 			playerPos.y = storedColliderRect.y - player.getComponent<TransformComponent>().height;
 			player.getComponent<RigidBodyComponent>().onGround = true;
+			Collision::movingRectColSide = Collision::ColSide::DOWN;
 		}
 		else {
 			playerPos.y = storedColliderRect.y + 1;
+			Collision::movingRectColSide = Collision::ColSide::TOP;
 		}
 	}
 	player.getComponent<ColliderComponent>().update();

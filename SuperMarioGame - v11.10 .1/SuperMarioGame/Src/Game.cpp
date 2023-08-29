@@ -207,9 +207,6 @@ void Game::update() //game objects updating
 	bool finalColliderHit = true;
 	bool cColAbove = false;
 
-	collision.isCollision = false;
-	collision.isSidewaysCollision = false;
-
 	Collision::hittedTopLeft = false;
 	Collision::hittedTopRight = false;
 
@@ -254,18 +251,17 @@ void Game::update() //game objects updating
 						std::cout << "Sideways Collision" << std::endl;
 
 						collision.moveFromCollision(*p);
-
-						break;
 					}
 					if (!collision.isSidewaysCollision) {
 						std::cout << "up/down Collision" << std::endl;
 
 						collision.moveFromCollision(*p);
-
-						break;
 					}
 				}
 
+				collision.isCollision = false;
+				collision.isSidewaysCollision = false;
+				collision.movingRectColSide = Collision::ColSide::NONE;
 				//Collision::AABB(cCol, p->getComponent<ColliderComponent>().collider);
 				//if (Collision::countCollisions == 4 ||
 				//	Collision::countCollisions == 6 ||
@@ -315,14 +311,7 @@ void Game::update() //game objects updating
 				//	, p->getComponent<RigidBodyComponent>().onGround
 				//	, cColAbove);
 			}
-			Collision::hittedTopLeft = false;
-			Collision::hittedTopRight = false;
 		}
-
-		
-		finalColliderHit = true;
-		cColAbove = false;
-		Collision::countCollisions = 0;
 	}
 
 
