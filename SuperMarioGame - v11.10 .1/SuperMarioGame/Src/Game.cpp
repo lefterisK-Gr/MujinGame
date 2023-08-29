@@ -16,6 +16,7 @@ Map* map;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
+Collision collision;
 
 SDL_Rect Game::camera = { 0,0,2240,0 }; // camera.w shows how far right camera can go
 
@@ -98,7 +99,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(1400.0f, 320.0f, 32, 32, 1);
+	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 1);
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
 	player1.addComponent<AnimatorComponent>("player");
@@ -206,8 +207,8 @@ void Game::update() //game objects updating
 	bool finalColliderHit = true;
 	bool cColAbove = false;
 
-	int tempScore1 = -1;
-	int tempScore2 = -1;
+	collision.isCollision = false;
+	collision.isSidewaysCollision = false;
 
 	Collision::hittedTopLeft = false;
 	Collision::hittedTopRight = false;
@@ -244,56 +245,81 @@ void Game::update() //game objects updating
 			//SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
 			for (auto& ccomp : c->components) {
 				SDL_Rect cCol = ccomp->getRect();
+				SDL_Rect pCol = p->getComponent<ColliderComponent>().collider;
 
-				Collision::AABB(cCol, p->getComponent<ColliderComponent>().collider);
-				if (Collision::countCollisions == 4 ||
-					Collision::countCollisions == 6 ||
-					Collision::countCollisions == 8 ||
-					Collision::countCollisions == 9 ||
-					Collision::countCollisions == 12 ||
-					Collision::countCollisions == 13 ||
-					Collision::countCollisions == 14)
-				{
-					if (finalColliderHit)
-					{
-						//std::cout << cCol.x << cCol.y << std::endl;
-						cColAbove = ccomp->getHasGridAbove();
-						finalColliderHit = false;
-						p->getComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
-						p->getComponent<Player_Script>().leftofPipe = assets->LeftOfPipeTrigger(cCol);
+				bool hasCollision = collision.checkCollision(pCol, cCol);
+				if (hasCollision) {
+					std::cout << "Collision detected" << std::endl;
+					if (collision.isSidewaysCollision) {
+						std::cout << "Sideways Collision" << std::endl;
+
+						collision.moveFromCollision(*p);
+
+						break;
+					}
+					if (!collision.isSidewaysCollision) {
+						std::cout << "up/down Collision" << std::endl;
+
+						collision.moveFromCollision(*p);
+
+						break;
 					}
 				}
-				//coin holders update
-				if (
-					(Collision::hittedTopLeft || Collision::hittedTopRight)  // hit from under it
-					&& (p->getComponent<TransformComponent>().velocity.y < 0)
-					&& c != NULL )
-				{
-					if ( c->hasComponent<PlatformBlock_Script>() )
-					{
-						c->getComponent<PlatformBlock_Script>().didBlockAnimation = true;
-					}
-					else if(c->hasComponent<MysteryBox_Script>() 
-						&& !c->getComponent<MysteryBox_Script>().getCoinAnimation()
-					)// hitted mystery box
-					{
-						p->getComponent<ScoreComponent>().addToScore(100);
-						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
-						c->getComponent<AnimatorComponent>().Play("CoinFlip");
-						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
-						ss1 << p->getComponent<ScoreComponent>().getScore();
-						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
-					}
-				}
+
+				//Collision::AABB(cCol, p->getComponent<ColliderComponent>().collider);
+				//if (Collision::countCollisions == 4 ||
+				//	Collision::countCollisions == 6 ||
+				//	Collision::countCollisions == 8 ||
+				//	Collision::countCollisions == 9 ||
+				//	Collision::countCollisions == 12 ||
+				//	Collision::countCollisions == 13 ||
+				//	Collision::countCollisions == 14)
+				//{
+				//	if (finalColliderHit)
+				//	{
+				//		//std::cout << cCol.x << cCol.y << std::endl;
+				//		cColAbove = ccomp->getHasGridAbove();
+				//		finalColliderHit = false;
+				//		p->getComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
+				//		p->getComponent<Player_Script>().leftofPipe = assets->LeftOfPipeTrigger(cCol);
+				//	}
+				//}
+				////coin holders update
+				//if (
+				//	(Collision::hittedTopLeft || Collision::hittedTopRight)  // hit from under it
+				//	&& (p->getComponent<TransformComponent>().velocity.y < 0)
+				//	&& c != NULL )
+				//{
+				//	if ( c->hasComponent<PlatformBlock_Script>() )
+				//	{
+				//		c->getComponent<PlatformBlock_Script>().didBlockAnimation = true;
+				//	}
+				//	else if(c->hasComponent<MysteryBox_Script>() 
+				//		&& !c->getComponent<MysteryBox_Script>().getCoinAnimation()
+				//	)// hitted mystery box
+				//	{
+				//		p->getComponent<ScoreComponent>().addToScore(100);
+				//		c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
+				//		c->getComponent<AnimatorComponent>().Play("CoinFlip");
+				//		//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
+				//		ss1 << p->getComponent<ScoreComponent>().getScore();
+				//		p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
+				//	}
+				//}
+
+				//Collision::hittedTopLeft = false;
+				//Collision::hittedTopRight = false;
+
+				//Collision::checkCollision(player1.getComponent<TransformComponent>().velocity
+				//	, p->getComponent<TransformComponent>().position
+				//	, p->getComponent<RigidBodyComponent>().onGround
+				//	, cColAbove);
 			}
 			Collision::hittedTopLeft = false;
 			Collision::hittedTopRight = false;
 		}
 
-		Collision::checkCollision(player1.getComponent<TransformComponent>().velocity
-			, p->getComponent<TransformComponent>().position
-			, p->getComponent<RigidBodyComponent>().onGround
-			, cColAbove);
+		
 		finalColliderHit = true;
 		cColAbove = false;
 		Collision::countCollisions = 0;
@@ -615,7 +641,7 @@ void Game::render()
 		c->draw();
 	}
 
-	for (auto& p : players)
+	for (auto& p : players) //todo manager.draw()
 	{
 		p->draw();
 	}

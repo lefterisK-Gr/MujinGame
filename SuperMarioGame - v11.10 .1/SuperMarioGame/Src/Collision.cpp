@@ -13,16 +13,19 @@ bool Collision::hittedTopRight;
 bool Collision::checkCollision(const SDL_Rect& moving_recA, const SDL_Rect& recB) {
 	Collision::storedColliderRect = recB;
 
-	if (moving_recA.x > recB.x + recB.w || moving_recA.x + moving_recA.w < recB.x ||
-		moving_recA.y > recB.y + recB.h || moving_recA.y + moving_recA.h < recB.y) {
+	if (moving_recA.x >= recB.x + recB.w || moving_recA.x + moving_recA.w <= recB.x ||
+		moving_recA.y >= recB.y + recB.h || moving_recA.y + moving_recA.h <= recB.y) {
 		return false; // no collision
 	}
 
 	//calculate distX,distY
-	Collision::dist.x = recB.x - (moving_recA.x + (moving_recA.w / 2)); //positive if collider on right, negative if collider on left of center
-	Collision::dist.y = recB.y - (moving_recA.y + (moving_recA.h / 2));
+	Collision::dist.x = (recB.x + (recB.w / 2) ) - (moving_recA.x + (moving_recA.w / 2)); //positive if collider on right, negative if collider on left of center
+	Collision::dist.y = (recB.y + (recB.h / 2) ) - (moving_recA.y + (moving_recA.h / 2));
 	//check if it is sideways collision (bool isSidewaysCollision)
-	if (abs(dist.x) / moving_recA.w > abs(dist.y) / moving_recA.h) {
+	if ((abs(dist.x) / moving_recA.w) > (abs(dist.y) / moving_recA.h)) {
+		std::cout << abs(dist.x)  << std::endl;
+
+		std::cout << (abs(dist.x) / moving_recA.w) << std::endl;
 		Collision::isSidewaysCollision = true;
 	}
 
@@ -36,20 +39,22 @@ void Collision::moveFromCollision(Entity& player) {
 
 	if (Collision::isSidewaysCollision) { //horizontal move
 		if (Collision::dist.x > 0) { //move moving_rect left from collider
-			playerPos.x = storedColliderRect.x - playerCollider.w;
+			playerPos.x = storedColliderRect.x - playerCollider.w - 1;
 		}
 		else {
-			playerPos.x = storedColliderRect.x + storedColliderRect.w;
+			playerPos.x = storedColliderRect.x + 1; //consider position based on collider
 		}
 	}
 	else {
 		if (Collision::dist.y > 0) { //move moving_rect down from collider
-			playerPos.y = storedColliderRect.y + storedColliderRect.h;
+			playerPos.y = storedColliderRect.y - player.getComponent<TransformComponent>().height;
+			player.getComponent<RigidBodyComponent>().onGround = true;
 		}
 		else {
-			playerPos.y = storedColliderRect.y - playerCollider.h;
+			playerPos.y = storedColliderRect.y + 1;
 		}
 	}
+	player.getComponent<ColliderComponent>().update();
 }
 
 

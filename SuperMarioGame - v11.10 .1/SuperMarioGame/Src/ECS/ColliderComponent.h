@@ -54,7 +54,7 @@ public:
 
 	void update() override
 	{
-		if (tag != "terrain")
+		if (tag != "terrain") // for all npcs
 		{
 			collider.x = static_cast<int>(transform->position.x) + COL_POS_OFFSET;
 			collider.y = static_cast<int>(transform->position.y) + COL_POS_OFFSET;
