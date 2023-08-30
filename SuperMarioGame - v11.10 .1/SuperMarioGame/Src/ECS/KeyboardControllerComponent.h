@@ -82,7 +82,7 @@ public: //TODO: maybe have variables as private
 				{
 					//PlaySound(TEXT("jump.wav"), NULL, SND_ASYNC);
 					rigidbody->justjumped = true;
-					transform->velocity.y = -25;
+					transform->velocity.y = -7;
 					//animation->Play(jumpAnimation.c_str()); // todo maybe not needing that because of !rigidbody->onGround
 				}
 			}

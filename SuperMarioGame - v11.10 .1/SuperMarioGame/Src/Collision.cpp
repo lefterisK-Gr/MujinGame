@@ -52,8 +52,9 @@ void Collision::moveFromCollision(Entity& player) {
 			Collision::movingRectColSide = Collision::ColSide::DOWN;
 		}
 		else {
-			playerPos.y = storedColliderRect.y + 1;
+			playerPos.y = storedColliderRect.y;
 			Collision::movingRectColSide = Collision::ColSide::TOP;
+			player.getComponent<TransformComponent>().velocity.y = 0;
 		}
 	}
 	player.getComponent<ColliderComponent>().update();

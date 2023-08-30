@@ -7,7 +7,7 @@ private:
 	TransformComponent* transform;
 public:
 	float GravityForce = 1.0f;
-	float accelGravity = 0.5f;
+	float accelGravity = 0.045f;
 	float maxGravity = 5.f;
 	bool onGround = false;
 	bool justjumped = false;
