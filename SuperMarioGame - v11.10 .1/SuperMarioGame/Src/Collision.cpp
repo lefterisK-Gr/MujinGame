@@ -23,7 +23,7 @@ bool Collision::checkCollision(const SDL_Rect& moving_recA, const SDL_Rect& recB
 	Collision::dist.x = (recB.x + (recB.w / 2) ) - (moving_recA.x + (moving_recA.w / 2)); //positive if collider on right, negative if collider on left of center
 	Collision::dist.y = (recB.y + (recB.h / 2) ) - (moving_recA.y + (moving_recA.h / 2));
 	//check if it is sideways collision (bool isSidewaysCollision)
-	if ((abs(dist.x) / moving_recA.w) > (abs(dist.y) / moving_recA.h)) {
+	if ((abs(dist.x) / moving_recA.w) >= (abs(dist.y) / moving_recA.h)) {
 		Collision::isSidewaysCollision = true;
 	}
 
