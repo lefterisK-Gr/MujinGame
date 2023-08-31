@@ -1,5 +1,6 @@
 #include "AssetManager.h"
 #include "ECS/Components.h"
+#include "Collision.h"
 
 
 AssetManager::AssetManager(Manager* man) : manager(man)
@@ -108,12 +109,7 @@ bool AssetManager::OnPipeTrigger(SDL_Rect collider)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		if (onpipeTriggers[i].x <= collider.x						&&
-			onpipeTriggers[i].x + onpipeTriggers[i].w > collider.x	&&
-			onpipeTriggers[i].y <= collider.y						&&
-			onpipeTriggers[i].y + onpipeTriggers[i].h > collider.y
-			)
-		{
+		if (Collision::checkCollision(onpipeTriggers[i], collider)) {
 			return true;
 		}
 	}
@@ -124,12 +120,7 @@ bool AssetManager::LeftOfPipeTrigger(SDL_Rect collider)
 {
 	for (int i = 0; i < 1; i++)
 	{
-		if (leftofpipeTriggers[i].x <= collider.x							&&
-			leftofpipeTriggers[i].x + leftofpipeTriggers[i].w > collider.x	&&
-			leftofpipeTriggers[i].y <= collider.y							&&
-			leftofpipeTriggers[i].y + leftofpipeTriggers[i].h > collider.y
-			)
-		{
+		if (Collision::checkCollision(leftofpipeTriggers[i], collider)) {
 			return true;
 		}
 	}

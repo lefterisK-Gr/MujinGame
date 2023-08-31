@@ -15,8 +15,6 @@ public:
 	SDL_Texture* tex;
 	SDL_Rect srcR, destR;
 
-	bool hasColliderAbove = false;
-
 	TransformComponent* transform;
 
 	ColliderComponent(std::string t)
@@ -24,13 +22,12 @@ public:
 		tag = t;
 	}
 
-	ColliderComponent(std::string t, int xpos, int ypos, int size , bool hascolab)
+	ColliderComponent(std::string t, int xpos, int ypos, int size)
 	{
 		tag = t;
 		collider.x = xpos;
 		collider.y = ypos;
 		collider.h = collider.w = size;
-		hasColliderAbove = hascolab;
 	}
 
 	void init() override
@@ -73,10 +70,5 @@ public:
 	SDL_Rect getRect() override
 	{
 		return collider;
-	}
-
-	bool getHasGridAbove() override
-	{
-		return hasColliderAbove;
 	}
 };

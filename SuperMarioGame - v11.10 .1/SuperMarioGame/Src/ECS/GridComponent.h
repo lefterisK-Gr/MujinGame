@@ -49,14 +49,8 @@ public:
 			{ //SetGridTileBlock
 				gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
 				gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
-				if (gridPos.y)
-				{
-					entity->addComponent<ColliderComponent>("terrain", (position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH, true);
-				}
-				else
-				{
-					entity->addComponent<ColliderComponent>("terrain", position.x + gridPos.x, position.y + gridPos.y, GRID_ELEMENT_WIDTH, false);
-				}
+
+				entity->addComponent<ColliderComponent>("terrain", (position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
 			}
 		}
 	}

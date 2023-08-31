@@ -142,8 +142,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->CreateGoomba(Vector2D(1900, 300), Vector2D(-1, -1), 200, 2, "goomba");
 	assets->CreateGoomba(Vector2D(2675, 300), Vector2D(-1, -1), 200, 2, "goomba");
 
-	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
-	assets->CreateGreenKoopaTroopa(Vector2D(3644, 300), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
+	//assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
+	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
 
 }
 
@@ -204,21 +204,11 @@ void Game::update() //game objects updating
 
 	//ss << "Player Position: " << player1Pos << " and Score: " << player1.getComponent<ScoreComponent>().score;
 
-	bool finalColliderHit = true;
-	bool cColAbove = false;
-
-	Collision::hittedTopLeft = false;
-	Collision::hittedTopRight = false;
-
-	Entity* ent1 = NULL;
-	Entity* ent2 = NULL;
-
 	Vector2D plMaxDistance;
 
 	manager.refresh(); 
 	manager.update();
 
-	Collision::countCollisions = 0;
 		
 	for (auto& p : players)
 	{
@@ -239,77 +229,58 @@ void Game::update() //game objects updating
 	{
 		for (auto& c : colliders)
 		{
+			if (c->hasGroup(Game::groupWinningTiles)) {
+				continue;
+			}
 			//SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
-			for (auto& ccomp : c->components) {
+			for (auto& ccomp : c->components) { // get all the ColliderComponents
+
+				ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+
+				if (!colliderComponentPtr) {
+					continue;
+				}
+
 				SDL_Rect cCol = ccomp->getRect();
 				SDL_Rect pCol = p->getComponent<ColliderComponent>().collider;
 
-				bool hasCollision = collision.checkCollision(pCol, cCol);
+				bool hasCollision = collision.checkCollisionIsSideways(pCol, cCol);
 				if (hasCollision) {
-					std::cout << "Collision detected" << std::endl;
 					if (collision.isSidewaysCollision) {
-						std::cout << "Sideways Collision" << std::endl;
 
 						collision.moveFromCollision(*p);
+
+						p->getComponent<Player_Script>().leftofPipe = assets->LeftOfPipeTrigger(pCol);
 					}
 					if (!collision.isSidewaysCollision) {
-						std::cout << "up/down Collision" << std::endl;
 
 						collision.moveFromCollision(*p);
+
+						p->getComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
+					}
+				}
+
+				if (collision.movingRectColSide == Collision::ColSide::TOP) {
+					if (c->hasComponent<PlatformBlock_Script>())
+					{
+						c->getComponent<PlatformBlock_Script>().didBlockAnimation = true;
+					}
+					else if(c->hasComponent<MysteryBox_Script>() 
+						&& !c->getComponent<MysteryBox_Script>().getCoinAnimation()
+					)// hitted mystery box
+					{
+						p->getComponent<ScoreComponent>().addToScore(100);
+						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
+						c->getComponent<AnimatorComponent>().Play("CoinFlip");
+						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
+						ss1 << p->getComponent<ScoreComponent>().getScore();
+						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
 					}
 				}
 
 				collision.isCollision = false;
 				collision.isSidewaysCollision = false;
-				collision.movingRectColSide = Collision::ColSide::NONE;
-				//Collision::AABB(cCol, p->getComponent<ColliderComponent>().collider);
-				//if (Collision::countCollisions == 4 ||
-				//	Collision::countCollisions == 6 ||
-				//	Collision::countCollisions == 8 ||
-				//	Collision::countCollisions == 9 ||
-				//	Collision::countCollisions == 12 ||
-				//	Collision::countCollisions == 13 ||
-				//	Collision::countCollisions == 14)
-				//{
-				//	if (finalColliderHit)
-				//	{
-				//		//std::cout << cCol.x << cCol.y << std::endl;
-				//		cColAbove = ccomp->getHasGridAbove();
-				//		finalColliderHit = false;
-				//		p->getComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
-				//		p->getComponent<Player_Script>().leftofPipe = assets->LeftOfPipeTrigger(cCol);
-				//	}
-				//}
-				////coin holders update
-				//if (
-				//	(Collision::hittedTopLeft || Collision::hittedTopRight)  // hit from under it
-				//	&& (p->getComponent<TransformComponent>().velocity.y < 0)
-				//	&& c != NULL )
-				//{
-				//	if ( c->hasComponent<PlatformBlock_Script>() )
-				//	{
-				//		c->getComponent<PlatformBlock_Script>().didBlockAnimation = true;
-				//	}
-				//	else if(c->hasComponent<MysteryBox_Script>() 
-				//		&& !c->getComponent<MysteryBox_Script>().getCoinAnimation()
-				//	)// hitted mystery box
-				//	{
-				//		p->getComponent<ScoreComponent>().addToScore(100);
-				//		c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
-				//		c->getComponent<AnimatorComponent>().Play("CoinFlip");
-				//		//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
-				//		ss1 << p->getComponent<ScoreComponent>().getScore();
-				//		p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
-				//	}
-				//}
-
-				//Collision::hittedTopLeft = false;
-				//Collision::hittedTopRight = false;
-
-				//Collision::checkCollision(player1.getComponent<TransformComponent>().velocity
-				//	, p->getComponent<TransformComponent>().position
-				//	, p->getComponent<RigidBodyComponent>().onGround
-				//	, cColAbove);
+				collision.movingRectColSide = Collision::ColSide::NONE; 
 			}
 		}
 	}
@@ -323,65 +294,54 @@ void Game::update() //game objects updating
 			{
 				//SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
 				for (auto& ccomp : c->components) {
-					SDL_Rect cCol = ccomp->getRect();
 
-					SDL_Rect enemyColAfter = enemy->getComponent<ColliderComponent>().collider;
-					Collision::AABB(cCol, enemyColAfter);
-					if (Collision::countCollisions == 4 ||
-						Collision::countCollisions == 6 || // player hits under block and enemy above is killed
-						Collision::countCollisions == 8 ||
-						Collision::countCollisions == 9 ||
-						Collision::countCollisions == 12 ||
-						Collision::countCollisions == 13 ||
-						Collision::countCollisions == 14)
-					{
-						if (finalColliderHit)
-						{
-							cColAbove = ccomp->getHasGridAbove();
-							finalColliderHit = false;
+					ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+
+					if (!colliderComponentPtr) {
+						continue;
+					}
+
+					SDL_Rect cCol = ccomp->getRect();
+					SDL_Rect eCol = enemy->getComponent<ColliderComponent>().collider;
+
+					bool hasCollision = collision.checkCollisionIsSideways(eCol, cCol);
+
+					if (hasCollision) {
+						if (collision.isSidewaysCollision) {
+							
+							collision.moveFromCollision(*enemy);
+
+							if ((enemy->getComponent<TransformComponent>().velocity.x < 0 && collision.movingRectColSide == Collision::ColSide::LEFT) 
+								|| (enemy->getComponent<TransformComponent>().velocity.x > 0 && collision.movingRectColSide == Collision::ColSide::RIGHT)) {
+								enemy->getComponent<TransformComponent>().velocity.x *= -1;
+
+								if (enemyGroup == greenkoopatroopas) {
+									if (enemy->getComponent<SpriteComponent>().spriteFlip == SDL_FLIP_HORIZONTAL)
+									{
+										enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_NONE;
+									}
+									else
+										enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
+								}
+							}
+						}
+						if (!collision.isSidewaysCollision) {
+							collision.moveFromCollision(*enemy);
+
 							if (c != NULL && c->hasComponent<PlatformBlock_Script>() && c->getComponent<PlatformBlock_Script>().didBlockAnimation)
 							{
 								enemy->destroy();
 							}
 						}
 					}
-					else if (Collision::countCollisions == 1 ||
-						Collision::countCollisions == 2 ||
-						Collision::countCollisions == 3 ||
-						Collision::countCollisions == 5 ||
-						Collision::countCollisions == 6 ||
-						Collision::countCollisions == 7 ||
-						Collision::countCollisions == 9 ||
-						Collision::countCollisions == 10 ||
-						Collision::countCollisions == 11 ||
-						Collision::countCollisions == 13 ||
-						Collision::countCollisions == 14)
-					{
-						if (finalColliderHit)
-						{
-							enemy->getComponent<TransformComponent>().velocity.x *= -1;
-							if ( enemyGroup == greenkoopatroopas ) {
-								if (enemy->getComponent<SpriteComponent>().spriteFlip == SDL_FLIP_HORIZONTAL)
-								{
-									enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_NONE;
-								}
-								else
-									enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
-							}
-							finalColliderHit = false;
-						}
-					}
+
+					collision.isCollision = false;
+					collision.isSidewaysCollision = false;
+					collision.movingRectColSide = Collision::ColSide::NONE;
 				}
 			}
-			Collision::checkCollision(enemy->getComponent<TransformComponent>().velocity
-				, enemy->getComponent<TransformComponent>().position
-				, enemy->getComponent<RigidBodyComponent>().onGround
-				, cColAbove);
 			if (enemy->getComponent<TransformComponent>().position.y > (camera.y + 640))
 				enemy->destroy();
-			finalColliderHit = true;
-			cColAbove = false;
-			Collision::countCollisions = 0;
 		}
 	}
 
@@ -392,19 +352,14 @@ void Game::update() //game objects updating
 			for (auto& e : enemy)
 			{
 				SDL_Rect eCol = e->getComponent<ColliderComponent>().collider;
+				SDL_Rect pCol = player->getComponent<ColliderComponent>().collider;
 
-				Collision::AABB(eCol, player->getComponent<ColliderComponent>().collider);
-				if (Collision::countCollisions == 4 ||
-					Collision::countCollisions == 6 ||
-					Collision::countCollisions == 8 ||
-					Collision::countCollisions == 9 ||
-					Collision::countCollisions == 12 ||
-					Collision::countCollisions == 13 ||
-					Collision::countCollisions == 14)
-				{
-					if (finalColliderHit)
-					{
-						finalColliderHit = false;
+				bool hasCollision = collision.checkCollisionIsSideways(pCol, eCol);
+
+				if (hasCollision) {
+					collision.moveFromCollision(*player);
+
+					if (collision.movingRectColSide == Collision::ColSide::DOWN) {
 						player->getComponent<RigidBodyComponent>().onGround = true;
 						player->getComponent<TransformComponent>().velocity.y = -20;
 						if (enemy == greenkoopatroopas) //green koopa troopa case
@@ -420,56 +375,37 @@ void Game::update() //game objects updating
 							player->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
 							e->destroy();
 						}
+
 					}
-				}
-				else if (Collision::countCollisions == 1 || //remove comment to add enemy damage
-					Collision::countCollisions == 2 ||
-					Collision::countCollisions == 3 ||
-					Collision::countCollisions == 5 || //collide sideways
-					Collision::countCollisions == 7 ||
-					Collision::countCollisions == 10 ||
-					Collision::countCollisions == 11)
-				{
-					if (finalColliderHit)
+					else if (collision.isSidewaysCollision
+						&& enemy == greenkoopatroopas
+						&& e->getComponent<AnimatorComponent>().animimationName == "GreenShell"
+						&& !e->getComponent<TransformComponent>().velocity.x)
 					{
-						finalColliderHit = false;
-						if (enemy == greenkoopatroopas
-							&& e->getComponent<AnimatorComponent>().animimationName == "GreenShell" 
-							&& !e->getComponent<TransformComponent>().velocity.x)
+						e->getComponent<TransformComponent>().velocity.x = 5;
+						if (player->getComponent<TransformComponent>().velocity.x < 0)
 						{
-							e->getComponent<TransformComponent>().velocity.x = 5;
-							if(player->getComponent<TransformComponent>().velocity.x < 0)
-							{
-								e->getComponent<TransformComponent>().velocity.x *= -1;
-							}
-							e->getComponent<SpriteComponent>().initTime = 0;
+							e->getComponent<TransformComponent>().velocity.x *= -1;
 						}
-						else //player death
+						e->getComponent<SpriteComponent>().initTime = 0;
+					}
+					else //player death
+					{
+						winningss << "YOU DIED";
+						winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
+
+
+						for (auto& pl : players)
 						{
-							if (player->getComponent<ColliderComponent>().tag == "player1")
-							{
-								winningss << "YOU DIED";
-								winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-							}
-							else
-							{
-								winningss << "MARIO WINS";
-								winningLabel1.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-							}
-							for (auto& pl : players)
-							{
-								pl->destroy();
-							}
-							assets->ProjectileExplosion(camera.x);
+							pl->destroy();
 						}
+						assets->ProjectileExplosion(camera.x);
 					}
 				}
 
-				Collision::hittedTopLeft = false;
-				Collision::hittedTopRight = false;
-
-				finalColliderHit = true;
-				Collision::countCollisions = 0;
+				collision.isCollision = false;
+				collision.isSidewaysCollision = false;
+				collision.movingRectColSide = Collision::ColSide::NONE;
 			}
 		}
 	}
@@ -483,22 +419,15 @@ void Game::update() //game objects updating
 				SDL_Rect gktCol = greenkoopatroopa->getComponent<ColliderComponent>().collider;
 				SDL_Rect gCol = goomba->getComponent<ColliderComponent>().collider;
 
-				Collision::AABB(gCol, gktCol);
+				bool hasCollision = collision.checkCollisionIsSideways(gktCol, gCol);
 
-				if (Collision::countCollisions == 1 || //remove comment to add enemy damage
-					Collision::countCollisions == 2 ||
-					Collision::countCollisions == 3 ||
-					Collision::countCollisions == 5 || //collide sideways
-					Collision::countCollisions == 7 ||
-					Collision::countCollisions == 10 ||
-					Collision::countCollisions == 11)
-				{
-					if (finalColliderHit)
-					{
-						finalColliderHit = false;
-						goomba->destroy();
-					}
+				if (hasCollision && collision.isSidewaysCollision) {
+					goomba->destroy();
 				}
+
+				collision.isCollision = false;
+				collision.isSidewaysCollision = false;
+				collision.movingRectColSide = Collision::ColSide::NONE;
 			}
 		}
 	}
@@ -507,13 +436,12 @@ void Game::update() //game objects updating
 	{
 		for (auto& pl : players)
 		{
-			if (Collision::AABB(pl->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
+			if (Collision::checkCollision(pl->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 			{
 				std::cout << "Hit player!" << std::endl;
-				Collision::hittedTopLeft = false;
-				Collision::hittedTopRight = false;
 				p->destroy();
 			}
+			collision.isCollision = false;
 		}
 	}
 
@@ -525,7 +453,7 @@ void Game::update() //game objects updating
 
 			for (auto& pl : players)
 			{
-				if (Collision::AABB(wCol, pl->getComponent<ColliderComponent>().collider))
+				if (Collision::checkCollision(wCol, pl->getComponent<ColliderComponent>().collider))
 				{
 					pl->getComponent<ScoreComponent>().addToScore(100);
 
@@ -537,9 +465,15 @@ void Game::update() //game objects updating
 						player->destroy();
 					}
 					assets->ProjectileExplosion(camera.x);
+					collision.isCollision = true;
+					break;
 				}
 			}
+			if (collision.isCollision)
+				break;
 		}
+		if (collision.isCollision)
+			break;
 	}
 	
 	for (auto& pl : players) //player rules
