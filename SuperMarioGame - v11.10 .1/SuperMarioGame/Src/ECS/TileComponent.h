@@ -32,7 +32,7 @@ public:
 		SDL_DestroyTexture(Game::assets->GetTexture(textureid));
 	}
 
-	TileComponent(int srcX, int srcY, int xpos, int ypos,int tsize, int tscale, std::string id , bool isSolid , bool hasgrid , bool ishor)
+	TileComponent(int srcX, int srcY, int xpos, int ypos,int tsize, int tscale, std::string id , bool isSolid , bool ishor)
 	{
 		textureid = id;
 
@@ -48,8 +48,6 @@ public:
 		destRect.w = destRect.h = tsize * tscale; //tsize * tscale = 32
 
 		fullSolid = isSolid; //todo remove this (have instead an array that shows the indexes in grid where its solid)
-
-		hasGrid = hasgrid; //todo remove this (all have grid but not all are solid)
 
 		isHorizon = ishor; //todo remove this (use z-order)
 
@@ -72,14 +70,11 @@ public:
 		sprite->srcRect = this->srcRect;
 		sprite->destRect = this->destRect;
 
-		if (hasGrid)
+		if (!entity->hasComponent<GridComponent>())
 		{
-			if (!entity->hasComponent<GridComponent>())
-			{
-				entity->addComponent<GridComponent>(position.x, position.y, scaledTile, fullSolid);
-			}
-			grid = &entity->getComponent<GridComponent>();
+			entity->addComponent<GridComponent>(position.x, position.y, scaledTile, fullSolid);
 		}
+		grid = &entity->getComponent<GridComponent>();
 	}
 	
 	void update() override //function like in sprite, but diffent moving in draw

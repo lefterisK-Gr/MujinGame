@@ -88,6 +88,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//add the textures to our texture library
 	assets->AddTexture("terrain", "assets/super_mario_tileset_scaled.png");
 	assets->AddTexture("player", "assets/mario_luigi_animations_1.png");
+	assets->AddTexture("warrior", "assets/warrior_animations.png");
 	assets->AddTexture("projectile", "assets/my_projectile.png");
 	assets->AddTexture("goomba", "assets/super_mario_tileset_scaled.png"); // same path since the same png has all entities
 	assets->AddTexture("greenkoopatroopa", "assets/super_mario_tileset_scaled.png");
@@ -99,11 +100,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 1);
+	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2);
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
-	player1.addComponent<AnimatorComponent>("player");
-	player1.addComponent<MovingAnimatorComponent>("player");
+	player1.addComponent<AnimatorComponent>("warrior");
+	player1.addComponent<MovingAnimatorComponent>("warrior");
 	player1.addComponent<RigidBodyComponent>();
 	player1.addComponent<KeyboardControllerComponent>(
 		(char*)"P1Idle",
@@ -142,7 +143,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->CreateGoomba(Vector2D(1900, 300), Vector2D(-1, -1), 200, 2, "goomba");
 	assets->CreateGoomba(Vector2D(2675, 300), Vector2D(-1, -1), 200, 2, "goomba");
 
-	//assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
+	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
 
 }
@@ -153,6 +154,7 @@ auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
 auto& goombas(manager.getGroup(Game::groupGoombas));
 auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
+auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
 auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
 auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
@@ -225,6 +227,47 @@ void Game::update() //game objects updating
 		enemy->getComponent<RigidBodyComponent>().onGround = false;
 	}
 
+	for (auto& p : players) //players with mysteryboxes
+	{
+		for (auto& c : mysteryboxtiles)
+		{
+			for (auto& ccomp : c->components)
+			{
+				ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+
+				if (!colliderComponentPtr) {
+					continue;
+				}
+
+				SDL_Rect cCol = ccomp->getRect();
+				SDL_Rect pCol = p->getComponent<ColliderComponent>().collider;
+
+				bool hasCollision = collision.checkCollisionIsSideways(pCol, cCol);
+				if (hasCollision) {
+					collision.moveFromCollision(*p);
+				}
+
+				if (collision.movingRectColSide == Collision::ColSide::TOP) {
+					if (c->hasComponent<MysteryBox_Script>()
+						&& !c->getComponent<MysteryBox_Script>().getCoinAnimation()
+						)// hitted mystery box
+					{
+						p->getComponent<ScoreComponent>().addToScore(100);
+						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
+						c->getComponent<AnimatorComponent>().Play("CoinFlip");
+						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
+						ss1 << p->getComponent<ScoreComponent>().getScore();
+						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
+					}
+				}
+
+				collision.isCollision = false;
+				collision.isSidewaysCollision = false;
+				collision.movingRectColSide = Collision::ColSide::NONE;
+			}
+		}
+	}
+
 	for (auto& p : players) //player with colliders
 	{
 		for (auto& c : colliders)
@@ -264,17 +307,6 @@ void Game::update() //game objects updating
 					if (c->hasComponent<PlatformBlock_Script>())
 					{
 						c->getComponent<PlatformBlock_Script>().didBlockAnimation = true;
-					}
-					else if(c->hasComponent<MysteryBox_Script>() 
-						&& !c->getComponent<MysteryBox_Script>().getCoinAnimation()
-					)// hitted mystery box
-					{
-						p->getComponent<ScoreComponent>().addToScore(100);
-						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
-						c->getComponent<AnimatorComponent>().Play("CoinFlip");
-						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
-						ss1 << p->getComponent<ScoreComponent>().getScore();
-						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
 					}
 				}
 

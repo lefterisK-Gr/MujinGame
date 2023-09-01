@@ -24,6 +24,8 @@ int bouncyTiles[] = { 3 , 338 };
 int mysteryBoxTiles[] = { 208 };
 int winningTiles[] = { 496, 470 , 495 };
 
+std::vector<TileFeatureCallback> tileFeatures;
+
 Map::Map(std::string tID, int ms, int ts) : texID(tID), mapScale(ms), tileSize(ts) //probably initiallization
 {
 	scaledSize = ms * ts;
@@ -58,8 +60,10 @@ void Map::ProcessLayer(std::fstream& mapFile, int tileArray[], void (Map::* addT
 
 			auto& tile(manager.addEntity());
 
-			for (arrayTilesIndex = 0; arrayTilesIndex < (sizeof(tileArray) / sizeof(tileArray[0])); arrayTilesIndex++) {
-				if (wordNum == tileArray[arrayTilesIndex]) {
+			for (arrayTilesIndex = 0; arrayTilesIndex < (sizeof(solidTiles) / sizeof(solidTiles[0])); arrayTilesIndex++) 
+			{
+				if (wordNum == solidTiles[arrayTilesIndex]) 
+				{
 					isSolid = true;
 					break;
 				}
@@ -75,15 +79,51 @@ void Map::ProcessLayer(std::fstream& mapFile, int tileArray[], void (Map::* addT
 			break;
 		}
 	}
-	mapFile.close();
+}
+
+bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[]) {
+	int arrayTilesIndex = 0;
+
+	for (arrayTilesIndex = 0; arrayTilesIndex < sizeof(featureTileArray) / sizeof(featureTileArray[0]); arrayTilesIndex++)
+	{
+		if (wordNum == featureTileArray[arrayTilesIndex])
+		{
+			return true;//(this->*addTileFeature)(tile);
+		}
+	}
+	return false;
+}
+
+void Map::addBouncyTileFeature(Entity& tile, int wordNum) {
+	if (tileHasFeature(tile, wordNum, bouncyTiles)) {
+		tile.addComponent<MovingAnimatorComponent>(texID);
+		tile.addComponent<PlatformBlock_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
+	}
+}
+
+void Map::addWinningTileFeature(Entity& tile, int wordNum) {
+	if (tileHasFeature(tile, wordNum, winningTiles)) {
+		tile.addGroup(Game::groupWinningTiles);
+	}
+}
+
+void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
+	if (tileHasFeature(tile, wordNum, mysteryBoxTiles)) {
+		auto& tileComp = tile.getComponent<TileComponent>();
+		auto& tile2(manager.addEntity());
+		tile2.addComponent<TileComponent>(tileComp.srcRect.x, tileComp.srcRect.y, tileComp.position.x, tileComp.position.y, tileSize, mapScale, texID, tileComp.fullSolid, false); //insert tile and grid and colliders(somehow we refer to background)
+		tile2.addComponent<AnimatorComponent>(texID);
+		tile2.addComponent<MovingAnimatorComponent>(texID);
+		tile2.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
+		tile2.getComponent<AnimatorComponent>().Play("QuestionMark");
+		tile2.addGroup(Game::groupForegroundLayer);
+		tile2.addGroup(Game::groupMysteryBoxes);
+	}
 }
 
 void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundlayerpath, std::string actionlayerpath, std::string foregroundpath)
 {
 	bool isSolid = false;
-	bool isBouncy = false;
-	bool isWinning = false;
-	bool isMysteryBox = false;
 	
 	int x = 0, y = 0;
 	int wordNum = 0;
@@ -93,6 +133,14 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 
 	std::string line, word;
 	std::fstream mapFile;
+
+	TileFeatureCallback addBouncyFeature = &Map::addBouncyTileFeature;
+	TileFeatureCallback addWinningFeature = &Map::addWinningTileFeature;
+	TileFeatureCallback addMysteryBoxFeature = &Map::addMysteryBoxTileFeature;
+
+	tileFeatures.push_back(addBouncyFeature);
+	tileFeatures.push_back(addWinningFeature);
+	tileFeatures.push_back(addMysteryBoxFeature);
 
 	mapFile.open(actionlayerpath);
 
@@ -111,35 +159,17 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 				if (wordNum == solidTiles[arrayTilesIndex])
 				{
 					isSolid = true;
-				}
-			}
-			for (arrayTilesIndex = 0; arrayTilesIndex < sizeof(mysteryBoxTiles) / sizeof(mysteryBoxTiles[0]); arrayTilesIndex++)
-			{
-				if (wordNum == mysteryBoxTiles[arrayTilesIndex])
-				{
-					isMysteryBox = true;
-				}
-			}
-			for (arrayTilesIndex = 0; arrayTilesIndex < sizeof(bouncyTiles) / sizeof(bouncyTiles[0]); arrayTilesIndex++)
-			{
-				if (wordNum == bouncyTiles[arrayTilesIndex])
-				{
-					isBouncy = true;
-				}
-			}
-			for (arrayTilesIndex = 0; arrayTilesIndex < sizeof(winningTiles) / sizeof(winningTiles[0]); arrayTilesIndex++)
-			{
-				if (wordNum == winningTiles[arrayTilesIndex])
-				{
-					isWinning = true;
+					break;
 				}
 			}
 			auto& tile(manager.addEntity());
-			AddActionTile(tile, srcX, srcY, x * scaledSize, y * scaledSize, isSolid, isBouncy, isWinning, isMysteryBox);
+			AddActionTile(tile, srcX, srcY, x * scaledSize, y * scaledSize, isSolid);
+			
+			for (int i = 0; i < tileFeatures.size(); i++) {
+				(this->*tileFeatures[i])(tile, wordNum);
+			}
+
 			isSolid = false;
-			isBouncy = false;
-			isWinning = false;
-			isMysteryBox = false;
 			x++;
 		}
 		x = 0;
@@ -149,6 +179,9 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 	}
 
 	mapFile.close();
+
+	tileFeatures.clear();
+
 	x = 0;
 	y = 0;
 
@@ -165,34 +198,11 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 	mapFile.close();
 }
 
-void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bool isSolid, bool isBouncy, bool isWinning, bool isMysteryBox)
+void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
-	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
-
-	if (isBouncy)
-	{
-		tile.addComponent<MovingAnimatorComponent>(texID);
-		tile.addComponent<PlatformBlock_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
-	}
-
-	if(isMysteryBox)
-	{
-		auto& tile2(manager.addEntity());
-		tile2.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true, false); //insert tile and grid and colliders(somehow we refer to background)
-		tile2.addComponent<AnimatorComponent>(texID);
-		tile2.addComponent<MovingAnimatorComponent>(texID);
-		tile2.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
-		tile2.getComponent<AnimatorComponent>().Play("QuestionMark");
-		tile2.addGroup(Game::groupForegroundLayer);
-		tile2.addGroup(Game::groupColliders);
-	}
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false); //insert tile and grid and colliders(somehow we refer to background)
 
 	tile.addGroup(Game::groupActionLayer);
-
-	if (isWinning)
-	{
-		tile.addGroup(Game::groupWinningTiles);
-	}
 
 	if (isSolid)
 	{
@@ -202,18 +212,18 @@ void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bo
 
 void Map::AddForegroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
-	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false, false); //insert foregroundtile
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false); //insert foregroundtile
 	tile.addGroup(Game::groupForegroundLayer);
 }
 
 void Map::AddBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
-	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false, true); //insert backgroundtile
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true); //insert backgroundtile
 	tile.addGroup(Game::groupBackgroundLayer);
 }
 
 void Map::AddSewersBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
-	tile.addComponent<TileComponent>(srcX, srcY, xpos + 3040, ypos, tileSize, mapScale, texID, isSolid, false, false); //insert backgroundtile
+	tile.addComponent<TileComponent>(srcX, srcY, xpos + 3040, ypos, tileSize, mapScale, texID, isSolid, false); //insert backgroundtile
 	tile.addGroup(Game::groupSewerBackgroundLayer);
 }

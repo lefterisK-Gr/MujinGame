@@ -1,10 +1,6 @@
 #include "Collision.h"
 #include "ECS\ColliderComponent.h"
 
-#define TILE_OFFSET 33
-#define TILE_OFFSET_2 25
-#define GRID_OFFSET 9
-
 
 bool Collision::checkCollision(const SDL_Rect recA, const SDL_Rect recB) {
 	if (recA.x >= recB.x + recB.w || recA.x + recA.w <= recB.x ||

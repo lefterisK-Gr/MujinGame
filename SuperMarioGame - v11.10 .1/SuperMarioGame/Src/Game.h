@@ -50,6 +50,7 @@ public:
 		groupPlayers,
 		//groupEnemies,
 		groupColliders,
+		groupMysteryBoxes,
 		groupWinningTiles,
 		groupProjectiles,
 		groupGoombas,
