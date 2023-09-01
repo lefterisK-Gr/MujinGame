@@ -100,11 +100,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2);
+	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 1);
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
-	player1.addComponent<AnimatorComponent>("warrior");
-	player1.addComponent<MovingAnimatorComponent>("warrior");
+	player1.addComponent<AnimatorComponent>("player");
+	player1.addComponent<MovingAnimatorComponent>("player");
 	player1.addComponent<RigidBodyComponent>();
 	player1.addComponent<KeyboardControllerComponent>(
 		(char*)"P1Idle",

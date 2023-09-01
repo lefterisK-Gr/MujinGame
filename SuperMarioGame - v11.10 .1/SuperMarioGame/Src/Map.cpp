@@ -36,7 +36,7 @@ Map::~Map()
 
 }
 
-void Map::ProcessLayer(std::fstream& mapFile, int tileArray[], void (Map::* addTileFunction)(Entity&, int, int, int, int, bool)) {
+void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int, int, int, bool)) {
 	
 	bool isSolid = false;
 	int x = 0, y = 0;
@@ -55,10 +55,9 @@ void Map::ProcessLayer(std::fstream& mapFile, int tileArray[], void (Map::* addT
 		while (getline(str, word, ',')) //this is searching in tilemap
 		{
 			wordNum = stoi(word);
+
 			srcY = (wordNum / 26) * tileSize;
 			srcX = (wordNum % 26) * tileSize; //adding tile based on srcX,srcY coordinates
-
-			auto& tile(manager.addEntity());
 
 			for (arrayTilesIndex = 0; arrayTilesIndex < (sizeof(solidTiles) / sizeof(solidTiles[0])); arrayTilesIndex++) 
 			{
@@ -69,7 +68,13 @@ void Map::ProcessLayer(std::fstream& mapFile, int tileArray[], void (Map::* addT
 				}
 			}
 
+			auto& tile(manager.addEntity());
 			(this->*addTileFunction)(tile, srcX, srcY, x * scaledSize, y * scaledSize, isSolid);
+
+			for (int i = 0; i < tileFeatures.size(); i++) {
+				(this->*tileFeatures[i])(tile, wordNum);
+			}
+
 			isSolid = false;
 			x++;
 		}
@@ -144,39 +149,7 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 
 	mapFile.open(actionlayerpath);
 
-	while (getline(mapFile, line)) //reading tiles (action layer)
-	{
-		std::stringstream str(line);
-
-		while (getline(str, word, ',')) //this is searching in tilemap
-		{
-			wordNum = stoi(word);
-			srcY = (wordNum / 26) * tileSize;
-			srcX = (wordNum % 26) * tileSize; //adding tile based on srcX,srcY coordinates
-			
-			for (arrayTilesIndex = 0; arrayTilesIndex < sizeof(solidTiles) / sizeof(solidTiles[0]); arrayTilesIndex++)
-			{
-				if (wordNum == solidTiles[arrayTilesIndex])
-				{
-					isSolid = true;
-					break;
-				}
-			}
-			auto& tile(manager.addEntity());
-			AddActionTile(tile, srcX, srcY, x * scaledSize, y * scaledSize, isSolid);
-			
-			for (int i = 0; i < tileFeatures.size(); i++) {
-				(this->*tileFeatures[i])(tile, wordNum);
-			}
-
-			isSolid = false;
-			x++;
-		}
-		x = 0;
-		y++;
-		if (y == 20)
-			break;
-	}
+	ProcessLayer(mapFile, &Map::AddActionTile);
 
 	mapFile.close();
 
@@ -186,15 +159,15 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 	y = 0;
 
 	mapFile.open(foregroundpath);
-	ProcessLayer(mapFile, foregroundTiles, &Map::AddForegroundTile);
+	ProcessLayer(mapFile, &Map::AddForegroundTile);
 	mapFile.close();
 
 	mapFile.open(backgroundlayerpath);
-	ProcessLayer(mapFile, backgroundTiles, &Map::AddBackgroundTile);
+	ProcessLayer(mapFile, &Map::AddBackgroundTile);
 	mapFile.close();
 
 	mapFile.open(sewerbackgroundlayerpath);
-	ProcessLayer(mapFile, sewerbackgroundTiles, &Map::AddSewersBackgroundTile);
+	ProcessLayer(mapFile, &Map::AddSewersBackgroundTile);
 	mapFile.close();
 }
 

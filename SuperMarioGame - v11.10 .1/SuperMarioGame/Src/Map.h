@@ -14,7 +14,7 @@ public:
 	Map(std::string tID, int ms, int ts);
 	~Map();
 
-	void ProcessLayer(std::fstream& mapFile, int tileArray[], void (Map::* addTileFunction)(Entity&, int, int, int, int, bool));
+	void ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int, int, int, bool));
 	void LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundlayerpath,std::string actionlayerpath, std::string foregroundpath);
 	void AddActionTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
 	void AddForegroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
