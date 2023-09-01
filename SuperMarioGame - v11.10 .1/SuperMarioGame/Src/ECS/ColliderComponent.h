@@ -53,10 +53,10 @@ public:
 	{
 		if (tag != "terrain") // for all npcs
 		{
-			collider.x = static_cast<int>(transform->position.x) + COL_POS_OFFSET;
-			collider.y = static_cast<int>(transform->position.y) + COL_POS_OFFSET;
-			collider.w = (transform->width * transform->scale) - (2 * COL_POS_OFFSET);
-			collider.h = (transform->height * transform->scale) - COL_POS_OFFSET;
+			collider.x = static_cast<int>(transform->position.x) + ((transform->scale) * COL_POS_OFFSET);
+			collider.y = static_cast<int>(transform->position.y) + ((transform->scale) * COL_POS_OFFSET);
+			collider.w = (transform->width * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.h = (transform->height * transform->scale) - ((transform->scale) * COL_POS_OFFSET);
 		}
 		destR.x = collider.x - Game::camera.x;
 		destR.y = collider.y - Game::camera.y;

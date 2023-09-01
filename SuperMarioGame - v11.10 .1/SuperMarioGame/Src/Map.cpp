@@ -1,19 +1,6 @@
 #include "Map.h"
 //#include "TextureManager.h"
 
-
-#define GRID_ROWS 4
-#define GRID_COLUMNS 4
-
-#define GRID_ELEMENT_WIDTH 8
-#define GRID_ELEMENT_HEIGHT 8
-
-#define TILE_NUM_GRID_ELEMENTS (GRID_ROWS * GRID_COLUMNS) //16
-#define MAX_MAP_TILE_HEIGHT 20
-#define MAX_MAP_WIDTH_TILES 100
-#define MAX_MAP_GRID_HEIGHT (MAX_MAP_TILE_HEIGHT * GRID_ROWS) //80
-#define MAX_MAP_GRID_WIDTH (MAX_MAP_TILE_HEIGHT * GRID_COLUMNS) //100
-
 extern Manager manager;
 
 int solidTiles[] = { 3,52,5,0 ,208 , 6 , 130 , 131 , 132 , 75, 78, 79 , 80 , 14, 15 , 40 , 41, 64 , 65 , 90 , 91 , 522 , 521 , 548, 524, 496, 470 , 495 ,338 };
@@ -128,15 +115,6 @@ void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
 
 void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundlayerpath, std::string actionlayerpath, std::string foregroundpath)
 {
-	bool isSolid = false;
-	
-	int x = 0, y = 0;
-	int wordNum = 0;
-	int arrayTilesIndex = 0;
-
-	int srcX, srcY;
-
-	std::string line, word;
 	std::fstream mapFile;
 
 	TileFeatureCallback addBouncyFeature = &Map::addBouncyTileFeature;
@@ -148,15 +126,10 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 	tileFeatures.push_back(addMysteryBoxFeature);
 
 	mapFile.open(actionlayerpath);
-
 	ProcessLayer(mapFile, &Map::AddActionTile);
-
 	mapFile.close();
 
 	tileFeatures.clear();
-
-	x = 0;
-	y = 0;
 
 	mapFile.open(foregroundpath);
 	ProcessLayer(mapFile, &Map::AddForegroundTile);

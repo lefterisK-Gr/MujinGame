@@ -42,29 +42,29 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 }
 
 void Collision::moveFromCollision(Entity& player) {
-	auto& playerPos = player.getComponent<TransformComponent>().position;
+	auto& playerTransform = player.getComponent<TransformComponent>();
 	auto playerCollider = player.getComponent<ColliderComponent>().collider;
 
 	if (Collision::isSidewaysCollision) { //horizontal move
 		if (Collision::dist.x > 0) { //move moving_rect left from collider
-			playerPos.x = storedColliderRect.x - playerCollider.w - 9;
+			playerTransform.position.x = storedColliderRect.x - playerCollider.w - (playerTransform.scale * 8) - 1;
 			Collision::movingRectColSide = Collision::ColSide::RIGHT;
 		}
 		else {
-			playerPos.x = storedColliderRect.x; //consider position based on collider
+			playerTransform.position.x = storedColliderRect.x - ((playerTransform.scale - 1) * 8); //consider position based on collider
 			Collision::movingRectColSide = Collision::ColSide::LEFT;
 		}
 	}
 	else {
 		if (Collision::dist.y > 0) { //move moving_rect down from collider
-			playerPos.y = storedColliderRect.y - player.getComponent<TransformComponent>().height;
+			playerTransform.position.y = storedColliderRect.y - (playerTransform.height * playerTransform.scale);
 			player.getComponent<RigidBodyComponent>().onGround = true;
 			Collision::movingRectColSide = Collision::ColSide::DOWN;
 		}
 		else {
-			playerPos.y = storedColliderRect.y;
+			playerTransform.position.y = storedColliderRect.y - ((playerTransform.scale - 1) * 8);
 			Collision::movingRectColSide = Collision::ColSide::TOP;
-			player.getComponent<TransformComponent>().velocity.y = 0;
+			playerTransform.velocity.y = 0;
 		}
 	}
 	player.getComponent<ColliderComponent>().update();

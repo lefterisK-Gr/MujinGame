@@ -15,13 +15,10 @@ public:
 	{
 		Animation defaultAnimation = Animation(6, 2, 1, 0.04, "looped");
 
-		Animation p1idle = Animation(6, 2, 1, 0.04, "looped");
-		Animation p1walk = Animation(0, 2, 3, 0.04, "looped");
-		Animation p1jump = Animation(4, 2, 1, 0.04, "looped");
-
-		Animation p2idle = Animation(6, 8, 1, 0.04, "looped");
-		Animation p2walk = Animation(0, 8, 3, 0.04, "looped");
-		Animation p2jump = Animation(4, 8, 1, 0.04, "looped");
+		Animation p1idle = Animation(0, 0, 10, 0.1, "looped");
+		Animation p1walk = Animation(0, 2, 10, 0.1, "looped");
+		Animation p1jump = Animation(7, 6, 1, 0.1, "looped");
+		Animation p1attack = Animation(0, 3, 7, 0.1, "play_once");
 
 		Animation question_mark = Animation(0, 0, 3, 0.02, "looped");
 		Animation brown_block = Animation(3, 0, 1, 0.005, "looped");
@@ -36,9 +33,8 @@ public:
 		animations.emplace("P1Idle", p1idle);
 		animations.emplace("P1Walk", p1walk);
 		animations.emplace("P1Jump", p1jump);
-		animations.emplace("P2Idle", p2idle);
-		animations.emplace("P2Walk", p2walk);
-		animations.emplace("P2Jump", p2jump);
+		animations.emplace("P1Attack", p1attack);
+
 		animations.emplace("QuestionMark", question_mark);
 		animations.emplace("BrownBlock", brown_block);
 		animations.emplace("DarkBlock", dark_block);
