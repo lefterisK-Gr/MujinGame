@@ -3,11 +3,11 @@
 
 extern Manager manager;
 
-int solidTiles[] = { 3,52,5,0 ,208 , 6 , 130 , 131 , 132 , 75, 78, 79 , 80 , 14, 15 , 40 , 41, 64 , 65 , 90 , 91 , 522 , 521 , 548, 524, 496, 470 , 495 ,338 };
-int foregroundTiles[] = { 32,54,55,56,58 , 33 , 7, 59 ,10 , 11, 12 ,34, 57 , 9, 35, 14, 15 , 40 , 41 };
+int solidTiles[] = {52,17,5,0 ,208 , 6 , 130 , 131 , 132 , 75, 78, 79 , 80 , 14, 15 , 40 , 41, 64 , 65 , 90 , 91 , 522 , 521 , 548, 524, 496, 470 , 495 ,144 };
+int foregroundTiles[] = { 32,54,55,56,58 , 33 , 7, 59 ,161 , 162, 163 ,34, 57 , 9, 35, 14, 15 , 40 , 41 };
 int backgroundTiles[] = { 446,447,448,472,473,474,498,499,500 };
 int sewerbackgroundTiles[] = { 549 };
-int bouncyTiles[] = { 3 , 338 };
+int bouncyTiles[] = { 52 , 144 };
 int mysteryBoxTiles[] = { 208 };
 int winningTiles[] = { 496, 470 , 495 };
 
@@ -43,8 +43,8 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 		{
 			wordNum = stoi(word);
 
-			srcY = (wordNum / 26) * tileSize;
-			srcX = (wordNum % 26) * tileSize; //adding tile based on srcX,srcY coordinates
+			srcY = (wordNum / 16) * tileSize;
+			srcX = (wordNum % 16) * tileSize; //adding tile based on srcX,srcY coordinates
 
 			for (arrayTilesIndex = 0; arrayTilesIndex < (sizeof(solidTiles) / sizeof(solidTiles[0])); arrayTilesIndex++) 
 			{

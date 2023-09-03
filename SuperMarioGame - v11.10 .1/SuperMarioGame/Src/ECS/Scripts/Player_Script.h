@@ -6,6 +6,8 @@
 class Player_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Transform
 {
 public: // it is like it has init that creates Animator Component since it inherits it
+	bool attackAnimation = false;
+
 	bool vertTransitionPlayerAnimation = false;
 	bool horTransitionPlayerAnimation = false;
 
@@ -39,6 +41,20 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void update() override {
+		if (!attackAnimation) {
+			if (keyboard->keystate[keyboard->attackKey]) {
+				animator->Play("P1Attack");
+				this->attackAnimation = true;
+				keyboard->action = KeyboardControllerComponent::playerAction::PLAYERACTION_ATTACK;
+			}
+		}
+
+		if (attackAnimation) {
+			if (sprite->animation.hasFinished()) {
+				this->attackAnimation = false;
+			}
+		}
+
 		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
 		{
 			if (keyboard->keystate[keyboard->walkRightKey])

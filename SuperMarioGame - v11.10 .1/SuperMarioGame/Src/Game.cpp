@@ -86,7 +86,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 
 	//add the textures to our texture library
-	assets->AddTexture("terrain", "assets/super_mario_tileset_scaled.png");
+	assets->AddTexture("terrain", "assets/village_tileset.png");
 	assets->AddTexture("player", "assets/mario_luigi_animations_1.png");
 	assets->AddTexture("warrior", "assets/warrior_animations.png");
 	assets->AddTexture("projectile", "assets/my_projectile.png");
@@ -100,7 +100,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2);
+	player1.addComponent<TransformComponent>(200.0f, 320.0f, 32, 32, 2);
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
 	player1.addComponent<AnimatorComponent>("warrior");
@@ -110,9 +110,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		(char*)"P1Idle",
 		(char*)"P1Jump",
 		(char*)"P1Walk",
+		(char*)"P1Attack",
 		SDL_SCANCODE_W,
 		SDL_SCANCODE_A,
 		SDL_SCANCODE_D,
+		SDL_SCANCODE_K,
 		SDL_SCANCODE_S,
 		SDL_SCANCODE_LSHIFT
 		);

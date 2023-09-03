@@ -17,14 +17,15 @@ public: //TODO: maybe have variables as private
 	SpriteComponent* sprite;
 	const Uint8* keystate;
 
-	char* idleAnimation, *jumpAnimation, *walkAnimation;
-	SDL_Scancode jumpKey, walkLeftKey, walkRightKey, runKey, downKey;
+	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
+	SDL_Scancode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
 
 	typedef enum {
 		PLAYERACTION_IDLE = 0,
 		PLAYERACTION_WALK = 1,
 		PLAYERACTION_RUN = 2,
-		PLAYERACTION_JUMP = 3
+		PLAYERACTION_JUMP = 3,
+		PLAYERACTION_ATTACK = 4
 	} playerAction;
 
 	playerAction action = playerAction::PLAYERACTION_IDLE;
@@ -38,9 +39,11 @@ public: //TODO: maybe have variables as private
 		char* idleAnimation,
 		char* jumpAnimation,
 		char* walkAnimation,
+		char* attackAnimation,
 		SDL_Scancode jumpKey,
 		SDL_Scancode walkLeftKey,
 		SDL_Scancode walkRightKey,
+		SDL_Scancode attackKey,
 		SDL_Scancode downKey,
 		SDL_Scancode runKey
 		)
@@ -48,9 +51,11 @@ public: //TODO: maybe have variables as private
 		: idleAnimation(idleAnimation),
 		jumpAnimation(jumpAnimation),
 		walkAnimation(walkAnimation),
+		attackAnimation(attackAnimation),
 		jumpKey(jumpKey),
 		walkLeftKey(walkLeftKey),
 		walkRightKey(walkRightKey),
+		attackKey(attackKey),
 		downKey(downKey),
 		runKey(runKey)
 	{
@@ -73,6 +78,7 @@ public: //TODO: maybe have variables as private
 	void update() override
 	{
 		keystate = SDL_GetKeyboardState(NULL);
+
 		//todo now that we removed the if(!vertTransition) we dont skip the current keystates when we previously inputted "S"
 		if (Game::event.type == SDL_KEYDOWN)
 		{
@@ -125,7 +131,7 @@ public: //TODO: maybe have variables as private
 				return;
 			action = playerAction::PLAYERACTION_JUMP;
 		}
-		else if (rigidbody->onGround && transform->velocity.x == 0)
+		else if (rigidbody->onGround && transform->velocity.x == 0 && action != playerAction::PLAYERACTION_ATTACK)
 		{
 			if (action == playerAction::PLAYERACTION_IDLE)
 				return;
@@ -134,12 +140,12 @@ public: //TODO: maybe have variables as private
 		else if (rigidbody->onGround && transform->velocity.x != 0)
 		{
 			if (action == playerAction::PLAYERACTION_WALK)
-			{
 				return;
-			}
 			action = playerAction::PLAYERACTION_WALK;
 		}
 			
+		if (action == playerAction::PLAYERACTION_ATTACK)
+			return;
 
 		switch (action)
 		{
@@ -154,6 +160,9 @@ public: //TODO: maybe have variables as private
 			break;
 		case playerAction::PLAYERACTION_JUMP:
 			animator->Play(jumpAnimation);
+			break;
+		case playerAction::PLAYERACTION_ATTACK:
+			animator->Play(attackAnimation);
 			break;
 		default:
 			break;

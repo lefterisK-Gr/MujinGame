@@ -18,9 +18,9 @@ public:
 		Animation p1idle = Animation(0, 0, 10, 0.1, "looped");
 		Animation p1walk = Animation(0, 2, 10, 0.1, "looped");
 		Animation p1jump = Animation(7, 6, 1, 0.1, "looped");
-		Animation p1attack = Animation(0, 3, 7, 0.1, "play_once");
+		Animation p1attack = Animation(0, 3, 10, 0.4, "play_once");
 
-		Animation question_mark = Animation(0, 0, 3, 0.02, "looped");
+		Animation question_mark = Animation(1, 9, 3, 0.02, "looped");
 		Animation brown_block = Animation(3, 0, 1, 0.005, "looped");
 		Animation dark_block = Animation(2, 12, 1, 0.005, "looped");
 		Animation coin_flip = Animation(0, 1, 3, 0.02, "looped");

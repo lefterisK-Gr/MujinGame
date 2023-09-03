@@ -82,7 +82,7 @@ public:
 	}
 
 	void resetAnimation() {
-		animimationName = "Default";
+		animimationName = "P1Idle";
 		sprite->SetAnimation(
 			animManager.animations[animimationName].indexX, animManager.animations[animimationName].indexY,
 			animManager.animations[animimationName].total_frames, animManager.animations[animimationName].speed,
