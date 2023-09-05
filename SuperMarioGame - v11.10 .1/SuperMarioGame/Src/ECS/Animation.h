@@ -16,6 +16,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	int total_frames;
 	float speed;
 	animType type;
+	int reps = 0;
 
 	int cur_frame_index = 0;
 	float cur_frame_index_f = 0;
@@ -29,7 +30,8 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	{
 		
 	}
-	Animation(int ix, int iy , int f, float s, const std::string _type) // Animation frames look the next number of frames from the index
+
+	Animation(int ix, int iy , int f, float s, const std::string _type, int _reps = 0) // Animation frames look the next number of frames from the index
 	{
 		indexX = ix;
 		indexY = iy;
@@ -40,9 +42,10 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 			_type == "back_forth" ? ANIMTYPE_BACK_FORTH :
 			_type == "looped" ? ANIMTYPE_LOOPED :
 			ANIMTYPE_NONE;
+		reps = _reps;
 	}
 
-	Animation(int ix, int iy, int f, float s, const animType _type) // Animation frames look the next number of frames from the index
+	Animation(int ix, int iy, int f, float s, const animType _type, int _reps = 0) // Animation frames look the next number of frames from the index
 	{
 		indexX = ix;
 		indexY = iy;
@@ -50,6 +53,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 		speed = s;
 
 		type = _type;
+		reps = _reps;
 	}
 
 	void advanceFrame() {
@@ -61,8 +65,10 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
 			{
 				resetFrameIndex();
-				finished = true;
-				times_played = 1;
+				times_played++;
+				if (reps && times_played >= reps) {
+					finished = true;
+				}				
 			}
 
 			break;

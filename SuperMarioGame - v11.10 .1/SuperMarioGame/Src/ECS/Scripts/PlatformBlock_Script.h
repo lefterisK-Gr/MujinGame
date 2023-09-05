@@ -36,7 +36,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (didBlockAnimation)
 		{
-			moving_animator->Play("BlockBounce");
+			moving_animator->Play("BlockBounce", 1);
 
 			didBlockAnimation = false;
 		}

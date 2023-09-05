@@ -62,14 +62,15 @@ public:
 		//sprite->draw();
 	}
 
-	void Play(const char* animName)
+	void Play(const char* animName, int reps = 0)
 	{
 		animimationName = animName;
 		sprite->SetMovingAnimation(
 			animManager.moving_animations[animimationName].indexX, animManager.moving_animations[animimationName].indexY,
 			animManager.moving_animations[animimationName].total_frames, animManager.moving_animations[animimationName].speed,
 			animManager.moving_animations[animimationName].type,
-			animManager.moving_animations[animimationName].distanceX, animManager.moving_animations[animimationName].distanceY
+			animManager.moving_animations[animimationName].distanceX, animManager.moving_animations[animimationName].distanceY,
+			reps
 		);
 	}
 

@@ -36,7 +36,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	void update() override {
 		if (doCoinAnimation && !lockCoinAnimation) //add finished coin animation so its not checked everytime
 		{
-			moving_animator->Play("CoinBounce");
+			moving_animator->Play("CoinBounce", 1);
 
 			doCoinAnimation = false;
 			lockCoinAnimation = true;

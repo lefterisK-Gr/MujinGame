@@ -75,10 +75,12 @@ public:
 		sprite->draw();
 	}
 
-	void Play(const char* animName)
+	void Play(const char* animName, int reps = 0)
 	{
 		animimationName = animName;
-		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY, animManager.animations[animName].total_frames, animManager.animations[animName].speed, animManager.animations[animName].type );
+		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY,
+			animManager.animations[animName].total_frames, animManager.animations[animName].speed,
+			animManager.animations[animName].type, reps);
 	}
 
 	void resetAnimation() {

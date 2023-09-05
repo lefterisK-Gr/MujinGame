@@ -20,16 +20,6 @@ public: //TODO: maybe have variables as private
 	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
 	SDL_Scancode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
 
-	typedef enum {
-		PLAYERACTION_IDLE = 0,
-		PLAYERACTION_WALK = 1,
-		PLAYERACTION_RUN = 2,
-		PLAYERACTION_JUMP = 3,
-		PLAYERACTION_ATTACK = 4
-	} playerAction;
-
-	playerAction action = playerAction::PLAYERACTION_IDLE;
-
 	KeyboardControllerComponent()
 	{
 
@@ -123,49 +113,6 @@ public: //TODO: maybe have variables as private
 			{
 				transform->velocity.x /= 2;
 			}
-		}
-			
-		if (!rigidbody->onGround)
-		{
-			if (action == playerAction::PLAYERACTION_JUMP)
-				return;
-			action = playerAction::PLAYERACTION_JUMP;
-		}
-		else if (rigidbody->onGround && transform->velocity.x == 0 && action != playerAction::PLAYERACTION_ATTACK)
-		{
-			if (action == playerAction::PLAYERACTION_IDLE)
-				return;
-			action = playerAction::PLAYERACTION_IDLE;
-		}
-		else if (rigidbody->onGround && transform->velocity.x != 0)
-		{
-			if (action == playerAction::PLAYERACTION_WALK)
-				return;
-			action = playerAction::PLAYERACTION_WALK;
-		}
-			
-		if (action == playerAction::PLAYERACTION_ATTACK)
-			return;
-
-		switch (action)
-		{
-		case playerAction::PLAYERACTION_IDLE:
-			animator->Play(idleAnimation);
-			break;
-		case playerAction::PLAYERACTION_WALK:
-			animator->Play(walkAnimation);
-			break;
-		case playerAction::PLAYERACTION_RUN:
-			animator->Play(walkAnimation);
-			break;
-		case playerAction::PLAYERACTION_JUMP:
-			animator->Play(jumpAnimation);
-			break;
-		case playerAction::PLAYERACTION_ATTACK:
-			animator->Play(attackAnimation);
-			break;
-		default:
-			break;
 		}
 	}
 };

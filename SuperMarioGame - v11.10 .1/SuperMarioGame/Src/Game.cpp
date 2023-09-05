@@ -100,7 +100,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(200.0f, 320.0f, 32, 32, 2);
+	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
 	player1.addComponent<AnimatorComponent>("warrior");
@@ -256,7 +256,7 @@ void Game::update() //game objects updating
 					{
 						p->getComponent<ScoreComponent>().addToScore(100);
 						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
-						c->getComponent<AnimatorComponent>().Play("CoinFlip");
+						c->getComponent<AnimatorComponent>().Play("CoinFlip", 1);
 						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
 						ss1 << p->getComponent<ScoreComponent>().getScore();
 						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
@@ -399,7 +399,7 @@ void Game::update() //game objects updating
 						if (enemy == greenkoopatroopas) //green koopa troopa case
 						{
 							e->getComponent<TransformComponent>().velocity.x = 0;
-							e->getComponent<AnimatorComponent>().Play("GreenShell");
+							e->getComponent<AnimatorComponent>().Play("GreenShell", 1);
 							e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle = true;
 						}
 						else //goomba case

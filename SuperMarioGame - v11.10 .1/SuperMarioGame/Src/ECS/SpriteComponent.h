@@ -68,14 +68,14 @@ public:
 		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
 	}
 
-	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type)
+	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int reps = 0)
 	{
-		animation = Animation(idX, idY, fr, sp, type);
+		animation = Animation(idX, idY, fr, sp, type, reps);
 	}
 
-	void SetMovingAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int dx, int dy)
+	void SetMovingAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int dx, int dy, int reps = 0)
 	{
-		moving_animation = MovingAnimation(idX, idY, fr, sp, type, dx, dy);
+		moving_animation = MovingAnimation(idX, idY, fr, sp, type, dx, dy, reps);
 	}
 
 	void setCurrFrame() {

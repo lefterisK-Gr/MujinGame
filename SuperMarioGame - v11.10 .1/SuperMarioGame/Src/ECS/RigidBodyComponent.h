@@ -11,7 +11,6 @@ public:
 	float maxGravity = 5.f;
 	bool onGround = false;
 	bool justjumped = false;
-	bool onAttack = false;
 	
 	RigidBodyComponent() = default;
 
@@ -33,22 +32,20 @@ public:
 
 	void update() override
 	{
-		if (!onAttack) {
-			if (onGround && !justjumped)
+		if (onGround && !justjumped)
+		{
+			GravityForce = 1.0f;
+			transform->velocity.y = static_cast<int>(GravityForce);
+			GravityForce = 0.0f;
+		}
+		else
+		{
+			justjumped = false;
+			GravityForce += accelGravity;
+			transform->velocity.y += static_cast<int>(GravityForce);
+			if (transform->velocity.y > static_cast<int>(maxGravity))
 			{
-				GravityForce = 1.0f;
-				transform->velocity.y = static_cast<int>(GravityForce);
-				GravityForce = 0.0f;
-			}
-			else
-			{
-				justjumped = false;
-				GravityForce += accelGravity;
-				transform->velocity.y += static_cast<int>(GravityForce);
-				if (transform->velocity.y > static_cast<int>(maxGravity))
-				{
-					transform->velocity.y = static_cast<int>(maxGravity);
-				}
+				transform->velocity.y = static_cast<int>(maxGravity);
 			}
 		}
 	}
