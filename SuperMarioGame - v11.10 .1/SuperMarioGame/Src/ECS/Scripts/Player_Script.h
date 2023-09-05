@@ -55,7 +55,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	void update() override {
 		if (!attackAnimation) {
 			if (keyboard->keystate[keyboard->attackKey]) {
-				animator->Play("P1Attack", 1);
+				animator->Play("P1Attack");
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
 			}
@@ -75,7 +75,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				if (this->leftofPipe)
 				{
 					sprite->transform->velocity.x = 0;
-					moving_animator->Play("PlayerHorTransition", 1);
+					moving_animator->Play("PlayerHorTransition");
 					this->horTransitionPlayerAnimation = true;
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
 				}
@@ -85,7 +85,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				if (this->onPipe)
 				{
 					sprite->transform->velocity.x = 0;
-					moving_animator->Play("PlayerVertTransition", 1);
+					moving_animator->Play("PlayerVertTransition");
 					this->vertTransitionPlayerAnimation = true;
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
 				}
@@ -141,7 +141,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			animator->Play(keyboard->jumpAnimation);
 			break;
 		case playerAction::PLAYERACTION_ATTACK:
-			animator->Play(keyboard->attackAnimation, 1);
+			animator->Play(keyboard->attackAnimation);
 			break;
 		default:
 			break;

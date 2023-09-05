@@ -18,7 +18,7 @@ public:
 		Animation p1idle = Animation(0, 0, 10, 0.1, "looped");
 		Animation p1walk = Animation(0, 2, 10, 0.1, "looped");
 		Animation p1jump = Animation(7, 6, 1, 0.1, "looped");
-		Animation p1attack = Animation(0, 3, 10, 0.4, "play_once");
+		Animation p1attack = Animation(0, 3, 10, 0.4, "play_n_times", 1);
 
 		Animation question_mark = Animation(1, 9, 3, 0.02, "looped");
 		Animation brown_block = Animation(3, 0, 1, 0.005, "looped");
@@ -27,7 +27,7 @@ public:
 
 		Animation goomba_walk = Animation(17, 1, 2, 0.04, "looped");
 		Animation greenkoopatroopa_walk = Animation(20, 1, 2, 0.04, "looped");
-		Animation greenshell = Animation(25, 1, 1, 0.01, "play_once");
+		Animation greenshell = Animation(25, 1, 1, 0.01, "play_n_times", 1);
 
 		animations.emplace("Default", defaultAnimation);
 		animations.emplace("P1Idle", p1idle);
@@ -44,11 +44,11 @@ public:
 		animations.emplace("GreenShell", greenshell);
 
 		MovingAnimation defaultMoveAnimation = MovingAnimation(0, 0, 0, 0.0, "looped", 0, 0);
-		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 1, "play_once", 0, 1);
-		MovingAnimation playerHorTransition = MovingAnimation(0, 0, 20, 1, "play_once", 1, 0);
+		MovingAnimation playerVertTransition = MovingAnimation(0, 0, 20, 1, "play_n_times", 0, 1, 1);
+		MovingAnimation playerHorTransition = MovingAnimation(0, 0, 20, 1, "play_n_times", 1, 0, 1);
 
-		MovingAnimation block_bounce = MovingAnimation(0, 0, 10, 0.5, "back_forth", 0, -4);
-		MovingAnimation coin_bounce = MovingAnimation(0, 0, 20, 1, "back_forth", 0, -2);
+		MovingAnimation block_bounce = MovingAnimation(0, 0, 10, 0.5, "back_forth", 0, -4, 1);
+		MovingAnimation coin_bounce = MovingAnimation(0, 0, 20, 1, "back_forth", 0, -2, 1);
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);
 		moving_animations.emplace("PlayerVertTransition", playerVertTransition);

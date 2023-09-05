@@ -80,7 +80,8 @@ public:
 		animimationName = animName;
 		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY,
 			animManager.animations[animName].total_frames, animManager.animations[animName].speed,
-			animManager.animations[animName].type, reps);
+			animManager.animations[animName].type, 
+			reps ? reps : animManager.animations[animName].reps );
 	}
 
 	void resetAnimation() {

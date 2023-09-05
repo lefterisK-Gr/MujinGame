@@ -6,7 +6,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 {					// todo also we might need to have setReps/getReps and replace "play_once" with "play_n_times" where we pass 1 more value to call
 	typedef enum {
 		ANIMTYPE_NONE = 0,
-		ANIMTYPE_PLAY_ONCE = 1, // just iterates over the images one time. it holds the final image when finished.
+		ANIMTYPE_PLAY_N_TIMES = 1, // just iterates over the images one time. it holds the final image when finished.
 		ANIMTYPE_LOOPED = 2, // going over the images again and again.
 		ANIMTYPE_BACK_FORTH = 3  // iterate from index=0 to maxframe and back again. keeps holding the first image afterwards.
 	} animType;
@@ -38,7 +38,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 		total_frames = f;
 		speed = s;
 
-		type = _type == "play_once" ? ANIMTYPE_PLAY_ONCE :
+		type = _type == "play_n_times" ? ANIMTYPE_PLAY_N_TIMES :
 			_type == "back_forth" ? ANIMTYPE_BACK_FORTH :
 			_type == "looped" ? ANIMTYPE_LOOPED :
 			ANIMTYPE_NONE;
@@ -59,7 +59,8 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	void advanceFrame() {
 		
 		switch (type) {
-		case Animation::animType::ANIMTYPE_PLAY_ONCE:
+		case Animation::animType::ANIMTYPE_LOOPED:
+		case Animation::animType::ANIMTYPE_PLAY_N_TIMES:
 			cur_frame_index_f += speed;
 			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
@@ -70,20 +71,9 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 					finished = true;
 				}				
 			}
-
-			break;
-
-		case Animation::animType::ANIMTYPE_LOOPED:
-			cur_frame_index_f += speed;
-			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
-			if (cur_frame_index > total_frames - 1) {
-				resetFrameIndex();
-				times_played++;
-			}
 			break;
 
 		case Animation::animType::ANIMTYPE_BACK_FORTH:
-
 			if (flow_direction == 1) {
 				cur_frame_index_f += speed;
 				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
@@ -97,10 +87,12 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 				}
 				else {
+					times_played++;
 					flow_direction = 1;
 					resetFrameIndex();
-					finished = true;
-					times_played = 1;
+					if (reps && times_played >= reps) {
+						finished = true;
+					}
 				}
 			}
 			break;

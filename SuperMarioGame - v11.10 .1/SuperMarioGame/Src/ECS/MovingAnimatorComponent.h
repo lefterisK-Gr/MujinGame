@@ -70,7 +70,7 @@ public:
 			animManager.moving_animations[animimationName].total_frames, animManager.moving_animations[animimationName].speed,
 			animManager.moving_animations[animimationName].type,
 			animManager.moving_animations[animimationName].distanceX, animManager.moving_animations[animimationName].distanceY,
-			reps
+			reps ? reps : animManager.moving_animations[animimationName].reps
 		);
 	}
 

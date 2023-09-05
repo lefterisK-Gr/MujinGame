@@ -256,7 +256,7 @@ void Game::update() //game objects updating
 					{
 						p->getComponent<ScoreComponent>().addToScore(100);
 						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
-						c->getComponent<AnimatorComponent>().Play("CoinFlip", 1);
+						c->getComponent<AnimatorComponent>().Play("CoinFlip");
 						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
 						ss1 << p->getComponent<ScoreComponent>().getScore();
 						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
@@ -399,7 +399,7 @@ void Game::update() //game objects updating
 						if (enemy == greenkoopatroopas) //green koopa troopa case
 						{
 							e->getComponent<TransformComponent>().velocity.x = 0;
-							e->getComponent<AnimatorComponent>().Play("GreenShell", 1);
+							e->getComponent<AnimatorComponent>().Play("GreenShell");
 							e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle = true;
 						}
 						else //goomba case
