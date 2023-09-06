@@ -76,10 +76,12 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 		case Animation::animType::ANIMTYPE_BACK_FORTH:
 			if (flow_direction == 1) {
 				cur_frame_index_f += speed;
-				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 
-				if(cur_frame_index > total_frames - 1)
+				if (cur_frame_index_f > total_frames) {
+					cur_frame_index_f -= speed;
 					flow_direction = -1;
+				}
+				cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 			}
 			else if (flow_direction == -1) {
 				if (cur_frame_index > 0) {

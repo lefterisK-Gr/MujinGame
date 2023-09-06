@@ -7,6 +7,8 @@
 #include "ECS\ECS.h"
 #include "ECS\Components.h"
 
+#define ARRAY_SIZE(array) (sizeof(array)/sizeof((array)[0])) 
+
 class Map
 {
 public:
@@ -24,7 +26,8 @@ public:
 	void addBouncyTileFeature(Entity& tile, int wordNum);
 	void addWinningTileFeature(Entity& tile, int wordNum);
 	void addMysteryBoxTileFeature(Entity& tile, int wordNum);
-	bool tileHasFeature(Entity& tile, int wordNum, int featureTileArray[]); //, void (Map::* addTileFeature)(Entity&)
+	void addPipeTileFeature(Entity& tile, int wordNum);
+	bool tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize); //, void (Map::* addTileFeature)(Entity&)
 	//void DrawMap();
 private:
 	std::string texID;

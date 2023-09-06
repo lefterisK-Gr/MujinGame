@@ -20,10 +20,10 @@ public:
 		Animation p1jump = Animation(7, 6, 1, 0.1, "looped");
 		Animation p1attack = Animation(0, 3, 10, 0.4, "play_n_times", 1);
 
-		Animation question_mark = Animation(1, 9, 3, 0.02, "looped");
+		Animation question_mark = Animation(1, 9, 3, 0.05, "back_forth");
 		Animation brown_block = Animation(3, 0, 1, 0.005, "looped");
 		Animation dark_block = Animation(2, 12, 1, 0.005, "looped");
-		Animation coin_flip = Animation(0, 1, 3, 0.02, "looped");
+		Animation coin_flip = Animation(1, 7, 2, 0.2, "looped");
 
 		Animation goomba_walk = Animation(17, 1, 2, 0.04, "looped");
 		Animation greenkoopatroopa_walk = Animation(20, 1, 2, 0.04, "looped");

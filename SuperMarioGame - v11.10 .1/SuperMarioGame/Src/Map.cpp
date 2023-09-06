@@ -3,13 +3,14 @@
 
 extern Manager manager;
 
-int solidTiles[] = {52,17,5,0 ,208 , 6 , 130 , 131 , 132 , 75, 78, 79 , 80 , 14, 15 , 40 , 41, 64 , 65 , 90 , 91 , 522 , 521 , 548, 524, 496, 470 , 495 ,144 };
-int foregroundTiles[] = { 32,54,55,56,58 , 33 , 7, 59 ,161 , 162, 163 ,34, 57 , 9, 35, 14, 15 , 40 , 41 };
-int backgroundTiles[] = { 446,447,448,472,473,474,498,499,500 };
+int solidTiles[] = {52,69,177 ,176 , 112 , 16 , 17 , 18 , 75, 0, 1 , 2 , 48, 49 , 50 , 51, 83 , 85 , 99 , 101 , 522 , 521 , 548, 524, 496, 470 , 495 ,68 };
+int foregroundTiles[] = { 32,54,55,56,58 , 33 , 7, 59 ,161 , 162, 163 ,34, 57 , 115, 131, 48, 49 , 50 , 51 };
+int backgroundTiles[] = { 178, 179, 208, 209, 210, 224, 225, 226 };
 int sewerbackgroundTiles[] = { 549 };
-int bouncyTiles[] = { 52 , 144 };
-int mysteryBoxTiles[] = { 208 };
-int winningTiles[] = { 496, 470 , 495 };
+int bouncyTiles[] = { 52 };
+int mysteryBoxTiles[] = { 176 };
+int winningTiles[] = { 495, 470, 496 };
+int pipeTiles[] = { 48, 49 , 50 , 51 , 83 , 85 , 99 , 101, 35, 36 };
 
 std::vector<TileFeatureCallback> tileFeatures;
 
@@ -73,10 +74,10 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 	}
 }
 
-bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[]) {
+bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize) {
 	int arrayTilesIndex = 0;
 
-	for (arrayTilesIndex = 0; arrayTilesIndex < sizeof(featureTileArray) / sizeof(featureTileArray[0]); arrayTilesIndex++)
+	for (arrayTilesIndex = 0; arrayTilesIndex < featureTileArraySize; arrayTilesIndex++)
 	{
 		if (wordNum == featureTileArray[arrayTilesIndex])
 		{
@@ -87,20 +88,20 @@ bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[]) {
 }
 
 void Map::addBouncyTileFeature(Entity& tile, int wordNum) {
-	if (tileHasFeature(tile, wordNum, bouncyTiles)) {
+	if (tileHasFeature(tile, wordNum, bouncyTiles, ARRAY_SIZE(bouncyTiles))) {
 		tile.addComponent<MovingAnimatorComponent>(texID);
 		tile.addComponent<PlatformBlock_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
 	}
 }
 
 void Map::addWinningTileFeature(Entity& tile, int wordNum) {
-	if (tileHasFeature(tile, wordNum, winningTiles)) {
+	if (tileHasFeature(tile, wordNum, winningTiles, ARRAY_SIZE(winningTiles))) {
 		tile.addGroup(Game::groupWinningTiles);
 	}
 }
 
 void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
-	if (tileHasFeature(tile, wordNum, mysteryBoxTiles)) {
+	if (tileHasFeature(tile, wordNum, mysteryBoxTiles, ARRAY_SIZE(mysteryBoxTiles))) {
 		auto& tileComp = tile.getComponent<TileComponent>();
 		auto& tile2(manager.addEntity());
 		tile2.addComponent<TileComponent>(tileComp.srcRect.x, tileComp.srcRect.y, tileComp.position.x, tileComp.position.y, tileSize, mapScale, texID, tileComp.fullSolid, false); //insert tile and grid and colliders(somehow we refer to background)
@@ -113,6 +114,12 @@ void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
 	}
 }
 
+void Map::addPipeTileFeature(Entity& tile, int wordNum) {
+	if (tileHasFeature(tile, wordNum, pipeTiles, ARRAY_SIZE(pipeTiles))) {
+		tile.addGroup(Game::groupForegroundLayer);
+	}
+}
+
 void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundlayerpath, std::string actionlayerpath, std::string foregroundpath)
 {
 	std::fstream mapFile;
@@ -120,10 +127,12 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string sewerbackgroundla
 	TileFeatureCallback addBouncyFeature = &Map::addBouncyTileFeature;
 	TileFeatureCallback addWinningFeature = &Map::addWinningTileFeature;
 	TileFeatureCallback addMysteryBoxFeature = &Map::addMysteryBoxTileFeature;
+	TileFeatureCallback addPipeFeature = &Map::addPipeTileFeature;
 
 	tileFeatures.push_back(addBouncyFeature);
 	tileFeatures.push_back(addWinningFeature);
 	tileFeatures.push_back(addMysteryBoxFeature);
+	tileFeatures.push_back(addPipeFeature);
 
 	mapFile.open(actionlayerpath);
 	ProcessLayer(mapFile, &Map::AddActionTile);

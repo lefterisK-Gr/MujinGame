@@ -127,10 +127,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	player1.addGroup(groupPlayers);
 	
-	label.addComponent<UILabel>(10, 42, "University of Crete", "arial", black);
+	/*label.addComponent<UILabel>(10, 42, "University of Crete", "arial", black);
 	label.addComponent<UILabel>(10, 58, "Department of Computer Science", "arial", black);
 	label.addComponent<UILabel>(10, 10, "Lefteris Kotsonas", "arial", black);
-	label.addComponent<UILabel>(10, 26, "CS-454, Development of Intelligent Interfaces and Games. Fall Semester 2021-22", "arial", black);
+	label.addComponent<UILabel>(10, 26, "CS-454, Development of Intelligent Interfaces and Games. Fall Semester 2021-22", "arial", black);*/
 
 	winningLabel1.addComponent<UILabel>(100, 300, "", "arialBig", red);
 	winningLabel2.addComponent<UILabel>(100, 300, "", "arialBig", green);
