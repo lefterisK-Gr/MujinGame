@@ -6,6 +6,7 @@
 #include "Vector2D.h"
 #include "Collision.h"
 #include "AssetManager.h"
+#include "RendererShapes.h"
 #include "SceneManager.h"
 #include <sstream>
 
@@ -100,7 +101,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
+	player1.addComponent<TransformComponent>(200.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
 	player1.addComponent<AnimatorComponent>("warrior");
@@ -572,7 +573,10 @@ void Game::update() //game objects updating
 
 void Game::render()
 {
+	SDL_SetRenderDrawColor(renderer, 52, 171, 218, 255);
 	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	DrawCircle(renderer, 200, 150, 20);
 	//the order of rendered objects are the order of layers
 	//in SDL_RenderCopy 3rd arg is for the part of the texture to be displayed and 4th argument is for part of the display Window to be covered
 	//SDL_RenderCopy(renderer, playerTex, NULL, &destR);
@@ -640,6 +644,8 @@ void Game::render()
 	scoreboard1.draw();
 	scoreboard2.draw();
 	//add stuff to render
+	//SDL_RenderClear(renderer);
+	
 	SDL_RenderPresent(renderer);
 
 }

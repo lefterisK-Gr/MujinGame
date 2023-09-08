@@ -16,5 +16,9 @@ void TextureManager::DestroyTexture(SDL_Texture* texture)
 
 void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest , SDL_RendererFlip flip)
 {
+	//SDL_SetTextureColorMod(tex, 100, 100, 100);
+	//SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_MOD);
+	//SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_ADD);
+	
 	SDL_RenderCopyEx(Game::renderer, tex, &src, &dest, NULL, NULL, flip);
 }
