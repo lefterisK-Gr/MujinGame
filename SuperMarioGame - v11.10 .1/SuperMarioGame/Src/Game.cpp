@@ -31,6 +31,7 @@ uint32_t Game::pauseTime = 0;
 bool Game::justResumed = false;
 
 auto& player1(manager.addEntity());
+auto& sun(manager.addEntity());
 auto& label(manager.addEntity());
 auto& winningLabel1(manager.addEntity());
 auto& winningLabel2(manager.addEntity());
@@ -51,10 +52,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 {
 	int flags = 0;
 
-	SDL_Color black = { 0, 0 ,0 ,255 };
-	SDL_Color white = { 255, 255 ,255 ,255 };
-	SDL_Color red = { 255, 0 ,0 ,255 };
-	SDL_Color green = { 0, 255 ,0 ,255 };
 	// create renderer
 	if (fullscreen)
 	{
@@ -100,42 +97,17 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
-	player1.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
-	//assets->CreatePlayerComponents(player1);
-	//instead of this
-	player1.addComponent<AnimatorComponent>("warrior");
-	player1.addComponent<MovingAnimatorComponent>("warrior");
-	player1.addComponent<RigidBodyComponent>();
-	player1.addComponent<KeyboardControllerComponent>(
-		(char*)"P1Idle",
-		(char*)"P1Jump",
-		(char*)"P1Walk",
-		(char*)"P1Attack",
-		SDL_SCANCODE_W,
-		SDL_SCANCODE_A,
-		SDL_SCANCODE_D,
-		SDL_SCANCODE_K,
-		SDL_SCANCODE_S,
-		SDL_SCANCODE_LSHIFT
-		);
-	player1.addComponent<ColliderComponent>("player1");
-	player1.addComponent<ScoreComponent>();
-
-	player1.addComponent<UILabel>(10, 600, "MARIO SCORE: ", "arial", red);
-	player1.addComponent<UILabel>(160, 600, "", "arial", red);
-	player1.addComponent<Player_Script>();
-
-	player1.addGroup(groupPlayers);
-	
+	assets->CreatePlayer(player1);
+	assets->CreateSunShape(sun);
 	/*label.addComponent<UILabel>(10, 42, "University of Crete", "arial", black);
 	label.addComponent<UILabel>(10, 58, "Department of Computer Science", "arial", black);
 	label.addComponent<UILabel>(10, 10, "Lefteris Kotsonas", "arial", black);
 	label.addComponent<UILabel>(10, 26, "CS-454, Development of Intelligent Interfaces and Games. Fall Semester 2021-22", "arial", black);*/
 
-	winningLabel1.addComponent<UILabel>(100, 300, "", "arialBig", red);
-	winningLabel2.addComponent<UILabel>(100, 300, "", "arialBig", green);
+	winningLabel1.addComponent<UILabel>(100, 300, "", "arialBig", assets->red);
+	winningLabel2.addComponent<UILabel>(100, 300, "", "arialBig", assets->green);
 
-	pauseLabel.addComponent<UILabel>(50, 300, "", "arialBig", white);
+	pauseLabel.addComponent<UILabel>(50, 300, "", "arialBig", assets->white);
 
 	//assets->CreateGoomba(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
 	assets->CreateGoomba(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "goomba");
@@ -162,6 +134,7 @@ auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
 auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
+auto& screenshapes(manager.getGroup(Game::screenShapes));
 
 void Game::handleEvents()
 {
@@ -572,12 +545,20 @@ void Game::update() //game objects updating
 
 void Game::render()
 {
+	if (renderer)
+	{
+		SDL_SetRenderDrawColor(renderer, 52, 171, 218, 255);
+	}
 	SDL_RenderClear(renderer);
 	//the order of rendered objects are the order of layers
 	//in SDL_RenderCopy 3rd arg is for the part of the texture to be displayed and 4th argument is for part of the display Window to be covered
 	//SDL_RenderCopy(renderer, playerTex, NULL, &destR);
 	// instead of the above, we use the GameObjectRenderer
-	
+	for (auto& p : screenshapes)
+	{
+		p->draw();
+	}
+
 	for (auto& p : backgroundtiles)
 	{
 		p->draw();

@@ -3,7 +3,7 @@
 #include "Collision.h"
 
 
-AssetManager::AssetManager(Manager* man) : manager(man)
+AssetManager::AssetManager(Manager* man) : manager(man) // todo make triggers manager
 {
 	onpipeTriggers[0].x = 1840;
 	onpipeTriggers[0].y = 512;
@@ -37,14 +37,43 @@ void AssetManager::ProjectileExplosion(int camerapos)
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(-2, -2), 200, 2, "projectile");
 }
 
-void CreatePlayerComponents(Entity& player) // todo: this isn't used
+void AssetManager::CreatePlayer(Entity& player)
 {
-	player.addComponent<AnimatorComponent>("player");
-	player.addComponent<Player_Script>();
+	player.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
+	//assets->CreatePlayerComponents(player1);
+	//instead of this
+	player.addComponent<AnimatorComponent>("warrior");
+	player.addComponent<MovingAnimatorComponent>("warrior");
 	player.addComponent<RigidBodyComponent>();
-	//player.addComponent<KeyboardController>();
+	player.addComponent<KeyboardControllerComponent>(
+		(char*)"P1Idle",
+		(char*)"P1Jump",
+		(char*)"P1Walk",
+		(char*)"P1Attack",
+		SDL_SCANCODE_W,
+		SDL_SCANCODE_A,
+		SDL_SCANCODE_D,
+		SDL_SCANCODE_K,
+		SDL_SCANCODE_S,
+		SDL_SCANCODE_LSHIFT
+		);
 	player.addComponent<ColliderComponent>("player1");
 	player.addComponent<ScoreComponent>();
+
+	player.addComponent<UILabel>(10, 600, "MARIO SCORE: ", "arial", AssetManager::red);
+	player.addComponent<UILabel>(160, 600, "", "arial", red);
+	player.addComponent<Player_Script>();
+
+	player.addGroup(Game::groupPlayers);
+}
+
+void AssetManager::CreateSunShape(Entity& sun)
+{
+	SDL_Color black = { 0, 0 ,0 ,255 };
+	sun.addComponent<TransformComponent>(200.0f, 100.0f);
+	sun.addComponent<Sun_Script>(black);
+
+	sun.addGroup(Game::screenShapes);
 }
 
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id)

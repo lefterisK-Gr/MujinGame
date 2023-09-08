@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include "ECS/Components.h"
 
-SceneManager::SceneManager()
+SceneManager::SceneManager() // todo make structure like animationManager with names for scenes
 {
 	transitionScenePositions[0].x = 2608;
 	transitionScenePositions[0].y = 416;

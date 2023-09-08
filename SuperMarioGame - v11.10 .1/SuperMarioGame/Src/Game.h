@@ -42,7 +42,7 @@ public:
 
 	static SceneManager* scenes;
 
-	enum groupLabels : std::size_t
+	enum groupLabels : std::size_t //todo should add groups at end for some reason
 	{
 		groupBackgroundLayer,
 		groupSewerBackgroundLayer,
@@ -56,7 +56,8 @@ public:
 		groupGoombas,
 		groupGreenKoopaTroopas,
 		groupPipeRingForeground,
-		groupForegroundLayer
+		groupForegroundLayer,
+		screenShapes
 	};
 
 private:
