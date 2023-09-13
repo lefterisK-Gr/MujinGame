@@ -3,6 +3,9 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h" //todo maybe glfw3 isnt needed
+#include "GLSLProgram.h"
 #undef main
 #include <iostream>
 #include <vector>
@@ -61,8 +64,9 @@ public:
 	};
 
 private:
-	int cnt = 0;
 	SDL_Window* window;
+	SDL_GLContext gOpenGLContext;
+	GLSLProgram _colorProgram;
 };
 
 

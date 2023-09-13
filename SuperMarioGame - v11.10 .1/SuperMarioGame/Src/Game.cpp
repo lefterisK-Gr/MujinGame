@@ -62,11 +62,29 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	{
 		std::cout << "Subsystems Initialised..." << std::endl;
 
-		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+		window = SDL_CreateWindow(title, xpos, ypos, width, height, SDL_WINDOW_OPENGL);
 		if (window)
 		{
 			std::cout << "Window created!" << std::endl;
 		}
+
+		gOpenGLContext = SDL_GL_CreateContext(window);
+		if (gOpenGLContext)
+		{
+			std::cout << "OpenGl context created!" << std::endl;
+		}
+		GLenum error = glewInit();
+		if (error != GLEW_OK) {
+			std::cout << "GLEW Failed to initialize!" << std::endl;
+		}
+
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		glClearColor(0.0f, 0.0f,1.0f, 1.0f);
+
+		//Init Shaders
+		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		_colorProgram.addAttribute("vertexPosition");
+		_colorProgram.linkShaders();
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if (renderer)
@@ -168,6 +186,8 @@ void Game::handleEvents()
 				break;
 			}
 			break;
+		case SDL_MOUSEMOTION:
+			std::cout << event.motion.x << " " << event.motion.y << std::endl;
 		default:
 			break;
 	}
@@ -394,7 +414,6 @@ void Game::update() //game objects updating
 						{
 							e->getComponent<TransformComponent>().velocity.x *= -1;
 						}
-						e->getComponent<SpriteComponent>().initTime = 0;
 					}
 					else //player death
 					{
@@ -545,84 +564,101 @@ void Game::update() //game objects updating
 
 void Game::render()
 {
-	if (renderer)
-	{
-		SDL_SetRenderDrawColor(renderer, 52, 171, 218, 255);
-	}
-	SDL_RenderClear(renderer);
-	//the order of rendered objects are the order of layers
-	//in SDL_RenderCopy 3rd arg is for the part of the texture to be displayed and 4th argument is for part of the display Window to be covered
-	//SDL_RenderCopy(renderer, playerTex, NULL, &destR);
-	// instead of the above, we use the GameObjectRenderer
-	for (auto& p : screenshapes)
-	{
-		p->draw();
-	}
+	////////////OPENGL USE
+	glClearDepth(1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (auto& p : backgroundtiles)
-	{
-		p->draw();
-	}
-
-	for (auto& p : sewerbackgroundtiles)
-	{
-		p->draw();
-	}
+	_colorProgram.use();
 
 	for (auto& t : tiles)
 	{
 		t->draw();
 	}
+	
+	_colorProgram.unuse();
 
-	for (auto& c : colliders) //remove this if you dont want to see the yellow lines in colliders
-	{
-		c->draw();
-	}
+	SDL_GL_SwapWindow(window);
 
-	for (auto& p : players) //todo manager.draw()
-	{
-		p->draw();
-	}
+	////////////SDL USE
 
-	for (auto& p : projectiles)
-	{
-		p->draw();
-	}
+	//if (renderer)
+	//{
+	//	SDL_SetRenderDrawColor(renderer, 52, 171, 218, 255);
+	//}
+	//SDL_RenderClear(renderer);
+	////the order of rendered objects are the order of layers
+	////in SDL_RenderCopy 3rd arg is for the part of the texture to be displayed and 4th argument is for part of the display Window to be covered
+	////SDL_RenderCopy(renderer, playerTex, NULL, &destR);
+	//// instead of the above, we use the GameObjectRenderer
+	//for (auto& p : screenshapes)
+	//{
+	//	p->draw();
+	//}
 
-	for (auto& p : goombas)
-	{
-		p->draw();
-	}
+	//for (auto& p : backgroundtiles)
+	//{
+	//	p->draw();
+	//}
 
-	for (auto& p : greenkoopatroopas)
-	{
-		p->draw();
-	}
+	//for (auto& p : sewerbackgroundtiles)
+	//{
+	//	p->draw();
+	//}
 
-	for (auto& p : winningtiles)
-	{
-		p->draw();
-	}
+	//for (auto& t : tiles)
+	//{
+	//	t->draw();
+	//}
 
-	for (auto& p : pipeforegroundsprites)
-	{
-		p->draw();
-	}
+	//for (auto& c : colliders) //remove this if you dont want to see the yellow lines in colliders
+	//{
+	//	c->draw();
+	//}
 
-	for (auto& p : foregroundtiles)
-	{
-		p->draw();
-	}
+	//for (auto& p : players) //todo manager.draw()
+	//{
+	//	p->draw();
+	//}
 
-	label.draw();
-	winningLabel1.draw();
-	winningLabel2.draw();
-	pauseLabel.draw();
-	scoreboard1.draw();
-	scoreboard2.draw();
-	//add stuff to render
-	SDL_RenderPresent(renderer);
+	//for (auto& p : projectiles)
+	//{
+	//	p->draw();
+	//}
 
+	//for (auto& p : goombas)
+	//{
+	//	p->draw();
+	//}
+
+	//for (auto& p : greenkoopatroopas)
+	//{
+	//	p->draw();
+	//}
+
+	//for (auto& p : winningtiles)
+	//{
+	//	p->draw();
+	//}
+
+	//for (auto& p : pipeforegroundsprites)
+	//{
+	//	p->draw();
+	//}
+
+	//for (auto& p : foregroundtiles)
+	//{
+	//	p->draw();
+	//}
+
+	//label.draw();
+	//winningLabel1.draw();
+	//winningLabel2.draw();
+	//pauseLabel.draw();
+	//scoreboard1.draw();
+	//scoreboard2.draw();
+	////add stuff to render
+	//SDL_RenderPresent(renderer);
+	
 }
 
 void Game::clean()

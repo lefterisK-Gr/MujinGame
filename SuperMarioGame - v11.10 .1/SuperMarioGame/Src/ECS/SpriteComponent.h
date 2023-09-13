@@ -2,6 +2,7 @@
 
 #include "Components.h"
 #include "SDL.h"
+#include "GL/glew.h"
 #include "../TextureManager.h"
 #include "Animation.h"
 #include "MovingAnimation.h"
@@ -12,8 +13,8 @@ class SpriteComponent : public Component //sprite -> transform
 {
 private:
 	SDL_Texture *texture;
+	GLuint _vboID = 0; //32 bits
 public:
-	int initTime = 0; // time that starts the animation
 	TransformComponent* transform;
 	SDL_Rect srcRect, destRect;
 	Vector2D tempPosition;
@@ -37,6 +38,10 @@ public:
 
 	~SpriteComponent()
 	{
+		if (_vboID != 0) //buffer hasn't been generated
+		{
+			glDeleteBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
+		}
 		//SDL_DestroyTexture(texture); //no need for that anymore, because sprite points to a texture that could be used by multiple objects
 	}
 
@@ -55,17 +60,66 @@ public:
 		
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->width;
-		srcRect.h = transform->height; 
+		srcRect.h = transform->height;
+
+		destRect.w = transform->width * transform->scale;
+		destRect.h = transform->height * transform->scale;
+
+		// OPENGL tutorial
+
+		if (_vboID == 0) //buffer hasn't been generated
+		{
+			glGenBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
+		}
+
+		float vertexData[12]; // 6 vertices * the coordinates
+		
+		//First triangle
+		vertexData[0] = transform->position.x + transform->width;
+		vertexData[1] = transform->position.y + transform->height;
+
+		vertexData[2] = transform->position.x;
+		vertexData[3] = transform->position.y + transform->height;
+
+		vertexData[4] = transform->position.x;
+		vertexData[5] = transform->position.y;
+		//Second triangle
+		vertexData[6] = transform->position.x;
+		vertexData[7] = transform->position.y;
+
+		vertexData[8] = transform->position.x + transform->width;
+		vertexData[9] = transform->position.y;
+
+		vertexData[10] = transform->position.x + transform->width;
+		vertexData[11] = transform->position.y + transform->height;
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW); // GL_STATIC_DRAW -> draw once
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0); // dont have to do this, for safety
 	}
 
 	void update() override
 	{
-
+		destRect.x = static_cast<int>(transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
+		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
 	}
 
 	void draw() override
 	{
 		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+
+		glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
+
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
+
+		glDrawArrays(GL_TRIANGLES, 0, 6); // draw arrays (0 for where is first element, 6 vertices for one square)
+
+		glDisableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int reps = 0)
