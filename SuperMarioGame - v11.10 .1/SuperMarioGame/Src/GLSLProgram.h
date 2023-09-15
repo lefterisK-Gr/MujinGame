@@ -5,8 +5,9 @@
 #include "GL/glew.h"
 
 #include <vector>
-
 #include <fstream>
+
+#include "Errors.h"
 
 class GLSLProgram {
 public:
@@ -20,14 +21,19 @@ public:
 	}
 
 	void compileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+		// Vertex and fragment shaders are successfully compiled.
+		// Now time to link them together into a program.
+		// Get a program object.
+		_programID = glCreateProgram();
+
 		_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 		if (_vertexShaderID == 0) {
-			std::cout << "Vertex Shader Failed to create!" << std::endl;
+			fatalError("Vertex Shader Failed to create!");
 		}
 
 		_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 		if (_fragmentShaderID == 0) {
-			std::cout << "Fragment Shader Failed to create!" << std::endl;
+			fatalError("Fragment Shader Failed to create!");
 		}
 
 		compileShader(vertexShaderFilePath, _vertexShaderID);
@@ -35,11 +41,6 @@ public:
 	}
 
 	void linkShaders() {
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
-		_programID = glCreateProgram();
-
 		// Attach our shaders to our program
 		glAttachShader(_programID, _vertexShaderID);
 		glAttachShader(_programID, _fragmentShaderID);
@@ -66,7 +67,7 @@ public:
 			glDeleteShader(_fragmentShaderID);
 
 			std::printf("%s\n", &(errorLog[0]));
-			std::cout << "Shaders failed to link" << std::endl;
+			fatalError("Shaders failed to link");
 		}
 
 		// Always detach shaders after a successful link.
@@ -78,6 +79,15 @@ public:
 
 	void addAttribute(const std::string& attributeName) {
 		glBindAttribLocation(_programID, _numAttributes++, attributeName.c_str());
+	}
+
+	GLuint getUniformLocation(const std::string& uniformName) {
+		GLuint location = glGetUniformLocation(_programID, uniformName.c_str());
+
+		if (location == GL_INVALID_INDEX) {
+			fatalError("Uniform " + uniformName + " not found in shader!");
+		}
+		return location;
 	}
 
 	void use() {

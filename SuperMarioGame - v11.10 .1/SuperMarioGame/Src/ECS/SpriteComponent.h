@@ -8,6 +8,9 @@
 #include "MovingAnimation.h"
 #include <map>
 #include "../AssetManager.h"
+#include "../Vertex.h"
+#include <cstddef>
+
 // TODO: (extra): can add states for different states (0 for full solid tile or 1 for no solid
 class SpriteComponent : public Component //sprite -> transform
 {
@@ -72,26 +75,43 @@ public:
 			glGenBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
 		}
 
-		float vertexData[12]; // 6 vertices * the coordinates
+		Vertex vertexData[6]; // 6 vertices * the coordinates
 		
 		//First triangle
-		vertexData[0] = transform->position.x + transform->width;
-		vertexData[1] = transform->position.y + transform->height;
+		vertexData[0].position.x = transform->position.x + 0.5f; //transform->width;
+		vertexData[0].position.y = transform->position.y + 0.5f;//transform->height;
 
-		vertexData[2] = transform->position.x;
-		vertexData[3] = transform->position.y + transform->height;
+		vertexData[1].position.x = transform->position.x;
+		vertexData[1].position.y = transform->position.y + 0.5f;//transform->height;
 
-		vertexData[4] = transform->position.x;
-		vertexData[5] = transform->position.y;
+		vertexData[2].position.x = transform->position.x;
+		vertexData[2].position.y = transform->position.y;
 		//Second triangle
-		vertexData[6] = transform->position.x;
-		vertexData[7] = transform->position.y;
+		vertexData[3].position.x = transform->position.x;
+		vertexData[3].position.y = transform->position.y;
 
-		vertexData[8] = transform->position.x + transform->width;
-		vertexData[9] = transform->position.y;
+		vertexData[4].position.x = transform->position.x + 0.5f;//transform->width;
+		vertexData[4].position.y = transform->position.y;
 
-		vertexData[10] = transform->position.x + transform->width;
-		vertexData[11] = transform->position.y + transform->height;
+		vertexData[5].position.x = transform->position.x + 0.5f;//transform->width;
+		vertexData[5].position.y = transform->position.y + 0.5f;//transform->height;
+
+		for (int i = 0; i < 6; i++) {
+			vertexData[i].color.r = 255;
+			vertexData[i].color.g = 0;
+			vertexData[i].color.b = 255;
+			vertexData[i].color.a = 255;
+		}
+
+		vertexData[1].color.r = 0;
+		vertexData[1].color.g = 0;
+		vertexData[1].color.b = 255;
+		vertexData[1].color.a = 255;
+
+		vertexData[4].color.r = 0;
+		vertexData[4].color.g = 255;
+		vertexData[4].color.b = 0;
+		vertexData[4].color.a = 255;
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW); // GL_STATIC_DRAW -> draw once
@@ -113,7 +133,10 @@ public:
 
 		glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
 
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
+		//position attribute pointer
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
+		//color attribute pointer
+		glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 
 		glDrawArrays(GL_TRIANGLES, 0, 6); // draw arrays (0 for where is first element, 6 vertices for one square)
 

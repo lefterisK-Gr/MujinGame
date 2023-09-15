@@ -84,6 +84,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		//Init Shaders
 		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_colorProgram.addAttribute("vertexPosition");
+		_colorProgram.addAttribute("vertexColor");
 		_colorProgram.linkShaders();
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
@@ -206,6 +207,7 @@ void Game::update() //game objects updating
 	manager.refresh(); 
 	manager.update();
 
+	_time += 0.01f;
 		
 	for (auto& p : players)
 	{
@@ -569,6 +571,9 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	_colorProgram.use();
+
+	GLuint timeLocation = _colorProgram.getUniformLocation("time");
+	glUniform1f(timeLocation, _time);
 
 	for (auto& t : tiles)
 	{

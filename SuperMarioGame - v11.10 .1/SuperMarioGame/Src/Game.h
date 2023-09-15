@@ -67,6 +67,8 @@ private:
 	SDL_Window* window;
 	SDL_GLContext gOpenGLContext;
 	GLSLProgram _colorProgram;
+
+	float _time = 0.0f;
 };
 
 
