@@ -15,6 +15,7 @@
 class SpriteComponent : public Component //sprite -> transform
 {
 private:
+	GLTexture gl_texture;
 	SDL_Texture *texture;
 	GLuint _vboID = 0; //32 bits
 public:
@@ -51,6 +52,7 @@ public:
 	void setTex(std::string id) //this function is used to change texture of a sprite
 	{
 		texture = Game::assets->GetTexture(id);
+		//gl_texture = TextureManager::loadPNG("assets/village_tileset.png");
 	}
 
 	void init() override
@@ -78,40 +80,28 @@ public:
 		Vertex vertexData[6]; // 6 vertices * the coordinates
 		
 		//First triangle
-		vertexData[0].position.x = transform->position.x + 0.5f; //transform->width;
-		vertexData[0].position.y = transform->position.y + 0.5f;//transform->height;
+		vertexData[0].setPosition(transform->position.x + 0.5f, transform->position.y + 0.5f);
+		vertexData[0].setUV(1.0f, 1.0f);
+		vertexData[1].setPosition(transform->position.x, transform->position.y + 0.5f);
+		vertexData[1].setUV(0.0f, 1.0f);
+		vertexData[2].setPosition(transform->position.x, transform->position.y);
+		vertexData[2].setUV(0.0f, 0.0f);
 
-		vertexData[1].position.x = transform->position.x;
-		vertexData[1].position.y = transform->position.y + 0.5f;//transform->height;
-
-		vertexData[2].position.x = transform->position.x;
-		vertexData[2].position.y = transform->position.y;
 		//Second triangle
-		vertexData[3].position.x = transform->position.x;
-		vertexData[3].position.y = transform->position.y;
-
-		vertexData[4].position.x = transform->position.x + 0.5f;//transform->width;
-		vertexData[4].position.y = transform->position.y;
-
-		vertexData[5].position.x = transform->position.x + 0.5f;//transform->width;
-		vertexData[5].position.y = transform->position.y + 0.5f;//transform->height;
+		vertexData[3].setPosition(transform->position.x, transform->position.y);
+		vertexData[3].setUV(0.0f, 0.0f);
+		vertexData[4].setPosition(transform->position.x + 0.5f, transform->position.y);
+		vertexData[4].setUV(1.0f, 0.0f);
+		vertexData[5].setPosition(transform->position.x + 0.5f, transform->position.y + 0.5f);
+		vertexData[5].setUV(1.0f, 1.0f);
 
 		for (int i = 0; i < 6; i++) {
-			vertexData[i].color.r = 255;
-			vertexData[i].color.g = 0;
-			vertexData[i].color.b = 255;
-			vertexData[i].color.a = 255;
+			vertexData[i].setColor(255, 0, 255, 255);
 		}
 
-		vertexData[1].color.r = 0;
-		vertexData[1].color.g = 0;
-		vertexData[1].color.b = 255;
-		vertexData[1].color.a = 255;
+		vertexData[1].setColor(0, 0, 255, 255);
 
-		vertexData[4].color.r = 0;
-		vertexData[4].color.g = 255;
-		vertexData[4].color.b = 0;
-		vertexData[4].color.a = 255;
+		vertexData[4].setColor(0, 255, 0, 255);
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW); // GL_STATIC_DRAW -> draw once
@@ -137,6 +127,8 @@ public:
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
 		//color attribute pointer
 		glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+		// UV attribute pointer
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 
 		glDrawArrays(GL_TRIANGLES, 0, 6); // draw arrays (0 for where is first element, 6 vertices for one square)
 

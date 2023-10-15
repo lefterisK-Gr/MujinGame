@@ -8,6 +8,7 @@
 #include "ECS\ECS.h"
 #include "SDL_ttf.h"
 
+
 class AssetManager //this class created when we added projectiles, based on this class other components changed
 {					//it just replaces the paths of textures with names
 public:
@@ -38,12 +39,18 @@ public:
 	void AddTexture(std::string id, const char* path);
 	SDL_Texture* GetTexture(std::string id);
 
+	void Add_GLTexture(std::string id, std::string path);
+	GLTexture* Get_GLTexture(std::string id);
+
 	void AddFont(std::string id, std::string path, int fontSize);
 	TTF_Font* GetFont(std::string id);
 private:
 	Manager* manager;
 	std::map<std::string, SDL_Texture*> textures;
 	std::map<std::string, TTF_Font*> fonts;
+
+	std::map<std::string, GLTexture*> gl_textures;
+
 	SDL_Rect onpipeTriggers[2];
 	SDL_Rect leftofpipeTriggers[1];
 };

@@ -166,6 +166,17 @@ SDL_Texture* AssetManager::GetTexture(std::string id)
 	return textures[id];
 }
 
+void AssetManager::Add_GLTexture(std::string id, std::string path)
+{
+	auto testPNG = TextureManager::loadPNG(path);
+	gl_textures.emplace(id, testPNG);
+}
+
+GLTexture* AssetManager::Get_GLTexture(std::string id)
+{
+	return gl_textures[id];
+}
+
 void AssetManager::AddFont(std::string id, std::string path, int fontSize)
 {
 	fonts.emplace(id, TTF_OpenFont(path.c_str(), fontSize));

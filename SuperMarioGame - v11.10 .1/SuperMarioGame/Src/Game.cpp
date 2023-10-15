@@ -81,10 +81,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		glClearColor(0.0f, 0.0f,1.0f, 1.0f);
 
-		//Init Shaders
+		//InitShaders function from Bengine
 		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_colorProgram.addAttribute("vertexPosition");
 		_colorProgram.addAttribute("vertexColor");
+		_colorProgram.addAttribute("vertexUV");
 		_colorProgram.linkShaders();
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
@@ -108,6 +109,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->AddTexture("projectile", "assets/my_projectile.png");
 	assets->AddTexture("goomba", "assets/super_mario_tileset_scaled.png"); // same path since the same png has all entities
 	assets->AddTexture("greenkoopatroopa", "assets/super_mario_tileset_scaled.png");
+
+	assets->Add_GLTexture("terrain", "assets/village_tileset.png");
 
 	assets->AddFont("arial", "assets/arial.ttf", 20);
 	assets->AddFont("arialBig", "assets/arial.ttf", 100);
@@ -572,14 +575,21 @@ void Game::render()
 
 	_colorProgram.use();
 
-	GLuint timeLocation = _colorProgram.getUniformLocation("time");
-	glUniform1f(timeLocation, _time);
+	glActiveTexture(GL_TEXTURE0);
+	auto terrain_Texture = assets->Get_GLTexture("terrain");
+	glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
+	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
+	glUniform1i(textureLocation, 0);
+
+	//GLint timeLocation = _colorProgram.getUniformLocation("time");
+	//glUniform1f(timeLocation, _time);
 
 	for (auto& t : tiles)
 	{
 		t->draw();
 	}
 	
+	glBindTexture(GL_TEXTURE_2D, 0);
 	_colorProgram.unuse();
 
 	SDL_GL_SwapWindow(window);
