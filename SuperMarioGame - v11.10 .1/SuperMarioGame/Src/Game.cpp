@@ -82,11 +82,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		glClearColor(0.0f, 0.0f,1.0f, 1.0f);
 
 		//InitShaders function from Bengine
-		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
+		//_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_colorProgram.addAttribute("vertexPosition");
 		_colorProgram.addAttribute("vertexColor");
 		_colorProgram.addAttribute("vertexUV");
-		_colorProgram.linkShaders();
+		//_colorProgram.linkShaders();
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if (renderer)
@@ -577,9 +577,9 @@ void Game::render()
 
 	glActiveTexture(GL_TEXTURE0);
 	auto terrain_Texture = assets->Get_GLTexture("terrain");
-	glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
-	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
+	//glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
+	//GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
+	//glUniform1i(textureLocation, 0);
 
 	//GLint timeLocation = _colorProgram.getUniformLocation("time");
 	//glUniform1f(timeLocation, _time);

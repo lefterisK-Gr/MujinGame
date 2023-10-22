@@ -168,8 +168,8 @@ SDL_Texture* AssetManager::GetTexture(std::string id)
 
 void AssetManager::Add_GLTexture(std::string id, std::string path)
 {
-	auto testPNG = TextureManager::loadPNG(path);
-	gl_textures.emplace(id, testPNG);
+	//auto testPNG = TextureManager::loadPNG(path);
+	//gl_textures.emplace(id, testPNG);
 }
 
 GLTexture* AssetManager::Get_GLTexture(std::string id)
