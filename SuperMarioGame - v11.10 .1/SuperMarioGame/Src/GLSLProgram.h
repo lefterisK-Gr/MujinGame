@@ -7,7 +7,7 @@
 #include <vector>
 #include <fstream>
 
-#include "Errors.h"
+#include "ConsoleLogger.h"
 
 class GLSLProgram {
 public:
@@ -28,12 +28,12 @@ public:
 
 		_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 		if (_vertexShaderID == 0) {
-			fatalError("Vertex Shader Failed to create!");
+			ConsoleLogger::error("Vertex Shader Failed to create!");
 		}
 
 		_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 		if (_fragmentShaderID == 0) {
-			fatalError("Fragment Shader Failed to create!");
+			ConsoleLogger::error("Fragment Shader Failed to create!");
 		}
 
 		compileShader(vertexShaderFilePath, _vertexShaderID);
@@ -67,7 +67,7 @@ public:
 			glDeleteShader(_fragmentShaderID);
 
 			std::printf("%s\n", &(errorLog[0]));
-			fatalError("Shaders failed to link");
+			ConsoleLogger::error("Shaders failed to link");
 		}
 
 		// Always detach shaders after a successful link.
@@ -85,7 +85,7 @@ public:
 		GLint location = glGetUniformLocation(_programID, uniformName.c_str());
 
 		if (location == GL_INVALID_INDEX) {
-			fatalError("Uniform " + uniformName + " not found in shader!");
+			ConsoleLogger::error("Uniform " + uniformName + " not found in shader!");
 		}
 		return location;
 	}

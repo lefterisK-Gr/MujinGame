@@ -15,7 +15,7 @@
 class SpriteComponent : public Component //sprite -> transform
 {
 private:
-	GLTexture gl_texture;
+	const GLTexture *gl_texture;
 	SDL_Texture *texture;
 	GLuint _vboID = 0; //32 bits
 public:
@@ -51,8 +51,8 @@ public:
 
 	void setTex(std::string id) //this function is used to change texture of a sprite
 	{
-		texture = Game::assets->GetTexture(id);
-		//gl_texture = TextureManager::loadPNG("assets/village_tileset.png");
+		//texture = Game::assets->GetTexture(id);
+		gl_texture = Game::assets->Get_GLTexture(id);
 	}
 
 	void init() override
@@ -117,7 +117,13 @@ public:
 
 	void draw() override
 	{
-		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
+		//TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
+
+		/*glActiveTexture(GL_TEXTURE0);
+		const GLTexture* terrain_Texture = assets->Get_GLTexture("terrain");
+		glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
+		GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
+		glUniform1i(textureLocation, 0);*/
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 
@@ -135,6 +141,8 @@ public:
 		glDisableVertexAttribArray(0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		/*glBindTexture(GL_TEXTURE_2D, 0);*/
 	}
 
 	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int reps = 0)
