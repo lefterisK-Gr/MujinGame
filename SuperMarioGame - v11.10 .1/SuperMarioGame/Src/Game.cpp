@@ -62,7 +62,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	{
 		std::cout << "Subsystems Initialised..." << std::endl;
 
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
 		window = SDL_CreateWindow(title, xpos, ypos, width, height, SDL_WINDOW_OPENGL);
+		if (window == NULL) {
+			printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
+			// Handle the error
+		}
 		if (window)
 		{
 			std::cout << "Window created!" << std::endl;
@@ -78,8 +84,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 			std::cout << "GLEW Failed to initialize!" << std::endl;
 		}
 
-		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		glClearColor(0.0f, 0.0f,1.0f, 1.0f);
+		//check opengl version
+		std::printf("*** OpenGL Version %s ***\n", glGetString(GL_VERSION));
+
+		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+
+		SDL_GL_SetSwapInterval(0);
 
 		//InitShaders function from Bengine
 		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
@@ -576,7 +586,7 @@ void Game::render()
 	_colorProgram.use();
 
 	glActiveTexture(GL_TEXTURE0);
-	auto terrain_Texture = assets->Get_GLTexture("terrain");
+	const GLTexture* terrain_Texture = assets->Get_GLTexture("terrain");
 	glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
 	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);

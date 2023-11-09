@@ -13,6 +13,6 @@ public:
 	static void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip); 
 
 	//OPENGL functions
-	static bool readFileToBuffer(std::string filePath, std::vector <unsigned char>& buffer);
-	static GLTexture* loadPNG(std::string filePath);
+	static bool readFileToBuffer(const char* filePath, std::vector <unsigned char>& buffer);
+	static GLTexture* loadPNG(const char* filePath);
 };

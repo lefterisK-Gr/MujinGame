@@ -15,7 +15,7 @@
 class SpriteComponent : public Component //sprite -> transform
 {
 private:
-	GLTexture gl_texture;
+	const GLTexture *gl_texture;
 	SDL_Texture *texture;
 	GLuint _vboID = 0; //32 bits
 public:
@@ -51,8 +51,8 @@ public:
 
 	void setTex(std::string id) //this function is used to change texture of a sprite
 	{
-		texture = Game::assets->GetTexture(id);
-		//gl_texture = TextureManager::loadPNG("assets/village_tileset.png");
+		//texture = Game::assets->GetTexture(id);
+		gl_texture = Game::assets->Get_GLTexture(id);
 	}
 
 	void init() override
@@ -113,11 +113,61 @@ public:
 	{
 		destRect.x = static_cast<int>(transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+
+		float gl_position_x = 2 * (destRect.x - 400) / 800;
+		float gl_position_y = 2 * (destRect.y - 320) / 640;
+
+		float gl_sprite_width = 2 * (static_cast<float>(transform->width) / 800);
+		float gl_sprite_height = 2 * (static_cast<float>(transform->height) / 640);
+
+		if (_vboID == 0) //buffer hasn't been generated
+		{
+			glGenBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
+		}
+
+		Vertex vertexData[6]; // 6 vertices * the coordinates
+		transform->position.x += 0.01f;
+		//First triangle
+		vertexData[0].setPosition(gl_position_x + gl_sprite_width, gl_position_y + gl_sprite_height);
+		vertexData[0].setUV(1.0f, 1.0f);
+		vertexData[1].setPosition(gl_position_x, gl_position_y + gl_sprite_height);
+		vertexData[1].setUV(0.0f, 1.0f);
+		vertexData[2].setPosition(gl_position_x, gl_position_y);
+		vertexData[2].setUV(0.0f, 0.0f);
+
+		//Second triangle
+		vertexData[3].setPosition(gl_position_x, gl_position_y);
+		vertexData[3].setUV(0.0f, 0.0f);
+		vertexData[4].setPosition(gl_position_x + gl_sprite_width, gl_position_y);
+		vertexData[4].setUV(1.0f, 0.0f);
+		vertexData[5].setPosition(gl_position_x + gl_sprite_width, gl_position_y + gl_sprite_height);
+		vertexData[5].setUV(1.0f, 1.0f);
+
+		for (int i = 0; i < 6; i++) {
+			vertexData[i].setColor(255, 0, 255, 255);
+		}
+
+		vertexData[1].setColor(0, 0, 255, 255);
+
+		vertexData[4].setColor(0, 255, 0, 255);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW); // GL_STATIC_DRAW -> draw once
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0); // dont have to do this, for safety
 	}
 
 	void draw() override
 	{
-		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
+		//TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
+
+		//bind texture
+		glBindTexture(GL_TEXTURE_2D, gl_texture->id);
+		/*glActiveTexture(GL_TEXTURE0);
+		const GLTexture* terrain_Texture = assets->Get_GLTexture("terrain");
+		glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
+		GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
+		glUniform1i(textureLocation, 0);*/
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 
@@ -135,6 +185,8 @@ public:
 		glDisableVertexAttribArray(0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		/*glBindTexture(GL_TEXTURE_2D, 0);*/
 	}
 
 	void SetAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int reps = 0)

@@ -166,13 +166,22 @@ SDL_Texture* AssetManager::GetTexture(std::string id)
 	return textures[id];
 }
 
-void AssetManager::Add_GLTexture(std::string id, std::string path)
+void AssetManager::Add_GLTexture(std::string id, const char* path)
 {
-	auto testPNG = TextureManager::loadPNG(path);
-	gl_textures.emplace(id, testPNG);
+	const GLTexture *testPNG = TextureManager::loadPNG(path);
+	const int testHeight = testPNG->height;
+	const int testWidth = testPNG->width;
+	const unsigned int testId = testPNG->id;
+	const GLTexture* test1PNG = new GLTexture{ testId, testWidth, testHeight };
+
+	std::cout << id << "     " << test1PNG->width<< std::endl;
+	std::cout << id << "     " << testPNG->width << std::endl;
+	std::cout << testHeight << std::endl;
+	gl_textures.emplace(id, test1PNG);
+	std::cout << id << "     " << (*gl_textures[id]).height << std::endl;
 }
 
-GLTexture* AssetManager::Get_GLTexture(std::string id)
+const GLTexture* AssetManager::Get_GLTexture(std::string id)
 {
 	return gl_textures[id];
 }

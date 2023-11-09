@@ -1,7 +1,8 @@
 #include "TextureManager.h"
 #include <fstream>
 #include "picoPNG.h"
-#include "Errors.h"
+
+#include "ConsoleLogger.h"
 
 SDL_Texture* TextureManager::LoadTexture(const char* texture)
 {
@@ -22,11 +23,11 @@ void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest , SDL_Re
 	SDL_RenderCopyEx(Game::renderer, tex, &src, &dest, NULL, NULL, flip);
 }
 
-bool TextureManager::readFileToBuffer(std::string filePath, std::vector <unsigned char>& buffer) {
+bool TextureManager::readFileToBuffer(const char* filePath, std::vector <unsigned char>& buffer) {
 	std::ifstream file(filePath, std::ios::binary);
 
 	if (file.fail()) {
-		perror(filePath.c_str());
+		perror(filePath);
 		return false;
 	}
 
@@ -47,7 +48,7 @@ bool TextureManager::readFileToBuffer(std::string filePath, std::vector <unsigne
 	return true;
 }
 
-GLTexture* TextureManager::loadPNG(std::string filePath) {
+GLTexture* TextureManager::loadPNG(const char* filePath) {
 	GLTexture texture = {};
 
 	std::vector<unsigned char> in;
@@ -55,13 +56,13 @@ GLTexture* TextureManager::loadPNG(std::string filePath) {
 
 	unsigned long width, height;
 	if (TextureManager::readFileToBuffer(filePath, in) == false) {
-		fatalError("Failed to load PNG file to buffer!");
+		ConsoleLogger::error("Failed to load PNG file to buffer!");
 	}
 
-	int errorCode = decodePNG(out, width, height, &(in[0]), in.size());
+	int errorCode = decodePNG(out, width, height, &(in[0]), in.size(), true);
 
 	if (errorCode != 0) {
-		fatalError("decodePNG failed with error: " + std::to_string(errorCode));
+		ConsoleLogger::error("decodePNG failed with error: " + std::to_string(errorCode));
 	}
 
 	glGenTextures(1, &(texture.id));
