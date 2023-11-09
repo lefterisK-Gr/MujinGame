@@ -9,13 +9,13 @@ out vec4 fragmentColor;
 out vec2 fragmentUV;
 
 void main() {
-	gl_Position.xy = vertexPosition;
-	gl_Position.z = 0.0;
-	gl_Position.w = 1.0; //indicate that the coordinates are normalized
+    gl_Position.xy = vertexPosition;
+    gl_Position.z = 0.0;
+    gl_Position.w = 1.0; //indicate that the coordinates are normalized
 
-	fragmentPosition = vertexPosition;
+    fragmentPosition = vertexPosition;
 
-	fragmentColor = vertexColor;
+    fragmentColor = vertexColor;
 
-	fragmentUV = vertexUV;
+    fragmentUV = vec2(vertexUV.x, 1.0 - vertexUV.y);
 }

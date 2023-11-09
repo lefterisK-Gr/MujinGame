@@ -12,11 +12,10 @@ uniform sampler2D texture_sampler;
 
 void main() {
 
-	vec4 textureColor = texture(texture_sampler, fragmentUV);
+    vec4 textureColor = texture(texture_sampler, fragmentUV);
 
-	color = textureColor * fragmentColor;
-	//float rValue = fragmentColor.r * (cos(fragmentPosition.x * 4.0 + time) + 1.0) * 0.5;
-	//float gValue = fragmentColor.g * (cos(fragmentPosition.y * 16.0 + time) + 1.0) * 0.5;
-	//float bValue = fragmentColor.b * (sin(fragmentPosition.x * 2.0 + time) + 1.0) * 0.5;
-	//color = vec4(rValue, gValue, bValue, fragmentColor.a);
+    float rValue = fragmentColor.r * (cos(fragmentPosition.x * 4.0 + time) + 1.0) * 0.5;
+    float gValue = fragmentColor.g * (cos(fragmentPosition.y * 16.0 + time) + 1.0) * 0.5;
+    float bValue = fragmentColor.b * (sin(fragmentPosition.x * 2.0 + time) + 1.0) * 0.5;
+    color = vec4(rValue, gValue, bValue, fragmentColor.a) * textureColor;
 }
