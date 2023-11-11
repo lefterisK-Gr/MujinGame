@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ECS\ECS.h"
-#include "SDL_ttf.h"
+#include <TTF/SDL_ttf.h>
 #include "Game.h"
 
 class ShapeManager {

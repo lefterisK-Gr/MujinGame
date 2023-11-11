@@ -1,5 +1,5 @@
 #pragma once
-#include <SDL.h>
+#include <SDL/SDL.h>
 #include "ECS/Components.h"
 #include "Vector2D.h"
 

@@ -7,7 +7,7 @@
 #include <bitset>
 #include <array>
 
-#include "SDL.h"
+#include <SDL/SDL.h>
 class Component;
 class Entity;
 class Manager;

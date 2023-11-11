@@ -1,10 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "GL/glew.h"
-#include "GLFW/glfw3.h" //todo maybe glfw3 isnt needed
+#include <SDL/SDL.h>
+#include <SDL_IMAGE/SDL_image.h>
+#include <GL/glew.h>
 #include "GLSLProgram.h"
 #undef main
 #include <iostream>

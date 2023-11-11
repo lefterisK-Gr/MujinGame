@@ -4,8 +4,8 @@
 #include "../AssetManager.h"
 #include "../Game.h"
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL/SDL.h>
+#include <TTF/SDL_ttf.h>
 #include <string>
 
 class UILabel : public Component

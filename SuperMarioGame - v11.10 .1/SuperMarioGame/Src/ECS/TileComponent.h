@@ -2,7 +2,7 @@
 
 #include <string>
 #include "ECS.h"
-#include "SDL.h"
+#include <SDL/SDL.h>
 #include "Components.h"
 
 extern Manager manager;

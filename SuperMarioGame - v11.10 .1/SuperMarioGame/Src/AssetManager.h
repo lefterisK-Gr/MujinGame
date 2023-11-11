@@ -6,7 +6,7 @@
 #include "ShapeManager.h"
 #include "Vector2D.h"
 #include "ECS\ECS.h"
-#include "SDL_ttf.h"
+#include <TTF/SDL_ttf.h>
 
 
 class AssetManager //this class created when we added projectiles, based on this class other components changed
