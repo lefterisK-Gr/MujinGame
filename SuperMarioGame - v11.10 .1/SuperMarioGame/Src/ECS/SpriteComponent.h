@@ -114,11 +114,16 @@ public:
 		destRect.x = static_cast<int>(transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
 
-		float gl_position_x = 2 * (destRect.x - 400) / 800;
-		float gl_position_y = 2 * (destRect.y - 320) / 640;
+		//float gl_position_x = 2.0f * (destRect.x - 400.0f) / 800.0f;
+		//float gl_position_y = -(2.0f * (destRect.y - 320.0f) / 640.0f);
+		//if (gl_position_x > -1 && gl_position_x < 1) {
+		//	std::cout << "seeing sprite positions";
+		//}
+		float gl_position_x = 0.f;
+		float gl_position_y = 0.0f;
 
-		float gl_sprite_width = 2 * (static_cast<float>(transform->width) / 800);
-		float gl_sprite_height = 2 * (static_cast<float>(transform->height) / 640);
+		float gl_sprite_width = 1.0f/*2 * (static_cast<float>(transform->width) / 800)*/;
+		float gl_sprite_height = 1.0f/*2 * (static_cast<float>(transform->height) / 640)*/;
 
 		if (_vboID == 0) //buffer hasn't been generated
 		{
@@ -147,9 +152,9 @@ public:
 			vertexData[i].setColor(255, 0, 255, 255);
 		}
 
-		vertexData[1].setColor(0, 0, 255, 255);
+	/*	vertexData[1].setColor(0, 0, 255, 255);
 
-		vertexData[4].setColor(0, 255, 0, 255);
+		vertexData[4].setColor(0, 255, 0, 255);*/
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW); // GL_STATIC_DRAW -> draw once

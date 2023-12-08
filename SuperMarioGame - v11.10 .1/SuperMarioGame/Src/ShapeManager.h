@@ -3,6 +3,7 @@
 #include "ECS\ECS.h"
 #include <TTF/SDL_ttf.h>
 #include "Game.h"
+#include <glm/glm.hpp>
 
 class ShapeManager {
 public:

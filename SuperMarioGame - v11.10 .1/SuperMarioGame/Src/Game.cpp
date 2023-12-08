@@ -8,6 +8,7 @@
 #include "AssetManager.h"
 #include "SceneManager.h"
 #include <sstream>
+#include "Camera2D.h"
 
 #undef main
 
@@ -19,6 +20,7 @@ Manager manager;
 Collision collision;
 
 SDL_Rect Game::camera = { 0,0,2240,0 }; // camera.w shows how far right camera can go
+Camera2D camera2D;
 
 AssetManager* Game::assets = new AssetManager(&manager);
 
@@ -52,6 +54,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 {
 	int flags = 0;
 
+	camera2D.init(width, height); // Assuming a screen resolution of 800x600
+	camera2D.setPosition(camera2D.getPosition() /*+ glm::vec2(
+		width / 2.0f,
+		height / 2.0f
+	)*/);;
+	camera2D.setScale(1.0f);
 	// create renderer
 	if (fullscreen)
 	{
@@ -219,6 +227,8 @@ void Game::update() //game objects updating
 
 	manager.refresh(); 
 	manager.update();
+
+	camera2D.update();
 
 	_time += 0.01f;
 		
@@ -591,12 +601,19 @@ void Game::render()
 	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
 
-	//GLint timeLocation = _colorProgram.getUniformLocation("time");
-	//glUniform1f(timeLocation, _time);
+	/*GLint timeLocation = _colorProgram.getUniformLocation("time");
+	glUniform1f(timeLocation, _time);*/
+
+	//set the camera matrix
+	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	//std::cout << cameraMatrix[0][0] << std::endl;
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	for (auto& t : tiles)
 	{
 		t->draw();
+		break;
 	}
 	
 	glBindTexture(GL_TEXTURE_2D, 0);

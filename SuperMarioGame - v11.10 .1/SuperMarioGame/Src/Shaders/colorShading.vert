@@ -8,10 +8,16 @@ out vec2 fragmentPosition;
 out vec4 fragmentColor;
 out vec2 fragmentUV;
 
+uniform mat4 projection;
+
 void main() {
-    gl_Position.xy = vertexPosition;
-    gl_Position.z = 0.0;
-    gl_Position.w = 1.0; //indicate that the coordinates are normalized
+    gl_Position = projection * vec4(vertexPosition.xy, 0.0, 1.0);
+
+    //z position is 0 since we are in 2D
+    //gl_Position.z = 0.0;
+
+    //indicate that the coordinates are normalized
+    //gl_Position.w = 1.0;
 
     fragmentPosition = vertexPosition;
 
