@@ -26,7 +26,7 @@ AssetManager::~AssetManager()
 
 void AssetManager::ProjectileExplosion(int camerapos)
 {
-	std::cout << "entered Projectile Explosion" << std::endl;
+	std::cout << "Projectile Explosion!" << std::endl;
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(2, 0), 200, 2, "projectile");
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(-2, 0), 200, 2, "projectile");
 	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(0, 2), 200, 2, "projectile");
@@ -39,7 +39,7 @@ void AssetManager::ProjectileExplosion(int camerapos)
 
 void AssetManager::CreatePlayer(Entity& player)
 {
-	player.addComponent<TransformComponent>(1448.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
+	player.addComponent<TransformComponent>(200.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
 	player.addComponent<AnimatorComponent>("warrior");

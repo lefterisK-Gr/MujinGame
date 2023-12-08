@@ -8,6 +8,7 @@
 #undef main
 #include <iostream>
 #include <vector>
+#include "Camera2D.h"
 
 class AssetManager;
 class SceneManager;
@@ -39,6 +40,7 @@ public:
 	static bool justResumed;
 
 	static SDL_Rect camera;
+	static Camera2D camera2D;
 
 	static AssetManager* assets;
 

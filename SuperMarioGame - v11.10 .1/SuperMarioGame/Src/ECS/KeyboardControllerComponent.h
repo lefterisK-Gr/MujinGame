@@ -6,6 +6,7 @@
 #include "./Components.h"
 #include <Windows.h>
 #include <MMSystem.h>
+#include "../Game.h"
 //class RigidBodyComponent;
 
 class KeyboardControllerComponent : public Component //! moving animation
@@ -17,6 +18,7 @@ public: //TODO: maybe have variables as private
 	SpriteComponent* sprite;
 	const Uint8* keystate;
 
+	const float SCALE_SPEED = 0.1f;
 	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
 	SDL_Scancode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
 
@@ -112,6 +114,19 @@ public: //TODO: maybe have variables as private
 			if (!keystate[runKey])
 			{
 				transform->velocity.x /= 2;
+			}
+		}
+		if (Game::event.type == SDL_MOUSEWHEEL)
+		{
+			if (Game::event.wheel.y > 0)
+			{
+				// Scrolling up
+				Game::camera2D.setScale(Game::camera2D.getScale() + SCALE_SPEED);
+			}
+			else if (Game::event.wheel.y < 0)
+			{
+				// Scrolling down
+				Game::camera2D.setScale(Game::camera2D.getScale() - SCALE_SPEED);
 			}
 		}
 	}

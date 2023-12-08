@@ -8,7 +8,7 @@
 #include "AssetManager.h"
 #include "SceneManager.h"
 #include <sstream>
-#include "Camera2D.h"
+
 
 #undef main
 
@@ -20,7 +20,7 @@ Manager manager;
 Collision collision;
 
 SDL_Rect Game::camera = { 0,0,2240,0 }; // camera.w shows how far right camera can go
-Camera2D camera2D;
+Camera2D Game::camera2D;
 
 AssetManager* Game::assets = new AssetManager(&manager);
 
@@ -54,12 +54,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 {
 	int flags = 0;
 
-	camera2D.init(width, height); // Assuming a screen resolution of 800x600
-	camera2D.setPosition(camera2D.getPosition() /*+ glm::vec2(
+	Game::camera2D.init(width, height); // Assuming a screen resolution of 800x600
+	Game::camera2D.setPosition(camera2D.getPosition() /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
 	)*/);;
-	camera2D.setScale(1.0f);
+	Game::camera2D.setScale(1.0f);
 	// create renderer
 	if (fullscreen)
 	{
@@ -228,7 +228,7 @@ void Game::update() //game objects updating
 	manager.refresh(); 
 	manager.update();
 
-	camera2D.update();
+	Game::camera2D.update();
 
 	_time += 0.01f;
 		
@@ -537,7 +537,7 @@ void Game::update() //game objects updating
 		{
 			plMaxDistance.x = pl->getComponent<TransformComponent>().position.x;
 		}
-		camera.x = plMaxDistance.x - 400;
+		camera.x = plMaxDistance.x - 400;	
 		if (pl->getComponent<TransformComponent>().position.y >(camera.y + 640)) //player death
 		{
 			winningss << "YOU DIED";
@@ -585,6 +585,8 @@ void Game::update() //game objects updating
 		camera.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w);
 	if(camera.y > camera.h)
 		camera.y = camera.h;
+	glm::vec2 vecPosition(camera.x, camera.y);
+	Game::camera2D.setPosition(vecPosition);
 }
 
 void Game::render()
@@ -606,7 +608,7 @@ void Game::render()
 
 	//set the camera matrix
 	GLint pLocation = _colorProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	glm::mat4 cameraMatrix = Game::camera2D.getCameraMatrix();
 	//std::cout << cameraMatrix[0][0] << std::endl;
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 

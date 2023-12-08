@@ -122,9 +122,9 @@ public:
 		float gl_position_x = 0.f;
 		float gl_position_y = 0.0f;
 
-		float gl_sprite_width = 1.0f/*2 * (static_cast<float>(transform->width) / 800)*/;
-		float gl_sprite_height = 1.0f/*2 * (static_cast<float>(transform->height) / 640)*/;
-
+		float gl_sprite_width = 32/*(static_cast<float>(transform->width) / 800)*/;
+		float gl_sprite_height = 32/*(static_cast<float>(transform->height) / 640)*/;
+			
 		if (_vboID == 0) //buffer hasn't been generated
 		{
 			glGenBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
