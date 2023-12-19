@@ -19,7 +19,7 @@ Camera2D::~Camera2D()
 void Camera2D::init(int screenWidth, int screenHeight) {
 	_screenWidth = screenWidth;
 	_screenHeight = screenHeight;
-	_orthoMatrix = glm::ortho(0.0f, (float)_screenWidth, 0.0f, (float)_screenHeight); //left, right, bottom, top
+	_orthoMatrix = glm::ortho(0.0f, (float)_screenWidth, 0.0f, -(float)_screenHeight); //left, right, bottom, top
 }
 
 void Camera2D::update() {
@@ -34,4 +34,14 @@ void Camera2D::update() {
 		//_cameraMatrix = glm::scale(_cameraMatrix, scale);
 		_cameraChange = false;
 	}
+}
+
+glm::vec2 Camera2D::convertScreenToWorld(glm::vec2 screenCoords) {
+	//Make 0 the center
+	screenCoords -= glm::vec2(_screenWidth / 2, _screenHeight / 2);
+	//Scale coordinates
+	screenCoords /= _scale;
+	//Translate with the camera position
+	screenCoords += _position;
+	return screenCoords;
 }

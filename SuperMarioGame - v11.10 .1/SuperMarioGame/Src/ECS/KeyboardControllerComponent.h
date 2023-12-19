@@ -18,9 +18,8 @@ public: //TODO: maybe have variables as private
 	SpriteComponent* sprite;
 	const Uint8* keystate;
 
-	const float SCALE_SPEED = 0.1f;
 	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
-	SDL_Scancode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
+	SDL_KeyCode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
 
 	KeyboardControllerComponent()
 	{
@@ -32,12 +31,12 @@ public: //TODO: maybe have variables as private
 		char* jumpAnimation,
 		char* walkAnimation,
 		char* attackAnimation,
-		SDL_Scancode jumpKey,
-		SDL_Scancode walkLeftKey,
-		SDL_Scancode walkRightKey,
-		SDL_Scancode attackKey,
-		SDL_Scancode downKey,
-		SDL_Scancode runKey
+		SDL_KeyCode jumpKey,
+		SDL_KeyCode walkLeftKey,
+		SDL_KeyCode walkRightKey,
+		SDL_KeyCode attackKey,
+		SDL_KeyCode downKey,
+		SDL_KeyCode runKey
 		)
 
 		: idleAnimation(idleAnimation),
@@ -71,62 +70,41 @@ public: //TODO: maybe have variables as private
 	{
 		keystate = SDL_GetKeyboardState(NULL);
 
-		//todo now that we removed the if(!vertTransition) we dont skip the current keystates when we previously inputted "S"
-		if (Game::event.type == SDL_KEYDOWN)
-		{
-			if (keystate[jumpKey])
+		if (Game::_inputManager.isKeyPressed(jumpKey)) {
+			if (rigidbody->onGround)
 			{
-				if (rigidbody->onGround)
-				{
-					//PlaySound(TEXT("jump.wav"), NULL, SND_ASYNC);
-					rigidbody->justjumped = true;
-					transform->velocity.y = -7;
-					//animation->Play(jumpAnimation.c_str()); // todo maybe not needing that because of !rigidbody->onGround
-				}
-			}
-			if (keystate[walkLeftKey])
-			{
-				transform->velocity.x = -2;
-
-				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
-			}
-			if (keystate[walkRightKey])
-			{
-				if (sprite->spriteFlip == SDL_FLIP_HORIZONTAL)
-				{
-					animator->sprite->spriteFlip = SDL_FLIP_NONE;
-				}
-
-				transform->velocity.x = 2;
-			}
-			if (keystate[runKey])
-			{
-				transform->velocity.x *= 2;
+				//PlaySound(TEXT("jump.wav"), NULL, SND_ASYNC);
+				rigidbody->justjumped = true;
+				transform->velocity.y = -7;
+				//animation->Play(jumpAnimation.c_str()); // todo maybe not needing that because of !rigidbody->onGround
 			}
 		}
-		if (Game::event.type == SDL_KEYUP)
-		{
-			if (!keystate[walkRightKey] && !keystate[walkLeftKey])
-			{
-				transform->velocity.x = 0;
-				//animation->Play("P1Idle");
-			}
-			if (!keystate[runKey])
-			{
-				transform->velocity.x /= 2;
-			}
+
+		if (Game::_inputManager.isKeyPressed(walkLeftKey)) {
+			transform->velocity.x = -2;
+
+			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
-		if (Game::event.type == SDL_MOUSEWHEEL)
-		{
-			if (Game::event.wheel.y > 0)
+		if (Game::_inputManager.isKeyPressed(walkRightKey)) {
+			if (sprite->spriteFlip == SDL_FLIP_HORIZONTAL)
 			{
-				// Scrolling up
-				Game::camera2D.setScale(Game::camera2D.getScale() + SCALE_SPEED);
+				animator->sprite->spriteFlip = SDL_FLIP_NONE;
 			}
-			else if (Game::event.wheel.y < 0)
-			{
-				// Scrolling down
-				Game::camera2D.setScale(Game::camera2D.getScale() - SCALE_SPEED);
+
+			transform->velocity.x = 2;
+		}
+		if (Game::_inputManager.isKeyPressed(runKey)) {
+			transform->velocity.x *= 2;
+		}
+		if (!Game::_inputManager.isKeyPressed(walkRightKey) && !Game::_inputManager.isKeyPressed(walkLeftKey)) {
+			transform->velocity.x = 0;
+		}
+		if (!Game::_inputManager.isKeyPressed(runKey)) {
+			if (Game::_inputManager.isKeyPressed(walkLeftKey)) {
+				transform->velocity.x = -1;  // Set velocity to 1 (walking speed) in left direction
+			}
+			else if (Game::_inputManager.isKeyPressed(walkRightKey)) {
+				transform->velocity.x = 1;   // Set velocity to 1 (walking speed) in right direction
 			}
 		}
 	}

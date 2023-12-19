@@ -50,12 +50,12 @@ void AssetManager::CreatePlayer(Entity& player)
 		(char*)"P1Jump",
 		(char*)"P1Walk",
 		(char*)"P1Attack",
-		SDL_SCANCODE_W,
-		SDL_SCANCODE_A,
-		SDL_SCANCODE_D,
-		SDL_SCANCODE_K,
-		SDL_SCANCODE_S,
-		SDL_SCANCODE_LSHIFT
+		SDLK_w,
+		SDLK_a,
+		SDLK_d,
+		SDLK_k,
+		SDLK_s,
+		SDLK_LSHIFT
 		);
 	player.addComponent<ColliderComponent>("player1");
 	player.addComponent<ScoreComponent>();

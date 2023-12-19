@@ -44,24 +44,27 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 		{
 			wordNum = stoi(word);
 
-			srcY = (wordNum / 16) * tileSize;
-			srcX = (wordNum % 16) * tileSize; //adding tile based on srcX,srcY coordinates
+			if (wordNum >= 0) {
+				srcY = (wordNum / 16) * tileSize;
+				srcX = (wordNum % 16) * tileSize; //adding tile based on srcX,srcY coordinates
 
-			for (arrayTilesIndex = 0; arrayTilesIndex < (sizeof(solidTiles) / sizeof(solidTiles[0])); arrayTilesIndex++) 
-			{
-				if (wordNum == solidTiles[arrayTilesIndex]) 
+				for (arrayTilesIndex = 0; arrayTilesIndex < (sizeof(solidTiles) / sizeof(solidTiles[0])); arrayTilesIndex++)
 				{
-					isSolid = true;
-					break;
+					if (wordNum == solidTiles[arrayTilesIndex])
+					{
+						isSolid = true;
+						break;
+					}
+				}
+
+				auto& tile(manager.addEntity());
+				(this->*addTileFunction)(tile, srcX, srcY, x * scaledSize, y * scaledSize, isSolid);
+
+				for (int i = 0; i < tileFeatures.size(); i++) {
+					(this->*tileFeatures[i])(tile, wordNum);
 				}
 			}
-
-			auto& tile(manager.addEntity());
-			(this->*addTileFunction)(tile, srcX, srcY, x * scaledSize, y * scaledSize, isSolid);
-
-			for (int i = 0; i < tileFeatures.size(); i++) {
-				(this->*tileFeatures[i])(tile, wordNum);
-			}
+			
 
 			isSolid = false;
 			x++;

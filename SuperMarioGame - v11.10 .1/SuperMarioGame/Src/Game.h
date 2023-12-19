@@ -9,6 +9,9 @@
 #include <iostream>
 #include <vector>
 #include "Camera2D.h"
+#include "SpriteBatch.h"
+#include "InputManager.h"
+#include "Timing.h"
 
 class AssetManager;
 class SceneManager;
@@ -20,7 +23,7 @@ public:
 	Game();
 	~Game();
 
-	void init(const char* title, int x, int ypos, int width, int height, bool fullscreen);
+	void init(const char* title, int x, int ypos, int width, int height, bool fullscreen, float _maxFPS);
 
 	void handleEvents();
 	void update();
@@ -41,6 +44,13 @@ public:
 
 	static SDL_Rect camera;
 	static Camera2D camera2D;
+
+	static SpriteBatch _spriteBatch;
+
+	FPSLimiter _fpsLimiter;
+	float _fps;
+
+	static InputManager _inputManager;
 
 	static AssetManager* assets;
 
@@ -68,6 +78,8 @@ private:
 	SDL_Window* window;
 	SDL_GLContext gOpenGLContext;
 	GLSLProgram _colorProgram;
+
+	const float SCALE_SPEED = 0.1f;
 
 	float _time = 0.0f;
 };

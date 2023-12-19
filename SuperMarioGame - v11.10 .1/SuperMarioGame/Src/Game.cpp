@@ -21,6 +21,9 @@ Collision collision;
 
 SDL_Rect Game::camera = { 0,0,2240,0 }; // camera.w shows how far right camera can go
 Camera2D Game::camera2D;
+SpriteBatch Game::_spriteBatch;
+
+InputManager Game::_inputManager;
 
 AssetManager* Game::assets = new AssetManager(&manager);
 
@@ -50,7 +53,7 @@ Game::~Game()
 
 }
 
-void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
+void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, float _maxFPS)
 {
 	int flags = 0;
 
@@ -99,12 +102,19 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 		SDL_GL_SetSwapInterval(0);
 
+		//enable alpha blend
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		//InitShaders function from Bengine
 		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_colorProgram.addAttribute("vertexPosition");
 		_colorProgram.addAttribute("vertexColor");
 		_colorProgram.addAttribute("vertexUV");
 		_colorProgram.linkShaders();
+
+		Game::_spriteBatch.init();
+		_fpsLimiter.init(_maxFPS);
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if (renderer)
@@ -129,6 +139,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->AddTexture("greenkoopatroopa", "assets/super_mario_tileset_scaled.png");
 
 	assets->Add_GLTexture("terrain", "assets/village_tileset.png");
+	assets->Add_GLTexture("warrior", "assets/warrior_animations.png");
 
 	assets->AddFont("arial", "assets/arial.ttf", 20);
 	assets->AddFont("arialBig", "assets/arial.ttf", 100);
@@ -138,6 +149,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
 	assets->CreatePlayer(player1);
+
 	assets->CreateSunShape(sun);
 	/*label.addComponent<UILabel>(10, 42, "University of Crete", "arial", black);
 	label.addComponent<UILabel>(10, 58, "Department of Computer Science", "arial", black);
@@ -185,33 +197,59 @@ void Game::handleEvents()
 			isRunning = false;
 			break;
 		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
+			Game::_inputManager.pressKey(event.key.keysym.sym);
+			break;
+		case SDL_KEYUP:
+			Game::_inputManager.releaseKey(event.key.keysym.sym);
+		case SDL_MOUSEMOTION:
+			//std::cout << event.motion.x << " " << event.motion.y << std::endl;
+			_inputManager.setMouseCoords(event.motion.x, event.motion.y);
+			break;
+		case SDL_MOUSEWHEEL:
+			if (Game::event.wheel.y > 0)
 			{
-			case SDLK_p:
-				if (Game::isPaused)
-				{
-					pauseLabel.getComponent<UILabel>().SetLabelText("", "arialBig");
-					Game::justResumed = true;
-					Game::isPaused = false;
-				}
-				else
-				{
-					pauseLabel.getComponent<UILabel>().SetLabelText("GAME PAUSED", "arialBig");
-					Game::isPaused = true;
-					Game::pauseTime = SDL_GetTicks();
-				}
-					
-				break;
-			case SDLK_ESCAPE:
-				Game::isRunning = false;
-			default:
-				break;
+				// Scrolling up
+				Game::camera2D.setScale(Game::camera2D.getScale() + SCALE_SPEED);
+			}
+			else if (Game::event.wheel.y < 0)
+			{
+				// Scrolling down
+				Game::camera2D.setScale(Game::camera2D.getScale() - SCALE_SPEED);
 			}
 			break;
-		case SDL_MOUSEMOTION:
-			std::cout << event.motion.x << " " << event.motion.y << std::endl;
+		case SDL_MOUSEBUTTONDOWN:
+			Game::_inputManager.pressKey(event.button.button);
+			break;
+		case SDL_MOUSEBUTTONUP:
+			Game::_inputManager.releaseKey(event.button.button);
+			break;
 		default:
 			break;
+	}
+
+	if (Game::_inputManager.isKeyPressed(SDLK_ESCAPE)) {
+		Game::isRunning = false;
+	}
+
+	if (Game::_inputManager.isKeyPressed(SDLK_p)) {
+		if (Game::isPaused)
+		{
+			pauseLabel.getComponent<UILabel>().SetLabelText("", "arialBig");
+			Game::justResumed = true;
+			Game::isPaused = false;
+		}
+		else
+		{
+			pauseLabel.getComponent<UILabel>().SetLabelText("GAME PAUSED", "arialBig");
+			Game::isPaused = true;
+			Game::pauseTime = SDL_GetTicks();
+		}
+	}
+
+	if (Game::_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
+		mouseCoords = Game::camera2D.convertScreenToWorld(mouseCoords);
+		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
 	}
 }
 
@@ -537,7 +575,9 @@ void Game::update() //game objects updating
 		{
 			plMaxDistance.x = pl->getComponent<TransformComponent>().position.x;
 		}
-		camera.x = plMaxDistance.x - 400;	
+		camera.x = plMaxDistance.x - 400;
+		/*glm::vec2 vecPosition(plMaxDistance.x - 400, camera2D.getPosition().y);
+		camera2D.setPosition(vecPosition);*/
 		if (pl->getComponent<TransformComponent>().position.y >(camera.y + 640)) //player death
 		{
 			winningss << "YOU DIED";
@@ -581,12 +621,12 @@ void Game::update() //game objects updating
 		camera.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
 	if (camera.y < 0)
 		camera.y = 0;
-	if(camera.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w))
+	if (camera.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w))
 		camera.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w);
-	if(camera.y > camera.h)
+	if (camera.y > camera.h)
 		camera.y = camera.h;
-	glm::vec2 vecPosition(camera.x, camera.y);
-	Game::camera2D.setPosition(vecPosition);
+	/*glm::vec2 vecPosition(100, 0);
+	Game::camera2D.setPosition(vecPosition);*/
 }
 
 void Game::render()
@@ -603,20 +643,29 @@ void Game::render()
 	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
 
-	/*GLint timeLocation = _colorProgram.getUniformLocation("time");
-	glUniform1f(timeLocation, _time);*/
-
 	//set the camera matrix
 	GLint pLocation = _colorProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = Game::camera2D.getCameraMatrix();
 	//std::cout << cameraMatrix[0][0] << std::endl;
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
+	Game::_spriteBatch.begin();
+
+	//_spriteBatch.draw(...)
 	for (auto& t : tiles)
 	{
 		t->draw();
-		break;
 	}
+	for (auto& p : players) //todo manager.draw()
+	{
+		p->draw();
+	}
+
+	Game::_spriteBatch.end();
+
+	Game::_spriteBatch.renderBatch();
+
+	
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_colorProgram.unuse();

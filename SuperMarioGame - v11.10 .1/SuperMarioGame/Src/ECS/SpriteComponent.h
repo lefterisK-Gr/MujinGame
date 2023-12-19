@@ -10,6 +10,7 @@
 #include "../AssetManager.h"
 #include "../Vertex.h"
 #include <cstddef>
+#include "../Game.h"
 
 // TODO: (extra): can add states for different states (0 for full solid tile or 1 for no solid
 class SpriteComponent : public Component //sprite -> transform
@@ -70,124 +71,36 @@ public:
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 
-		// OPENGL tutorial
 
-		if (_vboID == 0) //buffer hasn't been generated
-		{
-			glGenBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
-		}
-
-		Vertex vertexData[6]; // 6 vertices * the coordinates
-		
-		//First triangle
-		vertexData[0].setPosition(transform->position.x + 0.5f, transform->position.y + 0.5f);
-		vertexData[0].setUV(1.0f, 1.0f);
-		vertexData[1].setPosition(transform->position.x, transform->position.y + 0.5f);
-		vertexData[1].setUV(0.0f, 1.0f);
-		vertexData[2].setPosition(transform->position.x, transform->position.y);
-		vertexData[2].setUV(0.0f, 0.0f);
-
-		//Second triangle
-		vertexData[3].setPosition(transform->position.x, transform->position.y);
-		vertexData[3].setUV(0.0f, 0.0f);
-		vertexData[4].setPosition(transform->position.x + 0.5f, transform->position.y);
-		vertexData[4].setUV(1.0f, 0.0f);
-		vertexData[5].setPosition(transform->position.x + 0.5f, transform->position.y + 0.5f);
-		vertexData[5].setUV(1.0f, 1.0f);
-
-		for (int i = 0; i < 6; i++) {
-			vertexData[i].setColor(255, 0, 255, 255);
-		}
-
-		vertexData[1].setColor(0, 0, 255, 255);
-
-		vertexData[4].setColor(0, 255, 0, 255);
-
-		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW); // GL_STATIC_DRAW -> draw once
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0); // dont have to do this, for safety
 	}
 
 	void update() override
 	{
 		destRect.x = static_cast<int>(transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
-
-		//float gl_position_x = 2.0f * (destRect.x - 400.0f) / 800.0f;
-		//float gl_position_y = -(2.0f * (destRect.y - 320.0f) / 640.0f);
-		//if (gl_position_x > -1 && gl_position_x < 1) {
-		//	std::cout << "seeing sprite positions";
-		//}
-		float gl_position_x = 0.f;
-		float gl_position_y = 0.0f;
-
-		float gl_sprite_width = 32/*(static_cast<float>(transform->width) / 800)*/;
-		float gl_sprite_height = 32/*(static_cast<float>(transform->height) / 640)*/;
-			
-		if (_vboID == 0) //buffer hasn't been generated
-		{
-			glGenBuffers(1, &_vboID); // create buffer and change vboID to point to that buffer
-		}
-
-		Vertex vertexData[6]; // 6 vertices * the coordinates
-		transform->position.x += 0.01f;
-		//First triangle
-		vertexData[0].setPosition(gl_position_x + gl_sprite_width, gl_position_y + gl_sprite_height);
-		vertexData[0].setUV(1.0f, 1.0f);
-		vertexData[1].setPosition(gl_position_x, gl_position_y + gl_sprite_height);
-		vertexData[1].setUV(0.0f, 1.0f);
-		vertexData[2].setPosition(gl_position_x, gl_position_y);
-		vertexData[2].setUV(0.0f, 0.0f);
-
-		//Second triangle
-		vertexData[3].setPosition(gl_position_x, gl_position_y);
-		vertexData[3].setUV(0.0f, 0.0f);
-		vertexData[4].setPosition(gl_position_x + gl_sprite_width, gl_position_y);
-		vertexData[4].setUV(1.0f, 0.0f);
-		vertexData[5].setPosition(gl_position_x + gl_sprite_width, gl_position_y + gl_sprite_height);
-		vertexData[5].setUV(1.0f, 1.0f);
-
-		for (int i = 0; i < 6; i++) {
-			vertexData[i].setColor(255, 0, 255, 255);
-		}
-
-	/*	vertexData[1].setColor(0, 0, 255, 255);
-
-		vertexData[4].setColor(0, 255, 0, 255);*/
-
-		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW); // GL_STATIC_DRAW -> draw once
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0); // dont have to do this, for safety
 	}
 
 	void draw() override
 	{
-		//TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
+		glm::vec4 pos((float)destRect.x, -640 + (float)destRect.y, (float)destRect.w, (float)destRect.h);
+		float srcUVposX = (float)srcRect.x / (float)gl_texture->width;
+		float srcUVposY = ((float)gl_texture->height -32 - (float)srcRect.y) / (float)gl_texture->height;
 
-		//bind texture
-		glBindTexture(GL_TEXTURE_2D, gl_texture->id);
-		/*glActiveTexture(GL_TEXTURE0);
-		const GLTexture* terrain_Texture = assets->Get_GLTexture("terrain");
-		glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
-		GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
-		glUniform1i(textureLocation, 0);*/
+		float srcUVw = (float)srcRect.w / (float)gl_texture->width;
+		float srcUVh = (float)srcRect.h / (float)gl_texture->height;
 
-		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
+		Color color;
+		color.r = 255;
+		color.g = 255;
+		color.b = 255;
+		color.a = 255;
+		Game::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
 
-		glEnableVertexAttribArray(0); // give positions ( point to 0 element for position)
-
-		//position attribute pointer
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position)); // tell what data it is (first 0) and where the data is ( last 0 to go from the beggining)
-		//color attribute pointer
-		glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-		// UV attribute pointer
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
-
-		glDrawArrays(GL_TRIANGLES, 0, 6); // draw arrays (0 for where is first element, 6 vertices for one square)
 
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 

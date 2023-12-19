@@ -7,19 +7,12 @@ Game* game = nullptr;
 //please don't put all your code in main like I did.
 int main(int argc, const char* argv[]) {
 
-	const int FPS = 60; //frames per second
-	const int frameDelay = 1000 / FPS; //time for 60 frames per second
-
-	Uint32 frameStart;
-	int frameTime;
-
 	game = new Game();
-	game->init("Mujin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
+	game->init("Mujin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false, 60.0f);
 
 	while (game->running())
 	{
-
-		frameStart = SDL_GetTicks();
+		game->_fpsLimiter.begin();
 
 		game->handleEvents();
 		if (!game->paused())
@@ -29,11 +22,13 @@ int main(int argc, const char* argv[]) {
 		game->render();
 		game->justResumed = false;
 
-		frameTime = SDL_GetTicks() - frameStart;
+		game->_fps = game->_fpsLimiter.end();
 
-		if (frameDelay > frameTime)
-		{
-			SDL_Delay(frameDelay - frameTime);
+		static int frameCounter = 0;
+		frameCounter++;
+		if (frameCounter == 10) {
+			std::cout << game->_fps << std::endl;
+			frameCounter = 0;
 		}
 	}
 	game->clean();
