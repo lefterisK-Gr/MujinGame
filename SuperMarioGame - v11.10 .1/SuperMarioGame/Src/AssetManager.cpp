@@ -39,7 +39,7 @@ void AssetManager::ProjectileExplosion(int camerapos)
 
 void AssetManager::CreatePlayer(Entity& player)
 {
-	player.addComponent<TransformComponent>(200.0f, 320.0f, 32, 32, 2); // 1448 for near pipe, 200 for start
+	player.addComponent<TransformComponent>(200.0f, 320.0f, 64, 64, 1); // 1448 for near pipe, 200 for start
 	//assets->CreatePlayerComponents(player1);
 	//instead of this
 	player.addComponent<AnimatorComponent>("warrior");
@@ -62,6 +62,7 @@ void AssetManager::CreatePlayer(Entity& player)
 
 	player.addComponent<UILabel>(10, 600, "MARIO SCORE: ", "arial", AssetManager::red);
 	player.addComponent<UILabel>(160, 600, "", "arial", red);
+	player.addComponent<Sword>();
 	player.addComponent<Player_Script>();
 
 	player.addGroup(Game::groupPlayers);
@@ -87,26 +88,26 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D vel,int range, int sp
 	projectile.addGroup(Game::groupProjectiles);
 }
 
-void AssetManager::CreateGoomba(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
+void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
-	enemy.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
+	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
 	enemy.getComponent<TransformComponent>().storedVelocity = vel;
-	enemy.addComponent<AnimatorComponent>("goomba");
-	enemy.addComponent<Goomba_Script>();
+	enemy.addComponent<AnimatorComponent>("skeleton");
+	enemy.addComponent<Skeleton_Script>();
 	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
-	enemy.addComponent<ColliderComponent>("goomba");
+	enemy.addComponent<ColliderComponent>("skeleton");
 	enemy.addComponent<RigidBodyComponent>();
-	enemy.getComponent<AnimatorComponent>().Play("GoombaWalk");
+	enemy.getComponent<AnimatorComponent>().Play("SkeletonWalk");
 	//enemy.getComponent<TransformComponent>().velocity.x = 1;
 	
-	enemy.addGroup(Game::groupGoombas);
+	enemy.addGroup(Game::groupSkeletons);
 }
 
 void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
-	enemy.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
+	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
 	enemy.getComponent<TransformComponent>().storedVelocity = vel;
 	enemy.addComponent<AnimatorComponent>("greenkoopatroopa");
 	enemy.addComponent<GreenKoopaTroopa_Script>();

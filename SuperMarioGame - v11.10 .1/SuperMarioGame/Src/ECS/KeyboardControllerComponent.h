@@ -16,7 +16,6 @@ public: //TODO: maybe have variables as private
 	AnimatorComponent* animator;
 	RigidBodyComponent* rigidbody;
 	SpriteComponent* sprite;
-	const Uint8* keystate;
 
 	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
 	SDL_KeyCode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
@@ -68,8 +67,6 @@ public: //TODO: maybe have variables as private
 
 	void update() override
 	{
-		keystate = SDL_GetKeyboardState(NULL);
-
 		if (Game::_inputManager.isKeyPressed(jumpKey)) {
 			if (rigidbody->onGround)
 			{

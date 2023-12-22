@@ -5,8 +5,6 @@
 #include <SDL/SDL.h>
 #include "Components.h"
 
-extern Manager manager;
-
 class TileComponent : public Component //tileComp --> GridComp --> ColliderComp -> transform
 {
 public:
@@ -64,7 +62,7 @@ public:
 
 		if (!entity->hasComponent<SpriteComponent>())
 		{
-			entity->addComponent<SpriteComponent>(textureid);
+			entity->addComponent<SpriteComponent>(textureid, isHorizon ? 2.0f : 1.0f);
 		}
 		sprite = &entity->getComponent<SpriteComponent>();
 		sprite->srcRect = this->srcRect;
@@ -79,16 +77,6 @@ public:
 	
 	void update() override //function like in sprite, but diffent moving in draw
 	{
-		if (isHorizon)
-		{
-			sprite->destRect.x = transform->position.x - (Game::camera.x / 2); //reminding that destRect is absolutely on the screen that we see
-			sprite->destRect.y = transform->position.y - Game::camera.y;
-		}
-		else
-		{
-			sprite->destRect.x = transform->position.x - Game::camera.x; //reminding that destRect is absolutely on the screen that we see
-			sprite->destRect.y = transform->position.y - Game::camera.y;
-		}
 		
 	}
 

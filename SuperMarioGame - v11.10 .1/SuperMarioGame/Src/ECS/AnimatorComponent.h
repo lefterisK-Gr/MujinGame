@@ -20,7 +20,7 @@ public:
 	SpriteComponent* sprite;
 	AnimatorManager animManager;
 	std::string textureid;
-	const char* animimationName = NULL;
+	const char* animationName = NULL;
 	timestamp resumeTime = 0;
 
 	//std::map<const char*, Animation> animations; //Animator Manager
@@ -75,7 +75,7 @@ public:
 
 	void Play(const char* animName, int reps = 0)
 	{
-		animimationName = animName;
+		animationName = animName;
 		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY,
 			animManager.animations[animName].total_frames, animManager.animations[animName].speed,
 			animManager.animations[animName].type, 
@@ -83,17 +83,17 @@ public:
 	}
 
 	void resetAnimation() {
-		animimationName = "P1Idle";
+		animationName = "P1Idle";
 		sprite->SetAnimation(
-			animManager.animations[animimationName].indexX, animManager.animations[animimationName].indexY,
-			animManager.animations[animimationName].total_frames, animManager.animations[animimationName].speed,
-			animManager.animations[animimationName].type
+			animManager.animations[animationName].indexX, animManager.animations[animationName].indexY,
+			animManager.animations[animationName].total_frames, animManager.animations[animationName].speed,
+			animManager.animations[animationName].type
 		);
 	}
 
 	const char* getPlayName()
 	{
-		return animimationName;
+		return animationName;
 	}
 
 	void DestroyTex()

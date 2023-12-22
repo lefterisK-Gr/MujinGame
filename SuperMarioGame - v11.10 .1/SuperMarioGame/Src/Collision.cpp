@@ -43,15 +43,15 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 
 void Collision::moveFromCollision(Entity& player) {
 	auto& playerTransform = player.getComponent<TransformComponent>();
-	auto playerCollider = player.getComponent<ColliderComponent>().collider;
+	auto playerCollider = player.getComponent<ColliderComponent>();
 
 	if (Collision::isSidewaysCollision) { //horizontal move
 		if (Collision::dist.x > 0) { //move moving_rect left from collider
-			playerTransform.position.x = storedColliderRect.x - playerCollider.w - (playerTransform.scale * 8) - 1;
+			playerTransform.position.x = storedColliderRect.x - playerCollider.collider.w - (2 * playerTransform.scale * 8) - 1;
 			Collision::movingRectColSide = Collision::ColSide::RIGHT;
 		}
-		else {
-			playerTransform.position.x = storedColliderRect.x - ((playerTransform.scale - 1) * 8); //consider position based on collider
+		else {//move moving_rect right from collider
+			playerTransform.position.x = storedColliderRect.x - ((playerTransform.scale) * 8); //consider position based on collider
 			Collision::movingRectColSide = Collision::ColSide::LEFT;
 		}
 	}

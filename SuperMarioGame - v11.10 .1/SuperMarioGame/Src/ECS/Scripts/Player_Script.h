@@ -33,6 +33,8 @@ public: // it is like it has init that creates Animator Component since it inher
 	SpriteComponent* sprite;
 	TransformComponent* transform;
 	KeyboardControllerComponent* keyboard;
+	Sword* sword;
+	LivingCharacter* living;
 
 	Player_Script()
 	{
@@ -50,11 +52,17 @@ public: // it is like it has init that creates Animator Component since it inher
 		sprite = &entity->getComponent<SpriteComponent>();
 		transform = &entity->getComponent<TransformComponent>();
 		keyboard = &entity->getComponent<KeyboardControllerComponent>();
+		sword = &entity->getComponent<Sword>();
+		if (!entity->hasComponent<LivingCharacter>()) //todo: problem: having transform on top left grid, not every collider its own
+		{
+			entity->addComponent<LivingCharacter>();
+		}
+		living = &entity->getComponent<LivingCharacter>();
 	}
 
 	void update() override {
 		if (!attackAnimation) {
-			if (keyboard->keystate[keyboard->attackKey]) {
+			if (Game::_inputManager.isKeyPressed(keyboard->attackKey)) {
 				animator->Play("P1Attack");
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
@@ -70,7 +78,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
 		{
-			if (keyboard->keystate[keyboard->walkRightKey])
+			if (Game::_inputManager.isKeyPressed(keyboard->walkRightKey))
 			{
 				if (this->leftofPipe)
 				{
@@ -80,7 +88,7 @@ public: // it is like it has init that creates Animator Component since it inher
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
 				}
 			}
-			if (keyboard->keystate[keyboard->downKey])
+			if (Game::_inputManager.isKeyPressed(keyboard->downKey))
 			{
 				if (this->onPipe)
 				{
@@ -105,8 +113,14 @@ public: // it is like it has init that creates Animator Component since it inher
 			}
 		}
 
-		if (action == playerAction::PLAYERACTION_ATTACK)
+		if (action == playerAction::PLAYERACTION_ATTACK) { //if playerAttackAnimation is on 3rd frame then deal damage i.e create entity from sword that deal damage.
+			if (sprite->animation.cur_frame_index == 1 && sprite->animation.frame_times_played == 1)
+			{
+				std::cout << "attacking!" << std::endl;
+				sword->attack();
+			}
 			return;
+		}
 		else if (!rigidbody->onGround)
 		{
 			if (action == playerAction::PLAYERACTION_JUMP)

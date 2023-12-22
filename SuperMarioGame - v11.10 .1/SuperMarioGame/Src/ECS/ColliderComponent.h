@@ -30,6 +30,12 @@ public:
 		collider.h = collider.w = size;
 	}
 
+	ColliderComponent(std::string t, SDL_Rect colliderRect)
+	{
+		tag = t;
+		collider = colliderRect;
+	}
+
 	void init() override
 	{
 		if (!entity->hasComponent<TransformComponent>()) //todo: problem: having transform on top left grid, not every collider its own
@@ -53,10 +59,10 @@ public:
 	{
 		if (tag != "terrain") // for all npcs
 		{
-			collider.x = static_cast<int>(transform->position.x) + ((transform->scale) * COL_POS_OFFSET);
-			collider.y = static_cast<int>(transform->position.y) + ((transform->scale) * COL_POS_OFFSET);
-			collider.w = (transform->width * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
-			collider.h = (transform->height * transform->scale) - ((transform->scale) * COL_POS_OFFSET);
+			collider.x = static_cast<int>(transform->position.x) + (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.y = static_cast<int>(transform->position.y) + (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.w = (transform->width * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
+			collider.h = (transform->height * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
 		}
 		destR.x = collider.x - Game::camera.x;
 		destR.y = collider.y - Game::camera.y;

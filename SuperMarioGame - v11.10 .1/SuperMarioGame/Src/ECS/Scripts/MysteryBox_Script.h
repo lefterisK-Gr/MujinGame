@@ -43,13 +43,8 @@ public: // it is like it has init that creates Animator Component since it inher
 		}
 
 		if (sprite->moving_animation.hasFinished()) {
-			sprite->DestroyTex();
+			sprite->DestroyGlTex();
 		}
-	}
-
-	void DestroyTex()
-	{
-		sprite->DestroyTex();
 	}
 
 	bool getCoinAnimation()

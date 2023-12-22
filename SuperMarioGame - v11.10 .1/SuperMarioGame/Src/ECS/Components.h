@@ -5,10 +5,13 @@
 #include "SpriteComponent.h"
 #include "AnimatorComponent.h"
 #include "MovingAnimatorComponent.h"
+#include "ColliderComponent.h"
 
-
+#include "Scripts/LivingCharacter.h"
+#include "Scripts/Slice.h"
+#include "Scripts/Sword.h"
 #include "Scripts/GreenKoopaTroopa_Script.h"
-#include "Scripts/Goomba_Script.h"
+#include "Scripts/Skeleton_Script.h"
 
 
 #include "RigidBodyComponent.h"
@@ -16,7 +19,6 @@
 #include "KeyboardControllerComponent.h"
 
 #include "GridComponent.h"
-#include "ColliderComponent.h"
 #include "TileComponent.h"
 
 #include "Scripts/Sun_Script.h"

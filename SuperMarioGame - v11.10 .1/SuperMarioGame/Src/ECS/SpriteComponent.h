@@ -19,10 +19,10 @@ private:
 	const GLTexture *gl_texture;
 	SDL_Texture *texture;
 	GLuint _vboID = 0; //32 bits
+	float _zIndex = 1.0f;
 public:
 	TransformComponent* transform;
 	SDL_Rect srcRect, destRect;
-	Vector2D tempPosition;
 
 	Animation animation;
 	MovingAnimation moving_animation;
@@ -35,10 +35,10 @@ public:
 		setTex(id);
 	}
 
-	SpriteComponent(std::string id, Vector2D pos)
+	SpriteComponent(std::string id, float zIndex)
 	{
 		setTex(id);
-		tempPosition = pos;
+		_zIndex = zIndex;
 	}
 
 	~SpriteComponent()
@@ -76,25 +76,32 @@ public:
 
 	void update() override
 	{
-		destRect.x = static_cast<int>(transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
+		float parallaxFactor = 1.0f / _zIndex;
+		destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
 	}
 
 	void draw() override
 	{
+		if (gl_texture == NULL)
+		{
+			return;
+		}
 		glm::vec4 pos((float)destRect.x, -640 + (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		float srcUVposX = (float)srcRect.x / (float)gl_texture->width;
-		float srcUVposY = ((float)gl_texture->height -32 - (float)srcRect.y) / (float)gl_texture->height;
 
-		float srcUVw = (float)srcRect.w / (float)gl_texture->width;
+		float srcUVposX = spriteFlip == SDL_FLIP_HORIZONTAL ?
+			(float)(srcRect.x + srcRect.w) / (float)gl_texture->width :
+			(float)srcRect.x / (float)gl_texture->width;
+		float srcUVposY = ((float)gl_texture->height - srcRect.h - (float)srcRect.y) / (float)gl_texture->height;
+
+		float srcUVw = spriteFlip == SDL_FLIP_HORIZONTAL ?
+			-(float)srcRect.w / (float)gl_texture->width :
+			(float)srcRect.w / (float)gl_texture->width;
 		float srcUVh = (float)srcRect.h / (float)gl_texture->height;
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
-		Color color;
-		color.r = 255;
-		color.g = 255;
-		color.b = 255;
-		color.a = 255;
+		Color color(255,255,255,255);
+
 		Game::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
 
 
@@ -131,5 +138,9 @@ public:
 	{
 		//TextureManager::DestroyTexture(texture);
 		texture = NULL;
+	}
+	void DestroyGlTex()
+	{
+		gl_texture = NULL;
 	}
 };

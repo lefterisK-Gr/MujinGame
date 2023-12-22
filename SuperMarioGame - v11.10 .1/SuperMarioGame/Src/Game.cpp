@@ -133,13 +133,16 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//add the textures to our texture library
 	assets->AddTexture("terrain", "assets/village_tileset.png");
 	assets->AddTexture("player", "assets/mario_luigi_animations_1.png");
-	assets->AddTexture("warrior", "assets/warrior_animations.png");
+	assets->AddTexture("warrior", "assets/samurai.png");
 	assets->AddTexture("projectile", "assets/my_projectile.png");
-	assets->AddTexture("goomba", "assets/super_mario_tileset_scaled.png"); // same path since the same png has all entities
-	assets->AddTexture("greenkoopatroopa", "assets/super_mario_tileset_scaled.png");
+	assets->AddTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
+	assets->AddTexture("greenkoopatroopa", "assets/mushroom.png");
 
 	assets->Add_GLTexture("terrain", "assets/village_tileset.png");
-	assets->Add_GLTexture("warrior", "assets/warrior_animations.png");
+	assets->Add_GLTexture("warrior", "assets/samurai.png");
+	assets->Add_GLTexture("projectile", "assets/my_projectile.png");
+	assets->Add_GLTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
+	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
 
 	assets->AddFont("arial", "assets/arial.ttf", 20);
 	assets->AddFont("arialBig", "assets/arial.ttf", 100);
@@ -161,13 +164,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	pauseLabel.addComponent<UILabel>(50, 300, "", "arialBig", assets->white);
 
-	//assets->CreateGoomba(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
-	assets->CreateGoomba(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "goomba");
-	assets->CreateGoomba(Vector2D(500, 300), Vector2D(1, 0), 200, 2, "goomba");
-	assets->CreateGoomba(Vector2D(1000, 300), Vector2D(1, -1), 200, 2, "goomba");
-	assets->CreateGoomba(Vector2D(1400, 288), Vector2D(-1, -1), 200, 2, "goomba");
-	assets->CreateGoomba(Vector2D(1900, 300), Vector2D(-1, -1), 200, 2, "goomba");
-	assets->CreateGoomba(Vector2D(2675, 300), Vector2D(-1, -1), 200, 2, "goomba");
+	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
+	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(500, 300), Vector2D(1, 0), 200, 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(1000, 300), Vector2D(1, -1), 200, 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(1400, 288), Vector2D(-1, -1), 200, 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(1900, 300), Vector2D(-1, -1), 200, 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(2675, 300), Vector2D(-1, -1), 200, 2, "skeleton");
 
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
@@ -178,7 +181,7 @@ auto& tiles(manager.getGroup(Game::groupActionLayer));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
-auto& goombas(manager.getGroup(Game::groupGoombas));
+auto& skeletons(manager.getGroup(Game::groupSkeletons));
 auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
 auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
 auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
@@ -270,12 +273,14 @@ void Game::update() //game objects updating
 
 	_time += 0.01f;
 		
+	auto& slices(manager.getGroup(Game::groupSlices));
+	
 	for (auto& p : players)
 	{
 		p->getComponent<RigidBodyComponent>().onGround = false;
 	}
 
-	for (auto& enemy : goombas)
+	for (auto& enemy : skeletons)
 	{
 		enemy->getComponent<RigidBodyComponent>().onGround = false;
 	}
@@ -376,7 +381,7 @@ void Game::update() //game objects updating
 	}
 
 
-	for (auto& enemyGroup : { goombas, greenkoopatroopas }) // enemies with colliders
+	for (auto& enemyGroup : { skeletons, greenkoopatroopas }) // enemies with colliders
 	{
 		for (auto& enemy : enemyGroup) {
 			assets->ActivateEnemy(*enemy);
@@ -404,15 +409,6 @@ void Game::update() //game objects updating
 							if ((enemy->getComponent<TransformComponent>().velocity.x < 0 && collision.movingRectColSide == Collision::ColSide::LEFT) 
 								|| (enemy->getComponent<TransformComponent>().velocity.x > 0 && collision.movingRectColSide == Collision::ColSide::RIGHT)) {
 								enemy->getComponent<TransformComponent>().velocity.x *= -1;
-
-								if (enemyGroup == greenkoopatroopas) {
-									if (enemy->getComponent<SpriteComponent>().spriteFlip == SDL_FLIP_HORIZONTAL)
-									{
-										enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_NONE;
-									}
-									else
-										enemy->getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
-								}
 							}
 						}
 						if (!collision.isSidewaysCollision) {
@@ -437,7 +433,7 @@ void Game::update() //game objects updating
 
 	for (auto& player : players) //enemies with players
 	{
-		for (auto& enemy : { goombas , greenkoopatroopas })
+		for (auto& enemy : { skeletons , greenkoopatroopas })
 		{
 			for (auto& e : enemy)
 			{
@@ -458,7 +454,7 @@ void Game::update() //game objects updating
 							e->getComponent<AnimatorComponent>().Play("GreenShell");
 							e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle = true;
 						}
-						else //goomba case
+						else //skeleton case
 						{
 							player->getComponent<ScoreComponent>().addToScore(100);
 							ss1 << player->getComponent<ScoreComponent>().getScore();
@@ -466,17 +462,6 @@ void Game::update() //game objects updating
 							e->destroy();
 						}
 
-					}
-					else if (collision.isSidewaysCollision
-						&& enemy == greenkoopatroopas
-						&& e->getComponent<AnimatorComponent>().animimationName == "GreenShell"
-						&& !e->getComponent<TransformComponent>().velocity.x)
-					{
-						e->getComponent<TransformComponent>().velocity.x = 5;
-						if (player->getComponent<TransformComponent>().velocity.x < 0)
-						{
-							e->getComponent<TransformComponent>().velocity.x *= -1;
-						}
 					}
 					else //player death
 					{
@@ -499,28 +484,6 @@ void Game::update() //game objects updating
 		}
 	}
 
-	for (auto& greenkoopatroopa : greenkoopatroopas)//shells with enemies
-	{
-		if (greenkoopatroopa->getComponent<AnimatorComponent>().getPlayName() == "GreenShell")
-		{
-			for (auto& goomba : goombas)
-			{
-				SDL_Rect gktCol = greenkoopatroopa->getComponent<ColliderComponent>().collider;
-				SDL_Rect gCol = goomba->getComponent<ColliderComponent>().collider;
-
-				bool hasCollision = collision.checkCollisionIsSideways(gktCol, gCol);
-
-				if (hasCollision && collision.isSidewaysCollision) {
-					goomba->destroy();
-				}
-
-				collision.isCollision = false;
-				collision.isSidewaysCollision = false;
-				collision.movingRectColSide = Collision::ColSide::NONE;
-			}
-		}
-	}
-
 	for (auto& p : projectiles) //projectiles with players
 	{
 		for (auto& pl : players)
@@ -532,6 +495,25 @@ void Game::update() //game objects updating
 			}
 			collision.isCollision = false;
 		}
+	}
+
+	for (auto& sl : slices)
+	{
+		for (auto& enemy : { skeletons , greenkoopatroopas })
+		{
+			for (auto& e : enemy)
+			{
+				if (Collision::checkCollision(sl->getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
+				{
+					std::cout << "sword touched enemy!" << std::endl;
+					if (e->getComponent<LivingCharacter>().applyDamage(sl->getComponent<Slice>().sliceDamage)) {
+						e->destroy();
+					}
+				}
+			}
+		}
+		sl->destroy();
+
 	}
 
 	for (auto& p : winningtiles) //winning tiles with players
@@ -576,8 +558,6 @@ void Game::update() //game objects updating
 			plMaxDistance.x = pl->getComponent<TransformComponent>().position.x;
 		}
 		camera.x = plMaxDistance.x - 400;
-		/*glm::vec2 vecPosition(plMaxDistance.x - 400, camera2D.getPosition().y);
-		camera2D.setPosition(vecPosition);*/
 		if (pl->getComponent<TransformComponent>().position.y >(camera.y + 640)) //player death
 		{
 			winningss << "YOU DIED";
@@ -619,14 +599,30 @@ void Game::update() //game objects updating
 
 	if (camera.x < scenes->GetSceneCamera(scenes->sceneSelected).x)
 		camera.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
-	if (camera.y < 0)
-		camera.y = 0;
 	if (camera.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w))
 		camera.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w);
-	if (camera.y > camera.h)
-		camera.y = camera.h;
-	/*glm::vec2 vecPosition(100, 0);
-	Game::camera2D.setPosition(vecPosition);*/
+}
+
+
+void Game::setupShaderAndTexture(const std::string& textureName) {
+	_colorProgram.use();
+	glActiveTexture(GL_TEXTURE0);
+	const GLTexture* texture = assets->Get_GLTexture(textureName);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
+	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
+	glUniform1i(textureLocation, 0);
+	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+}
+
+void Game::renderBatch(const std::vector<Entity*>& entities) {
+	_spriteBatch.begin();
+	for (const auto& entity : entities) {
+		entity->draw();
+	}
+	_spriteBatch.end();
+	_spriteBatch.renderBatch();
 }
 
 void Game::render()
@@ -635,36 +631,23 @@ void Game::render()
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	_colorProgram.use();
-
-	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* terrain_Texture = assets->Get_GLTexture("terrain");
-	glBindTexture(GL_TEXTURE_2D, (*terrain_Texture).id);
-	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
-
-	//set the camera matrix
-	GLint pLocation = _colorProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = Game::camera2D.getCameraMatrix();
-	//std::cout << cameraMatrix[0][0] << std::endl;
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
-	Game::_spriteBatch.begin();
-
-	//_spriteBatch.draw(...)
-	for (auto& t : tiles)
-	{
-		t->draw();
-	}
-	for (auto& p : players) //todo manager.draw()
-	{
-		p->draw();
-	}
-
-	Game::_spriteBatch.end();
-
-	Game::_spriteBatch.renderBatch();
-
+	/////////////////////////////////////////////////////
+	setupShaderAndTexture("terrain");
+	//renderBatch(screenshapes);
+	renderBatch(backgroundtiles);
+	renderBatch(sewerbackgroundtiles);
+	renderBatch(tiles);
+	//renderBatch(colliders);
+	setupShaderAndTexture("warrior");
+	renderBatch(players);
+	setupShaderAndTexture("projectile");
+	renderBatch(projectiles);
+	setupShaderAndTexture("skeleton");
+	renderBatch(skeletons);
+	renderBatch(greenkoopatroopas);
+	setupShaderAndTexture("terrain");
+	renderBatch(winningtiles);
+	renderBatch(foregroundtiles);
 	
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -674,80 +657,11 @@ void Game::render()
 
 	////////////SDL USE
 
-	//if (renderer)
-	//{
-	//	SDL_SetRenderDrawColor(renderer, 52, 171, 218, 255);
-	//}
-	//SDL_RenderClear(renderer);
-	////the order of rendered objects are the order of layers
-	////in SDL_RenderCopy 3rd arg is for the part of the texture to be displayed and 4th argument is for part of the display Window to be covered
-	////SDL_RenderCopy(renderer, playerTex, NULL, &destR);
-	//// instead of the above, we use the GameObjectRenderer
-	//for (auto& p : screenshapes)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : backgroundtiles)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : sewerbackgroundtiles)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& t : tiles)
-	//{
-	//	t->draw();
-	//}
-
-	//for (auto& c : colliders) //remove this if you dont want to see the yellow lines in colliders
-	//{
-	//	c->draw();
-	//}
-
-	//for (auto& p : players) //todo manager.draw()
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : projectiles)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : goombas)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : greenkoopatroopas)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : winningtiles)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : pipeforegroundsprites)
-	//{
-	//	p->draw();
-	//}
-
-	//for (auto& p : foregroundtiles)
-	//{
-	//	p->draw();
-	//}
-
-	//label.draw();
-	//winningLabel1.draw();
-	//winningLabel2.draw();
-	//pauseLabel.draw();
-	//scoreboard1.draw();
+	label.draw();
+	winningLabel1.draw();
+	winningLabel2.draw();
+	pauseLabel.draw();
+	scoreboard1.draw();
 	//scoreboard2.draw();
 	////add stuff to render
 	//SDL_RenderPresent(renderer);

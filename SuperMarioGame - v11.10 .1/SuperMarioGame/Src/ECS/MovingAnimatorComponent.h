@@ -64,28 +64,28 @@ public:
 
 	void Play(const char* animName, int reps = 0)
 	{
-		animimationName = animName;
+		animationName = animName;
 		sprite->SetMovingAnimation(
-			animManager.moving_animations[animimationName].indexX, animManager.moving_animations[animimationName].indexY,
-			animManager.moving_animations[animimationName].total_frames, animManager.moving_animations[animimationName].speed,
-			animManager.moving_animations[animimationName].type,
-			animManager.moving_animations[animimationName].distanceX, animManager.moving_animations[animimationName].distanceY,
-			reps ? reps : animManager.moving_animations[animimationName].reps
+			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
+			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
+			animManager.moving_animations[animationName].type,
+			animManager.moving_animations[animationName].distanceX, animManager.moving_animations[animationName].distanceY,
+			reps ? reps : animManager.moving_animations[animationName].reps
 		);
 	}
 
 	void resetAnimation() {
-		animimationName = "Default";
+		animationName = "Default";
 		sprite->SetMovingAnimation(
-			animManager.moving_animations[animimationName].indexX, animManager.moving_animations[animimationName].indexY,
-			animManager.moving_animations[animimationName].total_frames, animManager.moving_animations[animimationName].speed,
-			animManager.moving_animations[animimationName].type,
-			animManager.moving_animations[animimationName].distanceX, animManager.moving_animations[animimationName].distanceY);
+			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
+			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
+			animManager.moving_animations[animationName].type,
+			animManager.moving_animations[animationName].distanceX, animManager.moving_animations[animationName].distanceY);
 	}
 
 	const char* getPlayName()
 	{
-		return animimationName;
+		return animationName;
 	}
 
 	void DestroyTex()

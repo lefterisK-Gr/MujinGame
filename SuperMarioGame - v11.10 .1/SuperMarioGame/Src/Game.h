@@ -13,6 +13,8 @@
 #include "InputManager.h"
 #include "Timing.h"
 
+#include "ECS/ECS.h"
+
 class AssetManager;
 class SceneManager;
 class ColliderComponent;
@@ -27,6 +29,10 @@ public:
 
 	void handleEvents();
 	void update();
+
+	void setupShaderAndTexture(const std::string& textureName);
+	void renderBatch(const std::vector<Entity*>& entities);
+
 	void render();
 	void clean();
 
@@ -66,8 +72,9 @@ public:
 		groupColliders,
 		groupMysteryBoxes,
 		groupWinningTiles,
+		groupSlices,
 		groupProjectiles,
-		groupGoombas,
+		groupSkeletons,
 		groupGreenKoopaTroopas,
 		groupPipeRingForeground,
 		groupForegroundLayer,

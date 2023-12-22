@@ -18,6 +18,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	animType type;
 	int reps = 0;
 
+	int frame_times_played = 0;
 	int cur_frame_index = 0;
 	float cur_frame_index_f = 0;
 	int times_played = 0;
@@ -57,12 +58,22 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	}
 
 	void advanceFrame() {
-		
+		unsigned short prev_frame_index = cur_frame_index;
+
 		switch (type) {
 		case Animation::animType::ANIMTYPE_LOOPED:
 		case Animation::animType::ANIMTYPE_PLAY_N_TIMES:
 			cur_frame_index_f += speed;
 			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
+
+			// Check if the frame index has changed
+			if (prev_frame_index != cur_frame_index) {
+				frame_times_played = 1;
+			}
+			else {
+				frame_times_played++;
+			}
+
 			if (cur_frame_index > total_frames - 1) //essentially when we see that now we reach a frame out of total frames we reset it
 			{
 				resetFrameIndex();
@@ -97,6 +108,13 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 					}
 				}
 			}
+			// Check if the frame index has changed
+			if (prev_frame_index != cur_frame_index) {
+				frame_times_played = 1;
+			}
+			else {
+				frame_times_played++;
+			}
 			break;
 
 		case Animation::animType::ANIMTYPE_NONE:
@@ -107,6 +125,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 	void resetFrameIndex() {
 		cur_frame_index = 0;
 		cur_frame_index_f = 0;
+		frame_times_played = 0;
 	}
 
 	bool hasFinished() {

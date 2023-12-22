@@ -15,19 +15,19 @@ public:
 	{
 		Animation defaultAnimation = Animation(6, 2, 1, 0.04, "looped");
 
-		Animation p1idle = Animation(0, 0, 10, 0.1, "looped");
-		Animation p1walk = Animation(0, 2, 10, 0.1, "looped");
-		Animation p1jump = Animation(7, 6, 1, 0.1, "looped");
-		Animation p1attack = Animation(0, 3, 10, 0.4, "play_n_times", 1);
+		Animation p1idle = Animation(0, 0, 4, 0.1, "looped");
+		Animation p1walk = Animation(0, 3, 8, 0.1, "looped");
+		Animation p1jump = Animation(0, 2, 2, 0.1, "looped");
+		Animation p1attack = Animation(0, 1, 4, 0.1, "play_n_times", 1);
 
 		Animation question_mark = Animation(1, 9, 3, 0.05, "back_forth");
 		Animation brown_block = Animation(3, 0, 1, 0.005, "looped");
 		Animation dark_block = Animation(2, 12, 1, 0.005, "looped");
 		Animation coin_flip = Animation(1, 7, 2, 0.2, "looped");
 
-		Animation goomba_walk = Animation(17, 1, 2, 0.04, "looped");
-		Animation greenkoopatroopa_walk = Animation(20, 1, 2, 0.04, "looped");
-		Animation greenshell = Animation(25, 1, 1, 0.01, "play_n_times", 1);
+		Animation skeleton_walk = Animation(0, 1, 4, 0.04, "looped");
+		Animation greenkoopatroopa_walk = Animation(0, 2, 10, 0.1, "looped");
+		Animation greenshell = Animation(0, 0, 4, 0.1, "play_n_times", 5);
 
 		animations.emplace("Default", defaultAnimation);
 		animations.emplace("P1Idle", p1idle);
@@ -39,7 +39,7 @@ public:
 		animations.emplace("BrownBlock", brown_block);
 		animations.emplace("DarkBlock", dark_block);
 		animations.emplace("CoinFlip", coin_flip);
-		animations.emplace("GoombaWalk", goomba_walk);
+		animations.emplace("SkeletonWalk", skeleton_walk);
 		animations.emplace("GreenKoopaTroopaWalk", greenkoopatroopa_walk);
 		animations.emplace("GreenShell", greenshell);
 
