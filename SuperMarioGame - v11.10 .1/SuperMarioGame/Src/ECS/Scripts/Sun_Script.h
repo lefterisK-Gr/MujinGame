@@ -32,7 +32,7 @@ public:
 		transform = &entity->getComponent<TransformComponent>();
 	}
 
-	void update() override {
+	void update(float deltaTime) override {
 
 	}
 

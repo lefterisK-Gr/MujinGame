@@ -65,9 +65,9 @@ public: //TODO: maybe have variables as private
 		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
-	void update() override
+	void update(float deltaTime) override
 	{
-		if (Game::_inputManager.isKeyPressed(jumpKey)) {
+		if (Game::_inputManager.isKeyDown(jumpKey)) {
 			if (rigidbody->onGround)
 			{
 				//PlaySound(TEXT("jump.wav"), NULL, SND_ASYNC);
@@ -77,12 +77,12 @@ public: //TODO: maybe have variables as private
 			}
 		}
 
-		if (Game::_inputManager.isKeyPressed(walkLeftKey)) {
+		if (Game::_inputManager.isKeyDown(walkLeftKey)) {
 			transform->velocity.x = -2;
 
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
-		if (Game::_inputManager.isKeyPressed(walkRightKey)) {
+		if (Game::_inputManager.isKeyDown(walkRightKey)) {
 			if (sprite->spriteFlip == SDL_FLIP_HORIZONTAL)
 			{
 				animator->sprite->spriteFlip = SDL_FLIP_NONE;
@@ -90,17 +90,17 @@ public: //TODO: maybe have variables as private
 
 			transform->velocity.x = 2;
 		}
-		if (Game::_inputManager.isKeyPressed(runKey)) {
+		if (Game::_inputManager.isKeyDown(runKey)) {
 			transform->velocity.x *= 2;
 		}
-		if (!Game::_inputManager.isKeyPressed(walkRightKey) && !Game::_inputManager.isKeyPressed(walkLeftKey)) {
+		if (!Game::_inputManager.isKeyDown(walkRightKey) && !Game::_inputManager.isKeyDown(walkLeftKey)) {
 			transform->velocity.x = 0;
 		}
-		if (!Game::_inputManager.isKeyPressed(runKey)) {
-			if (Game::_inputManager.isKeyPressed(walkLeftKey)) {
+		if (!Game::_inputManager.isKeyDown(runKey)) {
+			if (Game::_inputManager.isKeyDown(walkLeftKey)) {
 				transform->velocity.x = -1;  // Set velocity to 1 (walking speed) in left direction
 			}
-			else if (Game::_inputManager.isKeyPressed(walkRightKey)) {
+			else if (Game::_inputManager.isKeyDown(walkRightKey)) {
 				transform->velocity.x = 1;   // Set velocity to 1 (walking speed) in right direction
 			}
 		}

@@ -60,9 +60,9 @@ public: // it is like it has init that creates Animator Component since it inher
 		living = &entity->getComponent<LivingCharacter>();
 	}
 
-	void update() override {
+	void update(float deltaTime) override {
 		if (!attackAnimation) {
-			if (Game::_inputManager.isKeyPressed(keyboard->attackKey)) {
+			if (Game::_inputManager.isKeyDown(keyboard->attackKey)) {
 				animator->Play("P1Attack");
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
@@ -78,7 +78,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
 		{
-			if (Game::_inputManager.isKeyPressed(keyboard->walkRightKey))
+			if (Game::_inputManager.isKeyDown(keyboard->walkRightKey))
 			{
 				if (this->leftofPipe)
 				{
@@ -88,7 +88,7 @@ public: // it is like it has init that creates Animator Component since it inher
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
 				}
 			}
-			if (Game::_inputManager.isKeyPressed(keyboard->downKey))
+			if (Game::_inputManager.isKeyDown(keyboard->downKey))
 			{
 				if (this->onPipe)
 				{

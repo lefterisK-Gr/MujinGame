@@ -49,11 +49,9 @@ public:
 	{
 		velocity.Zero();
 	}
-	void update() override
+	void update(float deltaTime) override
 	{
-		/*position.x += velocity.x * speed;
-		position.y += velocity.y * speed;*/
-		position.x += velocity.x * speed;
+		position.x += velocity.x * speed * deltaTime;
 		position.y += velocity.y * speed;
 	}
 };

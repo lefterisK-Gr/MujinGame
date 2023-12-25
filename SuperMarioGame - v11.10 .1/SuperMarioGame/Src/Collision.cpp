@@ -67,5 +67,5 @@ void Collision::moveFromCollision(Entity& player) {
 			playerTransform.velocity.y = 0;
 		}
 	}
-	player.getComponent<ColliderComponent>().update();
+	player.getComponent<ColliderComponent>().update(1.0f);
 }

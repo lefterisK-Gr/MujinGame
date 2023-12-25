@@ -60,7 +60,7 @@ void AssetManager::CreatePlayer(Entity& player)
 	player.addComponent<ColliderComponent>("player1");
 	player.addComponent<ScoreComponent>();
 
-	player.addComponent<UILabel>(10, 600, "MARIO SCORE: ", "arial", AssetManager::red);
+	player.addComponent<UILabel>(32, -64, "MARIO SCORE: ", "arial", AssetManager::red);
 	player.addComponent<UILabel>(160, 600, "", "arial", red);
 	player.addComponent<Sword>();
 	player.addComponent<Player_Script>();

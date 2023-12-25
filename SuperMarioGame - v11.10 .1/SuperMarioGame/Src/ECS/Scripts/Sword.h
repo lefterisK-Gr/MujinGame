@@ -31,7 +31,7 @@ public:
 		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
-	void update() override {
+	void update(float deltaTime) override {
 
 	}
 

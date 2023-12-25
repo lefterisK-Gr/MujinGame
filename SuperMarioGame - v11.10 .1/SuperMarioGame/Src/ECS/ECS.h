@@ -41,7 +41,7 @@ public:
 	Entity* entity;
 
 	virtual void init(){}
-	virtual void update() {}
+	virtual void update(float deltaTime) {}
 	virtual void draw() {}
 
 	virtual SDL_Rect getRect() 
@@ -71,9 +71,9 @@ private:
 public:
 	std::vector<std::unique_ptr<Component>> components;
 	Entity(Manager& mManager) : manager(mManager) {}
-	void update()
+	void update(float deltaTime)
 	{
-		for (auto& c : components) c->update();
+		for (auto& c : components) c->update(deltaTime);
 	}
 	void draw() 
 	{
@@ -128,9 +128,9 @@ private:
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
 
 public:
-	void update()
+	void update( float deltaTime = 1.0f)
 	{
-		for (auto& e : entities) e->update();
+		for (auto& e : entities) e->update(deltaTime);
 	}
 	void draw()
 	{

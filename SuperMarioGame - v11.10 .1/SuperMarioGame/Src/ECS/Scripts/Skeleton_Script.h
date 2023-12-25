@@ -28,7 +28,7 @@ public:
 		living = &entity->getComponent<LivingCharacter>();
 	}
 
-	void update() override {
+	void update(float deltaTime) override {
 		if (transform->velocity.x < 0) {
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}

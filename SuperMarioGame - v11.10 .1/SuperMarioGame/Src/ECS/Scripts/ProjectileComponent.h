@@ -19,12 +19,12 @@ public:
 		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
-	void update() override
+	void update(float deltaTime) override
 	{
 		sprite->srcRect.x = 0; //0
 		sprite->srcRect.y = 0; //0
 
-		distance += speed;
+		distance += speed * deltaTime;
 
 		if (distance > range)
 		{

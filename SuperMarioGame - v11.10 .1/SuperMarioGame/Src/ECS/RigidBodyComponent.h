@@ -30,7 +30,7 @@ public:
 		transform = &entity->getComponent<TransformComponent>();
 	}
 
-	void update() override
+	void update(float deltaTime) override
 	{
 		if (onGround && !justjumped)
 		{
@@ -41,8 +41,8 @@ public:
 		else
 		{
 			justjumped = false;
-			GravityForce += accelGravity;
-			transform->velocity.y += static_cast<int>(GravityForce);
+			GravityForce += accelGravity * deltaTime;
+			transform->velocity.y += static_cast<int>(GravityForce) * deltaTime;
 			if (transform->velocity.y > static_cast<int>(maxGravity))
 			{
 				transform->velocity.y = static_cast<int>(maxGravity);

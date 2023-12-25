@@ -21,7 +21,9 @@ Collision collision;
 
 SDL_Rect Game::camera = { 0,0,2240,0 }; // camera.w shows how far right camera can go
 Camera2D Game::camera2D;
+Camera2D Game::hudCamera2D;
 SpriteBatch Game::_spriteBatch;
+SpriteBatch Game::_hudSpriteBatch;
 
 InputManager Game::_inputManager;
 
@@ -63,6 +65,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		height / 2.0f
 	)*/);;
 	Game::camera2D.setScale(1.0f);
+
+	Game::hudCamera2D.init(width, height);
+	
 	// create renderer
 	if (fullscreen)
 	{
@@ -114,6 +119,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		_colorProgram.linkShaders();
 
 		Game::_spriteBatch.init();
+		Game::_hudSpriteBatch.init();
+
+		_spriteFont = new SpriteFont("assets/arial.ttf", 32);
+
 		_fpsLimiter.init(_maxFPS);
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
@@ -159,10 +168,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	label.addComponent<UILabel>(10, 10, "Lefteris Kotsonas", "arial", black);
 	label.addComponent<UILabel>(10, 26, "CS-454, Development of Intelligent Interfaces and Games. Fall Semester 2021-22", "arial", black);*/
 
-	winningLabel1.addComponent<UILabel>(100, 300, "", "arialBig", assets->red);
-	winningLabel2.addComponent<UILabel>(100, 300, "", "arialBig", assets->green);
+	winningLabel1.addComponent<UILabel>(100, -300, "", "arialBig", assets->red);
+	winningLabel2.addComponent<UILabel>(100, -300, "", "arialBig", assets->green);
 
-	pauseLabel.addComponent<UILabel>(50, 300, "", "arialBig", assets->white);
+	pauseLabel.addComponent<UILabel>(50, -300, "", "arialBig", assets->white);
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
 	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "skeleton");
@@ -230,7 +239,7 @@ void Game::handleEvents()
 			break;
 	}
 
-	if (Game::_inputManager.isKeyPressed(SDLK_ESCAPE)) {
+	if (Game::_inputManager.isKeyDown(SDLK_ESCAPE)) {
 		Game::isRunning = false;
 	}
 
@@ -249,14 +258,16 @@ void Game::handleEvents()
 		}
 	}
 
-	if (Game::_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+	if (Game::_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
 		mouseCoords = Game::camera2D.convertScreenToWorld(mouseCoords);
 		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
 	}
+
+	Game::_inputManager.update();
 }
 
-void Game::update() //game objects updating
+void Game::update(float deltaTime) //game objects updating
 {
 	std::stringstream ss1;
 	std::stringstream ss2;
@@ -267,9 +278,10 @@ void Game::update() //game objects updating
 	Vector2D plMaxDistance;
 
 	manager.refresh(); 
-	manager.update();
+	manager.update(deltaTime);
 
 	Game::camera2D.update();
+	Game::hudCamera2D.update();
 
 	_time += 0.01f;
 		
@@ -619,7 +631,10 @@ void Game::setupShaderAndTexture(const std::string& textureName) {
 void Game::renderBatch(const std::vector<Entity*>& entities) {
 	_spriteBatch.begin();
 	for (const auto& entity : entities) {
-		entity->draw();
+		SpriteComponent entitySprite = entity->getComponent<SpriteComponent>();
+		if (collision.checkCollision(entitySprite.destRect, camera2D.getCameraRect())) { //culling
+			entity->draw();
+		}
 	}
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
@@ -648,9 +663,10 @@ void Game::render()
 	setupShaderAndTexture("terrain");
 	renderBatch(winningtiles);
 	renderBatch(foregroundtiles);
-	
+
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
+	drawHUD();
 	_colorProgram.unuse();
 
 	SDL_GL_SwapWindow(window);
@@ -666,6 +682,25 @@ void Game::render()
 	////add stuff to render
 	//SDL_RenderPresent(renderer);
 	
+}
+
+void Game::drawHUD() {
+	char buffer[256];
+
+	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = hudCamera2D.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	_hudSpriteBatch.begin();
+
+	snprintf(buffer, sizeof(buffer), "0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B a b");
+
+	_spriteFont->draw(_hudSpriteBatch, buffer, glm::vec2(32, -64),
+		glm::vec2(1.0), 0.0f, Color(255,255,255,255),
+		Justification::LEFT);
+		
+	_hudSpriteBatch.end();
+	_hudSpriteBatch.renderBatch();
 }
 
 void Game::clean()

@@ -57,13 +57,13 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 		reps = _reps;
 	}
 
-	void advanceFrame() {
+	void advanceFrame(float deltaTime) {
 		unsigned short prev_frame_index = cur_frame_index;
 
 		switch (type) {
 		case Animation::animType::ANIMTYPE_LOOPED:
 		case Animation::animType::ANIMTYPE_PLAY_N_TIMES:
-			cur_frame_index_f += speed;
+			cur_frame_index_f += speed * deltaTime;
 			cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 
 			// Check if the frame index has changed
@@ -86,7 +86,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 
 		case Animation::animType::ANIMTYPE_BACK_FORTH:
 			if (flow_direction == 1) {
-				cur_frame_index_f += speed;
+				cur_frame_index_f += speed * deltaTime;
 
 				if (cur_frame_index_f > total_frames) {
 					cur_frame_index_f -= speed;
@@ -96,7 +96,7 @@ struct Animation //todo for now just add a bool hasFinished (useful for scripts)
 			}
 			else if (flow_direction == -1) {
 				if (cur_frame_index > 0) {
-					cur_frame_index_f -= speed;
+					cur_frame_index_f -= speed * deltaTime;
 					cur_frame_index = static_cast<unsigned short>(cur_frame_index_f);
 				}
 				else {

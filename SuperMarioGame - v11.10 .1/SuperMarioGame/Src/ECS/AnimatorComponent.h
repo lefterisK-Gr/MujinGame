@@ -52,7 +52,7 @@ public:
 		sprite->setTex(textureid);
 	}
 
-	void update() override //onAction
+	void update(float deltaTime) override //onAction
 	{
 		if (sprite->animation.hasFinished()) { // playing again animation
 			sprite->animation.finished = false;
@@ -64,7 +64,7 @@ public:
 
 
 
-		sprite->animation.advanceFrame();
+		sprite->animation.advanceFrame(deltaTime);
 		sprite->setCurrFrame();
 	}
 

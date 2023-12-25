@@ -75,7 +75,7 @@ public:
 		grid = &entity->getComponent<GridComponent>();
 	}
 	
-	void update() override //function like in sprite, but diffent moving in draw
+	void update(float deltaTime) override //function like in sprite, but diffent moving in draw
 	{
 		
 	}

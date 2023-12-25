@@ -35,7 +35,7 @@ public:
 		collider = &entity->getComponent<ColliderComponent>();
 	}
 
-	void update() override {
+	void update(float deltaTime) override {
 
 	}
 

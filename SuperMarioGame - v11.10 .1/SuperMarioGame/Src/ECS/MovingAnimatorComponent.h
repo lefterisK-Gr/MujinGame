@@ -39,7 +39,7 @@ public:
 		sprite->setTex(textureid);
 	}
 
-	void update() override
+	void update(float deltaTime) override
 	{
 		if (sprite->moving_animation.hasFinished()) { // playing again animation
 			sprite->moving_animation.finished = false;
@@ -53,7 +53,7 @@ public:
 		sprite->destRect.w = sprite->transform->width * sprite->transform->scale;
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
 
-		sprite->moving_animation.advanceFrame();
+		sprite->moving_animation.advanceFrame(deltaTime);
 		sprite->setMoveFrame();
 	}
 

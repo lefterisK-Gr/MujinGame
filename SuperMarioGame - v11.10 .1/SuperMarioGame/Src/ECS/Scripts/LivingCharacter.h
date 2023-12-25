@@ -21,7 +21,7 @@ public:
 
 	}
 
-	void update() override {
+	void update(float deltaTime) override {
 
 	}
 

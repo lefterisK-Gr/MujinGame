@@ -74,7 +74,7 @@ public:
 
 	}
 
-	void update() override
+	void update(float deltaTime) override
 	{
 		float parallaxFactor = 1.0f / _zIndex;
 		destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges

@@ -12,6 +12,7 @@
 #include "SpriteBatch.h"
 #include "InputManager.h"
 #include "Timing.h"
+#include "SpriteFont/SpriteFont.h"
 
 #include "ECS/ECS.h"
 
@@ -28,10 +29,11 @@ public:
 	void init(const char* title, int x, int ypos, int width, int height, bool fullscreen, float _maxFPS);
 
 	void handleEvents();
-	void update();
+	void update(float deltaTime);
 
 	void setupShaderAndTexture(const std::string& textureName);
 	void renderBatch(const std::vector<Entity*>& entities);
+	void drawHUD();
 
 	void render();
 	void clean();
@@ -50,8 +52,10 @@ public:
 
 	static SDL_Rect camera;
 	static Camera2D camera2D;
+	static Camera2D hudCamera2D;
 
 	static SpriteBatch _spriteBatch;
+	static SpriteBatch _hudSpriteBatch;
 
 	FPSLimiter _fpsLimiter;
 	float _fps;
@@ -85,6 +89,8 @@ private:
 	SDL_Window* window;
 	SDL_GLContext gOpenGLContext;
 	GLSLProgram _colorProgram;
+
+	SpriteFont* _spriteFont;
 
 	const float SCALE_SPEED = 0.1f;
 

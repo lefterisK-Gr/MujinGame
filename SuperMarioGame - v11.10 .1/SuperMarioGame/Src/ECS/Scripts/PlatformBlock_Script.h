@@ -32,7 +32,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
-	void update() override {
+	void update(float deltaTime) override {
 
 		if (didBlockAnimation)
 		{

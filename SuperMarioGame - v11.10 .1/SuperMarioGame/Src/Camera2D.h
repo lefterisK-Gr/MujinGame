@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <SDL/SDL.h>
 
 class Camera2D {
 public:
@@ -36,6 +37,10 @@ public:
 	glm::mat4 getCameraMatrix() {
 		return _cameraMatrix;
 	}
+
+	glm::vec2 getCameraDimensions();
+
+	SDL_Rect getCameraRect();
 
 private:
 	int _screenWidth, _screenHeight;

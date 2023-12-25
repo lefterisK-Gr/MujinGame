@@ -45,3 +45,19 @@ glm::vec2 Camera2D::convertScreenToWorld(glm::vec2 screenCoords) {
 	screenCoords += _position;
 	return screenCoords;
 }
+
+glm::vec2 Camera2D::getCameraDimensions(){
+	glm::vec2 cameraDimensions = { _screenWidth, _screenHeight };
+	return cameraDimensions;
+}
+
+SDL_Rect Camera2D::getCameraRect() {
+	int cameraWidth = getCameraDimensions().x / getScale();
+	int cameraHeight = getCameraDimensions().y / getScale();
+
+	int cameraX = getCameraDimensions().x / 2 - cameraWidth / 2;
+	int cameraY = getCameraDimensions().y / 2 - cameraHeight / 2;
+
+	SDL_Rect cameraRect = { cameraX, cameraY, cameraWidth, cameraHeight };
+	return cameraRect;
+}
