@@ -41,7 +41,7 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
     _regLength = ce - cs + 1;
     int padding = size / 8;
 
-    // First neasure all the regions
+    // First measure all the regions
     glm::ivec4* glyphRects = new glm::ivec4[_regLength];
     int i = 0, advance;
     for (char c = cs; c <= ce; c++) {
@@ -65,11 +65,11 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
         h = closestPow2(h);
 
         // A texture must be feasible
-        if (w > MAX_TEXTURE_RES || h > MAX_TEXTURE_RES) {
+        /*if (w > MAX_TEXTURE_RES || h > MAX_TEXTURE_RES) {
             rows++;
             delete[] gr;
             continue;
-        }
+        }*/
 
         // Check for minimal area
         if (area >= w * h) {
@@ -151,13 +151,14 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
     _glyphs = new CharGlyph[_regLength + 1];
     for (i = 0; i < _regLength; i++) {
         _glyphs[i].character = (char)(cs + i);
-        _glyphs[i].size = glm::vec2(glyphRects[i].z, glyphRects[i].w);
         _glyphs[i].uvRect = glm::vec4(
             (float)glyphRects[i].x / (float)bestWidth,
             (float)glyphRects[i].y / (float)bestHeight,
             (float)glyphRects[i].z / (float)bestWidth,
             (float)glyphRects[i].w / (float)bestHeight
         );
+        _glyphs[i].size = glm::vec2(glyphRects[i].z, glyphRects[i].w);
+        
     }
     _glyphs[_regLength].character = ' ';
     _glyphs[_regLength].size = _glyphs[0].size;

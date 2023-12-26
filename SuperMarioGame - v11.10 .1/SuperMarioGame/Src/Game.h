@@ -13,6 +13,8 @@
 #include "InputManager.h"
 #include "Timing.h"
 #include "SpriteFont/SpriteFont.h"
+#include "AudioEngine/AudioEngine.h"
+#include "Window/Window.h"
 
 #include "ECS/ECS.h"
 
@@ -61,6 +63,8 @@ public:
 	float _fps;
 
 	static InputManager _inputManager;
+	static AudioEngine audioEngine;
+
 
 	static AssetManager* assets;
 
@@ -86,7 +90,7 @@ public:
 	};
 
 private:
-	SDL_Window* window;
+	MujinEngine::Window _window;
 	SDL_GLContext gOpenGLContext;
 	GLSLProgram _colorProgram;
 

@@ -26,6 +26,7 @@ SpriteBatch Game::_spriteBatch;
 SpriteBatch Game::_hudSpriteBatch;
 
 InputManager Game::_inputManager;
+AudioEngine Game::audioEngine;
 
 AssetManager* Game::assets = new AssetManager(&manager);
 
@@ -67,6 +68,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	Game::camera2D.setScale(1.0f);
 
 	Game::hudCamera2D.init(width, height);
+
+	audioEngine.init();
 	
 	// create renderer
 	if (fullscreen)
@@ -80,36 +83,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		window = SDL_CreateWindow(title, xpos, ypos, width, height, SDL_WINDOW_OPENGL);
-		if (window == NULL) {
-			printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
-			// Handle the error
-		}
-		if (window)
-		{
-			std::cout << "Window created!" << std::endl;
-		}
-
-		gOpenGLContext = SDL_GL_CreateContext(window);
-		if (gOpenGLContext)
-		{
-			std::cout << "OpenGl context created!" << std::endl;
-		}
-		GLenum error = glewInit();
-		if (error != GLEW_OK) {
-			std::cout << "GLEW Failed to initialize!" << std::endl;
-		}
-
-		//check opengl version
-		std::printf("*** OpenGL Version %s ***\n", glGetString(GL_VERSION));
+		_window.create("ZombieGame", width, height, 0);
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-
-		SDL_GL_SetSwapInterval(0);
-
-		//enable alpha blend
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		//InitShaders function from Bengine
 		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
@@ -121,16 +97,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		Game::_spriteBatch.init();
 		Game::_hudSpriteBatch.init();
 
-		_spriteFont = new SpriteFont("assets/arial.ttf", 32);
+		_spriteFont = new SpriteFont("assets/arial.ttf", 128);
 
 		_fpsLimiter.init(_maxFPS);
 
-		renderer = SDL_CreateRenderer(window, -1, 0);
-		if (renderer)
-		{
-			SDL_SetRenderDrawColor(renderer, 52, 171, 218, 255);
-			std::cout << "Renderer created!" << std::endl;
-		}
 		isRunning = true;
 	}
 
@@ -166,7 +136,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	/*label.addComponent<UILabel>(10, 42, "University of Crete", "arial", black);
 	label.addComponent<UILabel>(10, 58, "Department of Computer Science", "arial", black);
 	label.addComponent<UILabel>(10, 10, "Lefteris Kotsonas", "arial", black);
-	label.addComponent<UILabel>(10, 26, "CS-454, Development of Intelligent Interfaces and Games. Fall Semester 2021-22", "arial", black);*/
+	label.addComponenut<UILabel>(10, 26, "CS-454, Development of Intelligent Interfaces and Games. Fall Semester 2021-22", "arial", black);*/
 
 	winningLabel1.addComponent<UILabel>(100, -300, "", "arialBig", assets->red);
 	winningLabel2.addComponent<UILabel>(100, -300, "", "arialBig", assets->green);
@@ -184,6 +154,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
 
+	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
+	music.play(-1);
 }
 
 auto& tiles(manager.getGroup(Game::groupActionLayer));
@@ -669,7 +641,7 @@ void Game::render()
 	drawHUD();
 	_colorProgram.unuse();
 
-	SDL_GL_SwapWindow(window);
+	_window.swapBuffer();
 
 	////////////SDL USE
 
@@ -693,10 +665,10 @@ void Game::drawHUD() {
 
 	_hudSpriteBatch.begin();
 
-	snprintf(buffer, sizeof(buffer), "0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B a b");
+	snprintf(buffer, sizeof(buffer), "0 1 2 3 4 5 6 7 8 9 \n : ;  < = > ? @ a b c d e f g");
 
-	_spriteFont->draw(_hudSpriteBatch, buffer, glm::vec2(32, -64),
-		glm::vec2(1.0), 0.0f, Color(255,255,255,255),
+	_spriteFont->draw(_hudSpriteBatch, buffer, glm::vec2(32, -96),
+		glm::vec2(0.2), 0.0f, Color(255,255,255,255),
 		Justification::LEFT);
 		
 	_hudSpriteBatch.end();
@@ -705,7 +677,6 @@ void Game::drawHUD() {
 
 void Game::clean()
 {
-	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	std::cout << "Game Cleaned" << std::endl;

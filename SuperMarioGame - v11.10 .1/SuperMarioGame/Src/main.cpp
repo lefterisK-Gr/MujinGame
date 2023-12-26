@@ -11,7 +11,7 @@ int main(int argc, const char* argv[]) {
 	const int MAX_PHYSICS_STEPS = 6;
 
 	game = new Game();
-	game->init("Mujin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false, 60.0f);
+	game->init("Mujin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 640, false, 60.0f);
 
 	const float MS_PER_SECOND = 1000;
 	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS;
