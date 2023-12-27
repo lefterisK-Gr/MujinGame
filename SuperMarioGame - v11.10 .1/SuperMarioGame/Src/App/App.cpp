@@ -15,7 +15,7 @@ void App::onInit() {
 
 void App::addScreens() {
     //_mainMenuScreen = std::make_unique<MainMenuScreen>(&_window);
-    _gameplayScreen = std::make_unique<GameplayScreen>();
+    _gameplayScreen = std::make_unique<Game>();
     //m_editorScreen = std::make_unique<EditorScreen>(&_window);
 
     //_screenList->addScreen(_mainMenuScreen.get());

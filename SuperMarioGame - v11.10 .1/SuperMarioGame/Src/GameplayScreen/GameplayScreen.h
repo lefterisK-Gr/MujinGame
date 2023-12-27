@@ -42,7 +42,7 @@ public:
 
     virtual void onExit() override;
 
-    virtual void update() override;
+    virtual void update(float deltaTime) override;
 
     virtual void draw() override;
 

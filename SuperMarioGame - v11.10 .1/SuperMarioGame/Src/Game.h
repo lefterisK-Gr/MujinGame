@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "GameScreen/IGameScreen.h"
 #include <SDL/SDL.h>
 #include <SDL_IMAGE/SDL_image.h>
 #include <GL/glew.h>
@@ -22,26 +23,36 @@ class AssetManager;
 class SceneManager;
 class ColliderComponent;
 
-class Game {
+class Game : public IGameScreen {
 
 public:
 	Game();
 	~Game();
 
-	void init(const char* title, int x, int ypos, int width, int height, bool fullscreen, float _maxFPS);
 
-	void handleEvents();
-	void update(float deltaTime);
+	virtual int getNextScreenIndex() const override;
 
+	virtual int getPreviousScreenIndex() const override;
+
+	virtual void build() override;
+
+	virtual void destroy() override;
+
+	virtual void onEntry() override;
+
+	virtual void onExit() override;
+
+	virtual void update(float deltaTime) override;
+
+	virtual void draw() override;
+
+	/////////////////////////
+	
 	void setupShaderAndTexture(const std::string& textureName);
 	void renderBatch(const std::vector<Entity*>& entities);
 	void drawHUD();
 
-	void render();
-	void clean();
-
-	bool running() { return isRunning; }
-	bool paused() { return isPaused; }
+	/////////////////////////
 
 	static SDL_Event event;
 
@@ -58,7 +69,6 @@ public:
 	static SpriteBatch _spriteBatch;
 	static SpriteBatch _hudSpriteBatch;
 
-	FPSLimiter _fpsLimiter;
 	float _fps;
 
 	static InputManager _inputManager;
@@ -89,14 +99,14 @@ public:
 	};
 
 private:
+	void checkInput();
+
 	MujinEngine::Window _window;
 	GLSLProgram _colorProgram;
 
 	SpriteFont* _spriteFont;
 
 	const float SCALE_SPEED = 0.1f;
-
-	float _time = 0.0f;
 };
 
 

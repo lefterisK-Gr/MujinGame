@@ -20,7 +20,7 @@ public:
 	bool fullSolid;
 	Vector2D position;
 	int scaledTile;
-	ColliderComponent* collider;
+	ColliderComponent* collider = nullptr;
 
 	GridComponent() = default;
 

@@ -8,8 +8,8 @@ public:
 	SDL_Rect sliceRect;
 	int sliceDamage;
 
-	TransformComponent* transform;
-	ColliderComponent* collider;
+	TransformComponent* transform = nullptr;
+	ColliderComponent* collider = nullptr;
 
 	Slice()
 	{

@@ -2,6 +2,7 @@
 
 #include "../GameScreen/IMainGame.h"
 #include "../GameplayScreen/GameplayScreen.h"
+#include "../Game.h"
 
 class App : public IMainGame
 {
@@ -16,7 +17,7 @@ public:
     // Called when exiting
     virtual void onExit() override;
 private:
-    std::unique_ptr<GameplayScreen> _gameplayScreen = nullptr;
+    std::unique_ptr<Game> _gameplayScreen = nullptr;
     //std::unique_ptr<MainMenuScreen> m_mainMenuScreen = nullptr;
     //std::unique_ptr<EditorScreen> m_editorScreen = nullptr;
 };

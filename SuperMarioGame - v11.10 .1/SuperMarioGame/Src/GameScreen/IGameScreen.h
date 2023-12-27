@@ -34,7 +34,7 @@ public:
 	virtual void onEntry() = 0;
 	virtual void onExit() = 0;
 
-	virtual void update() = 0;
+	virtual void update(float deltaTime) = 0;
 	virtual void draw() = 0;
 
 	int getScreenIndex() const {

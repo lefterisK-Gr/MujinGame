@@ -5,8 +5,8 @@
 class Skeleton_Script : public Component
 {
 public:
-	SpriteComponent* sprite;
-	TransformComponent* transform;
+	SpriteComponent* sprite = nullptr;
+	TransformComponent* transform = nullptr;
 	LivingCharacter* living;
 
 	Skeleton_Script()

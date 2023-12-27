@@ -14,7 +14,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 	AnimatorComponent* animator;
 	MovingAnimatorComponent* moving_animator;
-	SpriteComponent* sprite;
+	SpriteComponent* sprite = nullptr;
 
 	MysteryBox_Script()
 	{

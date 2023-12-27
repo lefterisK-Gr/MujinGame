@@ -42,8 +42,8 @@ public:
 	}
 private:
 
-	TransformComponent* transform;
-	SpriteComponent* sprite;
+	TransformComponent* transform = nullptr;
+	SpriteComponent* sprite = nullptr;
 
 	int range = 0;
 	int speed = 0;

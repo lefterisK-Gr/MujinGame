@@ -21,7 +21,7 @@ private:
 	GLuint _vboID = 0; //32 bits
 	float _zIndex = 1.0f;
 public:
-	TransformComponent* transform;
+	TransformComponent* transform = nullptr;
 	SDL_Rect srcRect, destRect;
 
 	Animation animation;

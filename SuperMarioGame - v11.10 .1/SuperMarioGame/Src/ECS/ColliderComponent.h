@@ -14,7 +14,7 @@ public:
 
 	SDL_Rect srcR, destR;
 
-	TransformComponent* transform;
+	TransformComponent* transform = nullptr;
 
 	ColliderComponent(std::string t)
 	{

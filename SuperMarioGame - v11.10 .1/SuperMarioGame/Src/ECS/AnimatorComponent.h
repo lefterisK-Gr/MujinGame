@@ -17,7 +17,7 @@ public:
 	// onFinish and onStart are for when we free Animator and when we initialize it
 	// difference between this and from the lectures is that in lectures it uses seperate animator for each animation
 
-	SpriteComponent* sprite;
+	SpriteComponent* sprite = nullptr;
 	AnimatorManager animManager;
 	std::string textureid;
 	const char* animationName = NULL;

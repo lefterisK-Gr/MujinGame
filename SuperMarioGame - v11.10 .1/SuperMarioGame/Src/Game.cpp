@@ -8,6 +8,7 @@
 #include "AssetManager/AssetManager.h"
 #include "SceneManager.h"
 #include <sstream>
+#include "GameScreen/IMainGame.h"
 
 
 #undef main
@@ -55,16 +56,32 @@ Game::~Game()
 
 }
 
-void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, float _maxFPS)
+int Game::getNextScreenIndex() const {
+	return SCREEN_INDEX_NO_SCREEN;
+}
+
+int Game::getPreviousScreenIndex() const {
+	return SCREEN_INDEX_NO_SCREEN;
+}
+
+void Game::build() {
+
+}
+
+void Game::destroy() {
+
+}
+
+void Game::onEntry()
 {
-	Game::camera2D.init(width, height); // Assuming a screen resolution of 800x600
+	Game::camera2D.init(_window.getScreenWidth(), _window.getScreenHeight()); // Assuming a screen resolution of 800x600
 	Game::camera2D.setPosition(camera2D.getPosition() /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
 	)*/);;
 	Game::camera2D.setScale(1.0f);
 
-	Game::hudCamera2D.init(width, height);
+	Game::hudCamera2D.init(_window.getScreenWidth(), _window.getScreenHeight());
 
 	audioEngine.init();
 	
@@ -73,8 +90,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		std::cout << "Subsystems Initialised..." << std::endl;
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-		_window.create("Mujin", width, height, 0);
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -89,8 +104,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		Game::_hudSpriteBatch.init();
 
 		_spriteFont = new SpriteFont("assets/arial.ttf", 128);
-
-		_fpsLimiter.init(_maxFPS);
 
 		isRunning = true;
 	}
@@ -130,6 +143,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	music.play(-1);
 }
 
+void Game::onExit() {
+
+}
+
 auto& tiles(manager.getGroup(Game::groupActionLayer));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
@@ -144,79 +161,9 @@ auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
 auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
 auto& screenshapes(manager.getGroup(Game::screenShapes));
 
-void Game::handleEvents()
-{
-	SDL_PollEvent(&event);
-	switch (event.type)
-	{
-		case SDL_QUIT:
-			isRunning = false;
-			break;
-		case SDL_KEYDOWN:
-			Game::_inputManager.pressKey(event.key.keysym.sym);
-			break;
-		case SDL_KEYUP:
-			Game::_inputManager.releaseKey(event.key.keysym.sym);
-		case SDL_MOUSEMOTION:
-			//std::cout << event.motion.x << " " << event.motion.y << std::endl;
-			_inputManager.setMouseCoords(event.motion.x, event.motion.y);
-			break;
-		case SDL_MOUSEWHEEL:
-			if (Game::event.wheel.y > 0)
-			{
-				// Scrolling up
-				Game::camera2D.setScale(Game::camera2D.getScale() + SCALE_SPEED);
-			}
-			else if (Game::event.wheel.y < 0)
-			{
-				// Scrolling down
-				Game::camera2D.setScale(Game::camera2D.getScale() - SCALE_SPEED);
-			}
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			Game::_inputManager.pressKey(event.button.button);
-			break;
-		case SDL_MOUSEBUTTONUP:
-			Game::_inputManager.releaseKey(event.button.button);
-			break;
-		default:
-			break;
-	}
-
-	if (Game::_inputManager.isKeyDown(SDLK_ESCAPE)) {
-		Game::isRunning = false;
-	}
-
-	if (Game::_inputManager.isKeyPressed(SDLK_p)) {
-		if (Game::isPaused)
-		{
-			Game::justResumed = true;
-			Game::isPaused = false;
-		}
-		else
-		{
-			Game::isPaused = true;
-			Game::pauseTime = SDL_GetTicks();
-		}
-	}
-
-	if (Game::_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
-		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
-		mouseCoords = Game::camera2D.convertScreenToWorld(mouseCoords);
-		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
-	}
-
-	Game::_inputManager.update();
-}
-
 void Game::update(float deltaTime) //game objects updating
 {
-	std::stringstream ss1;
-	std::stringstream ss2;
-	std::stringstream winningss;
-
-	//ss << "Player Position: " << player1Pos << " and Score: " << player1.getComponent<ScoreComponent>().score;
-
+	checkInput(); //handleEvents
 	Vector2D plMaxDistance;
 
 	manager.refresh(); 
@@ -225,8 +172,6 @@ void Game::update(float deltaTime) //game objects updating
 	Game::camera2D.update();
 	Game::hudCamera2D.update();
 
-	_time += 0.01f;
-		
 	auto& slices(manager.getGroup(Game::groupSlices));
 	
 	for (auto& p : players)
@@ -273,7 +218,6 @@ void Game::update(float deltaTime) //game objects updating
 						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
 						c->getComponent<AnimatorComponent>().Play("CoinFlip");
 						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
-						ss1 << p->getComponent<ScoreComponent>().getScore();
 					}
 				}
 
@@ -410,7 +354,6 @@ void Game::update(float deltaTime) //game objects updating
 						else //skeleton case
 						{
 							player->getComponent<ScoreComponent>().addToScore(100);
-							ss1 << player->getComponent<ScoreComponent>().getScore();
 							e->destroy();
 						}
 
@@ -545,6 +488,13 @@ void Game::update(float deltaTime) //game objects updating
 		camera.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w);
 }
 
+void Game::checkInput() {
+	SDL_Event evnt;
+	while (SDL_PollEvent(&evnt)) {
+		_game->onSDLEvent(evnt);
+	}
+}
+
 
 void Game::setupShaderAndTexture(const std::string& textureName) {
 	_colorProgram.use();
@@ -570,7 +520,7 @@ void Game::renderBatch(const std::vector<Entity*>& entities) {
 	_spriteBatch.renderBatch();
 }
 
-void Game::render()
+void Game::draw()
 {
 	////////////OPENGL USE
 	glClearDepth(1.0);
@@ -598,8 +548,6 @@ void Game::render()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	drawHUD();
 	_colorProgram.unuse();
-
-	_window.swapBuffer();
 
 	////////////SDL USE
 
@@ -629,10 +577,4 @@ void Game::drawHUD() {
 		
 	_hudSpriteBatch.end();
 	_hudSpriteBatch.renderBatch();
-}
-
-void Game::clean()
-{
-	SDL_Quit();
-	std::cout << "Game Cleaned" << std::endl;
 }

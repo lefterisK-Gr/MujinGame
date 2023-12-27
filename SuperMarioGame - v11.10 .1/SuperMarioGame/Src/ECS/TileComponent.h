@@ -17,8 +17,8 @@ public:
 	SDL_Rect srcRect, destRect;
 	Vector2D position;
 
-	TransformComponent* transform;
-	SpriteComponent* sprite;
+	TransformComponent* transform = nullptr;
+	SpriteComponent* sprite = nullptr;
 	MovingAnimatorComponent* moving_animator;
 	GridComponent* grid;
 	int scaledTile;

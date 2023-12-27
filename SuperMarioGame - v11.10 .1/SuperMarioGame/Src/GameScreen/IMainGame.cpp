@@ -14,7 +14,16 @@ IMainGame::~IMainGame() {
 
 void IMainGame::run() {
 
-	if (!init()) return;
+	const float DESIRED_FPS = 60;
+	const int MAX_PHYSICS_STEPS = 6;
+
+	if (!init()) return; // get "Game"
+
+	const float MS_PER_SECOND = 1000;
+	const float DESIRED_FRAMETIME = MS_PER_SECOND / DESIRED_FPS;
+	const float MAX_DELTA_TIME = 1.0f;
+
+	float prevTicks = SDL_GetTicks();
 
 	FPSLimiter limiter;
 	limiter.setMaxFPS(60.0f);
@@ -23,9 +32,23 @@ void IMainGame::run() {
 	while (_isRunning) {
 		limiter.begin();
 
+		float newTicks = SDL_GetTicks();
+		float frameTime = newTicks - prevTicks;
+		prevTicks = newTicks;
+		float totalDeltaTime = frameTime / DESIRED_FRAMETIME;
+
+
+		int i = 0;
+		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
+		{
+			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
+			update(deltaTime); //handleEvents first thing in update
+			totalDeltaTime -= deltaTime;
+			i++;
+			draw();
+		}
+
 		_inputManager.update();
-		update();
-		draw();
 		
 		_fps = limiter.end();
 		_window.swapBuffer();
@@ -129,11 +152,11 @@ bool IMainGame::initSystems() {
 	return true;
 }
 
-void IMainGame::update() {
+void IMainGame::update(float deltaTime) {
 	if (_currentScreen) {
 		switch (_currentScreen->getState()) {
 		case ScreenState::RUNNING:
-			_currentScreen->update();
+			_currentScreen->update(deltaTime);
 			break;
 		case ScreenState::CHANGE_NEXT:
 			_currentScreen->onExit();

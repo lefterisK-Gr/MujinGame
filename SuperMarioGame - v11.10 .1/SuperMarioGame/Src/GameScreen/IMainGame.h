@@ -27,7 +27,7 @@ public:
 	}
 
 protected:
-	virtual void update();
+	virtual void update(float deltaTime);
 	virtual void draw();
 
 	bool init();

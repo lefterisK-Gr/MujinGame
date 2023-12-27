@@ -7,8 +7,8 @@ class GreenKoopaTroopa_Script : public Component
 public:
 	bool shelltoturtle = false;
 	AnimatorComponent* animator;
-	SpriteComponent* sprite;
-	TransformComponent* transform;
+	SpriteComponent* sprite = nullptr;
+	TransformComponent* transform = nullptr;
 	LivingCharacter* living;
 
 	GreenKoopaTroopa_Script()

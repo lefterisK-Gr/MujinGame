@@ -30,16 +30,15 @@ void GameplayScreen::onExit() {
 
 }
 
-void GameplayScreen::update() {
+void GameplayScreen::update(float deltaTime) {
 	std::cout << "update" << std::endl;
-	checkInput();
+	checkInput(); //handleEvents
 }
 
 void GameplayScreen::draw() {
 	std::cout << "draw" << std::endl;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-
 }
 
 void GameplayScreen::checkInput() {

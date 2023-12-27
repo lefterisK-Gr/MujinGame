@@ -11,10 +11,10 @@ class Sword : public Component
 
 public:
 
-	TransformComponent* transform;
-	ColliderComponent* collider;
-	SpriteComponent* sprite;
-	Slice* sliceComp;
+	TransformComponent* transform = nullptr;
+	ColliderComponent* collider = nullptr;
+	SpriteComponent* sprite = nullptr;
+	Slice* sliceComp = nullptr;
 
 	Sword()
 	{

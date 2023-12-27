@@ -4,7 +4,7 @@
 class RigidBodyComponent : public Component
 {
 private:
-	TransformComponent* transform;
+	TransformComponent* transform = nullptr;
 public:
 	float GravityForce = 1.0f;
 	float accelGravity = 0.045f;
