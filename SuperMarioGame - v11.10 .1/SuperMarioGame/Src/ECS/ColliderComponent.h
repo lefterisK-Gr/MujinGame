@@ -12,7 +12,6 @@ public:
 	SDL_Rect collider;
 	std::string tag;
 
-	SDL_Texture* tex;
 	SDL_Rect srcR, destR;
 
 	TransformComponent* transform;
@@ -46,7 +45,6 @@ public:
 
 		if (tag == "terrain")
 		{
-			//tex = TextureManager::LoadTexture("assets/grid_collision.png");
 		}
 		srcR = { 0, 0, 8, 8 };
 		destR = { collider.x, collider.y , collider.w , collider.h };
@@ -70,7 +68,6 @@ public:
 
 	void draw() override
 	{
-		TextureManager::Draw(tex, srcR, destR, SDL_FLIP_NONE); //remove comment to add collider boxes
 	}
 
 	SDL_Rect getRect() override

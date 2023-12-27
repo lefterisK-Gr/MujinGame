@@ -27,7 +27,6 @@ public:
 
 	~TileComponent()
 	{
-		SDL_DestroyTexture(Game::assets->GetTexture(textureid));
 	}
 
 	TileComponent(int srcX, int srcY, int xpos, int ypos,int tsize, int tscale, std::string id , bool isSolid , bool ishor)

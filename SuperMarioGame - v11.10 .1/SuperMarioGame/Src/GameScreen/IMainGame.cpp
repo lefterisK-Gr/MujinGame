@@ -1,11 +1,11 @@
 #include "IMainGame.h"
-#include "../Timing.h"
+#include "../Timing/Timing.h"
 
 #include "ScreenList.h"
 #include "IGameScreen.h"
 
 IMainGame::IMainGame() {
-
+	_screenList = std::make_unique<ScreenList>(this);
 }
 
 IMainGame::~IMainGame() {
@@ -14,7 +14,7 @@ IMainGame::~IMainGame() {
 
 void IMainGame::run() {
 
-	if (!init() == false) return;
+	if (!init()) return;
 
 	FPSLimiter limiter;
 	limiter.setMaxFPS(60.0f);
@@ -28,6 +28,7 @@ void IMainGame::run() {
 		draw();
 		
 		_fps = limiter.end();
+		_window.swapBuffer();
 	}
 }
 void IMainGame::exitGame() {
@@ -43,38 +44,62 @@ void IMainGame::onSDLEvent(SDL_Event& evnt) {
 	switch (evnt.type)
 	{
 	case SDL_QUIT:
-		_isRunning = false;
+		exitGame();
 		break;
 	case SDL_KEYDOWN:
-		Game::_inputManager.pressKey(evnt.key.keysym.sym);
+		_inputManager.pressKey(evnt.key.keysym.sym);
 		break;
 	case SDL_KEYUP:
-		Game::_inputManager.releaseKey(evnt.key.keysym.sym);
+		_inputManager.releaseKey(evnt.key.keysym.sym);
 	case SDL_MOUSEMOTION:
 		//std::cout << event.motion.x << " " << event.motion.y << std::endl;
 		_inputManager.setMouseCoords(evnt.motion.x, evnt.motion.y);
 		break;
-	case SDL_MOUSEWHEEL:
-		if (evnt.wheel.y > 0)
-		{
-			// Scrolling up
-			Game::camera2D.setScale(Game::camera2D.getScale() + SCALE_SPEED);
-		}
-		else if (evnt.wheel.y < 0)
-		{
-			// Scrolling down
-			Game::camera2D.setScale(Game::camera2D.getScale() - SCALE_SPEED);
-		}
-		break;
+	//case SDL_MOUSEWHEEL:
+	//	if (evnt.wheel.y > 0)
+	//	{
+	//		// Scrolling up
+	//		camera2D.setScale(camera2D.getScale() + SCALE_SPEED);
+	//	}
+	//	else if (evnt.wheel.y < 0)
+	//	{
+	//		// Scrolling down
+	//		camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
+	//	}
+	//	break;
 	case SDL_MOUSEBUTTONDOWN:
-		Game::_inputManager.pressKey(evnt.button.button);
+		_inputManager.pressKey(evnt.button.button);
 		break;
 	case SDL_MOUSEBUTTONUP:
-		Game::_inputManager.releaseKey(evnt.button.button);
+		_inputManager.releaseKey(evnt.button.button);
 		break;
 	default:
 		break;
 	}
+	if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
+		exitGame();
+	}
+
+	/*if (_inputManager.isKeyPressed(SDLK_p)) {
+		if (Game::isPaused)
+		{
+			Game::justResumed = true;
+			Game::isPaused = false;
+		}
+		else
+		{
+			Game::isPaused = true;
+			Game::pauseTime = SDL_GetTicks();
+		}
+	}*/
+
+	/*if (_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
+		mouseCoords = camera2D.convertScreenToWorld(mouseCoords);
+		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
+	}*/
+
+	_inputManager.update();
 }
 
 bool IMainGame::init() {
@@ -89,8 +114,6 @@ bool IMainGame::init() {
 	
 	if (!initSystems()) return false;
 
-	initSystems();
-
 	onInit();
 	addScreens();
 
@@ -102,7 +125,7 @@ bool IMainGame::init() {
 }
 
 bool IMainGame::initSystems() {
-	_window.create("Default", 800, 640, 0);
+	_window.create("Mujin", 800, 640, 0);
 	return true;
 }
 

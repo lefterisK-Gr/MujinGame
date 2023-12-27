@@ -7,7 +7,7 @@
 #include "Animation.h"
 #include "MovingAnimation.h"
 #include <map>
-#include "../AssetManager.h"
+#include "../AssetManager/AssetManager.h"
 #include "../Vertex.h"
 #include <cstddef>
 #include "../Game.h"

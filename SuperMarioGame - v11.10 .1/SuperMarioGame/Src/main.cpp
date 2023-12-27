@@ -1,12 +1,16 @@
 
 #include "Game.h"
+//#include "App/App.h"
 
 Game* game = nullptr;
 
 
-//please don't put all your code in main like I did.
 int main(int argc, const char* argv[]) {
+	
+	/*App app;
+	app.run();*/
 
+	
 	const float DESIRED_FPS = 60;
 	const int MAX_PHYSICS_STEPS = 6;
 

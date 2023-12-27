@@ -1,6 +1,6 @@
 #include "SpriteFont.h"
 
-#include "../SpriteBatch.h"
+#include "../SpriteBatch/SpriteBatch.h"
 
 #include <SDL/SDL.h>
 
@@ -65,11 +65,11 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
         h = closestPow2(h);
 
         // A texture must be feasible
-        /*if (w > MAX_TEXTURE_RES || h > MAX_TEXTURE_RES) {
+        if (w > MAX_TEXTURE_RES || h > MAX_TEXTURE_RES) {
             rows++;
             delete[] gr;
             continue;
-        }*/
+        }
 
         // Check for minimal area
         if (area >= w * h) {

@@ -1,11 +1,11 @@
 
 #include "Game.h"
 #include "TextureManager.h"
-#include "Map.h"
+#include "Map/Map.h"
 #include "ECS/Components.h"
 #include "Vector2D.h"
-#include "Collision.h"
-#include "AssetManager.h"
+#include "Collision/Collision.h"
+#include "AssetManager/AssetManager.h"
 #include "SceneManager.h"
 #include <sstream>
 
@@ -14,7 +14,6 @@
 
 Map* map;
 
-SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Manager manager;
 Collision collision;
@@ -58,8 +57,6 @@ Game::~Game()
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen, float _maxFPS)
 {
-	int flags = 0;
-
 	Game::camera2D.init(width, height); // Assuming a screen resolution of 800x600
 	Game::camera2D.setPosition(camera2D.getPosition() /*+ glm::vec2(
 		width / 2.0f,
@@ -71,19 +68,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	audioEngine.init();
 	
-	// create renderer
-	if (fullscreen)
-	{
-		flags = SDL_WINDOW_FULLSCREEN;
-	}
-	
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		std::cout << "Subsystems Initialised..." << std::endl;
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		_window.create("ZombieGame", width, height, 0);
+		_window.create("Mujin", width, height, 0);
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -110,21 +101,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 
 	//add the textures to our texture library
-	assets->AddTexture("terrain", "assets/village_tileset.png");
-	assets->AddTexture("player", "assets/mario_luigi_animations_1.png");
-	assets->AddTexture("warrior", "assets/samurai.png");
-	assets->AddTexture("projectile", "assets/my_projectile.png");
-	assets->AddTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
-	assets->AddTexture("greenkoopatroopa", "assets/mushroom.png");
-
 	assets->Add_GLTexture("terrain", "assets/village_tileset.png");
 	assets->Add_GLTexture("warrior", "assets/samurai.png");
 	assets->Add_GLTexture("projectile", "assets/my_projectile.png");
 	assets->Add_GLTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
 	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
-
-	assets->AddFont("arial", "assets/arial.ttf", 20);
-	assets->AddFont("arialBig", "assets/arial.ttf", 100);
 
 	map = new Map("terrain", 1, 32);
 
@@ -133,15 +114,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	assets->CreatePlayer(player1);
 
 	assets->CreateSunShape(sun);
-	/*label.addComponent<UILabel>(10, 42, "University of Crete", "arial", black);
-	label.addComponent<UILabel>(10, 58, "Department of Computer Science", "arial", black);
-	label.addComponent<UILabel>(10, 10, "Lefteris Kotsonas", "arial", black);
-	label.addComponenut<UILabel>(10, 26, "CS-454, Development of Intelligent Interfaces and Games. Fall Semester 2021-22", "arial", black);*/
-
-	winningLabel1.addComponent<UILabel>(100, -300, "", "arialBig", assets->red);
-	winningLabel2.addComponent<UILabel>(100, -300, "", "arialBig", assets->green);
-
-	pauseLabel.addComponent<UILabel>(50, -300, "", "arialBig", assets->white);
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
 	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "skeleton");
@@ -218,13 +190,11 @@ void Game::handleEvents()
 	if (Game::_inputManager.isKeyPressed(SDLK_p)) {
 		if (Game::isPaused)
 		{
-			pauseLabel.getComponent<UILabel>().SetLabelText("", "arialBig");
 			Game::justResumed = true;
 			Game::isPaused = false;
 		}
 		else
 		{
-			pauseLabel.getComponent<UILabel>().SetLabelText("GAME PAUSED", "arialBig");
 			Game::isPaused = true;
 			Game::pauseTime = SDL_GetTicks();
 		}
@@ -304,7 +274,6 @@ void Game::update(float deltaTime) //game objects updating
 						c->getComponent<AnimatorComponent>().Play("CoinFlip");
 						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
 						ss1 << p->getComponent<ScoreComponent>().getScore();
-						p->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
 					}
 				}
 
@@ -442,17 +411,12 @@ void Game::update(float deltaTime) //game objects updating
 						{
 							player->getComponent<ScoreComponent>().addToScore(100);
 							ss1 << player->getComponent<ScoreComponent>().getScore();
-							player->getComponent<UILabel>().SetLabelText(ss1.str(), "arial");
 							e->destroy();
 						}
 
 					}
 					else //player death
 					{
-						winningss << "YOU DIED";
-						winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-
-
 						for (auto& pl : players)
 						{
 							pl->destroy();
@@ -512,9 +476,6 @@ void Game::update(float deltaTime) //game objects updating
 				{
 					pl->getComponent<ScoreComponent>().addToScore(100);
 
-					winningss << "MARIO WINS     ";
-					winningLabel1.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-
 					for (auto& player : players)
 					{
 						player->destroy();
@@ -544,9 +505,6 @@ void Game::update(float deltaTime) //game objects updating
 		camera.x = plMaxDistance.x - 400;
 		if (pl->getComponent<TransformComponent>().position.y >(camera.y + 640)) //player death
 		{
-			winningss << "YOU DIED";
-			winningLabel2.getComponent<UILabel>().SetLabelText(winningss.str(), "arialBig");
-
 			for (auto& player : players)
 			{
 				player->destroy();
@@ -650,9 +608,7 @@ void Game::render()
 	winningLabel2.draw();
 	pauseLabel.draw();
 	scoreboard1.draw();
-	//scoreboard2.draw();
 	////add stuff to render
-	//SDL_RenderPresent(renderer);
 	
 }
 
@@ -677,7 +633,6 @@ void Game::drawHUD() {
 
 void Game::clean()
 {
-	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	std::cout << "Game Cleaned" << std::endl;
 }

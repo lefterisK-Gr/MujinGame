@@ -9,9 +9,9 @@
 #include <iostream>
 #include <vector>
 #include "Camera2D.h"
-#include "SpriteBatch.h"
-#include "InputManager.h"
-#include "Timing.h"
+#include "SpriteBatch/SpriteBatch.h"
+#include "InputManager/InputManager.h"
+#include "Timing/Timing.h"
 #include "SpriteFont/SpriteFont.h"
 #include "AudioEngine/AudioEngine.h"
 #include "Window/Window.h"
@@ -43,7 +43,6 @@ public:
 	bool running() { return isRunning; }
 	bool paused() { return isPaused; }
 
-	static SDL_Renderer* renderer;
 	static SDL_Event event;
 
 	static uint32_t pauseTime;
@@ -91,7 +90,6 @@ public:
 
 private:
 	MujinEngine::Window _window;
-	SDL_GLContext gOpenGLContext;
 	GLSLProgram _colorProgram;
 
 	SpriteFont* _spriteFont;

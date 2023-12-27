@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../Game.h"
+#include "../InputManager/InputManager.h"
 #include "../Window/Window.h"
 #include <memory>
+#include <iostream>
 
 class ScreenList;
 class IGameScreen;
@@ -19,6 +20,8 @@ public:
 	virtual void addScreens() = 0;
 	virtual void onExit() = 0;
 
+	void onSDLEvent(SDL_Event& evnt);
+
 	const float getFps() const {
 		return _fps;
 	}
@@ -26,8 +29,6 @@ public:
 protected:
 	virtual void update();
 	virtual void draw();
-
-	void onSDLEvent(SDL_Event& evnt);
 
 	bool init();
 	bool initSystems();

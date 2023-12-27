@@ -28,6 +28,7 @@ void ScreenList::setScreen(int nextScreen){
 	_currentScreenIndex = nextScreen;
 }
 void ScreenList::addScreen(IGameScreen* newScreen){
+	newScreen->_screenIndex = _screens.size();
 	_screens.push_back(newScreen);
 	newScreen->build();
 	newScreen->setParentGame(_game);

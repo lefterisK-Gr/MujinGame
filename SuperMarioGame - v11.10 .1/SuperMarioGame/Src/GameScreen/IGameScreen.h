@@ -14,6 +14,7 @@ enum class ScreenState {
 
 class IGameScreen {
 public:
+	friend class ScreenList;
 	IGameScreen() {
 
 	}

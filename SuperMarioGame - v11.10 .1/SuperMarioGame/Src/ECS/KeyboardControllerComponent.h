@@ -1,13 +1,10 @@
 #pragma once
 
 
-#include "./../Game.h"
 #include "./ECS.h"
 #include "./Components.h"
 #include <Windows.h>
 #include <MMSystem.h>
-#include "../Game.h"
-//class RigidBodyComponent;
 
 class KeyboardControllerComponent : public Component //! moving animation
 {

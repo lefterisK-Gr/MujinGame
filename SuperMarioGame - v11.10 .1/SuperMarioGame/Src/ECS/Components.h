@@ -28,5 +28,4 @@
 
 #include "Scripts/ProjectileComponent.h"
 
-#include "UILabel.h"
 #include "ScoreComponent.h"
