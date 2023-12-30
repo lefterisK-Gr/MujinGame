@@ -5,13 +5,8 @@
 #include <SDL/SDL.h>
 
 int closestPow2(int i) {
-i--;
-int pi = 1;
-while (i > 0) {
-    i >>= 1;
-    pi <<= 1;
-}
-return pi;
+    double logbase2 = log(i) / log(2);
+    return round(pow(2, ceil(logbase2)));
 }
 
 #define MAX_TEXTURE_RES 4096
@@ -39,7 +34,7 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
     _fontHeight = TTF_FontHeight(f);
     _regStart = cs;
     _regLength = ce - cs + 1;
-    int padding = size / 8;
+    int padding = 16;
 
     // First measure all the regions
     glm::ivec4* glyphRects = new glm::ivec4[_regLength];
@@ -47,9 +42,7 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
     for (char c = cs; c <= ce; c++) {
         TTF_GlyphMetrics(f, c, &glyphRects[i].x, &glyphRects[i].z, &glyphRects[i].y, &glyphRects[i].w, &advance);
         glyphRects[i].z -= glyphRects[i].x;
-        glyphRects[i].x = 0;
         glyphRects[i].w -= glyphRects[i].y;
-        glyphRects[i].y = 0;
         i++;
     }
 
@@ -119,11 +112,11 @@ void SpriteFont::init(const char* font, int size, char cs, char ce) {
             }
 
             // Save glyph image and update coordinates
-            glTexSubImage2D(GL_TEXTURE_2D, 0, lx, bestHeight - ly - 1 - glyphSurface->h, glyphSurface->w, glyphSurface->h, GL_BGRA, GL_UNSIGNED_BYTE, glyphSurface->pixels);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, lx, bestHeight - ly - 4 - glyphSurface->h - 20, glyphSurface->w, glyphSurface->h + 20, GL_BGRA, GL_UNSIGNED_BYTE, glyphSurface->pixels);
             glyphRects[gi].x = lx;
             glyphRects[gi].y = ly;
             glyphRects[gi].z = glyphSurface->w;
-            glyphRects[gi].w = glyphSurface->h;
+            glyphRects[gi].w = glyphSurface->h + 20;
 
             SDL_FreeSurface(glyphSurface);
             glyphSurface = nullptr;
@@ -258,7 +251,9 @@ void SpriteFont::draw(SpriteBatch& batch, const char* s, glm::vec2 position, glm
             if (gi < 0 || gi >= _regLength)
                 gi = _regLength;
             glm::vec4 destRect(tp, _glyphs[gi].size * scaling);
+            //glm::vec4 destRect(0, -640, 800, 640);
             batch.draw(destRect, _glyphs[gi].uvRect, _texID, depth, tint);
+            //batch.draw(destRect, glm::vec4(0, 0, 1, 1), _texID, depth, tint);
             tp.x += _glyphs[gi].size.x * scaling.x;
         }
     }

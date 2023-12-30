@@ -25,31 +25,22 @@ Camera2D Game::hudCamera2D;
 SpriteBatch Game::_spriteBatch;
 SpriteBatch Game::_hudSpriteBatch;
 
-InputManager Game::_inputManager;
 AudioEngine Game::audioEngine;
 
-AssetManager* Game::assets = new AssetManager(&manager);
-
+AssetManager* Game::assets = nullptr;
 SceneManager* Game::scenes = new SceneManager();
-
-bool Game::isRunning = false;
-bool Game::isPaused = false;
-
-uint32_t Game::pauseTime = 0;
-bool Game::justResumed = false;
 
 auto& player1(manager.addEntity());
 auto& sun(manager.addEntity());
 auto& label(manager.addEntity());
-auto& winningLabel1(manager.addEntity());
-auto& winningLabel2(manager.addEntity());
 auto& pauseLabel(manager.addEntity());
 auto& scoreboard1(manager.addEntity());
 auto& scoreboard2(manager.addEntity());
 
-Game::Game()
+Game::Game(MujinEngine::Window* window)
+	: _window(window)
 {
-
+	_screenIndex = SCREEN_INDEX_GAMEPLAY;
 }
 Game::~Game()
 {
@@ -57,11 +48,11 @@ Game::~Game()
 }
 
 int Game::getNextScreenIndex() const {
-	return SCREEN_INDEX_NO_SCREEN;
+	return _nextScreenIndex;
 }
 
 int Game::getPreviousScreenIndex() const {
-	return SCREEN_INDEX_NO_SCREEN;
+	return _prevScreenIndex;
 }
 
 void Game::build() {
@@ -74,14 +65,16 @@ void Game::destroy() {
 
 void Game::onEntry()
 {
-	Game::camera2D.init(_window.getScreenWidth(), _window.getScreenHeight()); // Assuming a screen resolution of 800x600
+	assets = new AssetManager(&manager, _game->_inputManager);
+
+	Game::camera2D.init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
 	Game::camera2D.setPosition(camera2D.getPosition() /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
 	)*/);;
 	Game::camera2D.setScale(1.0f);
 
-	Game::hudCamera2D.init(_window.getScreenWidth(), _window.getScreenHeight());
+	Game::hudCamera2D.init(_window->getScreenWidth(), _window->getScreenHeight());
 
 	audioEngine.init();
 	
@@ -91,8 +84,6 @@ void Game::onEntry()
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-
 		//InitShaders function from Bengine
 		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_colorProgram.addAttribute("vertexPosition");
@@ -100,12 +91,17 @@ void Game::onEntry()
 		_colorProgram.addAttribute("vertexUV");
 		_colorProgram.linkShaders();
 
+		_lightProgram.compileShaders("Src/Shaders/lightShading.vert", "Src/Shaders/lightShading.frag");
+		_lightProgram.addAttribute("vertexPosition");
+		_lightProgram.addAttribute("vertexColor");
+		_lightProgram.addAttribute("vertexUV");
+		_lightProgram.linkShaders();
+
 		Game::_spriteBatch.init();
 		Game::_hudSpriteBatch.init();
 
-		_spriteFont = new SpriteFont("assets/arial.ttf", 128);
+		_spriteFont = new SpriteFont("assets/arial.ttf", 32);
 
-		isRunning = true;
 	}
 
 	if (TTF_Init() == -1)
@@ -140,7 +136,7 @@ void Game::onEntry()
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
-	music.play(-1);
+	//music.play(-1);
 }
 
 void Game::onExit() {
@@ -155,6 +151,8 @@ auto& skeletons(manager.getGroup(Game::groupSkeletons));
 auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
 auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
 auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
+auto& slices(manager.getGroup(Game::groupSlices));
+auto& lights(manager.getGroup(Game::groupLights));
 auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
@@ -172,7 +170,6 @@ void Game::update(float deltaTime) //game objects updating
 	Game::camera2D.update();
 	Game::hudCamera2D.update();
 
-	auto& slices(manager.getGroup(Game::groupSlices));
 	
 	for (auto& p : players)
 	{
@@ -491,7 +488,35 @@ void Game::update(float deltaTime) //game objects updating
 void Game::checkInput() {
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
+	
 		_game->onSDLEvent(evnt);
+
+		switch (evnt.type)
+		{
+		case SDL_MOUSEWHEEL:
+			if (evnt.wheel.y > 0)
+			{
+				// Scrolling up
+				camera2D.setScale(camera2D.getScale() + SCALE_SPEED);
+			}
+			else if (evnt.wheel.y < 0)
+			{
+				// Scrolling down
+				camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
+			}
+			break;
+		}
+		if (_game->_inputManager.isKeyPressed(SDLK_p)) {
+			onPauseGame();
+		}
+
+		if (_game->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+			glm::vec2 mouseCoords = _game->_inputManager.getMouseCoords();
+			mouseCoords = camera2D.convertScreenToWorld(mouseCoords);
+			std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
+		}
+
+		_game->_inputManager.update();
 	}
 }
 
@@ -525,6 +550,8 @@ void Game::draw()
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+
 
 	/////////////////////////////////////////////////////
 	setupShaderAndTexture("terrain");
@@ -546,21 +573,43 @@ void Game::draw()
 
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
-	drawHUD();
+	//drawHUD();
 	_colorProgram.unuse();
+
+	_lightProgram.use();
+
+	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//renderBatch(lights);
+	_spriteBatch.begin();
+
+	for(const auto& l : lights)
+	{
+		l->draw();
+	}
+
+	_spriteBatch.end();
+	_spriteBatch.renderBatch();
+
+	_lightProgram.unuse();
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	////////////SDL USE
 
 	label.draw();
-	winningLabel1.draw();
-	winningLabel2.draw();
 	pauseLabel.draw();
 	scoreboard1.draw();
 	////add stuff to render
 	
 }
 
-void Game::drawHUD() {
+
+// TODO: DOESNT WORK, ONLY WORKS FOR SOME CHARACTERS
+void Game::drawHUD() { 
 	char buffer[256];
 
 	GLint pLocation = _colorProgram.getUniformLocation("projection");
@@ -569,12 +618,18 @@ void Game::drawHUD() {
 
 	_hudSpriteBatch.begin();
 
-	snprintf(buffer, sizeof(buffer), "0 1 2 3 4 5 6 7 8 9 \n : ;  < = > ? @ a b c d e f g");
+	snprintf(buffer, sizeof(buffer), "start game");
 
 	_spriteFont->draw(_hudSpriteBatch, buffer, glm::vec2(32, -96),
-		glm::vec2(0.2), 0.0f, Color(255,255,255,255),
+		glm::vec2(1), 0.0f, Color(255,255,255,255),
 		Justification::LEFT);
 		
 	_hudSpriteBatch.end();
 	_hudSpriteBatch.renderBatch();
+}
+
+bool Game::onPauseGame() {
+	_prevScreenIndex = SCREEN_INDEX_MAIN_MENU;
+	_currentState = ScreenState::CHANGE_PREVIOUS;
+	return true;
 }

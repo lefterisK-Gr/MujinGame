@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../InputManager/InputManager.h"
+#include "../AssetManager/AssetManager.h"
 #include "../Window/Window.h"
 #include <memory>
 #include <iostream>
@@ -26,6 +27,8 @@ public:
 		return _fps;
 	}
 
+	InputManager _inputManager;
+
 protected:
 	virtual void update(float deltaTime);
 	virtual void draw();
@@ -38,7 +41,6 @@ protected:
 	bool _isRunning = false;
 	float _fps = 0.0f;
 	MujinEngine::Window _window;
-	InputManager _inputManager;
 
 	const float SCALE_SPEED = 0.1f;
 };

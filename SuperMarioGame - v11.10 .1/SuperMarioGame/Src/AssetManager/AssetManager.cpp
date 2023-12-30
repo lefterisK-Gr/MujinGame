@@ -3,7 +3,8 @@
 #include "../Collision/Collision.h"
 
 
-AssetManager::AssetManager(Manager* man) : manager(man) // todo make triggers manager
+AssetManager::AssetManager(Manager* man, InputManager& inputManager) 
+	: manager(man), _inputManager(inputManager) // todo make triggers manager
 {
 	onpipeTriggers[0].x = 1840;
 	onpipeTriggers[0].y = 512;
@@ -46,6 +47,7 @@ void AssetManager::CreatePlayer(Entity& player)
 	player.addComponent<MovingAnimatorComponent>("warrior");
 	player.addComponent<RigidBodyComponent>();
 	player.addComponent<KeyboardControllerComponent>(
+		_inputManager,
 		(char*)"P1Idle",
 		(char*)"P1Jump",
 		(char*)"P1Walk",

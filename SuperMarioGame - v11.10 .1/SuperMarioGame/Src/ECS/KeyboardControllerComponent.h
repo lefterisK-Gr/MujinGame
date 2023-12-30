@@ -9,6 +9,8 @@
 class KeyboardControllerComponent : public Component //! moving animation
 {
 public: //TODO: maybe have variables as private
+	InputManager& _inputManager;
+
 	TransformComponent* transform;
 	AnimatorComponent* animator;
 	RigidBodyComponent* rigidbody;
@@ -17,12 +19,8 @@ public: //TODO: maybe have variables as private
 	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
 	SDL_KeyCode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
 
-	KeyboardControllerComponent()
-	{
-
-	}
-
 	KeyboardControllerComponent(
+		InputManager& inputManager,
 		char* idleAnimation,
 		char* jumpAnimation,
 		char* walkAnimation,
@@ -35,7 +33,8 @@ public: //TODO: maybe have variables as private
 		SDL_KeyCode runKey
 		)
 
-		: idleAnimation(idleAnimation),
+		: _inputManager(inputManager),
+		idleAnimation(idleAnimation),
 		jumpAnimation(jumpAnimation),
 		walkAnimation(walkAnimation),
 		attackAnimation(attackAnimation),
@@ -64,7 +63,7 @@ public: //TODO: maybe have variables as private
 
 	void update(float deltaTime) override
 	{
-		if (Game::_inputManager.isKeyDown(jumpKey)) {
+		if (_inputManager.isKeyDown(jumpKey)) {
 			if (rigidbody->onGround)
 			{
 				//PlaySound(TEXT("jump.wav"), NULL, SND_ASYNC);
@@ -74,12 +73,12 @@ public: //TODO: maybe have variables as private
 			}
 		}
 
-		if (Game::_inputManager.isKeyDown(walkLeftKey)) {
+		if (_inputManager.isKeyDown(walkLeftKey)) {
 			transform->velocity.x = -2;
 
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
-		if (Game::_inputManager.isKeyDown(walkRightKey)) {
+		if (_inputManager.isKeyDown(walkRightKey)) {
 			if (sprite->spriteFlip == SDL_FLIP_HORIZONTAL)
 			{
 				animator->sprite->spriteFlip = SDL_FLIP_NONE;
@@ -87,17 +86,17 @@ public: //TODO: maybe have variables as private
 
 			transform->velocity.x = 2;
 		}
-		if (Game::_inputManager.isKeyDown(runKey)) {
+		if (_inputManager.isKeyDown(runKey)) {
 			transform->velocity.x *= 2;
 		}
-		if (!Game::_inputManager.isKeyDown(walkRightKey) && !Game::_inputManager.isKeyDown(walkLeftKey)) {
+		if (!_inputManager.isKeyDown(walkRightKey) && !_inputManager.isKeyDown(walkLeftKey)) {
 			transform->velocity.x = 0;
 		}
-		if (!Game::_inputManager.isKeyDown(runKey)) {
-			if (Game::_inputManager.isKeyDown(walkLeftKey)) {
+		if (!_inputManager.isKeyDown(runKey)) {
+			if (_inputManager.isKeyDown(walkLeftKey)) {
 				transform->velocity.x = -1;  // Set velocity to 1 (walking speed) in left direction
 			}
-			else if (Game::_inputManager.isKeyDown(walkRightKey)) {
+			else if (_inputManager.isKeyDown(walkRightKey)) {
 				transform->velocity.x = 1;   // Set velocity to 1 (walking speed) in right direction
 			}
 		}

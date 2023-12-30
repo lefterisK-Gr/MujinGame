@@ -6,6 +6,7 @@
 #include "AnimatorComponent.h"
 #include "MovingAnimatorComponent.h"
 #include "ColliderComponent.h"
+#include "ButtonComponent.h"
 
 #include "Scripts/LivingCharacter.h"
 #include "Scripts/Slice.h"
@@ -17,6 +18,7 @@
 #include "RigidBodyComponent.h"
 
 #include "KeyboardControllerComponent.h"
+#include "LightComponent.h"
 
 #include "GridComponent.h"
 #include "TileComponent.h"

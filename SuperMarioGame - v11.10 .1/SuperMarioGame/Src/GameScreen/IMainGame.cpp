@@ -47,10 +47,16 @@ void IMainGame::run() {
 			i++;
 			draw();
 		}
-
-		_inputManager.update();
 		
 		_fps = limiter.end();
+
+		static int frameCounter = 0;
+		frameCounter++;
+		if (frameCounter == 10) {
+			std::cout << _fps << std::endl;
+			frameCounter = 0;
+		}
+
 		_window.swapBuffer();
 	}
 }
@@ -102,27 +108,6 @@ void IMainGame::onSDLEvent(SDL_Event& evnt) {
 	if (_inputManager.isKeyDown(SDLK_ESCAPE)) {
 		exitGame();
 	}
-
-	/*if (_inputManager.isKeyPressed(SDLK_p)) {
-		if (Game::isPaused)
-		{
-			Game::justResumed = true;
-			Game::isPaused = false;
-		}
-		else
-		{
-			Game::isPaused = true;
-			Game::pauseTime = SDL_GetTicks();
-		}
-	}*/
-
-	/*if (_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
-		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
-		mouseCoords = camera2D.convertScreenToWorld(mouseCoords);
-		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
-	}*/
-
-	_inputManager.update();
 }
 
 bool IMainGame::init() {
@@ -155,30 +140,30 @@ bool IMainGame::initSystems() {
 void IMainGame::update(float deltaTime) {
 	if (_currentScreen) {
 		switch (_currentScreen->getState()) {
-		case ScreenState::RUNNING:
-			_currentScreen->update(deltaTime);
-			break;
-		case ScreenState::CHANGE_NEXT:
-			_currentScreen->onExit();
-			_currentScreen = _screenList->moveNext();
-			if (_currentScreen) {
-				_currentScreen->setRunning();
-				_currentScreen->onEntry();
-			}
-			break;
-		case ScreenState::CHANGE_PREVIOUS:
-			_currentScreen->onExit();
-			_currentScreen = _screenList->movePrevious();
-			if (_currentScreen) {
-				_currentScreen->setRunning();
-				_currentScreen->onEntry();
-			}
-			break;
-		case ScreenState::EXIT_APPLICATION:
-			exitGame();
-			break;
-		default:
-			break;
+			case ScreenState::RUNNING:
+				_currentScreen->update(deltaTime);
+				break;
+			case ScreenState::CHANGE_NEXT:
+				_currentScreen->onExit();
+				_currentScreen = _screenList->moveNext();
+				if (_currentScreen) {
+					_currentScreen->setRunning();
+					_currentScreen->onEntry();
+				}
+				break;
+			case ScreenState::CHANGE_PREVIOUS:
+				_currentScreen->onExit();
+				_currentScreen = _screenList->movePrevious();
+				if (_currentScreen) {
+					_currentScreen->setRunning();
+					//_currentScreen->onEntry();
+				}
+				break;
+			case ScreenState::EXIT_APPLICATION:
+				exitGame();
+				break;
+			default:
+				break;
 		}
 	}
 	else {

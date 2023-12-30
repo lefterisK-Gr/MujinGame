@@ -19,6 +19,8 @@
 
 #include "ECS/ECS.h"
 
+#include "GameScreen/ScreenIndices.h"
+
 class AssetManager;
 class SceneManager;
 class ColliderComponent;
@@ -26,7 +28,7 @@ class ColliderComponent;
 class Game : public IGameScreen {
 
 public:
-	Game();
+	Game(MujinEngine::Window* window);
 	~Game();
 
 
@@ -56,12 +58,6 @@ public:
 
 	static SDL_Event event;
 
-	static uint32_t pauseTime;
-
-	static bool isRunning;
-	static bool isPaused;
-	static bool justResumed;
-
 	static SDL_Rect camera;
 	static Camera2D camera2D;
 	static Camera2D hudCamera2D;
@@ -69,11 +65,7 @@ public:
 	static SpriteBatch _spriteBatch;
 	static SpriteBatch _hudSpriteBatch;
 
-	float _fps;
-
-	static InputManager _inputManager;
 	static AudioEngine audioEngine;
-
 
 	static AssetManager* assets;
 
@@ -90,6 +82,7 @@ public:
 		groupMysteryBoxes,
 		groupWinningTiles,
 		groupSlices,
+		groupLights,
 		groupProjectiles,
 		groupSkeletons,
 		groupGreenKoopaTroopas,
@@ -100,11 +93,16 @@ public:
 
 private:
 	void checkInput();
+	bool onPauseGame();
 
-	MujinEngine::Window _window;
+	MujinEngine::Window* _window;
 	GLSLProgram _colorProgram;
+	GLSLProgram _lightProgram;
 
 	SpriteFont* _spriteFont;
+
+	int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
+	int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
 
 	const float SCALE_SPEED = 0.1f;
 };

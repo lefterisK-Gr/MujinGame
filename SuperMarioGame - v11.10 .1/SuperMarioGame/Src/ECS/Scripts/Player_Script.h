@@ -34,6 +34,9 @@ public: // it is like it has init that creates Animator Component since it inher
 	TransformComponent* transform;
 	KeyboardControllerComponent* keyboard;
 	Sword* sword;
+
+	Entity* light;
+
 	LivingCharacter* living;
 
 	Player_Script()
@@ -53,6 +56,16 @@ public: // it is like it has init that creates Animator Component since it inher
 		transform = &entity->getComponent<TransformComponent>();
 		keyboard = &entity->getComponent<KeyboardControllerComponent>();
 		sword = &entity->getComponent<Sword>();
+
+		light = &manager.addEntity(); 
+
+		light->addComponent<TransformComponent>(transform->position.x, transform->position.y,
+			600.0f, 600.0f, transform->scale);
+		light->addComponent<LightComponent>(1);
+		light->getComponent<LightComponent>().color = Color(255, 255, 255, 100);
+
+		light->addGroup(Game::groupLights);
+
 		if (!entity->hasComponent<LivingCharacter>()) //todo: problem: having transform on top left grid, not every collider its own
 		{
 			entity->addComponent<LivingCharacter>();
@@ -61,8 +74,14 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void update(float deltaTime) override {
+		if (light) {
+			TransformComponent* lightTransform = &light->getComponent<TransformComponent>();
+			light->getComponent<TransformComponent>().position.x = transform->position.x - lightTransform->width/2 + transform->width/2;
+			light->getComponent<TransformComponent>().position.y = transform->position.y - lightTransform->height / 2 + transform->height / 2;
+		}
+
 		if (!attackAnimation) {
-			if (Game::_inputManager.isKeyDown(keyboard->attackKey)) {
+			if (keyboard->_inputManager.isKeyDown(keyboard->attackKey)) {
 				animator->Play("P1Attack");
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
@@ -78,7 +97,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
 		{
-			if (Game::_inputManager.isKeyDown(keyboard->walkRightKey))
+			if (keyboard->_inputManager.isKeyDown(keyboard->walkRightKey))
 			{
 				if (this->leftofPipe)
 				{
@@ -88,7 +107,7 @@ public: // it is like it has init that creates Animator Component since it inher
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
 				}
 			}
-			if (Game::_inputManager.isKeyDown(keyboard->downKey))
+			if (keyboard->_inputManager.isKeyDown(keyboard->downKey))
 			{
 				if (this->onPipe)
 				{

@@ -17,18 +17,15 @@
 #include "../Window/Window.h"
 
 #include "../ECS/ECS.h"
-#include "../TextureManager.h"
-#include "../Map/Map.h"
-#include "../ECS/Components.h"
-#include "../Vector2D.h"
-#include "../Collision/Collision.h"
-#include "../AssetManager/AssetManager.h"
-#include "../SceneManager.h"
 
-class GameplayScreen : public IGameScreen {
+#include "../GameScreen/ScreenIndices.h"
+
+class AssetManager;
+
+class MainMenuScreen : public IGameScreen {
 public:
-	GameplayScreen();
-	~GameplayScreen();
+	MainMenuScreen(MujinEngine::Window* window);
+	~MainMenuScreen();
 
     virtual int getNextScreenIndex() const override;
 
@@ -46,25 +43,33 @@ public:
 
     virtual void draw() override;
 
-    static SDL_Rect camera;
-    static Camera2D camera2D;
-    static Camera2D hudCamera2D;
+    static Camera2D hud_camera2D;
 
     static SpriteBatch _spriteBatch;
-    static SpriteBatch _hudSpriteBatch;
-
-    static InputManager _inputManager;
-    static AudioEngine audioEngine;
-
 
     static AssetManager* assets;
 
-    static SceneManager* scenes;
+    void setupShaderAndTexture(const std::string& textureName);
+    void renderBatch(const std::vector<Entity*>& entities);
+
+    enum groupLabels : std::size_t //todo should add groups at end for some reason
+    {
+        startGameGroup,
+        exitGameGroup
+    };
+
 private:
     void checkInput();
+    bool onStartGame();
+    bool onResumeGame();
+    void onExitGame();
 
-    MujinEngine::Window _window;
+    MujinEngine::Window* _window;
     GLSLProgram _colorProgram;
 
-    SpriteFont* _spriteFont;
+    SDL_Rect _mouseCoords = {- 100, -100 , 1, 1};
+
+    int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
+    int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
+
 };

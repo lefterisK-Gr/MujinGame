@@ -7,6 +7,7 @@
 #include "../Vector2D.h"
 #include "../ECS\ECS.h"
 #include <TTF/SDL_ttf.h>
+#include "../Game.h"
 
 
 class AssetManager //this class created when we added projectiles, based on this class other components changed
@@ -17,7 +18,7 @@ public:
 	SDL_Color red = { 255, 0 ,0 ,255 };
 	SDL_Color green = { 0, 255 ,0 ,255 };
 
-	AssetManager(Manager* man);
+	AssetManager(Manager* man, InputManager& inputManager);
 	~AssetManager();
 
 	//gameobjects
@@ -41,6 +42,7 @@ public:
 
 private:
 	Manager* manager;
+	InputManager& _inputManager;
 
 	std::map<std::string, const GLTexture*> gl_textures;
 

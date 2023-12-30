@@ -10,6 +10,8 @@
 #include "../AssetManager/AssetManager.h"
 #include "../Vertex.h"
 #include <cstddef>
+
+#include "../MainMenuScreen/MainMenuScreen.h"
 #include "../Game.h"
 
 // TODO: (extra): can add states for different states (0 for full solid tile or 1 for no solid
@@ -20,6 +22,7 @@ private:
 	SDL_Texture *texture;
 	GLuint _vboID = 0; //32 bits
 	float _zIndex = 1.0f;
+	bool _isMainMenu = false;
 public:
 	TransformComponent* transform = nullptr;
 	SDL_Rect srcRect, destRect;
@@ -35,8 +38,9 @@ public:
 		setTex(id);
 	}
 
-	SpriteComponent(std::string id, float zIndex)
+	SpriteComponent(std::string id, float zIndex, bool isMainMenu = false)
 	{
+		_isMainMenu = isMainMenu;
 		setTex(id);
 		_zIndex = zIndex;
 	}
@@ -53,7 +57,13 @@ public:
 	void setTex(std::string id) //this function is used to change texture of a sprite
 	{
 		//texture = Game::assets->GetTexture(id);
-		gl_texture = Game::assets->Get_GLTexture(id);
+		if (_isMainMenu) {
+			gl_texture = MainMenuScreen::assets->Get_GLTexture(id);
+		}
+		else
+		{
+			gl_texture = Game::assets->Get_GLTexture(id);
+		}
 	}
 
 	void init() override
@@ -77,8 +87,16 @@ public:
 	void update(float deltaTime) override
 	{
 		float parallaxFactor = 1.0f / _zIndex;
-		destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
-		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		if (_isMainMenu) {
+			destRect.x = static_cast<int>(transform->position.x); //make player move with the camera, being stable in centre, except on edges
+			destRect.y = static_cast<int>(transform->position.y);
+		}
+		else
+		{
+			destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
+			destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		}
+	
 	}
 
 	void draw() override
@@ -102,7 +120,13 @@ public:
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 		Color color(255,255,255,255);
 
-		Game::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
+		if (_isMainMenu) {
+			MainMenuScreen::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
+		}
+		else
+		{
+			Game::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
+		}
 
 
 		glDisableVertexAttribArray(0);
