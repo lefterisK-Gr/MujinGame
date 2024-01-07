@@ -8,9 +8,10 @@
 #include "ColliderComponent.h"
 #include "ButtonComponent.h"
 
-#include "Scripts/LivingCharacter.h"
 #include "Scripts/Slice.h"
 #include "Scripts/Sword.h"
+#include "Scripts/HPBar.h"
+#include "Scripts/LivingCharacter.h"
 #include "Scripts/GreenKoopaTroopa_Script.h"
 #include "Scripts/Skeleton_Script.h"
 

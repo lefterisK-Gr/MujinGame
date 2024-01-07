@@ -65,7 +65,7 @@ private:
     void onExitGame();
 
     MujinEngine::Window* _window;
-    GLSLProgram _colorProgram;
+    GLSLProgram _textureProgram;
 
     SDL_Rect _mouseCoords = {- 100, -100 , 1, 1};
 

@@ -62,7 +62,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		light->addComponent<TransformComponent>(transform->position.x, transform->position.y,
 			600.0f, 600.0f, transform->scale);
 		light->addComponent<LightComponent>(1);
-		light->getComponent<LightComponent>().color = Color(255, 255, 255, 100);
+		light->getComponent<LightComponent>().color = Color(255, 255, 255, 150);
 
 		light->addGroup(Game::groupLights);
 

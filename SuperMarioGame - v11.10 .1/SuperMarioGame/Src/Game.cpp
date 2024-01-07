@@ -1,4 +1,4 @@
-
+﻿
 #include "Game.h"
 #include "TextureManager.h"
 #include "Map/Map.h"
@@ -84,12 +84,17 @@ void Game::onEntry()
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		//InitShaders function from Bengine
 		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
 		_colorProgram.addAttribute("vertexPosition");
 		_colorProgram.addAttribute("vertexColor");
 		_colorProgram.addAttribute("vertexUV");
 		_colorProgram.linkShaders();
+
+		_textureProgram.compileShaders("Src/Shaders/textureShading.vert", "Src/Shaders/textureShading.frag");
+		_textureProgram.addAttribute("vertexPosition");
+		_textureProgram.addAttribute("vertexColor");
+		_textureProgram.addAttribute("vertexUV");
+		_textureProgram.linkShaders();
 
 		_lightProgram.compileShaders("Src/Shaders/lightShading.vert", "Src/Shaders/lightShading.frag");
 		_lightProgram.addAttribute("vertexPosition");
@@ -101,6 +106,8 @@ void Game::onEntry()
 		Game::_hudSpriteBatch.init();
 
 		_spriteFont = new SpriteFont("assets/arial.ttf", 32);
+		SDL_Color color = { 255, 255, 255, 255 };
+		_spriteFont->createTextTexture("1", color);
 
 	}
 
@@ -158,6 +165,7 @@ auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
 auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
 auto& screenshapes(manager.getGroup(Game::screenShapes));
+auto& hpbars(manager.getGroup(Game::groupHPBars));
 
 void Game::update(float deltaTime) //game objects updating
 {
@@ -522,13 +530,13 @@ void Game::checkInput() {
 
 
 void Game::setupShaderAndTexture(const std::string& textureName) {
-	_colorProgram.use();
+	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = assets->Get_GLTexture(textureName);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
+	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
-	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	GLint pLocation = _textureProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
@@ -550,7 +558,7 @@ void Game::draw()
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+	glClearColor(0.2f, 0.4f, 1.0f, 1.0f);
 
 
 	/////////////////////////////////////////////////////
@@ -560,8 +568,7 @@ void Game::draw()
 	renderBatch(sewerbackgroundtiles);
 	renderBatch(tiles);
 	//renderBatch(colliders);
-	setupShaderAndTexture("warrior");
-	renderBatch(players);
+	
 	setupShaderAndTexture("projectile");
 	renderBatch(projectiles);
 	setupShaderAndTexture("skeleton");
@@ -572,13 +579,13 @@ void Game::draw()
 	renderBatch(foregroundtiles);
 
 	
+	drawHUD();
 	glBindTexture(GL_TEXTURE_2D, 0);
-	//drawHUD();
-	_colorProgram.unuse();
+	_textureProgram.unuse();
 
 	_lightProgram.use();
 
-	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	GLint pLocation = _lightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
@@ -595,6 +602,33 @@ void Game::draw()
 	_spriteBatch.renderBatch();
 
 	_lightProgram.unuse();
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+	setupShaderAndTexture("warrior");
+	renderBatch(players);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	_textureProgram.unuse();
+	_colorProgram.use();
+
+	pLocation = _textureProgram.getUniformLocation("projection");
+	cameraMatrix = camera2D.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	
+	//renderBatch(hpbars);
+	_spriteBatch.begin();
+
+	for (const auto& hpb : hpbars)
+	{
+		hpb->draw();
+	}
+
+	_spriteBatch.end();
+	_spriteBatch.renderBatch();
+
+	_colorProgram.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -608,21 +642,21 @@ void Game::draw()
 }
 
 
-// TODO: DOESNT WORK, ONLY WORKS FOR SOME CHARACTERS
 void Game::drawHUD() { 
-	char buffer[256];
+	_textureProgram.use();
+	glActiveTexture(GL_TEXTURE0);
 
-	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	glBindTexture(GL_TEXTURE_2D, _spriteFont->_texID);
+	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
+	glUniform1i(textureLocation, 0);
+
+	GLint pLocation = _textureProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = hudCamera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	_hudSpriteBatch.begin();
 
-	snprintf(buffer, sizeof(buffer), "start game");
-
-	_spriteFont->draw(_hudSpriteBatch, buffer, glm::vec2(32, -96),
-		glm::vec2(1), 0.0f, Color(255,255,255,255),
-		Justification::LEFT);
+	_spriteFont->draw(_hudSpriteBatch, glm::vec2(32, -96));
 		
 	_hudSpriteBatch.end();
 	_hudSpriteBatch.renderBatch();

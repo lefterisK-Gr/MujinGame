@@ -69,11 +69,11 @@ void MainMenuScreen::onEntry()
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 		//InitShaders function from Bengine
-		_colorProgram.compileShaders("Src/Shaders/colorShading.vert", "Src/Shaders/colorShading.frag");
-		_colorProgram.addAttribute("vertexPosition");
-		_colorProgram.addAttribute("vertexColor");
-		_colorProgram.addAttribute("vertexUV");
-		_colorProgram.linkShaders();
+		_textureProgram.compileShaders("Src/Shaders/textureShading.vert", "Src/Shaders/textureShading.frag");
+		_textureProgram.addAttribute("vertexPosition");
+		_textureProgram.addAttribute("vertexColor");
+		_textureProgram.addAttribute("vertexUV");
+		_textureProgram.linkShaders();
 
 		MainMenuScreen::_spriteBatch.init();
 	}
@@ -147,13 +147,13 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
-	_colorProgram.use();
+	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = assets->Get_GLTexture(textureName);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = _colorProgram.getUniformLocation("texture_sampler");
+	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
-	GLint pLocation = _colorProgram.getUniformLocation("projection");
+	GLint pLocation = _textureProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = hud_camera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
@@ -181,7 +181,7 @@ void MainMenuScreen::draw()
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//drawHUD();
-	_colorProgram.unuse();
+	_textureProgram.unuse();
 }
 
 void MainMenuScreen::checkInput() {

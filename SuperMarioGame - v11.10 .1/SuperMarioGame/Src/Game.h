@@ -88,7 +88,8 @@ public:
 		groupGreenKoopaTroopas,
 		groupPipeRingForeground,
 		groupForegroundLayer,
-		screenShapes
+		screenShapes,
+		groupHPBars
 	};
 
 private:
@@ -97,6 +98,7 @@ private:
 
 	MujinEngine::Window* _window;
 	GLSLProgram _colorProgram;
+	GLSLProgram _textureProgram;
 	GLSLProgram _lightProgram;
 
 	SpriteFont* _spriteFont;
