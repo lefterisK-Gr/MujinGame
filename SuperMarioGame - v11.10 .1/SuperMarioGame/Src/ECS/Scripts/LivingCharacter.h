@@ -7,6 +7,8 @@ class LivingCharacter : public Component
 public:
 	TransformComponent* transform = nullptr;
 
+	bool tookDamage = false;
+
 	Entity* hp_bar;
 
 	LivingCharacter()
@@ -32,6 +34,7 @@ public:
 	}
 
 	void update(float deltaTime) override {
+		tookDamage = false;
 		if (hp_bar) {
 			TransformComponent* hpBarTransform = &hp_bar->getComponent<TransformComponent>();
 			hp_bar->getComponent<TransformComponent>().position.x = transform->position.x - hpBarTransform->width / 2 + transform->width / 2;
@@ -45,7 +48,7 @@ public:
 	}
 
 	bool applyDamage(float damage) {
-
+		tookDamage = true;
 		hp_bar->getComponent<HPBar>()._healthPoints -= damage;
 		// If we died, return true
 		if (hp_bar->getComponent<HPBar>()._healthPoints <= 0) {

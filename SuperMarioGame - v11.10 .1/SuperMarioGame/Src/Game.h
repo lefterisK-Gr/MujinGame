@@ -52,7 +52,7 @@ public:
 	
 	void setupShaderAndTexture(const std::string& textureName);
 	void renderBatch(const std::vector<Entity*>& entities);
-	void drawHUD();
+	void drawHUD(const std::string& textureName);
 
 	/////////////////////////
 
@@ -82,6 +82,7 @@ public:
 		groupMysteryBoxes,
 		groupWinningTiles,
 		groupSlices,
+		groupEnemySlices,
 		groupLights,
 		groupProjectiles,
 		groupSkeletons,

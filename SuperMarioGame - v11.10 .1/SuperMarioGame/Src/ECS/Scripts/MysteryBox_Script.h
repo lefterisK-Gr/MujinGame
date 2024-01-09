@@ -39,7 +39,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	void update(float deltaTime) override {
 		if (doCoinAnimation && !lockCoinAnimation) //add finished coin animation so its not checked everytime
 		{
-			_gemEffect.play();
+			//_gemEffect.play();
 			moving_animator->Play("CoinBounce");
 
 			doCoinAnimation = false;

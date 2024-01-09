@@ -45,6 +45,7 @@ void AssetManager::CreatePlayer(Entity& player)
 	//instead of this
 	player.addComponent<AnimatorComponent>("warrior");
 	player.addComponent<MovingAnimatorComponent>("warrior");
+	player.addComponent<FlashAnimatorComponent>("warrior");
 	player.addComponent<RigidBodyComponent>();
 	player.addComponent<KeyboardControllerComponent>(
 		_inputManager,
@@ -77,12 +78,13 @@ void AssetManager::CreateSunShape(Entity& sun)
 	sun.addGroup(Game::screenShapes);
 }
 
-void AssetManager::CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id)
+void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());
 	projectile.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
 	projectile.addComponent<AnimatorComponent>(id);
-	projectile.addComponent<ProjectileComponent>(range, speed, vel);
+	Vector2D direction = Vector2D::Distance(dest, pos).Normalize();
+	projectile.addComponent<ProjectileComponent>(range, speed, direction);
 	//projectile.getComponent<SpriteComponent>().animIndex = 0; //this actually shouldnt be here, this may result in errors, solution: decouple the character and his/her animations from SpriteComponent so we dont have to zero animIndex
 	projectile.addComponent<ColliderComponent>("projectile");
 	projectile.addGroup(Game::groupProjectiles);
@@ -92,13 +94,15 @@ void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, int range, int spe
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
-	enemy.getComponent<TransformComponent>().storedVelocity = vel;
+	enemy.getComponent<TransformComponent>().velocity = vel;
 	enemy.addComponent<AnimatorComponent>("skeleton");
-	enemy.addComponent<Skeleton_Script>();
-	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
 	enemy.addComponent<ColliderComponent>("skeleton");
 	enemy.addComponent<RigidBodyComponent>();
 	enemy.getComponent<AnimatorComponent>().Play("SkeletonWalk");
+	enemy.addComponent<Sword>(true);
+	enemy.addComponent<Skeleton_Script>();
+	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
+
 	//enemy.getComponent<TransformComponent>().velocity.x = 1;
 	
 	enemy.addGroup(Game::groupSkeletons);
@@ -108,7 +112,7 @@ void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int range,
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
-	enemy.getComponent<TransformComponent>().storedVelocity = vel;
+	enemy.getComponent<TransformComponent>().velocity = vel;
 	enemy.addComponent<AnimatorComponent>("greenkoopatroopa");
 	enemy.addComponent<GreenKoopaTroopa_Script>();
 	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
@@ -118,21 +122,6 @@ void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int range,
 	//enemy.getComponent<TransformComponent>().velocity.x = 1;
 
 	enemy.addGroup(Game::groupGreenKoopaTroopas);
-}
-
-void AssetManager::ActivateEnemy(Entity& enemy)
-{ //this is almost how we create the player
-	Vector2D transform = enemy.getComponent<TransformComponent>().position;
-	if (transform.x < Game::camera.x + 800	&&
-		transform.x > Game::camera.x		&&
-		transform.y < Game::camera.y + 640	&&
-		transform.y > Game::camera.y		&&
-		(enemy.getComponent<TransformComponent>().storedVelocity.x ||
-		enemy.getComponent<TransformComponent>().storedVelocity.y))
-	{
-		enemy.getComponent<TransformComponent>().velocity.x = enemy.getComponent<TransformComponent>().storedVelocity.x;
-		enemy.getComponent<TransformComponent>().storedVelocity.Zero();
-	}
 }
 
 bool AssetManager::OnPipeTrigger(SDL_Rect collider)

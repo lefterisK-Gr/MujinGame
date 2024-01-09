@@ -6,6 +6,7 @@
 #include "../TextureManager.h"
 #include "Animation.h"
 #include "MovingAnimation.h"
+#include "FlashAnimation.h"
 #include <map>
 #include "../AssetManager/AssetManager.h"
 #include "../Vertex.h"
@@ -26,9 +27,11 @@ private:
 public:
 	TransformComponent* transform = nullptr;
 	SDL_Rect srcRect, destRect;
+	Color color = { 255, 255, 255, 255 };
 
 	Animation animation;
 	MovingAnimation moving_animation;
+	FlashAnimation flash_animation;
 	
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
@@ -118,7 +121,6 @@ public:
 		float srcUVh = (float)srcRect.h / (float)gl_texture->height;
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
-		Color color(255,255,255,255);
 
 		if (_isMainMenu) {
 			MainMenuScreen::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
@@ -127,7 +129,6 @@ public:
 		{
 			Game::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
 		}
-
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -148,6 +149,11 @@ public:
 		moving_animation = MovingAnimation(idX, idY, fr, sp, type, dx, dy, reps);
 	}
 
+	void SetFlashAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, float flashD, float flashT, Color flashC, int reps = 0)
+	{
+		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashD, flashT, flashC, reps);
+	}
+
 	void setCurrFrame() {
 		this->srcRect.x = (this->animation.indexX * this->transform->width) /* init */ + ( this->srcRect.w * animation.cur_frame_index/* curframe from total frams */);
 		this->srcRect.y = this->animation.indexY * this->transform->height;
@@ -156,6 +162,10 @@ public:
 	void setMoveFrame() {
 		this->destRect.x = (static_cast<int>(this->transform->position.x) - Game::camera.x + this->moving_animation.indexX) /* init */ + (this->moving_animation.distanceX * moving_animation.cur_frame_index);
 		this->destRect.y = (static_cast<int>(this->transform->position.y) - Game::camera.y + this->moving_animation.indexY) + (this->moving_animation.distanceY * moving_animation.cur_frame_index);
+	}
+
+	void setFlashFrame() {
+		this->color = this->flash_animation.isFlashing ? this->flash_animation.flashColor : Color(255,255,255,255);
 	}
 
 	void DestroyTex()

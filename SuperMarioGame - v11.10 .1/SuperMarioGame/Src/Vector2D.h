@@ -14,6 +14,8 @@ public:
 	Vector2D& Subtract(const Vector2D& vec);
 	Vector2D& Multiply(const Vector2D& vec);
 	Vector2D& Divide(const Vector2D& vec);
+	static Vector2D& Distance(const Vector2D& dest, const Vector2D& source);
+	Vector2D& Normalize();
 
 	friend Vector2D& operator+(Vector2D& v1, const Vector2D& v2);
 	friend Vector2D& operator-(Vector2D& v1, const Vector2D& v2);

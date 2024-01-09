@@ -106,8 +106,6 @@ void Game::onEntry()
 		Game::_hudSpriteBatch.init();
 
 		_spriteFont = new SpriteFont("assets/arial.ttf", 32);
-		SDL_Color color = { 255, 255, 255, 255 };
-		_spriteFont->createTextTexture("1", color);
 
 	}
 
@@ -122,6 +120,7 @@ void Game::onEntry()
 	assets->Add_GLTexture("projectile", "assets/my_projectile.png");
 	assets->Add_GLTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
 	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
+	assets->Add_GLTexture("arial", "assets/arial_cropped-removebg-preview.png");
 
 	map = new Map("terrain", 1, 32);
 
@@ -159,6 +158,7 @@ auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
 auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
 auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
 auto& slices(manager.getGroup(Game::groupSlices));
+auto& enemyslices(manager.getGroup(Game::groupEnemySlices));
 auto& lights(manager.getGroup(Game::groupLights));
 auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
@@ -286,7 +286,6 @@ void Game::update(float deltaTime) //game objects updating
 	for (auto& enemyGroup : { skeletons, greenkoopatroopas }) // enemies with colliders
 	{
 		for (auto& enemy : enemyGroup) {
-			assets->ActivateEnemy(*enemy);
 			for (auto& c : colliders)
 			{
 				//SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
@@ -315,11 +314,6 @@ void Game::update(float deltaTime) //game objects updating
 						}
 						if (!collision.isSidewaysCollision) {
 							collision.moveFromCollision(*enemy);
-
-							if (c != NULL && c->hasComponent<PlatformBlock_Script>() && c->getComponent<PlatformBlock_Script>().didBlockAnimation)
-							{
-								enemy->destroy();
-							}
 						}
 					}
 
@@ -343,9 +337,25 @@ void Game::update(float deltaTime) //game objects updating
 				SDL_Rect pCol = player->getComponent<ColliderComponent>().collider;
 
 				bool hasCollision = collision.checkCollisionIsSideways(pCol, eCol);
+				
+				if (enemy != greenkoopatroopas || !e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle)
+				{
+					if (e->getComponent<TransformComponent>().position.x < player->getComponent<TransformComponent>().position.x + 300
+						&& e->getComponent<TransformComponent>().position.x > player->getComponent<TransformComponent>().position.x) {
+						e->getComponent<TransformComponent>().velocity.x = -1;
+					}
+					else if (e->getComponent<TransformComponent>().position.x > player->getComponent<TransformComponent>().position.x - 300
+						&& e->getComponent<TransformComponent>().position.x < player->getComponent<TransformComponent>().position.x) {
+						e->getComponent<TransformComponent>().velocity.x = 1;
+					}
+				}
+				if (enemy == skeletons && e->getComponent<Skeleton_Script>().attackAnimation ||
+					enemy == greenkoopatroopas && e->getComponent<GreenKoopaTroopa_Script>().attackAnimation) {
+					e->getComponent<TransformComponent>().velocity.x = 0;
+				}
+				
 
 				if (hasCollision) {
-					collision.moveFromCollision(*player);
 
 					if (collision.movingRectColSide == Collision::ColSide::DOWN) {
 						player->getComponent<RigidBodyComponent>().onGround = true;
@@ -359,7 +369,9 @@ void Game::update(float deltaTime) //game objects updating
 						else //skeleton case
 						{
 							player->getComponent<ScoreComponent>().addToScore(100);
-							e->destroy();
+							if (e->getComponent<LivingCharacter>().applyDamage(10)) {
+								e->destroy();
+							}
 						}
 
 					}
@@ -367,15 +379,47 @@ void Game::update(float deltaTime) //game objects updating
 					{
 						for (auto& pl : players)
 						{
-							pl->destroy();
+							if (!pl->getComponent<Player_Script>().tookDamage) {
+								if (pl->getComponent<LivingCharacter>().applyDamage(5)) {
+									pl->destroy();
+								}
+							}
 						}
-						assets->ProjectileExplosion(camera.x);
 					}
 				}
 
 				collision.isCollision = false;
 				collision.isSidewaysCollision = false;
 				collision.movingRectColSide = Collision::ColSide::NONE;
+			}
+
+			for (auto& e : enemy)
+			{
+				if (enemy == skeletons) {
+					SDL_Rect eCol = e->getComponent<Sword>().hitBoxCollider;
+					SDL_Rect pCol = player->getComponent<ColliderComponent>().collider;
+
+					bool hasCollision = collision.checkCollisionIsSideways(pCol, eCol);
+
+					if (hasCollision) {
+						e->getComponent<Skeleton_Script>().activateAttack();
+					}
+
+					collision.isCollision = false;
+					collision.isSidewaysCollision = false;
+					collision.movingRectColSide = Collision::ColSide::NONE;
+				}
+				if (enemy == greenkoopatroopas && !e->getComponent<GreenKoopaTroopa_Script>().shelltoturtle)
+				{
+					auto enemyTransform = e->getComponent<TransformComponent>();
+					auto playerTransform = player->getComponent<TransformComponent>();
+
+					if ((enemyTransform.position.x < playerTransform.position.x + 200 && enemyTransform.position.x > playerTransform.position.x) ||
+						(enemyTransform.position.x > playerTransform.position.x - 200 && enemyTransform.position.x < playerTransform.position.x))
+					{
+						e->getComponent<GreenKoopaTroopa_Script>().activateShoot();
+					}
+				}
 			}
 		}
 	}
@@ -412,6 +456,23 @@ void Game::update(float deltaTime) //game objects updating
 
 	}
 
+	for (auto& esl : enemyslices)
+	{
+		for (auto& pl : players)
+		{
+			if (Collision::checkCollision(esl->getComponent<ColliderComponent>().collider, pl->getComponent<ColliderComponent>().collider))
+			{
+				std::cout << "sword touched player!" << std::endl;
+				if (!pl->getComponent<Player_Script>().tookDamage) {
+					if (pl->getComponent<LivingCharacter>().applyDamage(esl->getComponent<Slice>().sliceDamage)) {
+						pl->destroy();
+					}
+				}
+			}
+		}
+		esl->destroy();
+	}
+
 	for (auto& p : winningtiles) //winning tiles with players
 	{
 		for (auto& wcomp : p->components)
@@ -428,7 +489,6 @@ void Game::update(float deltaTime) //game objects updating
 					{
 						player->destroy();
 					}
-					assets->ProjectileExplosion(camera.x);
 					collision.isCollision = true;
 					break;
 				}
@@ -457,7 +517,6 @@ void Game::update(float deltaTime) //game objects updating
 			{
 				player->destroy();
 			}
-			assets->ProjectileExplosion(camera.x);
 		}
 	}
 	
@@ -574,12 +633,7 @@ void Game::draw()
 	setupShaderAndTexture("skeleton");
 	renderBatch(skeletons);
 	renderBatch(greenkoopatroopas);
-	setupShaderAndTexture("terrain");
-	renderBatch(winningtiles);
-	renderBatch(foregroundtiles);
 
-	
-	drawHUD();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
 
@@ -607,6 +661,10 @@ void Game::draw()
 
 	setupShaderAndTexture("warrior");
 	renderBatch(players);
+	setupShaderAndTexture("terrain");
+	renderBatch(winningtiles);
+	renderBatch(foregroundtiles);
+	drawHUD("arial");
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
@@ -642,7 +700,7 @@ void Game::draw()
 }
 
 
-void Game::drawHUD() { 
+void Game::drawHUD(const std::string& textureName) {
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 

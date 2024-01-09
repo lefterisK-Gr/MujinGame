@@ -60,10 +60,6 @@ public:
 			resetAnimation();
 		}
 
-
-
-
-
 		sprite->animation.advanceFrame(deltaTime);
 		sprite->setCurrFrame();
 	}

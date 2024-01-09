@@ -35,6 +35,10 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 	//check if it is sideways collision (bool isSidewaysCollision)
 	if (abs(dist.x) > abs(dist.y)) { //todo: if velocity.y < 0 then have it >= to slide on left wall
 		Collision::isSidewaysCollision = true;
+		Collision::movingRectColSide = (dist.x > 0) ? Collision::ColSide::RIGHT : Collision::ColSide::LEFT;
+	}
+	else { // Vertical collision
+		Collision::movingRectColSide = (dist.y > 0) ? Collision::ColSide::DOWN : Collision::ColSide::TOP;
 	}
 
 	Collision::isCollision = true;
@@ -45,27 +49,27 @@ void Collision::moveFromCollision(Entity& player) {
 	auto& playerTransform = player.getComponent<TransformComponent>();
 	auto playerCollider = player.getComponent<ColliderComponent>();
 
-	if (Collision::isSidewaysCollision) { //horizontal move
-		if (Collision::dist.x > 0) { //move moving_rect left from collider
+	switch (Collision::movingRectColSide) {
+		case Collision::ColSide::RIGHT: // Move player to the left of the collider
 			playerTransform.position.x = storedColliderRect.x - playerCollider.collider.w - (2 * playerTransform.scale * 8) - 1;
-			Collision::movingRectColSide = Collision::ColSide::RIGHT;
-		}
-		else {//move moving_rect right from collider
-			playerTransform.position.x = storedColliderRect.x - ((playerTransform.scale) * 8); //consider position based on collider
-			Collision::movingRectColSide = Collision::ColSide::LEFT;
-		}
-	}
-	else {
-		if (Collision::dist.y > 0) { //move moving_rect down from collider
+			break;
+
+		case Collision::ColSide::LEFT: // Move player to the right of the collider
+			playerTransform.position.x = storedColliderRect.x - ((playerTransform.scale) * 8);
+			break;
+
+		case Collision::ColSide::DOWN: // Move player above the collider
 			playerTransform.position.y = storedColliderRect.y - (playerTransform.height * playerTransform.scale);
 			player.getComponent<RigidBodyComponent>().onGround = true;
-			Collision::movingRectColSide = Collision::ColSide::DOWN;
-		}
-		else {
+			break;
+
+		case Collision::ColSide::TOP: // Move player below the collider
 			playerTransform.position.y = storedColliderRect.y - ((playerTransform.scale - 1) * 8);
-			Collision::movingRectColSide = Collision::ColSide::TOP;
 			playerTransform.velocity.y = 0;
-		}
+			break;
+
+		default:
+			break;
 	}
 	player.getComponent<ColliderComponent>().update(1.0f);
 }

@@ -28,7 +28,6 @@ public:
 	void CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id);
 	void CreateSkeleton(Vector2D pos, Vector2D vel, int range, int speed, std::string id);
 	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int range, int speed, std::string id);
-	void ActivateEnemy(Entity& enemy);
 
 	//triggers
 	bool OnPipeTrigger(SDL_Rect collider);

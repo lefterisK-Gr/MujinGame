@@ -9,7 +9,6 @@ public:
 
 	Vector2D position;
 	Vector2D velocity;
-	Vector2D storedVelocity;
 
 	int height = 32;
 	int width = 32;
@@ -53,5 +52,10 @@ public:
 	{
 		position.x += velocity.x * speed * deltaTime;
 		position.y += velocity.y * speed;
+	}
+
+	Vector2D getCenterTransform()
+	{
+		return Vector2D(position.x + width * scale / 2, position.y + height * scale / 2);
 	}
 };

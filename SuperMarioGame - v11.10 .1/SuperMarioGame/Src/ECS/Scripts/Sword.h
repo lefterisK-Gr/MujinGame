@@ -8,7 +8,6 @@ extern Manager manager;
 class Sword : public Component
 {
 	int _attackDamage = 10;
-
 public:
 
 	TransformComponent* transform = nullptr;
@@ -16,9 +15,17 @@ public:
 	SpriteComponent* sprite = nullptr;
 	Slice* sliceComp = nullptr;
 
+	SDL_Rect hitBoxCollider = { 0, 0, 48, 48 };
+	bool enemySlice = false;
+
 	Sword()
 	{
 
+	}
+
+	Sword(bool enemyS)
+	{
+		enemySlice = enemyS;
 	}
 
 	~Sword() {
@@ -32,16 +39,18 @@ public:
 	}
 
 	void update(float deltaTime) override {
-
+		SDL_Rect relativeCollider = collider->collider;
+		hitBoxCollider.x = sprite->spriteFlip == SDL_FLIP_NONE ?
+			relativeCollider.x + relativeCollider.w :
+			relativeCollider.x - hitBoxCollider.w;
+		hitBoxCollider.y = relativeCollider.y;
 	}
 
 	bool attack() {
 		auto& slice(manager.addEntity());
-		SDL_Rect relativeCollider = collider->collider;
-		relativeCollider.x = sprite->spriteFlip == SDL_FLIP_NONE ? relativeCollider.x + relativeCollider.w : relativeCollider.x - relativeCollider.w;
-		slice.addComponent<Slice>(relativeCollider, _attackDamage);
+		slice.addComponent<Slice>(hitBoxCollider, _attackDamage);
 		sliceComp = &entity->getComponent<Slice>();
-		slice.addGroup(Game::groupSlices);
+		slice.addGroup(enemySlice ? Game::groupEnemySlices : Game::groupSlices);
 
 		return true;
 	}

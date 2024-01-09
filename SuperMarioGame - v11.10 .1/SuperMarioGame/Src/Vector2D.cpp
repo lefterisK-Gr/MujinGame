@@ -41,6 +41,20 @@ Vector2D& Vector2D::Divide(const Vector2D& vec)
 	return *this;
 }
 
+Vector2D& Vector2D::Distance(const Vector2D& dest, const Vector2D& source) {
+	Vector2D direction(dest.x - source.x, dest.y - source.y);
+	return direction;
+}
+
+Vector2D& Vector2D::Normalize() {
+	float length = sqrt((x * x) + (y * y));
+	this->x = x / length;
+	this->y = y / length;
+
+	return *this;
+}
+
+
 Vector2D& operator+(Vector2D& v1, const Vector2D& v2)
 {
 	return v1.Add(v2);

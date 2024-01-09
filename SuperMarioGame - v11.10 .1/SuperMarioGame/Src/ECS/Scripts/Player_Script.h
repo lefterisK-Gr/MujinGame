@@ -17,6 +17,8 @@ public: // it is like it has init that creates Animator Component since it inher
 	bool onPipe = false;
 	bool leftofPipe = false;
 
+	bool tookDamage = false;
+
 	typedef enum {
 		PLAYERACTION_IDLE = 0,
 		PLAYERACTION_WALK = 1,
@@ -30,6 +32,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	RigidBodyComponent* rigidbody;
 	AnimatorComponent* animator;
 	MovingAnimatorComponent* moving_animator;
+	FlashAnimatorComponent* flash_animator;
 	SpriteComponent* sprite;
 	TransformComponent* transform;
 	KeyboardControllerComponent* keyboard;
@@ -52,6 +55,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		rigidbody = &entity->getComponent<RigidBodyComponent>();
 		animator = &entity->getComponent<AnimatorComponent>();
 		moving_animator = &entity->getComponent<MovingAnimatorComponent>();
+		flash_animator = &entity->getComponent<FlashAnimatorComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
 		transform = &entity->getComponent<TransformComponent>();
 		keyboard = &entity->getComponent<KeyboardControllerComponent>();
@@ -87,8 +91,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
 			}
 		}
-
-		if (attackAnimation) {
+		else {
 			if (sprite->animation.hasFinished()) {
 				this->attackAnimation = false;
 				this->action = Player_Script::playerAction::PLAYERACTION_IDLE;
@@ -129,6 +132,18 @@ public: // it is like it has init that creates Animator Component since it inher
 					finishedHorAnimation = true;
 					horTransitionPlayerAnimation = false;
 				}
+			}
+		}
+
+		if (!tookDamage) {
+			if (living->tookDamage) {
+				flash_animator->Play("PlayerHit");
+				tookDamage = true;
+			}
+		}
+		else {
+			if (sprite->flash_animation.hasFinished()) {
+				tookDamage = false;
 			}
 		}
 

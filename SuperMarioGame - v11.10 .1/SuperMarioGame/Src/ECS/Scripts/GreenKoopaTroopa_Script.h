@@ -5,11 +5,20 @@
 class GreenKoopaTroopa_Script : public Component
 {
 public:
+	bool attackAnimation = false;
 	bool shelltoturtle = false;
 	AnimatorComponent* animator;
 	SpriteComponent* sprite = nullptr;
 	TransformComponent* transform = nullptr;
 	LivingCharacter* living;
+
+	typedef enum {
+		KOOPAACTION_IDLE = 0,
+		KOOPAACTION_WALK = 1,
+		KOOPAACTION_ATTACK = 2
+	} greenKoopaTroopaAction;
+
+	greenKoopaTroopaAction action = greenKoopaTroopaAction::KOOPAACTION_WALK;
 
 	GreenKoopaTroopa_Script()
 	{
@@ -36,15 +45,12 @@ public:
 		if (transform->velocity.x < 0) {
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
-		else {
+		else if (transform->velocity.x > 0) {
 			sprite->spriteFlip = SDL_FLIP_NONE;
 		}
 
 		if (shelltoturtle)
 		{
-			if (sprite->transform->velocity.x != 0) {
-				sprite->animation.resetFrameIndex();
-			}
 			if (sprite->animation.hasFinished()) {
 				shelltoturtle = false;
 				animator->Play("GreenKoopaTroopaWalk");
@@ -53,5 +59,61 @@ public:
 			}
 		}
 
+		if (attackAnimation) {
+			if (sprite->animation.hasFinished()) {
+				this->attackAnimation = false;
+				this->action = GreenKoopaTroopa_Script::greenKoopaTroopaAction::KOOPAACTION_IDLE;
+			}
+		}
+
+		if (action == greenKoopaTroopaAction::KOOPAACTION_ATTACK) { //if playerAttackAnimation is on 3rd frame then deal damage i.e create entity from sword that deal damage.
+			if (sprite->animation.cur_frame_index == 6 && sprite->animation.frame_times_played == 1)
+			{
+				std::cout << "attacking!" << std::endl;
+				auto& players(manager.getGroup(Game::groupPlayers));
+
+				for (auto& p : players)
+				{
+					auto enemyTransform = *transform;
+					auto playerTransform = p->getComponent<TransformComponent>();
+
+					if ((enemyTransform.position.x < playerTransform.position.x + 200 && enemyTransform.position.x > playerTransform.position.x) ||
+						(enemyTransform.position.x > playerTransform.position.x - 200 && enemyTransform.position.x < playerTransform.position.x))
+					{
+						Game::assets->CreateProjectile(enemyTransform.getCenterTransform(), playerTransform.getCenterTransform(), 200, 2, "projectile");
+					}
+				}
+			}
+			return;
+		}
+		else if (transform->velocity.x != 0)
+		{
+			if (action == greenKoopaTroopaAction::KOOPAACTION_WALK)
+				return;
+			action = greenKoopaTroopaAction::KOOPAACTION_WALK;
+		}
+
+		switch (action)
+		{
+		case greenKoopaTroopaAction::KOOPAACTION_IDLE:
+			animator->Play("GreenKoopaTroopaIdle");
+			break;
+		case greenKoopaTroopaAction::KOOPAACTION_WALK:
+			animator->Play("GreenKoopaTroopaWalk");
+			break;
+		case greenKoopaTroopaAction::KOOPAACTION_ATTACK:
+			animator->Play("GreenKoopaTroopaAttack");
+			break;
+		default:
+			break;
+		}
+	}
+
+	void activateShoot() {
+		if (!attackAnimation) {
+			animator->Play("GreenKoopaTroopaAttack");
+			attackAnimation = true;
+			this->action = GreenKoopaTroopa_Script::greenKoopaTroopaAction::KOOPAACTION_ATTACK;
+		}
 	}
 };

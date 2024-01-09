@@ -5,6 +5,7 @@
 #include "SpriteComponent.h"
 #include "AnimatorComponent.h"
 #include "MovingAnimatorComponent.h"
+#include "FlashAnimatorComponent.h"
 #include "ColliderComponent.h"
 #include "ButtonComponent.h"
 
