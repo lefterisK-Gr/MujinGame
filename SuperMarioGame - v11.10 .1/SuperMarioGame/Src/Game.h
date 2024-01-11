@@ -21,6 +21,7 @@
 
 #include "GameScreen/ScreenIndices.h"
 
+class Map;
 class AssetManager;
 class SceneManager;
 class ColliderComponent;
@@ -66,6 +67,8 @@ public:
 	static SpriteBatch _hudSpriteBatch;
 
 	static AudioEngine audioEngine;
+
+	static Map* map;
 
 	static AssetManager* assets;
 

@@ -5,6 +5,7 @@
 #include "ECS/Components.h"
 #include "Vector2D.h"
 #include "Collision/Collision.h"
+#include "Map/Map.h"
 #include "AssetManager/AssetManager.h"
 #include "SceneManager.h"
 #include <sstream>
@@ -13,13 +14,13 @@
 
 #undef main
 
-Map* map;
+
 
 SDL_Event Game::event;
 Manager manager;
 Collision collision;
 
-SDL_Rect Game::camera = { 0,0,2240,0 }; // camera.w shows how far right camera can go
+SDL_Rect Game::camera = { 0,0,3040,0 }; // camera.w shows how far right camera can go
 Camera2D Game::camera2D;
 Camera2D Game::hudCamera2D;
 SpriteBatch Game::_spriteBatch;
@@ -27,6 +28,7 @@ SpriteBatch Game::_hudSpriteBatch;
 
 AudioEngine Game::audioEngine;
 
+Map* Game::map = nullptr;
 AssetManager* Game::assets = nullptr;
 SceneManager* Game::scenes = new SceneManager();
 
@@ -122,24 +124,24 @@ void Game::onEntry()
 	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
 	assets->Add_GLTexture("arial", "assets/arial_cropped-removebg-preview.png");
 
-	map = new Map("terrain", 1, 32);
+	Game::map = new Map("terrain", 1, 32);
 
-	map->LoadMap("assets/background_v3.csv", "assets/background.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
+	map->LoadMap("assets/background_v3.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
 	assets->CreatePlayer(player1);
 
 	assets->CreateSunShape(sun);
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
-	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), 200, 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(500, 300), Vector2D(1, 0), 200, 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(1000, 300), Vector2D(1, -1), 200, 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(1400, 288), Vector2D(-1, -1), 200, 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(1900, 300), Vector2D(-1, -1), 200, 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(2675, 300), Vector2D(-1, -1), 200, 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(500, 300), Vector2D(1, 0), 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(1000, 300), Vector2D(1, -1), 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(1400, 288), Vector2D(-1, -1), 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(1900, 300), Vector2D(-1, -1), 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(2675, 300), Vector2D(-1, -1), 2, "skeleton");
 
-	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 200, 2, "greenkoopatroopa");
-	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 200, 2, "greenkoopatroopa");
+	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 2, "greenkoopatroopa");
+	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 2, "greenkoopatroopa");
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
 	//music.play(-1);
@@ -163,12 +165,34 @@ auto& lights(manager.getGroup(Game::groupLights));
 auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
-auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
+//auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
 auto& screenshapes(manager.getGroup(Game::screenShapes));
 auto& hpbars(manager.getGroup(Game::groupHPBars));
 
 void Game::update(float deltaTime) //game objects updating
 {
+	if (map->getMapCompleted()) {
+
+		//manager.clearAllEntities();
+		tiles.clear();
+		colliders.clear();
+		foregroundtiles.clear();
+		mysteryboxtiles.clear();
+		for (auto& enemy : skeletons)
+		{
+			enemy->destroy();
+		}
+		skeletons.clear();
+		for (auto& enemy : greenkoopatroopas)
+		{
+			enemy->destroy();
+		}
+		greenkoopatroopas.clear();
+		projectiles.clear();
+		map->resetMap();
+		assets->CreateEnemies();
+	}
+
 	checkInput(); //handleEvents
 	Vector2D plMaxDistance;
 
@@ -264,7 +288,7 @@ void Game::update(float deltaTime) //game objects updating
 
 						collision.moveFromCollision(*p);
 
-						p->getComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
+						//p->getComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
 					}
 				}
 
@@ -393,7 +417,7 @@ void Game::update(float deltaTime) //game objects updating
 				collision.movingRectColSide = Collision::ColSide::NONE;
 			}
 
-			for (auto& e : enemy)
+			for (auto& e : enemy) //enemies attack
 			{
 				if (enemy == skeletons) {
 					SDL_Rect eCol = e->getComponent<Sword>().hitBoxCollider;
@@ -430,7 +454,11 @@ void Game::update(float deltaTime) //game objects updating
 		{
 			if (Collision::checkCollision(pl->getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 			{
-				std::cout << "Hit player!" << std::endl;
+				if (!pl->getComponent<Player_Script>().tookDamage) {
+					if (pl->getComponent<LivingCharacter>().applyDamage(5)) {
+						pl->destroy();
+					}
+				}
 				p->destroy();
 			}
 			collision.isCollision = false;
@@ -522,7 +550,7 @@ void Game::update(float deltaTime) //game objects updating
 	
 	for (auto& p : players) //scene transition
 	{
-		if (p->getComponent<Player_Script>().finishedVertAnimation)
+		/*if (p->getComponent<Player_Script>().finishedVertAnimation)
 		{
 			scenes->sceneSelected = 1;
 			for (auto& pl : players)
@@ -531,7 +559,7 @@ void Game::update(float deltaTime) //game objects updating
 			}
 			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(1);
-		}
+		}*/
 		if (p->getComponent<Player_Script>().finishedHorAnimation)
 		{
 			scenes->sceneSelected = 0;
@@ -624,7 +652,7 @@ void Game::draw()
 	setupShaderAndTexture("terrain");
 	//renderBatch(screenshapes);
 	renderBatch(backgroundtiles);
-	renderBatch(sewerbackgroundtiles);
+	//renderBatch(sewerbackgroundtiles);
 	renderBatch(tiles);
 	//renderBatch(colliders);
 	

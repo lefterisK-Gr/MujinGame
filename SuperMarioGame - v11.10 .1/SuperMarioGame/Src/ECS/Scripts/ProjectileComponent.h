@@ -31,14 +31,6 @@ public:
 			std::cout << "Out of Range" << std::endl; //range and bounds are different
 			entity->destroy();
 		}
-		/*else if (transform->position.x > Game::camera.x + Game::camera.w ||
-				transform->position.x < Game::camera.x ||
-				transform->position.y > Game::camera.y + Game::camera.h ||
-				transform->position.y < Game::camera.y)
-		{
-			std::cout << "Out of bounds!" << std::endl; //stop rendering it if it out of bounds, otherwise program slow for no reasson
-			entity->destroy();
-		}*/
 	}
 private:
 

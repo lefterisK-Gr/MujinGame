@@ -176,4 +176,11 @@ public:
 		entities.emplace_back(std::move(uPtr));
 		return *e;
 	}
+
+	void clearAllEntities() {
+		for (auto& group : groupedEntities) {
+			group.clear();
+		}
+		entities.clear();
+	}
 };

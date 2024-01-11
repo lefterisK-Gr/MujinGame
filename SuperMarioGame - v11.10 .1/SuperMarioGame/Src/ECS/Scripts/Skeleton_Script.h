@@ -56,6 +56,7 @@ public:
 			if (sprite->animation.hasFinished()) {
 				this->attackAnimation = false;
 				this->action = Skeleton_Script::skeletonAction::SKELETONACTION_IDLE;
+				transform->velocity.x = 1;
 			}
 		}
 

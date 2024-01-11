@@ -26,8 +26,10 @@ public:
 	void CreatePlayer(Entity& player);
 	void CreateSunShape(Entity& sun);
 	void CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id);
-	void CreateSkeleton(Vector2D pos, Vector2D vel, int range, int speed, std::string id);
-	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int range, int speed, std::string id);
+	void CreateSkeleton(Vector2D pos, Vector2D vel, int speed, std::string id);
+	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id);
+
+	void CreateEnemies();
 
 	//triggers
 	bool OnPipeTrigger(SDL_Rect collider);

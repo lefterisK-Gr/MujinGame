@@ -131,6 +131,8 @@ public: // it is like it has init that creates Animator Component since it inher
 				else {
 					finishedHorAnimation = true;
 					horTransitionPlayerAnimation = false;
+					//map completed
+					Game::map->setMapCompleted(true);
 				}
 			}
 		}

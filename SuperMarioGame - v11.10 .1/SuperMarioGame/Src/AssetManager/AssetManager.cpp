@@ -2,6 +2,8 @@
 #include "../ECS/Components.h"
 #include "../Collision/Collision.h"
 
+#include <random>
+
 
 AssetManager::AssetManager(Manager* man, InputManager& inputManager) 
 	: manager(man), _inputManager(inputManager) // todo make triggers manager
@@ -90,13 +92,13 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int s
 	projectile.addGroup(Game::groupProjectiles);
 }
 
-void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
+void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, int speed, std::string id)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
 	enemy.getComponent<TransformComponent>().velocity = vel;
-	enemy.addComponent<AnimatorComponent>("skeleton");
-	enemy.addComponent<ColliderComponent>("skeleton");
+	enemy.addComponent<AnimatorComponent>(id);
+	enemy.addComponent<ColliderComponent>(id);
 	enemy.addComponent<RigidBodyComponent>();
 	enemy.getComponent<AnimatorComponent>().Play("SkeletonWalk");
 	enemy.addComponent<Sword>(true);
@@ -108,20 +110,52 @@ void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, int range, int spe
 	enemy.addGroup(Game::groupSkeletons);
 }
 
-void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int range, int speed, std::string id)
+void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
 	enemy.getComponent<TransformComponent>().velocity = vel;
-	enemy.addComponent<AnimatorComponent>("greenkoopatroopa");
+	enemy.addComponent<AnimatorComponent>(id);
 	enemy.addComponent<GreenKoopaTroopa_Script>();
 	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
-	enemy.addComponent<ColliderComponent>("greenkoopatroopa");
+	enemy.addComponent<ColliderComponent>(id);
 	enemy.addComponent<RigidBodyComponent>();
 	enemy.getComponent<AnimatorComponent>().Play("GreenKoopaTroopaWalk");
 	//enemy.getComponent<TransformComponent>().velocity.x = 1;
 
 	enemy.addGroup(Game::groupGreenKoopaTroopas);
+}
+
+void AssetManager::CreateEnemies() {
+	int mapStage = Game::map->getStage();
+
+	int numSkeletons = 2 * mapStage; // For example, 2 skeletons per stage
+	int numGreenKoopaTroopas = 3 * mapStage; // For example, 3 green koopa troopas per stage
+
+	// Initialize a random number generator
+	std::random_device rd;  // Will be used to obtain a seed for the random number engine
+	std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+
+	// Define ranges for x and y positions
+	std::uniform_int_distribution<> disX(320, 3200);
+
+	//// Create skeletons
+	for (int i = 0; i < numSkeletons; ++i) {
+		Vector2D pos(disX(gen), 512);
+		Vector2D vel(-1, 0);
+		int speed = 1;
+
+		CreateSkeleton(pos, vel, speed, "skeleton");
+	}
+
+	// Create green koopa troopas
+	for (int i = 0; i < numGreenKoopaTroopas; ++i) {
+		Vector2D pos(disX(gen), 512);
+		Vector2D vel(-1, 0);
+		int speed = 1;
+
+		CreateGreenKoopaTroopa(pos, vel, speed, "greenkoopatroopa");
+	}
 }
 
 bool AssetManager::OnPipeTrigger(SDL_Rect collider)

@@ -3,6 +3,7 @@
 #include "../ECS/Components.h"
 #include "../Vector2D.h"
 
+class Collision;
 
 class Collision
 {

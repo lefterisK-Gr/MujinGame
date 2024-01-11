@@ -53,7 +53,6 @@ public:
 		{
 			if (sprite->animation.hasFinished()) {
 				shelltoturtle = false;
-				animator->Play("GreenKoopaTroopaWalk");
 				sprite->spriteFlip = SDL_FLIP_NONE;
 				sprite->transform->velocity.x = -1;
 			}
@@ -63,6 +62,7 @@ public:
 			if (sprite->animation.hasFinished()) {
 				this->attackAnimation = false;
 				this->action = GreenKoopaTroopa_Script::greenKoopaTroopaAction::KOOPAACTION_IDLE;
+				transform->velocity.x = 1;
 			}
 		}
 

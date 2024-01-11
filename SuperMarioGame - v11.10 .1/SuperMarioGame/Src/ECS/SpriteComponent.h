@@ -8,6 +8,7 @@
 #include "MovingAnimation.h"
 #include "FlashAnimation.h"
 #include <map>
+#include "../Map/Map.h"
 #include "../AssetManager/AssetManager.h"
 #include "../Vertex.h"
 #include <cstddef>
