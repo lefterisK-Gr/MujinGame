@@ -191,6 +191,39 @@ void Game::update(float deltaTime) //game objects updating
 		projectiles.clear();
 		map->resetMap();
 		assets->CreateEnemies();
+
+		for (auto& enemyGroup : { skeletons, greenkoopatroopas }) // enemies with colliders
+		{
+			for (auto& enemy : enemyGroup) {
+				for (auto& c : colliders)
+				{
+					for (auto& ccomp : c->components) {
+
+						ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+
+						if (!colliderComponentPtr) {
+							continue;
+						}
+
+						while (true) {
+							SDL_Rect cCol = ccomp->getRect();
+							SDL_Rect eCol = enemy->getComponent<ColliderComponent>().collider;
+
+							bool hasCollision = collision.checkCollision(eCol, cCol);
+
+							if (!hasCollision) break;
+
+							enemy->getComponent<TransformComponent>().position.y -= 32;
+							enemy->getComponent<ColliderComponent>().update(1.0f);
+						}
+
+						collision.isCollision = false;
+						collision.isSidewaysCollision = false;
+						collision.movingRectColSide = Collision::ColSide::NONE;
+					}
+				}
+			}
+		}
 	}
 
 	checkInput(); //handleEvents

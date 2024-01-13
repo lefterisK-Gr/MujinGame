@@ -51,7 +51,7 @@ void Collision::moveFromCollision(Entity& player) {
 
 	switch (Collision::movingRectColSide) {
 		case Collision::ColSide::RIGHT: // Move player to the left of the collider
-			playerTransform.position.x = storedColliderRect.x - playerCollider.collider.w - (2 * playerTransform.scale * 8) - 1;
+			playerTransform.position.x = storedColliderRect.x - playerCollider.collider.w - (2 * playerTransform.scale * 8);
 			break;
 
 		case Collision::ColSide::LEFT: // Move player to the right of the collider

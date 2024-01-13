@@ -2,6 +2,8 @@
 
 #include "../Components.h"
 
+class Player_Script;
+
 class LivingCharacter : public Component
 {
 public:
@@ -25,11 +27,18 @@ public:
 
 		hp_bar = &manager.addEntity();
 
-		hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y,
-			10.0f, 100.0f, transform->scale);
-		hp_bar->addComponent<HPBar>();
-		hp_bar->getComponent<HPBar>().color = Color(0, 255, 0, 255);
-
+		if (entity->hasComponent<Player_Script>()) {
+			hp_bar->addComponent<TransformComponent>(300, 780,
+				10.0f, 100.0f, transform->scale);
+			hp_bar->addComponent<HPBar>();
+			hp_bar->getComponent<HPBar>().color = Color(255, 0, 0, 255);
+		}
+		else {
+			hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y,
+				5.0f, 50.0f, transform->scale);
+			hp_bar->addComponent<HPBar>();
+			hp_bar->getComponent<HPBar>().color = Color(0, 255, 0, 255);
+		}
 		hp_bar->addGroup(Game::groupHPBars);
 	}
 

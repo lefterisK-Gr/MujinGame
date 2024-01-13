@@ -8,7 +8,7 @@ private:
 public:
 	float GravityForce = 1.0f;
 	float accelGravity = 0.045f;
-	float maxGravity = 5.f;
+	float maxGravity = 3.f;
 	bool onGround = false;
 	bool justjumped = false;
 	

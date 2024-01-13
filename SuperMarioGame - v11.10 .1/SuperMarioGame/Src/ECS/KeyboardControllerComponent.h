@@ -68,13 +68,13 @@ public: //TODO: maybe have variables as private
 			{
 				//PlaySound(TEXT("jump.wav"), NULL, SND_ASYNC);
 				rigidbody->justjumped = true;
-				transform->velocity.y = -7;
+				transform->velocity.y = -4;
 				//animation->Play(jumpAnimation.c_str()); // todo maybe not needing that because of !rigidbody->onGround
 			}
 		}
 
 		if (_inputManager.isKeyDown(walkLeftKey)) {
-			transform->velocity.x = -2;
+			transform->velocity.x = -3;
 
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
@@ -84,10 +84,10 @@ public: //TODO: maybe have variables as private
 				animator->sprite->spriteFlip = SDL_FLIP_NONE;
 			}
 
-			transform->velocity.x = 2;
+			transform->velocity.x = 3;
 		}
 		if (_inputManager.isKeyDown(runKey)) {
-			transform->velocity.x *= 2;
+			transform->velocity.x *= 1.2;
 		}
 		if (!_inputManager.isKeyDown(walkRightKey) && !_inputManager.isKeyDown(walkLeftKey)) {
 			transform->velocity.x = 0;
