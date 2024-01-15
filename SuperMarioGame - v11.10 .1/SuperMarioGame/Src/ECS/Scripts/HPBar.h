@@ -5,8 +5,8 @@
 class HPBar : public Component
 {
 public:
-	float _maxHealthPoints = 50.0f;
-	float _healthPoints = 50.0f;
+	float _maxHealthPoints = 100.0f;
+	float _healthPoints = 100.0f;
 
 	Color color;
 

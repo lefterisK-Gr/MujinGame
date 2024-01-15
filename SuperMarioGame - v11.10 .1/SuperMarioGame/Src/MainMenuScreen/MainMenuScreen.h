@@ -12,7 +12,7 @@
 #include "../SpriteBatch/SpriteBatch.h"
 #include "../InputManager/InputManager.h"
 #include "../Timing/Timing.h"
-#include "../SpriteFont/SpriteFont.h"
+//#include "../SpriteFont/SpriteFont.h"
 #include "../AudioEngine/AudioEngine.h"
 #include "../Window/Window.h"
 

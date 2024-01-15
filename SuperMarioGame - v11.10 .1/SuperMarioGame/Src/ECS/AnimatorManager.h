@@ -21,6 +21,7 @@ public:
 		Animation p1walk = Animation(0, 3, 8, 0.1, "looped");
 		Animation p1jump = Animation(0, 2, 2, 0.1, "looped");
 		Animation p1attack = Animation(0, 1, 4, 0.1, "play_n_times", 1);
+		Animation p1ability1 = Animation(0, 1, 4, 0.04, "play_n_times", 1);
 
 		Animation question_mark = Animation(1, 9, 3, 0.05, "back_forth");
 		Animation brown_block = Animation(3, 0, 1, 0.005, "looped");
@@ -29,7 +30,7 @@ public:
 
 		Animation skeleton_idle = Animation(0, 0, 4, 0.04, "looped");
 		Animation skeleton_walk = Animation(0, 1, 4, 0.04, "looped");
-		Animation skeleton_attack = Animation(0, 2, 8, 0.04, "play_n_times", 1);
+		Animation skeleton_attack = Animation(0, 2, 8, 0.15, "play_n_times", 1);
 		Animation greenkoopatroopa_idle = Animation(0, 0, 4, 0.1, "looped");
 		Animation greenkoopatroopa_walk = Animation(0, 2, 10, 0.1, "looped");
 		Animation greenkoopatroopa_attack = Animation(0, 1, 8, 0.1, "play_n_times", 1);
@@ -40,6 +41,7 @@ public:
 		animations.emplace("P1Walk", p1walk);
 		animations.emplace("P1Jump", p1jump);
 		animations.emplace("P1Attack", p1attack);
+		animations.emplace("P1Ability1", p1ability1);
 
 		animations.emplace("QuestionMark", question_mark);
 		animations.emplace("BrownBlock", brown_block);

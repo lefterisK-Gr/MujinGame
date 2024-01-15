@@ -66,7 +66,7 @@ public:
 			}
 		}
 
-		if (action == greenKoopaTroopaAction::KOOPAACTION_ATTACK) { //if playerAttackAnimation is on 3rd frame then deal damage i.e create entity from sword that deal damage.
+		if (action == greenKoopaTroopaAction::KOOPAACTION_ATTACK) {
 			if (sprite->animation.cur_frame_index == 6 && sprite->animation.frame_times_played == 1)
 			{
 				std::cout << "attacking!" << std::endl;
@@ -80,7 +80,7 @@ public:
 					if ((enemyTransform.position.x < playerTransform.position.x + 200 && enemyTransform.position.x > playerTransform.position.x) ||
 						(enemyTransform.position.x > playerTransform.position.x - 200 && enemyTransform.position.x < playerTransform.position.x))
 					{
-						Game::assets->CreateProjectile(enemyTransform.getCenterTransform(), playerTransform.getCenterTransform(), 200, 2, "projectile");
+						Game::assets->CreateProjectile(enemyTransform.getCenterTransform(), playerTransform.getCenterTransform(), 300, 3, "projectile");
 					}
 				}
 			}

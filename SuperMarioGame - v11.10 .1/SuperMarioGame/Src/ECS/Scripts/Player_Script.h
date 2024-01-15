@@ -24,7 +24,8 @@ public: // it is like it has init that creates Animator Component since it inher
 		PLAYERACTION_WALK = 1,
 		PLAYERACTION_RUN = 2,
 		PLAYERACTION_JUMP = 3,
-		PLAYERACTION_ATTACK = 4
+		PLAYERACTION_ATTACK = 4,
+		PLAYERACTION_ABILITY_1 = 5
 	} playerAction;
 
 	playerAction action = playerAction::PLAYERACTION_IDLE;
@@ -89,6 +90,11 @@ public: // it is like it has init that creates Animator Component since it inher
 				animator->Play("P1Attack");
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
+			}
+			if (keyboard->_inputManager.isKeyDown(keyboard->ability1Key)) {
+				animator->Play("P1Ability1");
+				this->attackAnimation = true;
+				this->action = Player_Script::playerAction::PLAYERACTION_ABILITY_1;
 			}
 		}
 		else {
@@ -157,13 +163,22 @@ public: // it is like it has init that creates Animator Component since it inher
 			}
 			return;
 		}
+		else if (action == playerAction::PLAYERACTION_ABILITY_1) {
+			if (sprite->animation.cur_frame_index == 1 && sprite->animation.frame_times_played == 1)
+			{
+				std::cout << "ability 1!" << std::endl;
+				sword->ability1();
+			}
+			return;
+		}
 		else if (!rigidbody->onGround)
 		{
 			if (action == playerAction::PLAYERACTION_JUMP)
 				return;
 			action = playerAction::PLAYERACTION_JUMP;
 		}
-		else if (rigidbody->onGround && transform->velocity.x == 0 && action != playerAction::PLAYERACTION_ATTACK)
+		else if (rigidbody->onGround && transform->velocity.x == 0 
+			&& action != playerAction::PLAYERACTION_ATTACK && action != playerAction::PLAYERACTION_ABILITY_1)
 		{
 			if (action == playerAction::PLAYERACTION_IDLE)
 				return;

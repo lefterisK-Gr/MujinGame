@@ -19,9 +19,12 @@ public:
 	~Map();
 
 	std::vector<std::vector<int>> generateRandomMap(int width, int height);
+	std::vector<std::vector<int>> getRandomTileSet();
+	void generateRandomBackgroundMap(const std::string& inputMapPath, const std::string& outputMapPath);
+
 	void saveMapToCSV(const std::vector<std::vector<int>>& map, const std::string& fileName);
 	void ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Entity&, int, int, int, int, bool));
-	void LoadMap(std::string backgroundlayerpath, std::string actionlayerpath, std::string foregroundpath);
+	void LoadMap(std::string background1layerpath, std::string background2layerpath, std::string actionlayerpath, std::string foregroundpath);
 	void AddActionTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
 	void AddForegroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
 	void AddBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);

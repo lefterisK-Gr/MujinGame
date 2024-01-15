@@ -43,6 +43,16 @@ public:
 		width = w;
 		scale = sc;
 	}
+
+	TransformComponent(float x, float y, int h, int w, int sc, int sp)
+	{
+		position.x = x;
+		position.y = y;
+		height = h;
+		width = w;
+		scale = sc;
+		speed = sp;
+	}
 	
 	void init() override
 	{

@@ -34,10 +34,6 @@ SceneManager* Game::scenes = new SceneManager();
 
 auto& player1(manager.addEntity());
 auto& sun(manager.addEntity());
-auto& label(manager.addEntity());
-auto& pauseLabel(manager.addEntity());
-auto& scoreboard1(manager.addEntity());
-auto& scoreboard2(manager.addEntity());
 
 Game::Game(MujinEngine::Window* window)
 	: _window(window)
@@ -107,7 +103,7 @@ void Game::onEntry()
 		Game::_spriteBatch.init();
 		Game::_hudSpriteBatch.init();
 
-		_spriteFont = new SpriteFont("assets/arial.ttf", 32);
+		//_spriteFont = new SpriteFont("assets/arial.ttf", 32);
 
 	}
 
@@ -120,13 +116,14 @@ void Game::onEntry()
 	assets->Add_GLTexture("terrain", "assets/village_tileset.png");
 	assets->Add_GLTexture("warrior", "assets/samurai.png");
 	assets->Add_GLTexture("projectile", "assets/my_projectile.png");
+	assets->Add_GLTexture("warriorProjectile", "assets/warriorSlash.png");
 	assets->Add_GLTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
 	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
 	assets->Add_GLTexture("arial", "assets/arial_cropped-removebg-preview.png");
 
 	Game::map = new Map("terrain", 1, 32);
 
-	map->LoadMap("assets/background_v3.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
+	map->LoadMap("assets/background.csv","assets/background_v3.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
 	assets->CreatePlayer(player1);
 
@@ -155,7 +152,9 @@ auto& tiles(manager.getGroup(Game::groupActionLayer));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
+auto& warriorprojectiles(manager.getGroup(Game::groupWarriorProjectiles));
 auto& skeletons(manager.getGroup(Game::groupSkeletons));
+auto& labels(manager.getGroup(Game::groupLabels));
 auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
 auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
 auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
@@ -165,7 +164,7 @@ auto& lights(manager.getGroup(Game::groupLights));
 auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
-//auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
+auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
 auto& screenshapes(manager.getGroup(Game::screenShapes));
 auto& hpbars(manager.getGroup(Game::groupHPBars));
 
@@ -176,6 +175,7 @@ void Game::update(float deltaTime) //game objects updating
 		//manager.clearAllEntities();
 		tiles.clear();
 		colliders.clear();
+		sewerbackgroundtiles.clear();
 		foregroundtiles.clear();
 		mysteryboxtiles.clear();
 		for (auto& enemy : skeletons)
@@ -192,36 +192,45 @@ void Game::update(float deltaTime) //game objects updating
 		map->resetMap();
 		assets->CreateEnemies();
 
+		manager.refresh();
+		manager.update(deltaTime);
+
 		for (auto& enemyGroup : { skeletons, greenkoopatroopas }) // enemies with colliders
 		{
 			for (auto& enemy : enemyGroup) {
-				for (auto& c : colliders)
-				{
-					for (auto& ccomp : c->components) {
+				bool collisionDetected = false;
+				do {
+					collisionDetected = false;
+					for (auto& c : colliders)
+					{
+						for (auto& ccomp : c->components) {
 
-						ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+							ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
 
-						if (!colliderComponentPtr) {
-							continue;
-						}
+							if (!colliderComponentPtr) {
+								continue;
+							}
 
-						while (true) {
 							SDL_Rect cCol = ccomp->getRect();
 							SDL_Rect eCol = enemy->getComponent<ColliderComponent>().collider;
 
 							bool hasCollision = collision.checkCollision(eCol, cCol);
 
-							if (!hasCollision) break;
-
-							enemy->getComponent<TransformComponent>().position.y -= 32;
-							enemy->getComponent<ColliderComponent>().update(1.0f);
+							if (hasCollision) {
+								collisionDetected = true;
+								enemy->getComponent<TransformComponent>().position.y -= 32;
+								enemy->getComponent<ColliderComponent>().update(1.0f);
+								break;
+							}
 						}
-
-						collision.isCollision = false;
-						collision.isSidewaysCollision = false;
-						collision.movingRectColSide = Collision::ColSide::NONE;
+						if (collisionDetected) {
+							break; // Break second innermost loop if collision is detected
+						}
 					}
-				}
+				} while (collisionDetected);
+				collision.isCollision = false;
+				collision.isSidewaysCollision = false;
+				collision.movingRectColSide = Collision::ColSide::NONE;
 			}
 		}
 	}
@@ -517,6 +526,22 @@ void Game::update(float deltaTime) //game objects updating
 
 	}
 
+	for (auto& wpr : warriorprojectiles) {
+		for (auto& enemy : { skeletons , greenkoopatroopas })
+		{
+			for (auto& e : enemy)
+			{
+				if (Collision::checkCollision(e->getComponent<ColliderComponent>().collider, wpr->getComponent<ColliderComponent>().collider))
+				{
+					if (e->getComponent<LivingCharacter>().applyDamage(1)) {
+						e->destroy();
+					}
+				}
+				collision.isCollision = false;
+			}
+		}
+	}
+
 	for (auto& esl : enemyslices)
 	{
 		for (auto& pl : players)
@@ -683,21 +708,23 @@ void Game::draw()
 
 	/////////////////////////////////////////////////////
 	setupShaderAndTexture("terrain");
-	//renderBatch(screenshapes);
 	renderBatch(backgroundtiles);
-	//renderBatch(sewerbackgroundtiles);
+	renderBatch(sewerbackgroundtiles);
 	renderBatch(tiles);
 	//renderBatch(colliders);
 	
 	setupShaderAndTexture("projectile");
 	renderBatch(projectiles);
+	setupShaderAndTexture("warriorProjectile");
+	renderBatch(warriorprojectiles);
 	setupShaderAndTexture("skeleton");
 	renderBatch(skeletons);
 	renderBatch(greenkoopatroopas);
+	setupShaderAndTexture("arial");
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
-
+	///////////////////////////////////////////////////////
 	_lightProgram.use();
 
 	GLint pLocation = _lightProgram.getUniformLocation("projection");
@@ -717,6 +744,7 @@ void Game::draw()
 	_spriteBatch.renderBatch();
 
 	_lightProgram.unuse();
+	///////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
@@ -725,18 +753,18 @@ void Game::draw()
 	setupShaderAndTexture("terrain");
 	renderBatch(winningtiles);
 	renderBatch(foregroundtiles);
-	drawHUD("arial");
+	//drawHUD("arial");
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
+	///////////////////////////////////////////////////////
 	_colorProgram.use();
 
 	pLocation = _textureProgram.getUniformLocation("projection");
 	cameraMatrix = camera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
-	
-	//renderBatch(hpbars);
+	//renderBatch(screenshapes);
 	_spriteBatch.begin();
 
 	for (const auto& hpb : hpbars)
@@ -753,33 +781,30 @@ void Game::draw()
 
 	////////////SDL USE
 
-	label.draw();
-	pauseLabel.draw();
-	scoreboard1.draw();
 	////add stuff to render
 	
 }
 
 
-void Game::drawHUD(const std::string& textureName) {
-	_textureProgram.use();
-	glActiveTexture(GL_TEXTURE0);
-
-	glBindTexture(GL_TEXTURE_2D, _spriteFont->_texID);
-	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
-
-	GLint pLocation = _textureProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = hudCamera2D.getCameraMatrix();
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
-	_hudSpriteBatch.begin();
-
-	_spriteFont->draw(_hudSpriteBatch, glm::vec2(32, -96));
-		
-	_hudSpriteBatch.end();
-	_hudSpriteBatch.renderBatch();
-}
+//void Game::drawHUD(const std::string& textureName) {
+//	_textureProgram.use();
+//	glActiveTexture(GL_TEXTURE0);
+//
+//	glBindTexture(GL_TEXTURE_2D, _spriteFont->_texID);
+//	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
+//	glUniform1i(textureLocation, 0);
+//
+//	GLint pLocation = _textureProgram.getUniformLocation("projection");
+//	glm::mat4 cameraMatrix = hudCamera2D.getCameraMatrix();
+//	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+//
+//	_hudSpriteBatch.begin();
+//
+//	_spriteFont->draw(_hudSpriteBatch, glm::vec2(32, -96));
+//		
+//	_hudSpriteBatch.end();
+//	_hudSpriteBatch.renderBatch();
+//}
 
 bool Game::onPauseGame() {
 	_prevScreenIndex = SCREEN_INDEX_MAIN_MENU;

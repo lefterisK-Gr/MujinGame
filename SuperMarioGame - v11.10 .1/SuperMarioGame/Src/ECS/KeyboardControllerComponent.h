@@ -17,7 +17,7 @@ public: //TODO: maybe have variables as private
 	SpriteComponent* sprite;
 
 	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
-	SDL_KeyCode jumpKey, walkLeftKey, walkRightKey, attackKey, runKey, downKey;
+	SDL_KeyCode jumpKey, walkLeftKey, walkRightKey, attackKey,ability1Key, runKey, downKey;
 
 	KeyboardControllerComponent(
 		InputManager& inputManager,
@@ -25,10 +25,12 @@ public: //TODO: maybe have variables as private
 		char* jumpAnimation,
 		char* walkAnimation,
 		char* attackAnimation,
+		char* ability1Animation,
 		SDL_KeyCode jumpKey,
 		SDL_KeyCode walkLeftKey,
 		SDL_KeyCode walkRightKey,
 		SDL_KeyCode attackKey,
+		SDL_KeyCode ability1Key,
 		SDL_KeyCode downKey,
 		SDL_KeyCode runKey
 		)
@@ -42,6 +44,7 @@ public: //TODO: maybe have variables as private
 		walkLeftKey(walkLeftKey),
 		walkRightKey(walkRightKey),
 		attackKey(attackKey),
+		ability1Key(ability1Key),
 		downKey(downKey),
 		runKey(runKey)
 	{

@@ -61,7 +61,7 @@ public:
 
 		if (!entity->hasComponent<SpriteComponent>())
 		{
-			entity->addComponent<SpriteComponent>(textureid, isHorizon ? 2.0f : 1.0f);
+			entity->addComponent<SpriteComponent>(textureid, isHorizon ? 3.0f : 1.0f);
 		}
 		sprite = &entity->getComponent<SpriteComponent>();
 		sprite->srcRect = this->srcRect;

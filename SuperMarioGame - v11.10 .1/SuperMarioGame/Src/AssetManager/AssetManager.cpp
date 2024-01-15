@@ -55,10 +55,12 @@ void AssetManager::CreatePlayer(Entity& player)
 		(char*)"P1Jump",
 		(char*)"P1Walk",
 		(char*)"P1Attack",
+		(char*)"P1Ability1",
 		SDLK_w,
 		SDLK_a,
 		SDLK_d,
 		SDLK_k,
+		SDLK_l,
 		SDLK_s,
 		SDLK_LSHIFT
 		);
@@ -83,13 +85,20 @@ void AssetManager::CreateSunShape(Entity& sun)
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());
-	projectile.addComponent<TransformComponent>(pos.x, pos.y, 32, 32, 1);
+	const GLTexture* gl_texture = Game::assets->Get_GLTexture(id);
+	projectile.addComponent<TransformComponent>(pos.x-gl_texture->width/2, pos.y- gl_texture->height/2, gl_texture->width, gl_texture->height, 1, speed);
 	projectile.addComponent<AnimatorComponent>(id);
 	Vector2D direction = Vector2D::Distance(dest, pos).Normalize();
 	projectile.addComponent<ProjectileComponent>(range, speed, direction);
+	if (direction.x < 0) {
+		projectile.getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
+	}
 	//projectile.getComponent<SpriteComponent>().animIndex = 0; //this actually shouldnt be here, this may result in errors, solution: decouple the character and his/her animations from SpriteComponent so we dont have to zero animIndex
-	projectile.addComponent<ColliderComponent>("projectile");
-	projectile.addGroup(Game::groupProjectiles);
+	projectile.addComponent<ColliderComponent>(id);
+	if(id == "projectile")
+		projectile.addGroup(Game::groupProjectiles);
+	else
+		projectile.addGroup(Game::groupWarriorProjectiles);
 }
 
 void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, int speed, std::string id)
@@ -129,8 +138,8 @@ void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed,
 void AssetManager::CreateEnemies() {
 	int mapStage = Game::map->getStage();
 
-	int numSkeletons = 2 * mapStage; // For example, 2 skeletons per stage
-	int numGreenKoopaTroopas = 3 * mapStage; // For example, 3 green koopa troopas per stage
+	int numSkeletons = (0.15 * mapStage) + 4; // For example, 4 skeletons per stage
+	int numGreenKoopaTroopas = (0.15 * mapStage) + 2; // For example, 2 green koopa troopas per stage
 
 	// Initialize a random number generator
 	std::random_device rd;  // Will be used to obtain a seed for the random number engine

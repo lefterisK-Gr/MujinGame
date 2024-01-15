@@ -13,7 +13,7 @@
 #include "SpriteBatch/SpriteBatch.h"
 #include "InputManager/InputManager.h"
 #include "Timing/Timing.h"
-#include "SpriteFont/SpriteFont.h"
+//#include "SpriteFont/SpriteFont.h"
 #include "AudioEngine/AudioEngine.h"
 #include "Window/Window.h"
 
@@ -88,7 +88,9 @@ public:
 		groupEnemySlices,
 		groupLights,
 		groupProjectiles,
+		groupWarriorProjectiles,
 		groupSkeletons,
+		groupLabels,
 		groupGreenKoopaTroopas,
 		groupPipeRingForeground,
 		groupForegroundLayer,
@@ -105,7 +107,7 @@ private:
 	GLSLProgram _textureProgram;
 	GLSLProgram _lightProgram;
 
-	SpriteFont* _spriteFont;
+	//SpriteFont* _spriteFont;
 
 	int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
 	int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;

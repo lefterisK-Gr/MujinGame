@@ -5,9 +5,6 @@
 extern Manager manager;
 
 int solidTiles[] = {52,69,177 ,176 , 112 , 16 , 17 , 18 , 75, 0, 1 , 2 , 48, 49 , 50 , 51, 83 , 85 , 99 , 101 , 522 , 521 , 548, 524, 496, 470 , 495 ,68 };
-int foregroundTiles[] = { 32,54,55,56,58 , 33 , 7, 59 ,161 , 162, 163 ,34, 57 , 115, 131, 48, 49 , 50 , 51 };
-int backgroundTiles[] = { 178, 179, 208, 209, 210, 224, 225, 226 };
-//int sewerbackgroundTiles[] = { 549 };
 int bouncyTiles[] = { 52 };
 int mysteryBoxTiles[] = { 176 };
 int winningTiles[] = { 495, 470, 496 };
@@ -43,7 +40,7 @@ std::vector<std::vector<int>> Map::generateRandomMap(int width, int height) {
 	// Set 69 on the top and bottom rows
 	for (int x = 0; x < width; ++x) {
 		map[0][x] = 69;          // Top row
-		map[height - 1][x] = 69; // Bottom row
+		map[height - 1][x] = 1; // Bottom row
 	}
 
 	// Set 69 on the left and right columns
@@ -73,18 +70,18 @@ std::vector<std::vector<int>> Map::generateRandomMap(int width, int height) {
 	const int maxWidthGap = 10; // Maximum gap allowed in width
 	const int maxHeightGap = 5; // Maximum gap allowed in height
 
-	std::uniform_int_distribution<int> distTopRow(maxWidthGap, maxWidthGap + 3); // For top row
-	std::uniform_int_distribution<int> distTopRowHeight(-2, 2); // For other rows, excluding top and bottom
+	std::uniform_int_distribution<int>	distTopRow(maxWidthGap, maxWidthGap + 3); // For top row
+	std::normal_distribution<float>		distTopRowHeight(0.0, 1.0); // For other rows, excluding top and bottom
 	
 	int lastTopRow= distTopRow(rng);
-	int lastTopHeight = distTopRowHeight(rng);
+	int lastTopHeight = 2;
 
 	while (lastTopRow < width - maxWidthGap) {
 		int startTopRow = lastTopRow + 3; // Next platform position in width
-		int startTopHeight = distTopRowHeight(rng); // Random platform position in height
+		int heightVariation = static_cast<int>(std::round(distTopRowHeight(rng)));
+		heightVariation = max(-2, min(heightVariation, 2)); // Clamp between -2 and 2
 
-		// Ensure the platform height is within the map bounds
-		startTopHeight = max(2, min(lastTopHeight + startTopHeight, height - maxHeightGap));
+		int startTopHeight = max(2, min(lastTopHeight + heightVariation, height - maxHeightGap));
 
 		map[height - startTopHeight][startTopRow] = 0;
 		map[height - startTopHeight][startTopRow + 1] = 1;
@@ -102,9 +99,94 @@ std::vector<std::vector<int>> Map::generateRandomMap(int width, int height) {
 		lastTopHeight = startTopHeight;
 	}
 
-	
-
 	return map;
+}
+
+std::vector<std::vector<int>> Map::getRandomTileSet() {
+	std::vector<std::vector<std::vector<int>>> tileSets = {
+		{{133}},
+		{{40, 41, 42},{24,25,26} },
+		{{-1}},
+		{{-1}},
+		{{-1}},
+		{{-1}},
+		{{14,15}},
+		{{131},{115}},
+		{{161,162,163}},
+		{{244,245,246},{228,229,230},{212,213,214}},
+		{{-1,254,-1},{237,238,239},{221,222,223},{205,206,207},{189,190,191}}
+
+		// Add more sets as needed
+	};
+
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_int_distribution<int> dist(0, tileSets.size() - 1);
+
+	return tileSets[dist(rng)];
+}
+
+void Map::generateRandomBackgroundMap(const std::string& inputMapPath, const std::string& outputMapPath) {
+	std::ifstream inputFile(inputMapPath);
+	std::ofstream outputFile(outputMapPath);
+	std::string line;
+
+	if (!inputFile.is_open() || !outputFile.is_open()) {
+		std::cerr << "Error opening files." << std::endl;
+		return;
+	}
+
+	std::vector<std::vector<int>> mapData, backgroundMap;
+
+	// Read and store the main map data
+	while (getline(inputFile, line)) {
+		std::stringstream ss(line);
+		std::string tile;
+		std::vector<int> row;
+
+		while (getline(ss, tile, ',')) {
+			row.push_back(stoi(tile));
+		}
+
+		mapData.push_back(row);
+		backgroundMap.push_back(std::vector<int>(row.size(), -1));
+	}
+
+	// Process the map data and set the foreground tiles
+	for (size_t y = 0; y < mapData.size(); ++y) {
+		for (size_t x = 0; x < mapData[y].size(); ++x) {
+			if ((mapData[y][x] == 0 && mapData[y][x+1] == 1 && mapData[y][x+2] == 2) && y > 0) {
+				std::vector<std::vector<int>> tileSet = getRandomTileSet();
+
+				for (size_t ty = 0; ty < tileSet.size() && (y - ty - 1) < backgroundMap.size(); ++ty) {
+					for (size_t tx = 0; tx < tileSet[ty].size() && (x + tx) < backgroundMap[y].size(); ++tx) {
+						backgroundMap[y - ty - 1][x + tx] = tileSet[ty][tx];
+					}
+				}
+			}
+		}
+	}
+
+	if (backgroundMap.size() >= 19 && backgroundMap[0].size() >= 1) {
+		backgroundMap[16][1] = 169; // Tile at x=1, y=16
+		backgroundMap[17][1] = 185; // Tile at x=1, y=17
+		backgroundMap[18][1] = 201; // Tile at x=1, y=18
+	}
+
+	// Write the foreground map to the output CSV file
+	for (const auto& row : backgroundMap) {
+		for (size_t i = 0; i < row.size(); ++i) {
+			outputFile << row[i];
+			if (i < row.size() - 1) {
+				outputFile << ",";
+			}
+		}
+		outputFile << "\n";
+	}
+
+	inputFile.close();
+	outputFile.close();
+
 }
 
 void Map::saveMapToCSV(const std::vector<std::vector<int>>& map, const std::string& fileName) {
@@ -226,7 +308,7 @@ void Map::addPipeTileFeature(Entity& tile, int wordNum) {
 	}
 }
 
-void Map::LoadMap(std::string backgroundlayerpath, std::string actionlayerpath, std::string foregroundpath)
+void Map::LoadMap(std::string background1layerpath, std::string background2layerpath, std::string actionlayerpath, std::string foregroundpath)
 {
 	std::fstream mapFile;
 
@@ -240,13 +322,13 @@ void Map::LoadMap(std::string backgroundlayerpath, std::string actionlayerpath, 
 	ProcessLayer(mapFile, &Map::AddForegroundTile);
 	mapFile.close();
 
-	mapFile.open(backgroundlayerpath);
-	ProcessLayer(mapFile, &Map::AddBackgroundTile);
+	mapFile.open(background1layerpath);
+	ProcessLayer(mapFile, &Map::AddSewersBackgroundTile);
 	mapFile.close();
 
-	/*mapFile.open(sewerbackgroundlayerpath);
-	ProcessLayer(mapFile, &Map::AddSewersBackgroundTile);
-	mapFile.close();*/
+	mapFile.open(background2layerpath);
+	ProcessLayer(mapFile, &Map::AddBackgroundTile);
+	mapFile.close();
 }
 
 void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
@@ -275,7 +357,7 @@ void Map::AddBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos
 
 void Map::AddSewersBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
-	tile.addComponent<TileComponent>(srcX, srcY, xpos + 3040, ypos, tileSize, mapScale, texID, isSolid, false); //insert backgroundtile
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false); //insert backgroundtile
 	tile.addGroup(Game::groupSewerBackgroundLayer);
 }
 
@@ -297,7 +379,9 @@ void Map::resetMap()
 
 	saveMapToCSV(generateRandomMap(120, 20), "assets/RandomMap.csv");
 
-	LoadMap("assets/background_v3.csv", "assets/RandomMap.csv", "");
+	generateRandomBackgroundMap("assets/RandomMap.csv", "assets/RandomBackground.csv");
+
+	LoadMap("assets/RandomBackground.csv","assets/background_v3.csv", "assets/RandomMap.csv", "");
 }
 
 int Map::getStage() {
