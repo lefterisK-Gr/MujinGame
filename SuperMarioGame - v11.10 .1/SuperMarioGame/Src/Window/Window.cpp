@@ -12,11 +12,12 @@ namespace MujinEngine {
     {
     }
 
-    int Window::create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags) {
+    int Window::create(std::string windowName, int screenWidth, int screenHeight, float scale, unsigned int currentFlags) {
 
         Uint32 flags = SDL_WINDOW_OPENGL;
-        _screenWidth = screenWidth;
-        _screenHeight = screenHeight;
+        _screenWidth = screenWidth * scale;
+        _screenHeight = screenHeight * scale;
+        _scale = scale;
 
         if (currentFlags & INVISIBLE) {
             flags |= SDL_WINDOW_HIDDEN;
@@ -29,7 +30,7 @@ namespace MujinEngine {
         }
 
         //Open an SDL window
-        _sdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, flags);
+        _sdlWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screenWidth, _screenHeight, flags);
         if (_sdlWindow == nullptr) {
             ConsoleLogger::error("SDL Window could not be created!");
         }

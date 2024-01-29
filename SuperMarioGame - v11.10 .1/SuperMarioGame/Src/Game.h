@@ -80,6 +80,7 @@ public:
 		groupSewerBackgroundLayer,
 		groupActionLayer,
 		groupPlayers,
+		groupBackgrounds,
 		//groupEnemies,
 		groupColliders,
 		groupMysteryBoxes,
@@ -98,11 +99,12 @@ public:
 		groupHPBars
 	};
 
+	static MujinEngine::Window* _window;
+
 private:
 	void checkInput();
 	bool onPauseGame();
 
-	MujinEngine::Window* _window;
 	GLSLProgram _colorProgram;
 	GLSLProgram _textureProgram;
 	GLSLProgram _lightProgram;

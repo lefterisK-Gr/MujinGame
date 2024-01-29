@@ -66,7 +66,7 @@ public:
 		destR.y = collider.y - Game::camera.y;
 	}
 
-	void draw() override
+	void draw(SpriteBatch& batch) override
 	{
 	}
 

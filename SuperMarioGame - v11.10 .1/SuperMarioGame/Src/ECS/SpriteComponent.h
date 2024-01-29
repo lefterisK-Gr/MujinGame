@@ -103,13 +103,15 @@ public:
 	
 	}
 
-	void draw() override
+	void draw(SpriteBatch& batch) override
 	{
 		if (gl_texture == NULL)
 		{
 			return;
 		}
-		glm::vec4 pos((float)destRect.x, -640 + (float)destRect.y, (float)destRect.w, (float)destRect.h);
+		float tempScreenScale = Game::_window->getScale();
+		glm::vec4 pos((float)destRect.x* tempScreenScale, -Game::_window->getScreenHeight() + (float)destRect.y * tempScreenScale,
+			(float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
 
 		float srcUVposX = spriteFlip == SDL_FLIP_HORIZONTAL ?
 			(float)(srcRect.x + srcRect.w) / (float)gl_texture->width :
@@ -123,13 +125,8 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		if (_isMainMenu) {
-			MainMenuScreen::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
-		}
-		else
-		{
-			Game::_spriteBatch.draw(pos, uv, gl_texture->id, 0.0f, color);
-		}
+		batch.draw(pos, uv, gl_texture->id, 0.0f, color);
+		
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

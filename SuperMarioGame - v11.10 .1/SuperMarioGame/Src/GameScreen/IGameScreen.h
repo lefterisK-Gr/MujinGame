@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../SpriteBatch/SpriteBatch.h"
+
 #define SCREEN_INDEX_NO_SCREEN -1
 
 class IMainGame;

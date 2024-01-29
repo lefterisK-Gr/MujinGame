@@ -36,8 +36,8 @@ public:
 
 	}
 
-	void draw() override {
+	/*void draw() override {
 		ShapeManager::DrawCircle(transform->position.x, transform->position.y, transform->width / 2, color);
-	}
+	}*/
 
 };

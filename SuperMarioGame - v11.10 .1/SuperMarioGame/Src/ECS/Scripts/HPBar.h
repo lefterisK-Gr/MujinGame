@@ -36,8 +36,9 @@ public:
 		destRect.w = transform->width * transform->scale * (_healthPoints / _maxHealthPoints);
 	}
 
-	void draw() override {
-		glm::vec4 pos((float)destRect.x, -640 + (float)destRect.y, (float)destRect.w, (float)destRect.h);
-		Game::_spriteBatch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 0.0f, color);
+	void draw(SpriteBatch& batch) override {
+		float tempScreenScale = Game::_window->getScale();
+		glm::vec4 pos((float)destRect.x* tempScreenScale, -Game::_window->getScreenHeight() + (float)destRect.y * tempScreenScale, (float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
+		batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 0.0f, color);
 	}
 };

@@ -1,9 +1,13 @@
 #pragma once
 
 #include "../Components.h"
+#include "../../AudioEngine/AudioEngine.h"
+
 
 class Skeleton_Script : public Component
 {
+private:
+	SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/enemySlash.wav");
 public:
 
 	bool attackAnimation = false;
@@ -63,7 +67,7 @@ public:
 		if (action == skeletonAction::SKELETONACTION_ATTACK) { //if playerAttackAnimation is on 3rd frame then deal damage i.e create entity from sword that deal damage.
 			if (sprite->animation.cur_frame_index == 6 && sprite->animation.frame_times_played == 1)
 			{
-				std::cout << "attacking!" << std::endl;
+				_slashEffect.play();
 				sword->attack();
 			}
 			return;

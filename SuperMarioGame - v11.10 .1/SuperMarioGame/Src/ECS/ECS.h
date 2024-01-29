@@ -8,6 +8,7 @@
 #include <array>
 
 #include <SDL/SDL.h>
+#include "../SpriteBatch/SpriteBatch.h"
 class Component;
 class Entity;
 class Manager;
@@ -42,7 +43,7 @@ public:
 
 	virtual void init(){}
 	virtual void update(float deltaTime) {}
-	virtual void draw() {}
+	virtual void draw(SpriteBatch& batch) {}
 
 	virtual SDL_Rect getRect() 
 	{
@@ -75,9 +76,9 @@ public:
 	{
 		for (auto& c : components) c->update(deltaTime);
 	}
-	void draw() 
+	void draw(SpriteBatch& batch) 
 	{
-		for (auto& c : components) c->draw();
+		for (auto& c : components) c->draw(batch);
 	}
 	bool isActive() { return active; }
 	void destroy() { active = false; }
@@ -132,9 +133,9 @@ public:
 	{
 		for (auto& e : entities) e->update(deltaTime);
 	}
-	void draw()
+	void draw(SpriteBatch& batch)
 	{
-		for (auto& e : entities) e->draw();
+		for (auto& e : entities) e->draw(batch);
 	}
 	void refresh()
 	{

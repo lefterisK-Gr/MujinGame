@@ -28,7 +28,6 @@ public:
 
 		if (distance > range)
 		{
-			std::cout << "Out of Range" << std::endl; //range and bounds are different
 			entity->destroy();
 		}
 	}

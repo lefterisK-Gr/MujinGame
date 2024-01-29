@@ -5,8 +5,8 @@ Camera2D::Camera2D() : _position(0.0f, 0.0f),
 	_orthoMatrix(1.0f),		//I
 	_scale(1.0f),
 	_cameraChange(true),
-	_screenWidth(800),
-	_screenHeight(640)
+	_screenWidth(960),
+	_screenHeight(768)
 {
 
 }

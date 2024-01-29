@@ -14,15 +14,17 @@ namespace MujinEngine {
         Window();
         ~Window();
 
-        int create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags);
+        int create(std::string windowName, int screenWidth, int screenHeight, float scale, unsigned int currentFlags);
 
         void swapBuffer();
 
         int getScreenWidth() { return _screenWidth; }
         int getScreenHeight() { return _screenHeight; }
+        float getScale() { return _scale; }
     private:
         SDL_Window* _sdlWindow;
         int _screenWidth, _screenHeight;
+        float _scale;
     };
 
 }

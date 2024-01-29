@@ -79,9 +79,9 @@ public:
 		
 	}
 
-	void draw() override
+	void draw(SpriteBatch& batch) override
 	{
-		sprite->draw();
+		//sprite->draw(batch);
 		//TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE);
 	}
 };

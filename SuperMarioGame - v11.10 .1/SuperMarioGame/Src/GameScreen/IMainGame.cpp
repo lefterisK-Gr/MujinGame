@@ -133,7 +133,7 @@ bool IMainGame::init() {
 }
 
 bool IMainGame::initSystems() {
-	_window.create("Mujin", 800, 640, 0);
+	_window.create("Mujin", 800, 640,1.2, 0);
 	return true;
 }
 

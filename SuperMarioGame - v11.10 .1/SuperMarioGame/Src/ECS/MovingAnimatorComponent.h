@@ -57,7 +57,7 @@ public:
 		sprite->setMoveFrame();
 	}
 
-	void draw() override
+	void draw(SpriteBatch& batch) override
 	{
 		//sprite->draw();
 	}

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SDL/SDL.h>
 #include "../ECS/Components.h"
+#include "../ECS/ScriptComponents.h"
 #include "../Vector2D.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
@@ -86,7 +87,7 @@ void MainMenuScreen::onEntry()
 	MainMenuScreen::assets->Add_GLTexture("startgame", "assets/StartGame.png");
 	MainMenuScreen::assets->Add_GLTexture("exitgame", "assets/ExitGame.png");
 
-	StartGameButton.addComponent<TransformComponent>(200.0f, 0.0f,
+	StartGameButton.addComponent<TransformComponent>(230.0f, 100.0f,
 		MainMenuScreen::assets->Get_GLTexture("startgame")->height,
 		MainMenuScreen::assets->Get_GLTexture("startgame")->width,
 		1.0f);
@@ -94,7 +95,7 @@ void MainMenuScreen::onEntry()
 	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this));
 	StartGameButton.addGroup(MainMenuScreen::startGameGroup);
 
-	ExitGameButton.addComponent<TransformComponent>(200.0f, 200.0f,
+	ExitGameButton.addComponent<TransformComponent>(240.0f, 250.0f,
 		MainMenuScreen::assets->Get_GLTexture("exitgame")->height,
 		MainMenuScreen::assets->Get_GLTexture("exitgame")->width,
 		1.0f);
@@ -161,7 +162,7 @@ void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
 void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
 	_spriteBatch.begin();
 	for (const auto& entity : entities) {
-		entity->draw();
+		entity->draw(_spriteBatch);
 	}
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();

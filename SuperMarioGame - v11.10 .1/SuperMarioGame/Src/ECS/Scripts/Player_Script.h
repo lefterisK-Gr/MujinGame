@@ -1,10 +1,16 @@
 #pragma once
 
 #include "../Components.h"
-
+#include "../../AudioEngine/AudioEngine.h"
 
 class Player_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Transform
 {
+private:
+	SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/slash.wav");
+	SoundEffect _slashSkillEffect = Game::audioEngine.loadSoundEffect("Sounds/skillSlash.wav");
+	SoundEffect _takeHitEffect = Game::audioEngine.loadSoundEffect("Sounds/takeHit.wav");
+
+
 public: // it is like it has init that creates Animator Component since it inherits it
 	bool attackAnimation = false;
 
@@ -88,11 +94,13 @@ public: // it is like it has init that creates Animator Component since it inher
 		if (!attackAnimation) {
 			if (keyboard->_inputManager.isKeyDown(keyboard->attackKey)) {
 				animator->Play("P1Attack");
+				_slashEffect.play();
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
 			}
 			if (keyboard->_inputManager.isKeyDown(keyboard->ability1Key)) {
 				animator->Play("P1Ability1");
+				_slashSkillEffect.play();
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ABILITY_1;
 			}
@@ -146,6 +154,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		if (!tookDamage) {
 			if (living->tookDamage) {
 				flash_animator->Play("PlayerHit");
+				_takeHitEffect.play();
 				tookDamage = true;
 			}
 		}
@@ -158,7 +167,6 @@ public: // it is like it has init that creates Animator Component since it inher
 		if (action == playerAction::PLAYERACTION_ATTACK) { //if playerAttackAnimation is on 3rd frame then deal damage i.e create entity from sword that deal damage.
 			if (sprite->animation.cur_frame_index == 1 && sprite->animation.frame_times_played == 1)
 			{
-				std::cout << "attacking!" << std::endl;
 				sword->attack();
 			}
 			return;
@@ -166,7 +174,6 @@ public: // it is like it has init that creates Animator Component since it inher
 		else if (action == playerAction::PLAYERACTION_ABILITY_1) {
 			if (sprite->animation.cur_frame_index == 1 && sprite->animation.frame_times_played == 1)
 			{
-				std::cout << "ability 1!" << std::endl;
 				sword->ability1();
 			}
 			return;

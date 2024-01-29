@@ -34,9 +34,11 @@ public:
         destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
     }
 
-    void draw() override
+    void draw(SpriteBatch& batch) override
     {
-        glm::vec4 pos((float)destRect.x, -640 + (float)destRect.y, (float)destRect.w, (float)destRect.h);
-        Game::_spriteBatch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 0.0f, color);
+        float tempScreenScale = Game::_window->getScale();
+        glm::vec4 pos((float)destRect.x * tempScreenScale, -Game::_window->getScreenHeight() + (float)destRect.y * tempScreenScale,
+            (float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
+        batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 0.0f, color);
 	}
 };

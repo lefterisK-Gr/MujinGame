@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include "Map/Map.h"
 #include "ECS/Components.h"
+#include "ECS/ScriptComponents.h"
 #include "Vector2D.h"
 #include "Collision/Collision.h"
 #include "Map/Map.h"
@@ -31,13 +32,16 @@ AudioEngine Game::audioEngine;
 Map* Game::map = nullptr;
 AssetManager* Game::assets = nullptr;
 SceneManager* Game::scenes = new SceneManager();
+MujinEngine::Window* Game::_window = nullptr;
 
 auto& player1(manager.addEntity());
 auto& sun(manager.addEntity());
+auto& stagelabel(manager.addEntity());
+auto& scorelabel(manager.addEntity());
 
 Game::Game(MujinEngine::Window* window)
-	: _window(window)
 {
+	_window = window;
 	_screenIndex = SCREEN_INDEX_GAMEPLAY;
 }
 Game::~Game()
@@ -113,19 +117,22 @@ void Game::onEntry()
 	}
 
 	//add the textures to our texture library
+	assets->Add_GLTexture("backgroundMountains","assets/villageBackground.png");
 	assets->Add_GLTexture("terrain", "assets/village_tileset.png");
 	assets->Add_GLTexture("warrior", "assets/samurai.png");
 	assets->Add_GLTexture("projectile", "assets/my_projectile.png");
 	assets->Add_GLTexture("warriorProjectile", "assets/warriorSlash.png");
 	assets->Add_GLTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
 	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
-	assets->Add_GLTexture("arial", "assets/arial_cropped-removebg-preview.png");
+	assets->Add_GLTexture("arial", "assets/arial_cropped_white.png");
 
 	Game::map = new Map("terrain", 1, 32);
 
 	map->LoadMap("assets/background.csv","assets/background_v3.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
 
 	assets->CreatePlayer(player1);
+
+	assets->CreateBackground();
 
 	assets->CreateSunShape(sun);
 
@@ -140,8 +147,16 @@ void Game::onEntry()
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 2, "greenkoopatroopa");
 
+	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
+	stagelabel.addComponent<UILabel>("stage 0", "arial", true);
+	stagelabel.addGroup(Game::groupLabels);
+
+	scorelabel.addComponent<TransformComponent>(700, 608, 32, 32, 1);
+	scorelabel.addComponent<UILabel>("", "arial", true);
+	scorelabel.addGroup(Game::groupLabels);
+
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
-	//music.play(-1);
+	music.play(-1);
 }
 
 void Game::onExit() {
@@ -150,6 +165,7 @@ void Game::onExit() {
 
 auto& tiles(manager.getGroup(Game::groupActionLayer));
 auto& players(manager.getGroup(Game::groupPlayers));
+auto& backgrounds(manager.getGroup(Game::groupBackgrounds));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectiles));
 auto& warriorprojectiles(manager.getGroup(Game::groupWarriorProjectiles));
@@ -173,8 +189,20 @@ void Game::update(float deltaTime) //game objects updating
 	if (map->getMapCompleted()) {
 
 		//manager.clearAllEntities();
+		for (auto& tile : tiles)
+		{
+			tile->destroy();
+		}
 		tiles.clear();
+		for (auto& collider : colliders)
+		{
+			collider->destroy();
+		}
 		colliders.clear();
+		for (auto& sewerbackgroundtile : sewerbackgroundtiles)
+		{
+			sewerbackgroundtile->destroy();
+		}
 		sewerbackgroundtiles.clear();
 		foregroundtiles.clear();
 		mysteryboxtiles.clear();
@@ -191,6 +219,7 @@ void Game::update(float deltaTime) //game objects updating
 		projectiles.clear();
 		map->resetMap();
 		assets->CreateEnemies();
+		stagelabel.getComponent<UILabel>().setLetters("stage" + std::to_string(map->getStage()));
 
 		manager.refresh();
 		manager.update(deltaTime);
@@ -286,9 +315,9 @@ void Game::update(float deltaTime) //game objects updating
 						)// hitted mystery box
 					{
 						p->getComponent<ScoreComponent>().addToScore(100);
+						scorelabel.getComponent<UILabel>().setLetters(std::to_string(p->getComponent<ScoreComponent>().getScore()));
 						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
 						c->getComponent<AnimatorComponent>().Play("CoinFlip");
-						//PlaySound(TEXT("coin_collect.wav"), NULL, SND_ASYNC);
 					}
 				}
 
@@ -515,7 +544,6 @@ void Game::update(float deltaTime) //game objects updating
 			{
 				if (Collision::checkCollision(sl->getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
 				{
-					std::cout << "sword touched enemy!" << std::endl;
 					if (e->getComponent<LivingCharacter>().applyDamage(sl->getComponent<Slice>().sliceDamage)) {
 						e->destroy();
 					}
@@ -548,7 +576,6 @@ void Game::update(float deltaTime) //game objects updating
 		{
 			if (Collision::checkCollision(esl->getComponent<ColliderComponent>().collider, pl->getComponent<ColliderComponent>().collider))
 			{
-				std::cout << "sword touched player!" << std::endl;
 				if (!pl->getComponent<Player_Script>().tookDamage) {
 					if (pl->getComponent<LivingCharacter>().applyDamage(esl->getComponent<Slice>().sliceDamage)) {
 						pl->destroy();
@@ -608,16 +635,6 @@ void Game::update(float deltaTime) //game objects updating
 	
 	for (auto& p : players) //scene transition
 	{
-		/*if (p->getComponent<Player_Script>().finishedVertAnimation)
-		{
-			scenes->sceneSelected = 1;
-			for (auto& pl : players)
-			{
-				pl->getComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(1);
-			}
-			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
-			camera = scenes->GetSceneCamera(1);
-		}*/
 		if (p->getComponent<Player_Script>().finishedHorAnimation)
 		{
 			scenes->sceneSelected = 0;
@@ -625,7 +642,6 @@ void Game::update(float deltaTime) //game objects updating
 			{
 				pl->getComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(0);
 			}
-			std::cout << "position teleported: " << p->getComponent<TransformComponent>().position << std::endl;
 			camera = scenes->GetSceneCamera(0);
 		}
 		p->getComponent<Player_Script>().finishedHorAnimation = false;
@@ -663,6 +679,10 @@ void Game::checkInput() {
 			onPauseGame();
 		}
 
+		if (_game->_inputManager.isKeyPressed(SDLK_n)) {
+			Game::map->setMapCompleted(true);
+		}
+
 		if (_game->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoords = _game->_inputManager.getMouseCoords();
 			mouseCoords = camera2D.convertScreenToWorld(mouseCoords);
@@ -691,7 +711,7 @@ void Game::renderBatch(const std::vector<Entity*>& entities) {
 	for (const auto& entity : entities) {
 		SpriteComponent entitySprite = entity->getComponent<SpriteComponent>();
 		if (collision.checkCollision(entitySprite.destRect, camera2D.getCameraRect())) { //culling
-			entity->draw();
+			entity->draw(_spriteBatch);
 		}
 	}
 	_spriteBatch.end();
@@ -707,6 +727,8 @@ void Game::draw()
 
 
 	/////////////////////////////////////////////////////
+	setupShaderAndTexture("backgroundMountains");
+	renderBatch(backgrounds);
 	setupShaderAndTexture("terrain");
 	renderBatch(backgroundtiles);
 	renderBatch(sewerbackgroundtiles);
@@ -737,7 +759,7 @@ void Game::draw()
 
 	for(const auto& l : lights)
 	{
-		l->draw();
+		l->draw(_spriteBatch);
 	}
 
 	_spriteBatch.end();
@@ -753,7 +775,7 @@ void Game::draw()
 	setupShaderAndTexture("terrain");
 	renderBatch(winningtiles);
 	renderBatch(foregroundtiles);
-	//drawHUD("arial");
+	drawHUD("arial");
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
@@ -769,7 +791,7 @@ void Game::draw()
 
 	for (const auto& hpb : hpbars)
 	{
-		hpb->draw();
+		hpb->draw(_spriteBatch);
 	}
 
 	_spriteBatch.end();
@@ -786,25 +808,28 @@ void Game::draw()
 }
 
 
-//void Game::drawHUD(const std::string& textureName) {
-//	_textureProgram.use();
-//	glActiveTexture(GL_TEXTURE0);
-//
-//	glBindTexture(GL_TEXTURE_2D, _spriteFont->_texID);
-//	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
-//	glUniform1i(textureLocation, 0);
-//
-//	GLint pLocation = _textureProgram.getUniformLocation("projection");
-//	glm::mat4 cameraMatrix = hudCamera2D.getCameraMatrix();
-//	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-//
-//	_hudSpriteBatch.begin();
-//
-//	_spriteFont->draw(_hudSpriteBatch, glm::vec2(32, -96));
-//		
-//	_hudSpriteBatch.end();
-//	_hudSpriteBatch.renderBatch();
-//}
+void Game::drawHUD(const std::string& textureName) {
+	_textureProgram.use();
+	glActiveTexture(GL_TEXTURE0);
+	const GLTexture* texture = assets->Get_GLTexture(textureName);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
+	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
+	glUniform1i(textureLocation, 0);
+
+	GLint pLocation = _textureProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = hudCamera2D.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	_hudSpriteBatch.begin();
+
+	for (const auto& lab : labels)
+	{
+		lab->draw(_hudSpriteBatch);
+	}
+		
+	_hudSpriteBatch.end();
+	_hudSpriteBatch.renderBatch();
+}
 
 bool Game::onPauseGame() {
 	_prevScreenIndex = SCREEN_INDEX_MAIN_MENU;

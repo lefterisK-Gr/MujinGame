@@ -50,9 +50,9 @@ public:
 		sprite->setFlashFrame();
 	}
 
-	void draw() override
+	void draw(SpriteBatch& batch) override
 	{
-		//sprite->draw();
+		//sprite->draw(batch);
 	}
 
 	void Play(const char* animName, int reps = 0)

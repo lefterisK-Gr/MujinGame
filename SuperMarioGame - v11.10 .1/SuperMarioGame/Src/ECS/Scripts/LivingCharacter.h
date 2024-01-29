@@ -92,7 +92,7 @@ public:
 		}
 	}
 
-	void draw() override {
+	void draw(SpriteBatch& batch) override {
 		//glm::vec4 pos((float)destRect.x, -640 + (float)destRect.y, (float)destRect.w, (float)destRect.h);
 		//Game::_spriteBatch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 0.0f, color);
 	}

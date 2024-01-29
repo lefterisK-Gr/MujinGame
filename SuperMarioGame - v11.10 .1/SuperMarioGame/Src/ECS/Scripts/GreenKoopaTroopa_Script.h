@@ -1,9 +1,12 @@
 #pragma once
 
 #include "../Components.h"
+#include "../../AudioEngine/AudioEngine.h"
 
 class GreenKoopaTroopa_Script : public Component
 {
+private:
+	SoundEffect _projectileEffect = Game::audioEngine.loadSoundEffect("Sounds/enemyThrowProjectile.wav");
 public:
 	bool attackAnimation = false;
 	bool shelltoturtle = false;
@@ -69,7 +72,6 @@ public:
 		if (action == greenKoopaTroopaAction::KOOPAACTION_ATTACK) {
 			if (sprite->animation.cur_frame_index == 6 && sprite->animation.frame_times_played == 1)
 			{
-				std::cout << "attacking!" << std::endl;
 				auto& players(manager.getGroup(Game::groupPlayers));
 
 				for (auto& p : players)
@@ -80,6 +82,7 @@ public:
 					if ((enemyTransform.position.x < playerTransform.position.x + 200 && enemyTransform.position.x > playerTransform.position.x) ||
 						(enemyTransform.position.x > playerTransform.position.x - 200 && enemyTransform.position.x < playerTransform.position.x))
 					{
+						_projectileEffect.play();
 						Game::assets->CreateProjectile(enemyTransform.getCenterTransform(), playerTransform.getCenterTransform(), 300, 3, "projectile");
 					}
 				}

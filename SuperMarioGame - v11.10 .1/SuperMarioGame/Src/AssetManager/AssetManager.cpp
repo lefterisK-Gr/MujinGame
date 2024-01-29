@@ -1,5 +1,6 @@
 #include "AssetManager.h"
 #include "../ECS/Components.h"
+#include "../ECS/ScriptComponents.h"
 #include "../Collision/Collision.h"
 
 #include <random>
@@ -71,6 +72,18 @@ void AssetManager::CreatePlayer(Entity& player)
 	player.addComponent<Player_Script>();
 
 	player.addGroup(Game::groupPlayers);
+}
+
+void AssetManager::CreateBackground()
+{
+	auto& background(manager->addEntity());
+
+	background.addComponent<TransformComponent>(0, 0, 640, 1142, 1);
+	background.addComponent<SpriteComponent>("backgroundMountains", 10.0f);
+
+
+	background.addGroup(Game::groupBackgrounds);
+
 }
 
 void AssetManager::CreateSunShape(Entity& sun)
