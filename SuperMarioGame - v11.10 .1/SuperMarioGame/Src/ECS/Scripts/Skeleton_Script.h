@@ -7,6 +7,7 @@
 class Skeleton_Script : public Component
 {
 private:
+	bool isGiant = false;
 	SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/enemySlash.wav");
 public:
 
@@ -31,6 +32,11 @@ public:
 
 	}
 
+	Skeleton_Script(bool isG)
+	{
+		isGiant = isG;
+	}
+
 	~Skeleton_Script() {
 
 	}
@@ -46,6 +52,13 @@ public:
 			entity->addComponent<LivingCharacter>();
 		}
 		living = &entity->getComponent<LivingCharacter>();
+		if (isGiant)
+		{
+			transform->speed *= 2;
+			animator->animManager.animations.find("SkeletonAttack")->second.speed *= 2;
+			living->hp_bar->getComponent<HPBar>()._healthPoints = 200;
+			living->hp_bar->getComponent<HPBar>()._maxHealthPoints = 200;
+		}
 	}
 
 	void update(float deltaTime) override {

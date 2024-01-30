@@ -37,7 +37,6 @@ MujinEngine::Window* Game::_window = nullptr;
 auto& player1(manager.addEntity());
 auto& sun(manager.addEntity());
 auto& stagelabel(manager.addEntity());
-auto& scorelabel(manager.addEntity());
 
 Game::Game(MujinEngine::Window* window)
 {
@@ -137,12 +136,12 @@ void Game::onEntry()
 	assets->CreateSunShape(sun);
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
-	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(500, 300), Vector2D(1, 0), 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(1000, 300), Vector2D(1, -1), 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(1400, 288), Vector2D(-1, -1), 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(1900, 300), Vector2D(-1, -1), 2, "skeleton");
-	assets->CreateSkeleton(Vector2D(2675, 300), Vector2D(-1, -1), 2, "skeleton");
+	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), "skeleton", false);
+	assets->CreateSkeleton(Vector2D(500, 300), Vector2D(1, 0), "skeleton", false);
+	assets->CreateSkeleton(Vector2D(1000, 300), Vector2D(1, -1), "skeleton", false);
+	assets->CreateSkeleton(Vector2D(1400, 288), Vector2D(-1, -1), "skeleton", false);
+	assets->CreateSkeleton(Vector2D(1900, 300), Vector2D(-1, -1), "skeleton", false);
+	assets->CreateSkeleton(Vector2D(2675, 300), Vector2D(-1, -1), "skeleton", false);
 
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 2, "greenkoopatroopa");
@@ -150,10 +149,6 @@ void Game::onEntry()
 	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
 	stagelabel.addComponent<UILabel>("stage 0", "arial", true);
 	stagelabel.addGroup(Game::groupLabels);
-
-	scorelabel.addComponent<TransformComponent>(700, 608, 32, 32, 1);
-	scorelabel.addComponent<UILabel>("", "arial", true);
-	scorelabel.addGroup(Game::groupLabels);
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
@@ -171,6 +166,8 @@ auto& projectiles(manager.getGroup(Game::groupProjectiles));
 auto& warriorprojectiles(manager.getGroup(Game::groupWarriorProjectiles));
 auto& skeletons(manager.getGroup(Game::groupSkeletons));
 auto& labels(manager.getGroup(Game::groupLabels));
+auto& stageupbtns(manager.getGroup(Game::groupStageUpButtons));
+auto& stageupbtnsback(manager.getGroup(Game::groupStageUpButtonsBack));
 auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
 auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
 auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
@@ -204,6 +201,7 @@ void Game::update(float deltaTime) //game objects updating
 			sewerbackgroundtile->destroy();
 		}
 		sewerbackgroundtiles.clear();
+		backgroundtiles.clear();
 		foregroundtiles.clear();
 		mysteryboxtiles.clear();
 		for (auto& enemy : skeletons)
@@ -219,6 +217,7 @@ void Game::update(float deltaTime) //game objects updating
 		projectiles.clear();
 		map->resetMap();
 		assets->CreateEnemies();
+		assets->CreateStageUpButtons();
 		stagelabel.getComponent<UILabel>().setLetters("stage" + std::to_string(map->getStage()));
 
 		manager.refresh();
@@ -315,7 +314,6 @@ void Game::update(float deltaTime) //game objects updating
 						)// hitted mystery box
 					{
 						p->getComponent<ScoreComponent>().addToScore(100);
-						scorelabel.getComponent<UILabel>().setLetters(std::to_string(p->getComponent<ScoreComponent>().getScore()));
 						c->getComponent<MysteryBox_Script>().doCoinAnimation = true;
 						c->getComponent<AnimatorComponent>().Play("CoinFlip");
 					}
@@ -463,9 +461,14 @@ void Game::update(float deltaTime) //game objects updating
 						}
 						else //skeleton case
 						{
-							player->getComponent<ScoreComponent>().addToScore(100);
 							if (e->getComponent<LivingCharacter>().applyDamage(10)) {
+								player->getComponent<ScoreComponent>().addToScore(100);
 								e->destroy();
+							}
+							if (!player->getComponent<Player_Script>().tookDamage) {
+								if (player->getComponent<LivingCharacter>().applyDamage(5)) {
+									player->destroy();
+								}
 							}
 						}
 
@@ -545,6 +548,7 @@ void Game::update(float deltaTime) //game objects updating
 				if (Collision::checkCollision(sl->getComponent<ColliderComponent>().collider, e->getComponent<ColliderComponent>().collider))
 				{
 					if (e->getComponent<LivingCharacter>().applyDamage(sl->getComponent<Slice>().sliceDamage)) {
+						player1.getComponent<ScoreComponent>().addToScore(100);
 						e->destroy();
 					}
 				}
@@ -648,6 +652,25 @@ void Game::update(float deltaTime) //game objects updating
 		p->getComponent<Player_Script>().finishedVertAnimation = false;
 	}
 
+	for (auto& clouds : backgroundtiles) {
+		if (clouds->getComponent<TransformComponent>().position.x + clouds->getComponent<TransformComponent>().width < 0) {
+			clouds->getComponent<TransformComponent>().position.x = camera.w * 1.0f/3.0f +_window->getScreenWidth(); //due to cloud z-index
+		}
+	}
+
+	for (auto& sb : stageupbtns)
+	{
+		SpriteComponent entitySprite = sb->getComponent<SpriteComponent>();
+		if (collision.checkCollision(entitySprite.destRect, _mouseCoords)) { //culling
+			std::cout << "clicked button" << std::endl;
+			sb->getComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
+			break;
+		}
+	}
+
+	_mouseCoords.x = -100.0f;
+	_mouseCoords.y = -100.0f;
+
 	if (camera.x < scenes->GetSceneCamera(scenes->sceneSelected).x)
 		camera.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
 	if (camera.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w))
@@ -683,10 +706,11 @@ void Game::checkInput() {
 			Game::map->setMapCompleted(true);
 		}
 
-		if (_game->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
-			glm::vec2 mouseCoords = _game->_inputManager.getMouseCoords();
-			mouseCoords = camera2D.convertScreenToWorld(mouseCoords);
-			std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
+		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
+			_mouseCoords.x = mouseCoordsVec.x;
+			_mouseCoords.y = mouseCoordsVec.y;
+			std::cout << _mouseCoords.x << " " << _mouseCoords.y << std::endl;
 		}
 
 		_game->_inputManager.update();
@@ -694,7 +718,7 @@ void Game::checkInput() {
 }
 
 
-void Game::setupShaderAndTexture(const std::string& textureName) {
+void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camera) { // todo add camera argument
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = assets->Get_GLTexture(textureName);
@@ -702,20 +726,25 @@ void Game::setupShaderAndTexture(const std::string& textureName) {
 	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
 	GLint pLocation = _textureProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-void Game::renderBatch(const std::vector<Entity*>& entities) {
-	_spriteBatch.begin();
+void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
+	batch.begin();
 	for (const auto& entity : entities) {
-		SpriteComponent entitySprite = entity->getComponent<SpriteComponent>();
-		if (collision.checkCollision(entitySprite.destRect, camera2D.getCameraRect())) { //culling
-			entity->draw(_spriteBatch);
+		if (entity->hasComponent<SpriteComponent>()) {
+			SpriteComponent entitySprite = entity->getComponent<SpriteComponent>();
+			if (collision.checkCollision(entitySprite.destRect, camera2D.getCameraRect())) { //culling
+				entity->draw(batch);
+			}
+		}
+		else {
+			entity->draw(batch);
 		}
 	}
-	_spriteBatch.end();
-	_spriteBatch.renderBatch();
+	batch.end();
+	batch.renderBatch();
 }
 
 void Game::draw()
@@ -727,22 +756,22 @@ void Game::draw()
 
 
 	/////////////////////////////////////////////////////
-	setupShaderAndTexture("backgroundMountains");
-	renderBatch(backgrounds);
-	setupShaderAndTexture("terrain");
-	renderBatch(backgroundtiles);
-	renderBatch(sewerbackgroundtiles);
-	renderBatch(tiles);
+	setupShaderAndTexture("backgroundMountains", camera2D);
+	renderBatch(backgrounds, _spriteBatch);
+	setupShaderAndTexture("terrain", camera2D);
+	renderBatch(backgroundtiles, _spriteBatch);
+	renderBatch(sewerbackgroundtiles, _spriteBatch);
+	renderBatch(tiles, _spriteBatch);
 	//renderBatch(colliders);
 	
-	setupShaderAndTexture("projectile");
-	renderBatch(projectiles);
-	setupShaderAndTexture("warriorProjectile");
-	renderBatch(warriorprojectiles);
-	setupShaderAndTexture("skeleton");
-	renderBatch(skeletons);
-	renderBatch(greenkoopatroopas);
-	setupShaderAndTexture("arial");
+	setupShaderAndTexture("projectile", camera2D);
+	renderBatch(projectiles, _spriteBatch);
+	setupShaderAndTexture("warriorProjectile", camera2D);
+	renderBatch(warriorprojectiles, _spriteBatch);
+	setupShaderAndTexture("skeleton", camera2D);
+	renderBatch(skeletons, _spriteBatch);
+	renderBatch(greenkoopatroopas, _spriteBatch);
+	setupShaderAndTexture("arial", camera2D);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
@@ -755,27 +784,27 @@ void Game::draw()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	//renderBatch(lights);
-	_spriteBatch.begin();
-
-	for(const auto& l : lights)
-	{
-		l->draw(_spriteBatch);
-	}
-
-	_spriteBatch.end();
-	_spriteBatch.renderBatch();
+	renderBatch(lights, _spriteBatch);
 
 	_lightProgram.unuse();
 	///////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	setupShaderAndTexture("warrior");
-	renderBatch(players);
-	setupShaderAndTexture("terrain");
-	renderBatch(winningtiles);
-	renderBatch(foregroundtiles);
-	drawHUD("arial");
+	setupShaderAndTexture("warrior", camera2D);
+	renderBatch(players, _spriteBatch);
+	setupShaderAndTexture("terrain", camera2D);
+	renderBatch(winningtiles, _spriteBatch);
+	renderBatch(foregroundtiles, _spriteBatch);
+	drawHUD(labels, "arial");
+	_colorProgram.use();
+	pLocation = _textureProgram.getUniformLocation("projection");
+	cameraMatrix = hudCamera2D.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+	renderBatch(stageupbtnsback, _hudSpriteBatch);
+
+	_colorProgram.unuse();
+	drawHUD(stageupbtns, "projectile");
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
@@ -787,15 +816,7 @@ void Game::draw()
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	//renderBatch(screenshapes);
-	_spriteBatch.begin();
-
-	for (const auto& hpb : hpbars)
-	{
-		hpb->draw(_spriteBatch);
-	}
-
-	_spriteBatch.end();
-	_spriteBatch.renderBatch();
+	renderBatch(hpbars, _spriteBatch);
 
 	_colorProgram.unuse();
 
@@ -808,27 +829,9 @@ void Game::draw()
 }
 
 
-void Game::drawHUD(const std::string& textureName) {
-	_textureProgram.use();
-	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = assets->Get_GLTexture(textureName);
-	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
-	glUniform1i(textureLocation, 0);
-
-	GLint pLocation = _textureProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = hudCamera2D.getCameraMatrix();
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-
-	_hudSpriteBatch.begin();
-
-	for (const auto& lab : labels)
-	{
-		lab->draw(_hudSpriteBatch);
-	}
-		
-	_hudSpriteBatch.end();
-	_hudSpriteBatch.renderBatch();
+void Game::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
+	setupShaderAndTexture(textureName, hudCamera2D);
+	renderBatch(entities, _hudSpriteBatch);
 }
 
 bool Game::onPauseGame() {

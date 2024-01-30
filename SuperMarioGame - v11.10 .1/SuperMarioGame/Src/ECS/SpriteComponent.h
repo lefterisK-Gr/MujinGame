@@ -21,7 +21,6 @@ class SpriteComponent : public Component //sprite -> transform
 {
 private:
 	const GLTexture *gl_texture;
-	SDL_Texture *texture;
 	GLuint _vboID = 0; //32 bits
 	float _zIndex = 1.0f;
 	bool _isMainMenu = false;
@@ -169,7 +168,7 @@ public:
 	void DestroyTex()
 	{
 		//TextureManager::DestroyTexture(texture);
-		texture = NULL;
+		gl_texture = nullptr;
 	}
 	void DestroyGlTex()
 	{

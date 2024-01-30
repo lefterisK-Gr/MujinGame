@@ -53,7 +53,7 @@ void IMainGame::run() {
 		static int frameCounter = 0;
 		frameCounter++;
 		if (frameCounter == 10) {
-			std::cout << _fps << std::endl;
+			//std::cout << _fps << std::endl;
 			frameCounter = 0;
 		}
 
@@ -82,7 +82,7 @@ void IMainGame::onSDLEvent(SDL_Event& evnt) {
 		_inputManager.releaseKey(evnt.key.keysym.sym);
 	case SDL_MOUSEMOTION:
 		//std::cout << event.motion.x << " " << event.motion.y << std::endl;
-		_inputManager.setMouseCoords(evnt.motion.x, evnt.motion.y);
+		_inputManager.setMouseCoords(evnt.motion.x / _window.getScale(), evnt.motion.y / _window.getScale());
 		break;
 	//case SDL_MOUSEWHEEL:
 	//	if (evnt.wheel.y > 0)

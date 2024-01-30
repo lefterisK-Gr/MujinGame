@@ -44,8 +44,6 @@ void AssetManager::ProjectileExplosion(int camerapos)
 void AssetManager::CreatePlayer(Entity& player)
 {
 	player.addComponent<TransformComponent>(200.0f, 320.0f, 64, 64, 1); // 1448 for near pipe, 200 for start
-	//assets->CreatePlayerComponents(player1);
-	//instead of this
 	player.addComponent<AnimatorComponent>("warrior");
 	player.addComponent<MovingAnimatorComponent>("warrior");
 	player.addComponent<FlashAnimatorComponent>("warrior");
@@ -114,22 +112,26 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int s
 		projectile.addGroup(Game::groupWarriorProjectiles);
 }
 
-void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, int speed, std::string id)
+void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
-	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
+	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, isGiant ? 2 : 1);
 	enemy.getComponent<TransformComponent>().velocity = vel;
 	enemy.addComponent<AnimatorComponent>(id);
 	enemy.addComponent<ColliderComponent>(id);
 	enemy.addComponent<RigidBodyComponent>();
 	enemy.getComponent<AnimatorComponent>().Play("SkeletonWalk");
 	enemy.addComponent<Sword>(true);
-	enemy.addComponent<Skeleton_Script>();
-	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
-
-	//enemy.getComponent<TransformComponent>().velocity.x = 1;
+	enemy.addComponent<Skeleton_Script>(isGiant);
 	
 	enemy.addGroup(Game::groupSkeletons);
+}
+
+void AssetManager::CreateStageUpButtons() {
+	auto& stageupbuttons(manager->addEntity());
+
+	stageupbuttons.addComponent<TransformComponent>(0, 0, 500, 400, 1);
+	stageupbuttons.addComponent<StageUpButtons>(true);
 }
 
 void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id)
@@ -165,11 +167,13 @@ void AssetManager::CreateEnemies() {
 	for (int i = 0; i < numSkeletons; ++i) {
 		Vector2D pos(disX(gen), 512);
 		Vector2D vel(-1, 0);
-		int speed = 1;
 
-		CreateSkeleton(pos, vel, speed, "skeleton");
+		CreateSkeleton(pos, vel, "skeleton", false);
 	}
+	Vector2D pos(disX(gen), 512);
+	Vector2D vel(-1, 0);
 
+	CreateSkeleton(pos, vel, "skeleton", true);
 	// Create green koopa troopas
 	for (int i = 0; i < numGreenKoopaTroopas; ++i) {
 		Vector2D pos(disX(gen), 512);

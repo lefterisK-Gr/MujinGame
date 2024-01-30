@@ -51,9 +51,9 @@ public:
 
 	/////////////////////////
 	
-	void setupShaderAndTexture(const std::string& textureName);
-	void renderBatch(const std::vector<Entity*>& entities);
-	void drawHUD(const std::string& textureName);
+	void setupShaderAndTexture(const std::string& textureName, Camera2D& camera);
+	void renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch);
+	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
 
 	/////////////////////////
 
@@ -92,6 +92,8 @@ public:
 		groupWarriorProjectiles,
 		groupSkeletons,
 		groupLabels,
+		groupStageUpButtons,
+		groupStageUpButtonsBack,
 		groupGreenKoopaTroopas,
 		groupPipeRingForeground,
 		groupForegroundLayer,
@@ -109,6 +111,7 @@ private:
 	GLSLProgram _textureProgram;
 	GLSLProgram _lightProgram;
 
+	SDL_Rect _mouseCoords = { -100, -100 , 1, 1 };
 	//SpriteFont* _spriteFont;
 
 	int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;

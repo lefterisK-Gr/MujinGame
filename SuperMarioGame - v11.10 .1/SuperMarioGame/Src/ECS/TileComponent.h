@@ -56,6 +56,7 @@ public:
 		if (!entity->hasComponent<TransformComponent>())
 		{
 			entity->addComponent<TransformComponent>(position.x, position.y, 32, 32, 1);
+			entity->getComponent<TransformComponent>().velocity = isHorizon ? Vector2D(-0.2,0) : Vector2D(0, 0);
 		}
 		transform = &entity->getComponent<TransformComponent>();
 

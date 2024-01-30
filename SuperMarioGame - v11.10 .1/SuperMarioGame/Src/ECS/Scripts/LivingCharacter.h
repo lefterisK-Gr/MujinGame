@@ -12,6 +12,7 @@ class LivingCharacter : public Component
 public:
 	TransformComponent* transform = nullptr;
 
+	int defence = 0;
 	bool tookDamage = false;
 
 	Entity* hp_bar;
@@ -99,7 +100,7 @@ public:
 
 	bool applyDamage(float damage) {
 		tookDamage = true;
-		hp_bar->getComponent<HPBar>()._healthPoints -= damage;
+		hp_bar->getComponent<HPBar>()._healthPoints -= damage * 100 / (100 + defence) ;
 		// If we died, return true
 		if (hp_bar->getComponent<HPBar>()._healthPoints <= 0) {
 			return true;

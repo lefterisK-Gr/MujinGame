@@ -4,8 +4,10 @@
 
 class ScoreComponent : public Component
 {
-public:
+private:
 	int score;
+	Entity* scorelabel;
+public:
 	ScoreComponent()
 	{
 		score = 0;
@@ -19,7 +21,10 @@ public:
 
 	void init() override
 	{
-
+		scorelabel = &manager.addEntity();
+		scorelabel->addComponent<TransformComponent>(32, 576, 32, 32, 1);
+		scorelabel->addComponent<UILabel>("score 0", "arial", true);
+		scorelabel->addGroup(Game::groupLabels);
 	}
 
 	void update(float deltaTime) override
@@ -30,6 +35,7 @@ public:
 	void addToScore(int scr)
 	{
 		score += scr;
+		scorelabel->getComponent<UILabel>().setLetters("score" + std::to_string(score));
 	}
 
 	int getScore()

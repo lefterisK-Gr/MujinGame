@@ -74,4 +74,8 @@ public:
 		return true;
 	}
 
+	void levelUpAttackDamage(int amount) {
+		_attackDamage += amount;
+	}
+
 };
