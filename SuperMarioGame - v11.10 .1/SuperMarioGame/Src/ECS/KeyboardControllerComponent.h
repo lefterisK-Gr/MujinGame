@@ -17,7 +17,7 @@ public: //TODO: maybe have variables as private
 	SpriteComponent* sprite;
 
 	char* idleAnimation, *jumpAnimation, *walkAnimation, *attackAnimation;
-	SDL_KeyCode jumpKey, walkLeftKey, walkRightKey, attackKey,ability1Key, runKey, downKey;
+	SDL_KeyCode jumpKey, walkLeftKey, walkRightKey, attackKey,ability1Key, pickUpKey, inventoryKey, runKey, downKey;
 
 	KeyboardControllerComponent(
 		InputManager& inputManager,
@@ -31,6 +31,8 @@ public: //TODO: maybe have variables as private
 		SDL_KeyCode walkRightKey,
 		SDL_KeyCode attackKey,
 		SDL_KeyCode ability1Key,
+		SDL_KeyCode pickUpKey,
+		SDL_KeyCode inventoryKey,
 		SDL_KeyCode downKey,
 		SDL_KeyCode runKey
 		)
@@ -45,6 +47,8 @@ public: //TODO: maybe have variables as private
 		walkRightKey(walkRightKey),
 		attackKey(attackKey),
 		ability1Key(ability1Key),
+		pickUpKey(pickUpKey),
+		inventoryKey(inventoryKey),
 		downKey(downKey),
 		runKey(runKey)
 	{
@@ -88,9 +92,6 @@ public: //TODO: maybe have variables as private
 			}
 
 			transform->velocity.x = 3;
-		}
-		if (_inputManager.isKeyDown(runKey)) {
-			transform->velocity.x *= 1.2;
 		}
 		if (!_inputManager.isKeyDown(walkRightKey) && !_inputManager.isKeyDown(walkLeftKey)) {
 			transform->velocity.x = 0;

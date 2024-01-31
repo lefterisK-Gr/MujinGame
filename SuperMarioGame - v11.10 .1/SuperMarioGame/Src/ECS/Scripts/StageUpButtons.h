@@ -48,14 +48,17 @@ public:
 		auto& defenceBtn(manager.addEntity());
 		auto& hpPotionBtn(manager.addEntity());
 
-		attackDamageBtn.addComponent<StageUpButton>("projectile", 0.0f, isHud);
+		attackDamageBtn.addComponent<StageUpButton>("sword", transform->position.x + 0.0f, transform->position.y,isHud);
 		attackDamageBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleAttackDamageBtn, this));
+		attackDamageBtn.addGroup(Game::groupStageUpAttackButtons);
 
-		defenceBtn.addComponent<StageUpButton>("projectile", 100.0f, isHud);
+		defenceBtn.addComponent<StageUpButton>("shield", transform->position.x + 100.0f, transform->position.y, isHud);
 		defenceBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleDefenceBtn, this));
+		defenceBtn.addGroup(Game::groupStageUpDefenceButtons);
 
-		hpPotionBtn.addComponent<StageUpButton>("projectile", 200.0f, isHud);
+		hpPotionBtn.addComponent<StageUpButton>("healthPotion", transform->position.x + 200.0f, transform->position.y, isHud);
 		hpPotionBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleHpPotionBtn, this));
+		hpPotionBtn.addGroup(Game::groupStageUpHpButtons);
 
 		_stageupbtns.push_back(&attackDamageBtn);
 		_stageupbtns.push_back(&defenceBtn);

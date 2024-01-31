@@ -68,9 +68,9 @@ public:
 		sprite->srcRect = this->srcRect;
 		sprite->destRect = this->destRect;
 
-		if (!entity->hasComponent<GridComponent>())
+		if (!entity->hasComponent<GridComponent>() && fullSolid)
 		{
-			entity->addComponent<GridComponent>(position.x, position.y, scaledTile, fullSolid);
+			entity->addComponent<GridComponent>(position.x, position.y, scaledTile);
 		}
 		grid = &entity->getComponent<GridComponent>();
 	}

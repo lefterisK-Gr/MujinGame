@@ -29,6 +29,8 @@ public:
 	void CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id);
 	void CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant);
 	void CreateStageUpButtons();
+	void CreateShop();
+	void CreateInventory();
 	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id);
 
 	void CreateEnemies();

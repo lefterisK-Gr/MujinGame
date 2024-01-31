@@ -123,6 +123,10 @@ void Game::onEntry()
 	assets->Add_GLTexture("warriorProjectile", "assets/warriorSlash.png");
 	assets->Add_GLTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
 	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
+	assets->Add_GLTexture("sword", "assets/sword.png");
+	assets->Add_GLTexture("shield", "assets/shield.png");
+	assets->Add_GLTexture("healthPotion", "assets/healthPotion.png");
+
 	assets->Add_GLTexture("arial", "assets/arial_cropped_white.png");
 
 	Game::map = new Map("terrain", 1, 32);
@@ -146,6 +150,8 @@ void Game::onEntry()
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 2, "greenkoopatroopa");
 
+	assets->CreateInventory();
+
 	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
 	stagelabel.addComponent<UILabel>("stage 0", "arial", true);
 	stagelabel.addGroup(Game::groupLabels);
@@ -167,7 +173,12 @@ auto& warriorprojectiles(manager.getGroup(Game::groupWarriorProjectiles));
 auto& skeletons(manager.getGroup(Game::groupSkeletons));
 auto& labels(manager.getGroup(Game::groupLabels));
 auto& stageupbtns(manager.getGroup(Game::groupStageUpButtons));
+auto& stageupattackbtns(manager.getGroup(Game::groupStageUpAttackButtons));
+auto& stageupdefencebtns(manager.getGroup(Game::groupStageUpDefenceButtons));
+auto& stageuphpbtns(manager.getGroup(Game::groupStageUpHpButtons));
 auto& stageupbtnsback(manager.getGroup(Game::groupStageUpButtonsBack));
+auto& shop(manager.getGroup(Game::groupShops));
+auto& inventory(manager.getGroup(Game::groupInventories));
 auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
 auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
 auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
@@ -178,6 +189,7 @@ auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
 auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
+auto& markettiles(manager.getGroup(Game::groupMarket));
 auto& screenshapes(manager.getGroup(Game::screenShapes));
 auto& hpbars(manager.getGroup(Game::groupHPBars));
 
@@ -214,10 +226,16 @@ void Game::update(float deltaTime) //game objects updating
 			enemy->destroy();
 		}
 		greenkoopatroopas.clear();
+		for (auto& sh : shop)
+		{
+			sh->destroy();
+		}
+		shop.clear();
 		projectiles.clear();
 		map->resetMap();
 		assets->CreateEnemies();
 		assets->CreateStageUpButtons();
+		assets->CreateShop();
 		stagelabel.getComponent<UILabel>().setLetters("stage" + std::to_string(map->getStage()));
 
 		manager.refresh();
@@ -678,6 +696,8 @@ void Game::update(float deltaTime) //game objects updating
 }
 
 void Game::checkInput() {
+	_game->_inputManager.update();
+
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 	
@@ -713,7 +733,6 @@ void Game::checkInput() {
 			std::cout << _mouseCoords.x << " " << _mouseCoords.y << std::endl;
 		}
 
-		_game->_inputManager.update();
 	}
 }
 
@@ -802,9 +821,14 @@ void Game::draw()
 	cameraMatrix = hudCamera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 	renderBatch(stageupbtnsback, _hudSpriteBatch);
+	renderBatch(shop, _hudSpriteBatch);
+	renderBatch(inventory, _hudSpriteBatch);
 
 	_colorProgram.unuse();
-	drawHUD(stageupbtns, "projectile");
+
+	drawHUD(stageupattackbtns, "sword");
+	drawHUD(stageupdefencebtns, "shield");
+	drawHUD(stageuphpbtns, "healthPotion");
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();

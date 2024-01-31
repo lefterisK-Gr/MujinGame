@@ -16,7 +16,8 @@ public:
 	bool tookDamage = false;
 
 	Entity* hp_bar;
-	Entity* mana_bar;
+	Entity* mana_bar; // todo: dont make all entities have mana bar, takes space
+	Entity* stamina_bar; // todo: dont make all entities have stamina bar, takes space
 	Entity* greyBar;
 
 	LivingCharacter()
@@ -30,6 +31,9 @@ public:
 		if (mana_bar) {
 			mana_bar->destroy();
 		}
+		if (stamina_bar) {
+			stamina_bar->destroy();
+		}
 	}
 
 	void init() override {
@@ -40,33 +44,42 @@ public:
 		
 		
 		if (entity->hasComponent<Player_Script>()) {
-			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y, 10.0f, 100.0f, transform->scale);
+			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y - 10.0f, 10.0f, 100.0f, transform->scale);
 			greyBar->addComponent<HPBar>();
-			greyBar->getComponent<HPBar>().color = Color(128, 128, 128, 255); // Grey color
+			greyBar->getComponent<HPBar>().rectangle->color= Color(128, 128, 128, 255); // Grey color
 
-			hp_bar->addComponent<TransformComponent>(300, 780,
+			hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y - 10.0f,
 				10.0f, 100.0f, transform->scale);
 			hp_bar->addComponent<HPBar>();
-			hp_bar->getComponent<HPBar>().color = Color(255, 0, 0, 255);
+			hp_bar->getComponent<HPBar>().rectangle->color = Color(255, 0, 0, 255);
 
 			mana_bar = &manager.addEntity();
 
-			mana_bar->addComponent<TransformComponent>(300, 780,
+			mana_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y,
 				5.0f, 100.0f, transform->scale);
 			mana_bar->addComponent<HPBar>();
-			mana_bar->getComponent<HPBar>().color = Color(0, 0, 255, 255);
+			mana_bar->getComponent<HPBar>().rectangle->color = Color(0, 0, 255, 255);
 
 			mana_bar->addGroup(Game::groupHPBars);
+
+			stamina_bar = &manager.addEntity();
+
+			stamina_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y + 5,
+				5.0f, 100.0f, transform->scale);
+			stamina_bar->addComponent<HPBar>();
+			stamina_bar->getComponent<HPBar>().rectangle->color = Color(0, 100, 0, 255);
+
+			stamina_bar->addGroup(Game::groupHPBars);
 		}
 		else {
 			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y, 5.0f, 50.0f, transform->scale);
 			greyBar->addComponent<HPBar>();
-			greyBar->getComponent<HPBar>().color = Color(128, 128, 128, 255); // Grey color
+			greyBar->getComponent<HPBar>().rectangle->color = Color(128, 128, 128, 255); // Grey color
 
 			hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y,
 				5.0f, 50.0f, transform->scale);
 			hp_bar->addComponent<HPBar>();
-			hp_bar->getComponent<HPBar>().color = Color(0, 255, 0, 255);
+			hp_bar->getComponent<HPBar>().rectangle->color = Color(0, 255, 0, 255);
 		}
 		greyBar->addGroup(Game::groupHPBars);
 
@@ -78,17 +91,23 @@ public:
 
 		TransformComponent* defaultBarTransform = &greyBar->getComponent<TransformComponent>();
 		greyBar->getComponent<TransformComponent>().position.x = transform->position.x - defaultBarTransform->width / 2 + transform->width / 2;
-		greyBar->getComponent<TransformComponent>().position.y = transform->position.y;
+		greyBar->getComponent<TransformComponent>().position.y = transform->position.y - 10;
 
 		if (hp_bar) {
 			TransformComponent* hpBarTransform = &hp_bar->getComponent<TransformComponent>();
 			hp_bar->getComponent<TransformComponent>().position.x = transform->position.x - hpBarTransform->width / 2 + transform->width / 2;
-			hp_bar->getComponent<TransformComponent>().position.y = transform->position.y;
+			hp_bar->getComponent<TransformComponent>().position.y = transform->position.y - 10;
 		}
 		if (mana_bar) {
 			TransformComponent* manaBarTransform = &mana_bar->getComponent<TransformComponent>();
 			mana_bar->getComponent<TransformComponent>().position.x = transform->position.x - manaBarTransform->width / 2 + transform->width / 2;
-			mana_bar->getComponent<TransformComponent>().position.y = transform->position.y + 10;
+			mana_bar->getComponent<TransformComponent>().position.y = transform->position.y;
+		
+		}
+		if (stamina_bar) {
+			TransformComponent* staminaBarTransform = &stamina_bar->getComponent<TransformComponent>();
+			stamina_bar->getComponent<TransformComponent>().position.x = transform->position.x - staminaBarTransform->width / 2 + transform->width / 2;
+			stamina_bar->getComponent<TransformComponent>().position.y = transform->position.y + 5;
 		
 		}
 	}
@@ -115,6 +134,26 @@ public:
 			}
 			mana_bar->getComponent<HPBar>()._healthPoints -= mana;
 			// If we died, return true
+		}
+		return false;
+	}
+
+	bool exhaust(float stamina) {
+		if (stamina_bar) {
+			if (stamina_bar->getComponent<HPBar>()._healthPoints - stamina <= 0) {
+				return true;
+			}
+			stamina_bar->getComponent<HPBar>()._healthPoints -= stamina;
+		}
+		return false;
+	}
+
+	bool recover(float stamina) {
+		if (stamina_bar) {
+			if (stamina_bar->getComponent<HPBar>()._healthPoints >= 100) {
+				return true;
+			}
+			stamina_bar->getComponent<HPBar>()._healthPoints += stamina;
 		}
 		return false;
 	}

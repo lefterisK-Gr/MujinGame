@@ -93,10 +93,16 @@ public:
 		groupSkeletons,
 		groupLabels,
 		groupStageUpButtons,
+		groupStageUpAttackButtons,
+		groupStageUpDefenceButtons,
+		groupStageUpHpButtons,
 		groupStageUpButtonsBack,
+		groupShops,
+		groupInventories,
 		groupGreenKoopaTroopas,
 		groupPipeRingForeground,
 		groupForegroundLayer,
+		groupMarket,
 		screenShapes,
 		groupHPBars
 	};

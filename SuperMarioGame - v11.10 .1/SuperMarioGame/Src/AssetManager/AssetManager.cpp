@@ -60,6 +60,8 @@ void AssetManager::CreatePlayer(Entity& player)
 		SDLK_d,
 		SDLK_k,
 		SDLK_l,
+		SDLK_e,
+		SDLK_i,
 		SDLK_s,
 		SDLK_LSHIFT
 		);
@@ -130,8 +132,24 @@ void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bo
 void AssetManager::CreateStageUpButtons() {
 	auto& stageupbuttons(manager->addEntity());
 
-	stageupbuttons.addComponent<TransformComponent>(0, 0, 500, 400, 1);
+	stageupbuttons.addComponent<TransformComponent>(284, 600, 0, 0, 1);
 	stageupbuttons.addComponent<StageUpButtons>(true);
+}
+
+void AssetManager::CreateShop() {
+	auto& shop(manager->addEntity());
+
+	shop.addComponent<Shop>();
+
+	shop.addGroup(Game::groupShops);
+}
+
+void AssetManager::CreateInventory() {
+	auto& inventory(manager->addEntity());
+
+	inventory.addComponent<Inventory>();
+
+	inventory.addGroup(Game::groupInventories);
 }
 
 void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id)

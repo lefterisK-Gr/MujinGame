@@ -33,6 +33,7 @@ public:
 	void addBouncyTileFeature(Entity& tile, int wordNum);
 	void addWinningTileFeature(Entity& tile, int wordNum);
 	void addMysteryBoxTileFeature(Entity& tile, int wordNum);
+	void addMarketTileFeature(Entity& tile, int wordNum);
 	void addPipeTileFeature(Entity& tile, int wordNum);
 	bool tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize); //, void (Map::* addTileFeature)(Entity&)
 	//void DrawMap();

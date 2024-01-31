@@ -2,6 +2,11 @@
 
 #include "../Components.h"
 #include "../../AudioEngine/AudioEngine.h"
+#include "../../Collision/Collision.h"
+#include "../Scripts/Shop.h"
+#include "../Scripts/Inventory.h"
+
+class Shop;
 
 class Player_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Transform
 {
@@ -55,7 +60,7 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	~Player_Script() {
-
+		light->destroy();
 	}
 
 	void init() override {
@@ -92,13 +97,13 @@ public: // it is like it has init that creates Animator Component since it inher
 		}
 
 		if (!attackAnimation) {
-			if (keyboard->_inputManager.isKeyDown(keyboard->attackKey)) {
+			if (keyboard->_inputManager.isKeyDown(keyboard->attackKey) && !living->exhaust(10)) {
 				animator->Play("P1Attack");
 				_slashEffect.play();
 				this->attackAnimation = true;
 				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
 			}
-			if (keyboard->_inputManager.isKeyDown(keyboard->ability1Key)) {
+			if (keyboard->_inputManager.isKeyDown(keyboard->ability1Key) && !living->exhaust(10)) {
 				animator->Play("P1Ability1");
 				_slashSkillEffect.play();
 				this->attackAnimation = true;
@@ -109,6 +114,42 @@ public: // it is like it has init that creates Animator Component since it inher
 			if (sprite->animation.hasFinished()) {
 				this->attackAnimation = false;
 				this->action = Player_Script::playerAction::PLAYERACTION_IDLE;
+			}
+		}
+
+		if (	keyboard->_inputManager.isKeyDown(keyboard->runKey) 
+			&&	(	keyboard->_inputManager.isKeyDown(keyboard->walkRightKey) || keyboard->_inputManager.isKeyDown(keyboard->walkLeftKey)	)) {
+			if (!living->exhaust(0.2f)) {
+				transform->velocity.x *= 1.2;
+			}
+		}
+		else {
+			living->recover(0.1);
+		}
+
+		if (keyboard->_inputManager.isKeyPressed(keyboard->pickUpKey))
+		{
+			auto& markettiles(manager.getGroup(Game::groupMarket));
+
+			for (auto& mt : markettiles) {
+				if (Collision::checkCollision(mt->getComponent<ColliderComponent>().collider, entity->getComponent<ColliderComponent>().collider)) {
+					// ****OPEN SHOP****
+					auto& shops(manager.getGroup(Game::groupShops));
+					for (auto& sh : shops)
+					{
+						sh->getComponent<Shop>().isOpen = !sh->getComponent<Shop>().isOpen;
+					}
+					break;
+				}
+			}
+		}
+
+		if (keyboard->_inputManager.isKeyPressed(keyboard->inventoryKey))
+		{
+			auto& inventories(manager.getGroup(Game::groupInventories));
+			for (auto& sh : inventories)
+			{
+				sh->getComponent<Inventory>().isOpen = !sh->getComponent<Inventory>().isOpen;
 			}
 		}
 

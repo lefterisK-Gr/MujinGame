@@ -8,6 +8,7 @@ int solidTiles[] = {52,69,177 ,176 , 112 , 16 , 17 , 18 , 75, 0, 1 , 2 , 48, 49 
 int bouncyTiles[] = { 52 };
 int mysteryBoxTiles[] = { 176 };
 int winningTiles[] = { 495, 470, 496 };
+int marketTiles[] = { 217,228, 249,218,229,250,218,229,250 };
 int pipeTiles[] = { 48, 49 , 50 , 51 , 83 , 85 , 99 , 101, 35, 36 };
 
 std::vector<TileFeatureCallback> tileFeatures;
@@ -19,11 +20,13 @@ Map::Map(std::string tID, int ms, int ts) : texID(tID), mapScale(ms), tileSize(t
 	TileFeatureCallback addBouncyFeature = &Map::addBouncyTileFeature;
 	TileFeatureCallback addWinningFeature = &Map::addWinningTileFeature;
 	TileFeatureCallback addMysteryBoxFeature = &Map::addMysteryBoxTileFeature;
+	TileFeatureCallback addMarketFeature = &Map::addMarketTileFeature;
 	TileFeatureCallback addPipeFeature = &Map::addPipeTileFeature;
 
 	tileFeatures.push_back(addBouncyFeature);
 	tileFeatures.push_back(addWinningFeature);
 	tileFeatures.push_back(addMysteryBoxFeature);
+	tileFeatures.push_back(addMarketFeature);
 	tileFeatures.push_back(addPipeFeature);
 }
 
@@ -173,6 +176,24 @@ void Map::generateRandomBackgroundMap(const std::string& inputMapPath, const std
 		backgroundMap[18][1] = 201; // Tile at x=1, y=18
 	}
 
+	if (backgroundMap.size() >= 19 && backgroundMap[0].size() >= 1) {
+		backgroundMap[16][3] = 217;
+		backgroundMap[17][3] = 233;
+		backgroundMap[18][3] = 249;
+
+		backgroundMap[16][4] = 218;
+		backgroundMap[17][4] = 234;
+		backgroundMap[18][4] = 250;
+
+		backgroundMap[16][5] = 219;
+		backgroundMap[17][5] = 235;
+		backgroundMap[18][5] = 251;
+
+		//backgroundMap[16][6] = 21;
+		//backgroundMap[17][6] = 229;
+		//backgroundMap[18][6] = 250;
+	}
+
 	// Write the foreground map to the output CSV file
 	for (const auto& row : backgroundMap) {
 		for (size_t i = 0; i < row.size(); ++i) {
@@ -302,6 +323,13 @@ void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
 	}
 }
 
+void Map::addMarketTileFeature(Entity& tile, int wordNum) {
+	if (tileHasFeature(tile, wordNum, marketTiles, ARRAY_SIZE(marketTiles))) {
+		tile.addComponent<ColliderComponent>("market");
+		tile.addGroup(Game::groupMarket);
+	}
+}
+
 void Map::addPipeTileFeature(Entity& tile, int wordNum) {
 	if (tileHasFeature(tile, wordNum, pipeTiles, ARRAY_SIZE(pipeTiles))) {
 		tile.addGroup(Game::groupForegroundLayer);
@@ -315,8 +343,6 @@ void Map::LoadMap(std::string background1layerpath, std::string background2layer
 	mapFile.open(actionlayerpath);
 	ProcessLayer(mapFile, &Map::AddActionTile);
 	mapFile.close();
-
-	tileFeatures.clear();
 
 	mapFile.open(foregroundpath);
 	ProcessLayer(mapFile, &Map::AddForegroundTile);

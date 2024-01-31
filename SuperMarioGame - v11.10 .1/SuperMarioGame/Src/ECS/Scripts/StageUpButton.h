@@ -9,6 +9,7 @@ public:
 	std::string id;
 
 	float offsetX = 0;
+	float offsetY = 0;
 	bool isHud = false;
 
 	TransformComponent* transform = nullptr;
@@ -20,10 +21,11 @@ public:
 
 	}
 
-	StageUpButton(std::string textId, float offset_x, bool is_hud)
+	StageUpButton(std::string textId, float offset_x, float offset_y, bool is_hud)
 	{
 		id = textId;
 		offsetX = offset_x;
+		offsetY = offset_y;
 		isHud = is_hud;
 	}
 
@@ -33,7 +35,7 @@ public:
 
 	void init() override {
 		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(0.0f, 100.0f,
+			entity->addComponent<TransformComponent>(0.0f, offsetY,
 				Game::assets->Get_GLTexture(id)->height,
 				Game::assets->Get_GLTexture(id)->width,
 				1.0f);
@@ -47,8 +49,8 @@ public:
 
 		stageUpBtnBack = &manager.addEntity();
 		stageUpBtnBack->addComponent<TransformComponent>(transform->position.x, transform->position.y, 32.0f, 32.0f, transform->scale);
-		stageUpBtnBack->addComponent<HPBar>();
-		stageUpBtnBack->getComponent<HPBar>().color = Color(128, 128, 128, 255); // Grey color
+		stageUpBtnBack->addComponent<Rectangle_w_Color>();
+		stageUpBtnBack->getComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
 
 		stageUpBtnBack->addGroup(Game::groupStageUpButtonsBack);
 	}

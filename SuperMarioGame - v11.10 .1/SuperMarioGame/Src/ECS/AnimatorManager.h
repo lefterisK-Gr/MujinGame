@@ -30,7 +30,7 @@ public:
 
 		Animation skeleton_idle = Animation(0, 0, 4, 0.04, "looped");
 		Animation skeleton_walk = Animation(0, 1, 4, 0.04, "looped");
-		Animation skeleton_attack = Animation(0, 2, 8, 0.15, "play_n_times", 1);
+		Animation skeleton_attack = Animation(0, 2, 8, 0.05, "play_n_times", 1);
 		Animation greenkoopatroopa_idle = Animation(0, 0, 4, 0.1, "looped");
 		Animation greenkoopatroopa_walk = Animation(0, 2, 10, 0.1, "looped");
 		Animation greenkoopatroopa_attack = Animation(0, 1, 8, 0.1, "play_n_times", 1);
@@ -69,7 +69,7 @@ public:
 		moving_animations.emplace("CoinBounce", coin_bounce);
 
 		FlashAnimation defaultFlashAnimation = FlashAnimation(0, 0, 1, 0, "looped", 0, 0, {255,255,255,255});
-		FlashAnimation playerHit = FlashAnimation(0, 0, 1, 0, "play_n_times", 0.05, 0.05, { 255,255,255,50 }, 10);
+		FlashAnimation playerHit = FlashAnimation(0, 0, 1, 0, "play_n_times", 0.2, 0.2, { 255,255,255,50 }, 10);
 		flash_animations.emplace("Default", defaultFlashAnimation);
 		flash_animations.emplace("PlayerHit", playerHit);
 	}

@@ -17,7 +17,6 @@
 class GridComponent : public Component //GridComp --> ColliderComp
 {
 public:
-	bool fullSolid;
 	Vector2D position;
 	int scaledTile;
 	ColliderComponent* collider = nullptr;
@@ -29,12 +28,10 @@ public:
 
 	}
 
-	GridComponent(int xpos, int ypos, int tscaled, bool isSolid)
+	GridComponent(int xpos, int ypos, int tscaled)
 	{
 		position.x = xpos;
 		position.y = ypos;
-
-		fullSolid = isSolid;
 
 		scaledTile = tscaled;
 	}
@@ -43,15 +40,12 @@ public:
 	{
 		Vector2D gridPos;
 
-		if (fullSolid)
-		{
-			for (auto gridindex = 0; gridindex < TILE_NUM_GRID_ELEMENTS; gridindex++)
-			{ //SetGridTileBlock
-				gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
-				gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
+		for (auto gridindex = 0; gridindex < TILE_NUM_GRID_ELEMENTS; gridindex++)
+		{ //SetGridTileBlock
+			gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
+			gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
 
-				entity->addComponent<ColliderComponent>("terrain", (position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
-			}
+			entity->addComponent<ColliderComponent>("terrain", (position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
 		}
 	}
 
