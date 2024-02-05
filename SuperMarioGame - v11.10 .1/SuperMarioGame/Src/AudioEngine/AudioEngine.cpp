@@ -1,16 +1,16 @@
 #include "AudioEngine.h"
 
 void SoundEffect::play(int loops) {
-	/*if (Mix_PlayChannel(-1, _chunk, loops)) {
+	if (Mix_PlayChannel(-1, _chunk, loops)) {
 		if (Mix_PlayChannel(0, _chunk, loops)) {
 			ConsoleLogger::error("Mix_PlayChannel error: " + std::string(Mix_GetError()));
 
 		}
-	}*/
+	}
 }
 
 void Music::play(int loops) {
-	//Mix_PlayMusic(_music, loops);
+	Mix_PlayMusic(_music, loops);
 }
 
 void Music::pause() {

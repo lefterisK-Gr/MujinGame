@@ -20,7 +20,7 @@ public:
 		Animation p1idle = Animation(0, 0, 4, 0.1, "looped");
 		Animation p1walk = Animation(0, 3, 8, 0.1, "looped");
 		Animation p1jump = Animation(0, 2, 2, 0.1, "looped");
-		Animation p1attack = Animation(0, 1, 4, 0.1, "play_n_times", 1);
+		Animation p1attack = Animation(0, 1, 4, 0.2, "play_n_times", 1);
 		Animation p1ability1 = Animation(0, 1, 4, 0.04, "play_n_times", 1);
 
 		Animation question_mark = Animation(1, 9, 3, 0.05, "back_forth");

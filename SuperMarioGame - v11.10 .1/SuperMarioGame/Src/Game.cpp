@@ -116,22 +116,22 @@ void Game::onEntry()
 	}
 
 	//add the textures to our texture library
-	assets->Add_GLTexture("backgroundMountains","assets/villageBackground.png");
-	assets->Add_GLTexture("terrain", "assets/village_tileset.png");
-	assets->Add_GLTexture("warrior", "assets/samurai.png");
-	assets->Add_GLTexture("projectile", "assets/my_projectile.png");
-	assets->Add_GLTexture("warriorProjectile", "assets/warriorSlash.png");
-	assets->Add_GLTexture("skeleton", "assets/skeleton.png"); // same path since the same png has all entities
-	assets->Add_GLTexture("greenkoopatroopa", "assets/mushroom.png");
-	assets->Add_GLTexture("sword", "assets/sword.png");
-	assets->Add_GLTexture("shield", "assets/shield.png");
-	assets->Add_GLTexture("healthPotion", "assets/healthPotion.png");
+	assets->Add_GLTexture("backgroundMountains","assets/Sprites/villageBackground.png");
+	assets->Add_GLTexture("terrain", "assets/Sprites/village_tileset.png");
+	assets->Add_GLTexture("warrior", "assets/Sprites/samurai.png");
+	assets->Add_GLTexture("projectile", "assets/Sprites/my_projectile.png");
+	assets->Add_GLTexture("warriorProjectile", "assets/Sprites/warriorSlash.png");
+	assets->Add_GLTexture("skeleton", "assets/Sprites/skeleton.png"); // same path since the same png has all entities
+	assets->Add_GLTexture("greenkoopatroopa", "assets/Sprites/mushroom.png");
+	assets->Add_GLTexture("sword", "assets/Sprites/sword.png");
+	assets->Add_GLTexture("shield", "assets/Sprites/shield.png");
+	assets->Add_GLTexture("healthPotion", "assets/Sprites/healthPotion.png");
 
-	assets->Add_GLTexture("arial", "assets/arial_cropped_white.png");
+	assets->Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	Game::map = new Map("terrain", 1, 32);
 
-	map->LoadMap("assets/background.csv","assets/background_v3.csv","assets/map_v3_Tile_Layer.csv", "assets/foreground_foreground.csv");
+	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
 
 	assets->CreatePlayer(player1);
 
@@ -150,6 +150,7 @@ void Game::onEntry()
 	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 2, "greenkoopatroopa");
 	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 2, "greenkoopatroopa");
 
+	assets->CreateShop();
 	assets->CreateInventory();
 
 	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
@@ -177,6 +178,7 @@ auto& stageupattackbtns(manager.getGroup(Game::groupStageUpAttackButtons));
 auto& stageupdefencebtns(manager.getGroup(Game::groupStageUpDefenceButtons));
 auto& stageuphpbtns(manager.getGroup(Game::groupStageUpHpButtons));
 auto& stageupbtnsback(manager.getGroup(Game::groupStageUpButtonsBack));
+auto& itemslots(manager.getGroup(Game::groupSlots));
 auto& shop(manager.getGroup(Game::groupShops));
 auto& inventory(manager.getGroup(Game::groupInventories));
 auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
@@ -226,16 +228,11 @@ void Game::update(float deltaTime) //game objects updating
 			enemy->destroy();
 		}
 		greenkoopatroopas.clear();
-		for (auto& sh : shop)
-		{
-			sh->destroy();
-		}
-		shop.clear();
 		projectiles.clear();
 		map->resetMap();
 		assets->CreateEnemies();
 		assets->CreateStageUpButtons();
-		assets->CreateShop();
+		assets->RefreshShop();
 		stagelabel.getComponent<UILabel>().setLetters("stage" + std::to_string(map->getStage()));
 
 		manager.refresh();
@@ -584,6 +581,7 @@ void Game::update(float deltaTime) //game objects updating
 				if (Collision::checkCollision(e->getComponent<ColliderComponent>().collider, wpr->getComponent<ColliderComponent>().collider))
 				{
 					if (e->getComponent<LivingCharacter>().applyDamage(1)) {
+						player1.getComponent<ScoreComponent>().addToScore(100);
 						e->destroy();
 					}
 				}
@@ -820,9 +818,10 @@ void Game::draw()
 	pLocation = _textureProgram.getUniformLocation("projection");
 	cameraMatrix = hudCamera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-	renderBatch(stageupbtnsback, _hudSpriteBatch);
 	renderBatch(shop, _hudSpriteBatch);
+	renderBatch(stageupbtnsback, _hudSpriteBatch);
 	renderBatch(inventory, _hudSpriteBatch);
+	renderBatch(itemslots, _hudSpriteBatch);
 
 	_colorProgram.unuse();
 

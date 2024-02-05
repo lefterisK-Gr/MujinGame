@@ -84,8 +84,8 @@ void MainMenuScreen::onEntry()
 		std::cout << "Error : SDL_TTF" << std::endl;
 	}
 
-	MainMenuScreen::assets->Add_GLTexture("startgame", "assets/StartGame.png");
-	MainMenuScreen::assets->Add_GLTexture("exitgame", "assets/ExitGame.png");
+	MainMenuScreen::assets->Add_GLTexture("startgame", "assets/Sprites/StartGame.png");
+	MainMenuScreen::assets->Add_GLTexture("exitgame", "assets/Sprites/ExitGame.png");
 
 	StartGameButton.addComponent<TransformComponent>(230.0f, 100.0f,
 		MainMenuScreen::assets->Get_GLTexture("startgame")->height,

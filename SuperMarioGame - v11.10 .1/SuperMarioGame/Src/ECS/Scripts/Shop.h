@@ -1,9 +1,12 @@
 #pragma once
 
 #include "../Components.h"
+#include "Item.h"
 
 class Shop : public Component
 {
+private:
+	std::vector<Entity*> _items;
 public:
 
 	bool isOpen = false;
@@ -17,7 +20,19 @@ public:
 	}
 
 	~Shop() {
+		for (auto& s : _items)
+		{
+			s->destroy();
+		}
+		_items.clear();
 
+		//// Assuming manager.getGroup returns a reference to the group
+		//auto& items = manager.getGroup(Game::groupShopItems);
+		//auto& itemsback = manager.getGroup(Game::groupShopItemsBack);
+
+		//// Clear the entities from the groups
+		//items.clear();
+		//itemsback.clear();
 	}
 
 	void init() override {
@@ -34,8 +49,48 @@ public:
 
 	void update(float deltaTime) override {
 		transform->position.x = isOpen ? 0 : -1000;
+
+		float currentX = transform->position.x + 100.0f;
+		float itemPositionIncrementX = 100.0f;
+
+		for (auto& s : _items)
+		{
+			s->getComponent<TransformComponent>().position.x = currentX;
+			currentX += itemPositionIncrementX;
+		}
 	}
 
 	void draw(SpriteBatch& batch) override {
+	}
+
+	void generateRandomItems() {
+		_items.clear();
+
+		auto& item1(manager.addEntity());
+		auto& item2(manager.addEntity());
+		auto& item3(manager.addEntity());
+
+		item1.addComponent<Item>("sword", 100);
+		item1.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
+		item1.addGroup(Game::groupStageUpAttackButtons);
+
+		item2.addComponent<Item>("shield", 200);
+		item2.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
+		item2.addGroup(Game::groupStageUpDefenceButtons);
+
+		item3.addComponent<Item>("healthPotion", 300);
+		item3.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
+		item3.addGroup(Game::groupStageUpHpButtons);
+
+		// Generate 3 random items
+		_items.push_back(&item1); // Example item
+		_items.push_back(&item2);  // Another example
+		_items.push_back(&item3);  // Yet another example
+
+		// Consider adding more randomness here, like randomizing names, types, or prices
+	}
+
+	void handleBuyItem() {
+
 	}
 };

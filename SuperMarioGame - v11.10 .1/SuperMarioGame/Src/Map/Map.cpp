@@ -403,11 +403,11 @@ void Map::resetMap()
 
 	stage++;
 
-	saveMapToCSV(generateRandomMap(120, 20), "assets/RandomMap.csv");
+	saveMapToCSV(generateRandomMap(120, 20), "assets/Maps/RandomMap.csv");
 
-	generateRandomBackgroundMap("assets/RandomMap.csv", "assets/RandomBackground.csv");
+	generateRandomBackgroundMap("assets/Maps/RandomMap.csv", "assets/Maps/RandomBackground.csv");
 
-	LoadMap("assets/RandomBackground.csv","assets/background_v3.csv", "assets/RandomMap.csv", "");
+	LoadMap("assets/Maps/RandomBackground.csv","assets/Maps/background_v3.csv", "assets/Maps/RandomMap.csv", "");
 }
 
 int Map::getStage() {

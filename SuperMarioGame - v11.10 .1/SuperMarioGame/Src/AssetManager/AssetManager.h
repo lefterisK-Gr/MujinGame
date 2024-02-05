@@ -30,6 +30,7 @@ public:
 	void CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant);
 	void CreateStageUpButtons();
 	void CreateShop();
+	void RefreshShop();
 	void CreateInventory();
 	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id);
 

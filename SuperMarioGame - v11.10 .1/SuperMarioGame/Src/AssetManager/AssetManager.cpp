@@ -144,6 +144,15 @@ void AssetManager::CreateShop() {
 	shop.addGroup(Game::groupShops);
 }
 
+void AssetManager::RefreshShop() {
+	auto& shop(manager->getGroup(Game::groupShops));
+
+	for (auto& s : shop)
+	{
+		s->getComponent<Shop>().generateRandomItems();
+	}
+}
+
 void AssetManager::CreateInventory() {
 	auto& inventory(manager->addEntity());
 

@@ -97,6 +97,7 @@ public:
 		groupStageUpDefenceButtons,
 		groupStageUpHpButtons,
 		groupStageUpButtonsBack,
+		groupSlots,
 		groupShops,
 		groupInventories,
 		groupGreenKoopaTroopas,
