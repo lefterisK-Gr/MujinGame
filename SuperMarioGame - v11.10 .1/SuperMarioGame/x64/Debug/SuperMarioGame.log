@@ -1,202 +1,466 @@
-﻿  AssetManager.cpp
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(28,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(29,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(30,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(31,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(32,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(33,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(34,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager.cpp(35,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+﻿  App.cpp
+  AssetManager.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(99,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(18,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(20,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(21,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(22,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(23,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(24,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(26,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(27,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(28,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(29,44): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(31,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(32,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(33,50): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(34,56): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(35,57): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(36,58): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(37,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(38,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(48,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\LightComponent.h(33,62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(45,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(46,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(36,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(37,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59,80): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\HPBar.h(32,63): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Shop.h(51,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(123,1): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(127,20): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\ProjectileComponent.h(27,21): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(34,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(35,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(36,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(37,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(38,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(39,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(40,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(41,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(183,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(184,27): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(195,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(200,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\AssetManager\AssetManager.cpp(206,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=float
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(48,10): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int>(const char (&)[8],float &&,float &&,int &&)' being compiled
           with
           [
               T=ColliderComponent
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(73,10): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&>(float &,float &,int &)' being compiled
           with
           [
               T=GridComponent
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ScoreComponent.h(25,13): message : see reference to function template instantiation 'T &Entity::addComponent<TransformComponent,int,int,int,int,int>(int &&,int &&,int &&,int &&,int &&)' being compiled
+          with
+          [
+              T=TransformComponent
+          ]
+  AudioEngine.cpp
+  Camera2D.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Camera2D.cpp(55,18): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Camera2D.cpp(56,19): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Camera2D.cpp(58,14): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Camera2D.cpp(59,14): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
           ]
   Collision.cpp
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(25,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(26,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(30,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(31,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(35,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(36,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(40,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(41,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(45,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(46,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(50,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(51,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(55,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(56,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(60,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(61,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(76,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(77,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(85,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(86,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(95,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(96,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(105,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(106,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(126,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(127,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(144,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(145,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(174,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision.cpp(175,38): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(99,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(18,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(20,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(21,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(22,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(23,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(24,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(26,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(27,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(28,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(29,44): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(31,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(32,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(33,50): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(34,56): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(35,57): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(36,58): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(37,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(38,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(48,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\LightComponent.h(33,62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(45,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(46,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(36,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(37,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59,80): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision\Collision.cpp(22,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision\Collision.cpp(23,47): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision\Collision.cpp(54,82): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision\Collision.cpp(58,54): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision\Collision.cpp(62,54): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Collision\Collision.cpp(67,54): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=float
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(48,10): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int>(const char (&)[8],float &&,float &&,int &&)' being compiled
           with
           [
               T=ColliderComponent
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(73,10): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&>(float &,float &,int &)' being compiled
           with
           [
               T=GridComponent
           ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ScoreComponent.h(25,13): message : see reference to function template instantiation 'T &Entity::addComponent<TransformComponent,int,int,int,int,int>(int &&,int &&,int &&,int &&,int &&)' being compiled
+          with
+          [
+              T=TransformComponent
+          ]
+  ECS.cpp
   Game.cpp
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(627,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(99,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(18,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(20,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(21,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(22,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(23,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(24,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(26,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(27,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(28,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(29,44): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(31,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(32,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(33,50): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(34,56): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(35,57): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(36,58): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(37,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(38,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(48,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\LightComponent.h(33,62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(45,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(46,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(36,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(37,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59,80): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\HPBar.h(32,63): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Shop.h(51,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(123,1): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(127,20): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\ProjectileComponent.h(27,21): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(565,82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(600,84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(646,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(687,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(688,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(729,35): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Game.cpp(730,35): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=float
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(48,10): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int>(const char (&)[8],float &&,float &&,int &&)' being compiled
           with
           [
               T=ColliderComponent
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(73,10): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&>(float &,float &,int &)' being compiled
           with
           [
               T=GridComponent
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ScoreComponent.h(25,13): message : see reference to function template instantiation 'T &Entity::addComponent<TransformComponent,int,int,int,int,int>(int &&,int &&,int &&,int &&,int &&)' being compiled
+          with
+          [
+              T=TransformComponent
+          ]
+  IGameScreen.cpp
+  IMainGame.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\GameScreen\IMainGame.cpp(26,18): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\GameScreen\IMainGame.cpp(35,18): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\GameScreen\IMainGame.cpp(136,35): warning C4305: 'argument': truncation from 'double' to 'float'
+  ScreenList.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\GameScreen\ScreenList.cpp(31,41): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  InputManager.cpp
+  main.cpp
+  MainMenuScreen.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(99,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(18,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(20,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(21,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(22,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(23,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(24,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(26,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(27,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(28,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(29,44): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(31,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(32,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(33,50): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(34,56): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(35,57): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(36,58): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(37,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(38,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(48,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\LightComponent.h(33,62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(45,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(46,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(36,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(37,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59,80): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\HPBar.h(32,63): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Shop.h(51,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(123,1): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(127,20): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\ProjectileComponent.h(27,21): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\MainMenuScreen\MainMenuScreen.cpp(145,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\MainMenuScreen\MainMenuScreen.cpp(146,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\MainMenuScreen\MainMenuScreen.cpp(196,35): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\MainMenuScreen\MainMenuScreen.cpp(197,35): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(48,10): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int>(const char (&)[8],float &&,float &&,int &&)' being compiled
+          with
+          [
+              T=ColliderComponent
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(73,10): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&>(float &,float &,int &)' being compiled
+          with
+          [
+              T=GridComponent
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ScoreComponent.h(25,13): message : see reference to function template instantiation 'T &Entity::addComponent<TransformComponent,int,int,int,int,int>(int &&,int &&,int &&,int &&,int &&)' being compiled
+          with
+          [
+              T=TransformComponent
           ]
   Map.cpp
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(42,6): warning C4101: 'i': unreferenced local variable
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(37,7): warning C4101: 'c': unreferenced local variable
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(224,56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(225,56): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(242,57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map.cpp(243,57): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(99,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(18,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(20,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(21,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(22,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(23,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(24,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(26,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(27,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(28,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(29,44): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(31,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(32,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(33,50): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(34,56): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(35,57): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(36,58): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(37,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(38,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(48,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\LightComponent.h(33,62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(45,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(46,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(36,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(37,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59,80): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\HPBar.h(32,63): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Shop.h(51,27): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(123,1): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\Player_Script.h(127,20): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\Scripts\ProjectileComponent.h(27,21): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map\Map.cpp(70,23): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Map\Map.cpp(127,61): warning C4267: 'argument': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=float
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(48,10): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int>(const char (&)[8],float &&,float &&,int &&)' being compiled
           with
           [
               T=ColliderComponent
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(73,10): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&>(float &,float &,int &)' being compiled
           with
           [
               T=GridComponent
           ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ScoreComponent.h(25,13): message : see reference to function template instantiation 'T &Entity::addComponent<TransformComponent,int,int,int,int,int>(int &&,int &&,int &&,int &&,int &&)' being compiled
+          with
+          [
+              T=TransformComponent
+          ]
+  PNG_Letters.cpp
   SceneManager.cpp
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(71,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(72,39): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(40,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(50,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(39,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(40,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(56,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(57,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(69,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(70,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(74,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(75,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\SpriteComponent.h(99,57): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(18,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(20,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(21,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(22,41): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(23,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(24,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(26,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(27,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(28,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(29,44): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(31,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(32,48): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(33,50): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(34,56): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(35,57): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(36,58): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(37,45): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\AnimatorManager.h(72,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(38,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\RigidBodyComponent.h(48,46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\LightComponent.h(33,62): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(33,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(34,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(45,43): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(46,45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(36,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(37,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59,80): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
           with
           [
               _Ty=float
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(60): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int,bool>(const char (&)[8],float &&,float &&,int &&,bool &&)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\GridComponent.h(48,10): message : see reference to function template instantiation 'T &Entity::addComponent<ColliderComponent,const char(&)[8],float,float,int>(const char (&)[8],float &&,float &&,int &&)' being compiled
           with
           [
               T=ColliderComponent
           ]
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(104,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(59): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&,bool&>(float &,float &,int &,bool &)' being compiled
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\TileComponent.h(73,10): message : see reference to function template instantiation 'T &Entity::addComponent<GridComponent,float&,float&,int&>(float &,float &,int &)' being compiled
           with
           [
               T=GridComponent
           ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ECS.h(105,33): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\ECS\ScoreComponent.h(25,13): message : see reference to function template instantiation 'T &Entity::addComponent<TransformComponent,int,int,int,int,int>(int &&,int &&,int &&,int &&,int &&)' being compiled
+          with
+          [
+              T=TransformComponent
+          ]
+  SpriteBatch.cpp
+  TextureManager.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\TextureManager.cpp(19,15): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\TextureManager.cpp(23,24): warning C4244: '-=': conversion from 'std::streamoff' to 'int', possible loss of data
+  Timing.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Timing\Timing.cpp(25,19): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Timing\Timing.cpp(42,25): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Timing\Timing.cpp(44,21): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+  Vector2D.cpp
   Generating Code...
-  SuperMarioGame.vcxproj -> D:\lefte\CSD\2021-22xeim\hy454\SuperMarioGame - v11.10 .1\x64\Debug\SuperMarioGame.exe
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Vector2D.cpp(46): warning C4172: returning address of local variable or temporary: direction
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\TextureManager.cpp(66): warning C4172: returning address of local variable or temporary: texture
+  Compiling...
+  Window.cpp
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Window\Window.cpp(18,36): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Dell\source\repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\SuperMarioGame\Src\Window\Window.cpp(19,38): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  SuperMarioGame.vcxproj -> C:\Users\Dell\Source\Repos\lefterisK-Gr\SuperMario\SuperMarioGame - v11.10 .1\x64\Debug\SuperMarioGame.exe
