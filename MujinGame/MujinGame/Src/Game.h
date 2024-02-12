@@ -66,7 +66,7 @@ public:
 	static SpriteBatch _spriteBatch;
 	static SpriteBatch _hudSpriteBatch;
 
-	static MujinEngine::AudioEngine audioEngine;
+	static AudioEngine audioEngine;
 
 	static Map* map;
 

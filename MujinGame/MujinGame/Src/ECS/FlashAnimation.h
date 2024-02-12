@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Animation.h"
-#include "../Vertex.h"
+#include "Vertex.h"
 
 struct FlashAnimation : public Animation //todo moving animation can be moving sprite with of without transform
 {

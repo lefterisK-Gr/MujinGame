@@ -23,7 +23,7 @@ struct UV {
 
 struct Vertex {
 	Position position;
-	
+
 	Color color;
 
 	// UV texture coordinates

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../InputManager/InputManager.h"
+#include "InputManager/InputManager.h"
 #include "../AssetManager/AssetManager.h"
-#include "../Window/Window.h"
+#include "Window/Window.h"
 #include <memory>
 #include <iostream>
 

@@ -3,14 +3,14 @@
 #include "Components.h"
 #include <SDL/SDL.h>
 #include "GL/glew.h"
-#include "../TextureManager.h"
+#include "TextureManager/TextureManager.h"
 #include "Animation.h"
 #include "MovingAnimation.h"
 #include "FlashAnimation.h"
 #include <map>
 #include "../Map/Map.h"
 #include "../AssetManager/AssetManager.h"
-#include "../Vertex.h"
+#include "Vertex.h"
 #include <cstddef>
 
 #include "../MainMenuScreen/MainMenuScreen.h"

@@ -135,9 +135,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
+    <ClCompile Include="TextureManager\TextureManager.cpp" />
+    <ClCompile Include="Vector2D\Vector2D.cpp" />
+    <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.h" />
+    <ClInclude Include="GLSLProgram.h" />
+    <ClInclude Include="GLTexture.h" />
+    <ClInclude Include="picoPNG.h" />
+    <ClInclude Include="TextureManager\TextureManager.h" />
+    <ClInclude Include="Vector2D\Vector2D.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

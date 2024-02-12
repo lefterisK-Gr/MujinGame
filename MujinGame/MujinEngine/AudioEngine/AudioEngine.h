@@ -6,7 +6,7 @@
 #include <string>
 #include <map>
 
-namespace MujinEngine {
+
 	class SoundEffect {
 	public:
 		friend class AudioEngine;
@@ -51,4 +51,4 @@ namespace MujinEngine {
 
 		bool _isInitialized = false;
 	};
-}
+

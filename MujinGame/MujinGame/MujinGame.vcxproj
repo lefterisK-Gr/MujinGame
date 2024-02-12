@@ -161,10 +161,7 @@
     <ClCompile Include="Src\PNG_Letters.cpp" />
     <ClCompile Include="Src\SceneManager.cpp" />
     <ClCompile Include="Src\SpriteBatch\SpriteBatch.cpp" />
-    <ClCompile Include="Src\TextureManager.cpp" />
     <ClCompile Include="Src\Timing\Timing.cpp" />
-    <ClCompile Include="Src\Vector2D.cpp" />
-    <ClCompile Include="Src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
@@ -212,10 +209,7 @@
     <ClInclude Include="Src\PNG_Letters.h" />
     <ClInclude Include="Src\SceneManager.h" />
     <ClInclude Include="Src\SpriteBatch\SpriteBatch.h" />
-    <ClInclude Include="Src\TextureManager.h" />
     <ClInclude Include="Src\Timing\Timing.h" />
-    <ClInclude Include="Src\Vector2D.h" />
-    <ClInclude Include="Src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MujinEngine\MujinEngine.vcxproj">

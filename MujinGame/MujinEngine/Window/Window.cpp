@@ -1,5 +1,5 @@
 #include "Window.h"
-#include "ConsoleLogger.h"
+#include "../ConsoleLogger.h"
 
 namespace MujinEngine {
 

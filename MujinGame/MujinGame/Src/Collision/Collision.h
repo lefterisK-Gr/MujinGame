@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL/SDL.h>
 #include "../ECS/Components.h"
-#include "../Vector2D.h"
+#include "Vector2D/Vector2D.h"
 
 class Collision;
 

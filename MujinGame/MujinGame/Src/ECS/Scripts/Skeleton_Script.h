@@ -8,7 +8,7 @@ class Skeleton_Script : public Component
 {
 private:
 	bool isGiant = false;
-	MujinEngine::SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/enemySlash.wav");
+	SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/enemySlash.wav");
 public:
 
 	bool attackAnimation = false;

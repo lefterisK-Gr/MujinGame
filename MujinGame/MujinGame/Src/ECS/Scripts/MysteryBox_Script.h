@@ -7,7 +7,7 @@
 class MysteryBox_Script: public Component //PlayerAnimator -> Animator -> Sprite -> Transform
 {
 private:
-	MujinEngine::SoundEffect _gemEffect;
+	SoundEffect _gemEffect;
 public: // it is like it has init that creates Animator Component since it inherits it
 	bool doCoinAnimation = false;
 	bool lockCoinAnimation = false;
@@ -21,7 +21,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 	}
 
-	MysteryBox_Script(MujinEngine::SoundEffect gemEffect)
+	MysteryBox_Script(SoundEffect gemEffect)
 	{
 		_gemEffect = gemEffect;
 	}

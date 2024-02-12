@@ -1,11 +1,11 @@
 #include "AudioEngine.h"
 
 
-namespace MujinEngine {
+
 	void SoundEffect::play(int loops) {
 		if (Mix_PlayChannel(-1, _chunk, loops)) {
 			if (Mix_PlayChannel(0, _chunk, loops)) {
-				ConsoleLogger::error("Mix_PlayChannel error: " + std::string(Mix_GetError()));
+				MujinEngine::ConsoleLogger::error("Mix_PlayChannel error: " + std::string(Mix_GetError()));
 
 			}
 		}
@@ -34,17 +34,17 @@ namespace MujinEngine {
 
 	void AudioEngine::init() {
 		if (_isInitialized) {
-			ConsoleLogger::error("Tried to initialize AudioEngine Twice!\n");
+			MujinEngine::ConsoleLogger::error("Tried to initialize AudioEngine Twice!\n");
 		}
 
 		// Parameter can be a bitwise combination of MIX_INIT_FAC,
 		//MIX_INIT_MOD, MIX_INIT_MP3, MIX_INIT_OGG
 		if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG) == -1) {
-			ConsoleLogger::error("Mix_Init error: " + std::string(Mix_GetError()));
+			MujinEngine::ConsoleLogger::error("Mix_Init error: " + std::string(Mix_GetError()));
 		}
 
 		if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024)) {
-			ConsoleLogger::error("Mix_OpenAudio error: " + std::string(Mix_GetError()));
+			MujinEngine::ConsoleLogger::error("Mix_OpenAudio error: " + std::string(Mix_GetError()));
 		}
 
 		bool _isInitialized = true;
@@ -80,7 +80,7 @@ namespace MujinEngine {
 			Mix_Chunk* chunk = Mix_LoadWAV(filePath.c_str());
 			//Check for errors
 			if (chunk == nullptr) {
-				ConsoleLogger::error("Mix_LoadWAV error: " + std::string(Mix_GetError()));
+				MujinEngine::ConsoleLogger::error("Mix_LoadWAV error: " + std::string(Mix_GetError()));
 			}
 			effect._chunk = chunk;
 			_effectMap[filePath] = chunk;
@@ -103,7 +103,7 @@ namespace MujinEngine {
 			Mix_Music* mixMusic = Mix_LoadMUS(filePath.c_str());
 			//Check for errors
 			if (mixMusic == nullptr) {
-				ConsoleLogger::error("Mix_LoadWAV error: " + std::string(Mix_GetError()));
+				MujinEngine::ConsoleLogger::error("Mix_LoadWAV error: " + std::string(Mix_GetError()));
 			}
 			music._music = mixMusic;
 			_musicMap[filePath] = mixMusic;
@@ -115,4 +115,4 @@ namespace MujinEngine {
 
 		return music;
 	}
-}
+

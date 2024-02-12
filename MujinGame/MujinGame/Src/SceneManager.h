@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include "TextureManager.h"
-#include "Vector2D.h"
+#include "TextureManager/TextureManager.h"
+#include "Vector2D/Vector2D.h"
 #include "ECS\ECS.h"
 
 class SceneManager //this class created when we added projectiles, based on this class other components changed

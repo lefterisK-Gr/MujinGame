@@ -2,9 +2,9 @@
 
 #include <map>
 #include <string>
-#include "../TextureManager.h"
+#include "TextureManager/TextureManager.h"
 #include "../ShapeManager.h"
-#include "../Vector2D.h"
+#include "Vector2D/Vector2D.h"
 #include "../ECS\ECS.h"
 #include <TTF/SDL_ttf.h>
 #include "../Game.h"

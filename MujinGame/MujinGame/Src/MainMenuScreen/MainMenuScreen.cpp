@@ -3,7 +3,7 @@
 #include <SDL/SDL.h>
 #include "../ECS/Components.h"
 #include "../ECS/ScriptComponents.h"
-#include "../Vector2D.h"
+#include "Vector2D/Vector2D.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
 #include "../GameScreen/IMainGame.h"

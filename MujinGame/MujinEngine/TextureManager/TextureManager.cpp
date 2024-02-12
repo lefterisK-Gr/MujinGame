@@ -1,8 +1,8 @@
 #include "TextureManager.h"
 #include <fstream>
-#include "picoPNG.h"
+#include "../picoPNG.h"
 
-#include "ConsoleLogger.h"
+#include "../ConsoleLogger.h"
 
 bool TextureManager::readFileToBuffer(const char* filePath, std::vector <unsigned char>& buffer) {
 	std::ifstream file(filePath, std::ios::binary);

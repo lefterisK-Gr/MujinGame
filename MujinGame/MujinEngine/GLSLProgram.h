@@ -11,7 +11,7 @@
 
 class GLSLProgram {
 public:
-	GLSLProgram() : _programID(0),_vertexShaderID(0), _fragmentShaderID(0), _numAttributes(0)
+	GLSLProgram() : _programID(0), _vertexShaderID(0), _fragmentShaderID(0), _numAttributes(0)
 	{
 
 	}

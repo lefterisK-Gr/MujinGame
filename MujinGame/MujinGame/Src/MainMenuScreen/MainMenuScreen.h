@@ -4,17 +4,17 @@
 #include <SDL/SDL.h>
 #include <SDL_IMAGE/SDL_image.h>
 #include <GL/glew.h>
-#include "../GLSLProgram.h"
+#include "GLSLProgram.h"
 #undef main
 #include <iostream>
 #include <vector>
 #include "../Camera2D.h"
 #include "../SpriteBatch/SpriteBatch.h"
-#include "../InputManager/InputManager.h"
+#include "InputManager/InputManager.h"
 #include "../Timing/Timing.h"
 //#include "../SpriteFont/SpriteFont.h"
 #include "AudioEngine/AudioEngine.h"
-#include "../Window/Window.h"
+#include "Window/Window.h"
 
 #include "../ECS/ECS.h"
 

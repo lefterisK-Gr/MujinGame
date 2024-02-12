@@ -6,7 +6,7 @@
 class GreenKoopaTroopa_Script : public Component
 {
 private:
-	MujinEngine::SoundEffect _projectileEffect = Game::audioEngine.loadSoundEffect("Sounds/enemyThrowProjectile.wav");
+	SoundEffect _projectileEffect = Game::audioEngine.loadSoundEffect("Sounds/enemyThrowProjectile.wav");
 public:
 	bool attackAnimation = false;
 	bool shelltoturtle = false;

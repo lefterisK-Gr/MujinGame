@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include "../Vertex.h"
+#include "Vertex.h"
 
 
 enum class GlyphSortType {

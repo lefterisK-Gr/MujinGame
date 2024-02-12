@@ -1,10 +1,10 @@
 ﻿
 #include "Game.h"
-#include "TextureManager.h"
+#include "TextureManager/TextureManager.h"
 #include "Map/Map.h"
 #include "ECS/Components.h"
 #include "ECS/ScriptComponents.h"
-#include "Vector2D.h"
+#include "Vector2D/Vector2D.h"
 #include "Collision/Collision.h"
 #include "Map/Map.h"
 #include "AssetManager/AssetManager.h"
@@ -26,7 +26,7 @@ Camera2D Game::hudCamera2D;
 SpriteBatch Game::_spriteBatch;
 SpriteBatch Game::_hudSpriteBatch;
 
-MujinEngine::AudioEngine Game::audioEngine;
+AudioEngine Game::audioEngine;
 
 Map* Game::map = nullptr;
 AssetManager* Game::assets = nullptr;
@@ -156,7 +156,7 @@ void Game::onEntry()
 	stagelabel.addComponent<UILabel>("stage 0", "arial", true);
 	stagelabel.addGroup(Game::groupLabels);
 
-	MujinEngine::Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
+	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
 }
 
