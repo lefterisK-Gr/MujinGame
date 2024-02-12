@@ -1,14 +1,14 @@
 #pragma once
 
 #include "../Components.h"
-#include "../../AudioEngine/AudioEngine.h"
+#include "AudioEngine/AudioEngine.h"
 
 
 class Skeleton_Script : public Component
 {
 private:
 	bool isGiant = false;
-	SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/enemySlash.wav");
+	MujinEngine::SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/enemySlash.wav");
 public:
 
 	bool attackAnimation = false;

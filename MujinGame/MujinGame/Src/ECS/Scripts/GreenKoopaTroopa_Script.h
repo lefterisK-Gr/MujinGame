@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../Components.h"
-#include "../../AudioEngine/AudioEngine.h"
+#include "AudioEngine/AudioEngine.h"
 
 class GreenKoopaTroopa_Script : public Component
 {
 private:
-	SoundEffect _projectileEffect = Game::audioEngine.loadSoundEffect("Sounds/enemyThrowProjectile.wav");
+	MujinEngine::SoundEffect _projectileEffect = Game::audioEngine.loadSoundEffect("Sounds/enemyThrowProjectile.wav");
 public:
 	bool attackAnimation = false;
 	bool shelltoturtle = false;

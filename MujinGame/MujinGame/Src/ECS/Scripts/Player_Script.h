@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Components.h"
-#include "../../AudioEngine/AudioEngine.h"
+#include "AudioEngine/AudioEngine.h"
 #include "../../Collision/Collision.h"
 #include "../Scripts/Shop.h"
 #include "../Scripts/Inventory.h"
@@ -11,9 +11,9 @@ class Shop;
 class Player_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Transform
 {
 private:
-	SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/slash.wav");
-	SoundEffect _slashSkillEffect = Game::audioEngine.loadSoundEffect("Sounds/skillSlash.wav");
-	SoundEffect _takeHitEffect = Game::audioEngine.loadSoundEffect("Sounds/takeHit.wav");
+	MujinEngine::SoundEffect _slashEffect = Game::audioEngine.loadSoundEffect("Sounds/slash.wav");
+	MujinEngine::SoundEffect _slashSkillEffect = Game::audioEngine.loadSoundEffect("Sounds/skillSlash.wav");
+	MujinEngine::SoundEffect _takeHitEffect = Game::audioEngine.loadSoundEffect("Sounds/takeHit.wav");
 
 
 public: // it is like it has init that creates Animator Component since it inherits it

@@ -12,7 +12,6 @@
 #include <sstream>
 #include "GameScreen/IMainGame.h"
 
-
 #undef main
 
 
@@ -27,7 +26,7 @@ Camera2D Game::hudCamera2D;
 SpriteBatch Game::_spriteBatch;
 SpriteBatch Game::_hudSpriteBatch;
 
-AudioEngine Game::audioEngine;
+MujinEngine::AudioEngine Game::audioEngine;
 
 Map* Game::map = nullptr;
 AssetManager* Game::assets = nullptr;
@@ -157,7 +156,7 @@ void Game::onEntry()
 	stagelabel.addComponent<UILabel>("stage 0", "arial", true);
 	stagelabel.addGroup(Game::groupLabels);
 
-	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
+	MujinEngine::Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
 }
 

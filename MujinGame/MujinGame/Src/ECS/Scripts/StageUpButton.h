@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Components.h"
-#include "../../AudioEngine/AudioEngine.h"
+#include "AudioEngine/AudioEngine.h"
 
 class StageUpButton : public Component
 {
