@@ -1,12 +1,12 @@
 #include "Camera2D.h"
 
 Camera2D::Camera2D() : _position(0.0f, 0.0f),
-	_cameraMatrix(1.0f),	//I
-	_orthoMatrix(1.0f),		//I
-	_scale(1.0f),
-	_cameraChange(true),
-	_screenWidth(960),
-	_screenHeight(768)
+_cameraMatrix(1.0f),	//I
+_orthoMatrix(1.0f),		//I
+_scale(1.0f),
+_cameraChange(true),
+_screenWidth(960),
+_screenHeight(768)
 {
 
 }
@@ -46,7 +46,7 @@ glm::vec2 Camera2D::convertScreenToWorld(glm::vec2 screenCoords) {
 	return screenCoords;
 }
 
-glm::vec2 Camera2D::getCameraDimensions(){
+glm::vec2 Camera2D::getCameraDimensions() {
 	glm::vec2 cameraDimensions = { _screenWidth, _screenHeight };
 	return cameraDimensions;
 }

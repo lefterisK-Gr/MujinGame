@@ -47,7 +47,7 @@ void IMainGame::run() {
 			i++;
 			draw();
 		}
-		
+
 		_fps = limiter.end();
 
 		static int frameCounter = 0;
@@ -84,18 +84,18 @@ void IMainGame::onSDLEvent(SDL_Event& evnt) {
 		//std::cout << event.motion.x << " " << event.motion.y << std::endl;
 		_inputManager.setMouseCoords(evnt.motion.x / _window.getScale(), evnt.motion.y / _window.getScale());
 		break;
-	//case SDL_MOUSEWHEEL:
-	//	if (evnt.wheel.y > 0)
-	//	{
-	//		// Scrolling up
-	//		camera2D.setScale(camera2D.getScale() + SCALE_SPEED);
-	//	}
-	//	else if (evnt.wheel.y < 0)
-	//	{
-	//		// Scrolling down
-	//		camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
-	//	}
-	//	break;
+		//case SDL_MOUSEWHEEL:
+		//	if (evnt.wheel.y > 0)
+		//	{
+		//		// Scrolling up
+		//		camera2D.setScale(camera2D.getScale() + SCALE_SPEED);
+		//	}
+		//	else if (evnt.wheel.y < 0)
+		//	{
+		//		// Scrolling down
+		//		camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
+		//	}
+		//	break;
 	case SDL_MOUSEBUTTONDOWN:
 		_inputManager.pressKey(evnt.button.button);
 		break;
@@ -119,7 +119,7 @@ bool IMainGame::init() {
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	
+
 	if (!initSystems()) return false;
 
 	onInit();
@@ -133,37 +133,37 @@ bool IMainGame::init() {
 }
 
 bool IMainGame::initSystems() {
-	_window.create("Mujin", 800, 640,1.2, 0);
+	_window.create("Mujin", 800, 640, 1.2, 0);
 	return true;
 }
 
 void IMainGame::update(float deltaTime) {
 	if (_currentScreen) {
 		switch (_currentScreen->getState()) {
-			case ScreenState::RUNNING:
-				_currentScreen->update(deltaTime);
-				break;
-			case ScreenState::CHANGE_NEXT:
-				_currentScreen->onExit();
-				_currentScreen = _screenList->moveNext();
-				if (_currentScreen) {
-					_currentScreen->setRunning();
-					_currentScreen->onEntry();
-				}
-				break;
-			case ScreenState::CHANGE_PREVIOUS:
-				_currentScreen->onExit();
-				_currentScreen = _screenList->movePrevious();
-				if (_currentScreen) {
-					_currentScreen->setRunning();
-					//_currentScreen->onEntry();
-				}
-				break;
-			case ScreenState::EXIT_APPLICATION:
-				exitGame();
-				break;
-			default:
-				break;
+		case ScreenState::RUNNING:
+			_currentScreen->update(deltaTime);
+			break;
+		case ScreenState::CHANGE_NEXT:
+			_currentScreen->onExit();
+			_currentScreen = _screenList->moveNext();
+			if (_currentScreen) {
+				_currentScreen->setRunning();
+				_currentScreen->onEntry();
+			}
+			break;
+		case ScreenState::CHANGE_PREVIOUS:
+			_currentScreen->onExit();
+			_currentScreen = _screenList->movePrevious();
+			if (_currentScreen) {
+				_currentScreen->setRunning();
+				//_currentScreen->onEntry();
+			}
+			break;
+		case ScreenState::EXIT_APPLICATION:
+			exitGame();
+			break;
+		default:
+			break;
 		}
 	}
 	else {

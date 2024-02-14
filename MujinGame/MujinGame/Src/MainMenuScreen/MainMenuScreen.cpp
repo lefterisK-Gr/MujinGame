@@ -6,7 +6,7 @@
 #include "Vector2D/Vector2D.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
-#include "../GameScreen/IMainGame.h"
+#include "GameScreen/IMainGame.h"
 
 Manager main_menu_manager;
 

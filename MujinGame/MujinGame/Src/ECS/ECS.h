@@ -8,7 +8,7 @@
 #include <array>
 
 #include <SDL/SDL.h>
-#include "../SpriteBatch/SpriteBatch.h"
+#include "SpriteBatch/SpriteBatch.h"
 class Component;
 class Entity;
 class Manager;

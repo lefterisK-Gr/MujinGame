@@ -1,5 +1,5 @@
 #include "App.h"
-#include "../GameScreen/ScreenList.h"
+#include "GameScreen/ScreenList.h"
 
 App::App() {
 

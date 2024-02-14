@@ -1,7 +1,7 @@
 #include "SpriteBatch.h"
 #include <algorithm>
 
-SpriteBatch::SpriteBatch() : _vbo(0), _vao(0){
+SpriteBatch::SpriteBatch() : _vbo(0), _vao(0) {
 
 }
 
@@ -9,7 +9,7 @@ SpriteBatch::~SpriteBatch() {
 
 }
 
-void SpriteBatch::init(){
+void SpriteBatch::init() {
 	createVertexArray();
 }
 

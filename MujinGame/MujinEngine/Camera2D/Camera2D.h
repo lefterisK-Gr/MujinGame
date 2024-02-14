@@ -31,7 +31,7 @@ public:
 	}
 
 	float getScale() {
-		return _scale;  
+		return _scale;
 	}
 
 	glm::mat4 getCameraMatrix() {

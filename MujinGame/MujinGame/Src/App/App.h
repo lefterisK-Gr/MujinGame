@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../GameScreen/IMainGame.h"
+#include "GameScreen/IMainGame.h"
 #include "../Game.h"
 #include "../MainMenuScreen/MainMenuScreen.h"
 

@@ -148,25 +148,18 @@
   <ItemGroup>
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
-    <ClCompile Include="Src\Camera2D.cpp" />
     <ClCompile Include="Src\Collision\Collision.cpp" />
     <ClCompile Include="Src\ECS\ECS.cpp" />
     <ClCompile Include="Src\Game.cpp" />
-    <ClCompile Include="Src\GameScreen\IGameScreen.cpp" />
-    <ClCompile Include="Src\GameScreen\IMainGame.cpp" />
-    <ClCompile Include="Src\GameScreen\ScreenList.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
     <ClCompile Include="Src\PNG_Letters.cpp" />
     <ClCompile Include="Src\SceneManager.cpp" />
-    <ClCompile Include="Src\SpriteBatch\SpriteBatch.cpp" />
-    <ClCompile Include="Src\Timing\Timing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
-    <ClInclude Include="Src\Camera2D.h" />
     <ClInclude Include="Src\CircularBackground.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
     <ClInclude Include="Src\ECS\Animation.h" />
@@ -200,16 +193,10 @@
     <ClInclude Include="Src\ECS\TransformComponent.h" />
     <ClInclude Include="Src\ECS\SpriteComponent.h" />
     <ClInclude Include="Src\Game.h" />
-    <ClInclude Include="Src\GameScreen\IGameScreen.h" />
-    <ClInclude Include="Src\GameScreen\IMainGame.h" />
-    <ClInclude Include="Src\GameScreen\ScreenIndices.h" />
-    <ClInclude Include="Src\GameScreen\ScreenList.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Map.h" />
     <ClInclude Include="Src\PNG_Letters.h" />
     <ClInclude Include="Src\SceneManager.h" />
-    <ClInclude Include="Src\SpriteBatch\SpriteBatch.h" />
-    <ClInclude Include="Src\Timing\Timing.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MujinEngine\MujinEngine.vcxproj">

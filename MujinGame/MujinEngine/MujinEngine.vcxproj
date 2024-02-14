@@ -135,16 +135,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
+    <ClCompile Include="Camera2D\Camera2D.cpp" />
+    <ClCompile Include="GameScreen\IGameScreen.cpp" />
+    <ClCompile Include="GameScreen\IMainGame.cpp" />
+    <ClCompile Include="GameScreen\ScreenIndices.h" />
+    <ClCompile Include="GameScreen\ScreenList.cpp" />
+    <ClCompile Include="InputManager\InputManager.cpp" />
+    <ClCompile Include="SpriteBatch\SpriteBatch.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
+    <ClCompile Include="Timing\Timing.cpp" />
     <ClCompile Include="Vector2D\Vector2D.cpp" />
     <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.h" />
+    <ClInclude Include="Camera2D\Camera2D.h" />
+    <ClInclude Include="GameScreen\IGameScreen.h" />
+    <ClInclude Include="GameScreen\IMainGame.h" />
+    <ClInclude Include="GameScreen\ScreenList.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
+    <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
+    <ClInclude Include="SpriteBatch\SpriteBatch.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
+    <ClInclude Include="Timing\Timing.h" />
     <ClInclude Include="Vector2D\Vector2D.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window\Window.h" />

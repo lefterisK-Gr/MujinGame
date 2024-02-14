@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include "Vertex.h"
+#include "../Vertex.h"
 
 
 enum class GlyphSortType {
@@ -29,7 +29,7 @@ class Glyph {
 
 public:
 	Glyph() {};
-	Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const Color& color) 
+	Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const Color& color)
 		: texture(Texture),
 		depth(Depth) {
 

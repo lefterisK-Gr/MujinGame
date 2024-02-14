@@ -23,7 +23,7 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 	Collision::dist.y = (recB.y + (recB.h / 2) ) - (moving_recA.y + (moving_recA.h / 2));
 
 	if (moving_recA.h > moving_recA.w) {
-		if (dist.y <= -(moving_recA.h - moving_recA.w)) {
+		if (dist.y <= -(moving_recA.h - moving_recA.w)) { //todo: right thing is to do this with /2
 			Collision::dist.y = Collision::dist.y + ((moving_recA.h - moving_recA.w) / 2);
 		}
 		else if (dist.y >= (moving_recA.h - moving_recA.w))

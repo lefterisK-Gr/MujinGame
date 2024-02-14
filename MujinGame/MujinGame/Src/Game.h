@@ -9,7 +9,7 @@
 #undef main
 #include <iostream>
 #include <vector>
-#include "Camera2D.h"
+#include "Camera2D/Camera2D.h"
 #include "SpriteBatch/SpriteBatch.h"
 #include "InputManager/InputManager.h"
 #include "Timing/Timing.h"

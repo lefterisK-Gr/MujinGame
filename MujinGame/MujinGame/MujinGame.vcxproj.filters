@@ -36,24 +36,6 @@
     <ClCompile Include="Src\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Camera2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\SpriteBatch\SpriteBatch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Timing\Timing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GameScreen\IGameScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GameScreen\IMainGame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GameScreen\ScreenList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\App\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -128,15 +110,6 @@
     <ClInclude Include="Src\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Camera2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\SpriteBatch\SpriteBatch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Timing\Timing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\ECS\Scripts\LivingCharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -146,15 +119,6 @@
     <ClInclude Include="Src\ECS\Scripts\Slice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\GameScreen\IGameScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\GameScreen\IMainGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\GameScreen\ScreenList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\App\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,9 +126,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\GameScreen\ScreenIndices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\ECS\ButtonComponent.h">

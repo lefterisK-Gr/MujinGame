@@ -9,14 +9,14 @@ ScreenList::~ScreenList() {
 	destroy();
 }
 
-IGameScreen* ScreenList::moveNext(){
+IGameScreen* ScreenList::moveNext() {
 	IGameScreen* currentScreen = getCurrent();
 	if (currentScreen->getNextScreenIndex() != SCREEN_INDEX_NO_SCREEN) {
 		_currentScreenIndex = currentScreen->getNextScreenIndex();
 	}
 	return getCurrent();
 }
-IGameScreen* ScreenList::movePrevious(){
+IGameScreen* ScreenList::movePrevious() {
 	IGameScreen* currentScreen = getCurrent();
 	if (currentScreen->getPreviousScreenIndex() != SCREEN_INDEX_NO_SCREEN) {
 		_currentScreenIndex = currentScreen->getPreviousScreenIndex();
@@ -24,17 +24,17 @@ IGameScreen* ScreenList::movePrevious(){
 	return getCurrent();
 }
 
-void ScreenList::setScreen(int nextScreen){
+void ScreenList::setScreen(int nextScreen) {
 	_currentScreenIndex = nextScreen;
 }
-void ScreenList::addScreen(IGameScreen* newScreen){
+void ScreenList::addScreen(IGameScreen* newScreen) {
 	newScreen->_screenIndex = _screens.size();
 	_screens.push_back(newScreen);
 	newScreen->build();
 	newScreen->setParentGame(_game);
 }
 
-void ScreenList::destroy(){
+void ScreenList::destroy() {
 	for (size_t i = 0; i < _screens.size(); i++) {
 		_screens[i]->destroy();
 	}
