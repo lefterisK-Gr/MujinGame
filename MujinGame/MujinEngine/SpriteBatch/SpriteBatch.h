@@ -35,19 +35,19 @@ public:
 
 		topLeft.color = color;
 		topLeft.setPosition(destRect.x, destRect.y + destRect.w);
-		topLeft.setUV(uvRect.x, uvRect.y); // Use bottom y for top
+		topLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use bottom y for top
 
 		bottomLeft.color = color;
 		bottomLeft.setPosition(destRect.x, destRect.y);
-		bottomLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use top y for bottom
+		bottomLeft.setUV(uvRect.x, uvRect.y); // Use top y for bottom
 
 		bottomRight.color = color;
 		bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
-		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use top y for bottom
+		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y); // Use top y for bottom
 
 		topRight.color = color;
 		topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
-		topRight.setUV(uvRect.x + uvRect.z, uvRect.y); // Use bottom y for top
+		topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use bottom y for top
 	};
 
 	GLuint texture;

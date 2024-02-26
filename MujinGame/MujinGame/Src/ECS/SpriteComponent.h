@@ -115,7 +115,7 @@ public:
 		float srcUVposX = spriteFlip == SDL_FLIP_HORIZONTAL ?
 			(float)(srcRect.x + srcRect.w) / (float)gl_texture->width :
 			(float)srcRect.x / (float)gl_texture->width;
-		float srcUVposY = ((float)gl_texture->height - srcRect.h - (float)srcRect.y) / (float)gl_texture->height;
+		float srcUVposY = ((float)srcRect.y) / (float)gl_texture->height;
 
 		float srcUVw = spriteFlip == SDL_FLIP_HORIZONTAL ?
 			-(float)srcRect.w / (float)gl_texture->width :

@@ -2,6 +2,7 @@
 #include <SDL/SDL.h>
 #include "../ECS/Components.h"
 #include "Vector2D/Vector2D.h"
+#include <algorithm>
 
 class Collision;
 
@@ -13,7 +14,7 @@ public:
 	ColSide movingRectColSide;
 
 	SDL_Rect storedColliderRect;
-	Vector2D dist;
+	Vector2D overlap;
 	bool isSidewaysCollision = false;
 	bool isCollision = false;
 

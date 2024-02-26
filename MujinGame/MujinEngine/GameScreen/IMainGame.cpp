@@ -53,7 +53,7 @@ void IMainGame::run() {
 		static int frameCounter = 0;
 		frameCounter++;
 		if (frameCounter == 10) {
-			//std::cout << _fps << std::endl;
+			std::cout << _fps << std::endl;
 			frameCounter = 0;
 		}
 

@@ -1,5 +1,4 @@
 #include "Collision.h"
-#include "../ECS\ColliderComponent.h"
 
 
 bool Collision::checkCollision(const SDL_Rect recA, const SDL_Rect recB) {
@@ -18,27 +17,16 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 
 	Collision::storedColliderRect = recB;
 
-	//calculate distX,distY
-	Collision::dist.x = (recB.x + (recB.w / 2) ) - (moving_recA.x + (moving_recA.w / 2)); //positive if collider on right, negative if collider on left of center
-	Collision::dist.y = (recB.y + (recB.h / 2) ) - (moving_recA.y + (moving_recA.h / 2));
-
-	if (moving_recA.h > moving_recA.w) {
-		if (dist.y <= -(moving_recA.h - moving_recA.w)) { //todo: right thing is to do this with /2
-			Collision::dist.y = Collision::dist.y + ((moving_recA.h - moving_recA.w) / 2);
-		}
-		else if (dist.y >= (moving_recA.h - moving_recA.w))
-		{
-			Collision::dist.y = Collision::dist.y - ((moving_recA.h - moving_recA.w) / 2);
-		}
-	}
+	Collision::overlap.x = min(moving_recA.x + moving_recA.w, recB.x + recB.w) - max(moving_recA.x, recB.x);
+	Collision::overlap.y = min(moving_recA.y + moving_recA.h, recB.y + recB.h) - max(moving_recA.y, recB.y);
 
 	//check if it is sideways collision (bool isSidewaysCollision)
-	if (abs(dist.x) > abs(dist.y)) { //todo: if velocity.y < 0 then have it >= to slide on left wall
+	if (Collision::overlap.x < Collision::overlap.y) { //todo: if velocity.y < 0 then have it >= to slide on left wall
 		Collision::isSidewaysCollision = true;
-		Collision::movingRectColSide = (dist.x > 0) ? Collision::ColSide::RIGHT : Collision::ColSide::LEFT;
+		Collision::movingRectColSide = (moving_recA.x < recB.x) ? Collision::ColSide::RIGHT : Collision::ColSide::LEFT;
 	}
 	else { // Vertical collision
-		Collision::movingRectColSide = (dist.y > 0) ? Collision::ColSide::DOWN : Collision::ColSide::TOP;
+		Collision::movingRectColSide = (moving_recA.y > recB.y) ?  Collision::ColSide::TOP : Collision::ColSide::DOWN;
 	}
 
 	Collision::isCollision = true;
@@ -51,20 +39,20 @@ void Collision::moveFromCollision(Entity& player) {
 
 	switch (Collision::movingRectColSide) {
 		case Collision::ColSide::RIGHT: // Move player to the left of the collider
-			playerTransform.position.x = storedColliderRect.x - playerCollider.collider.w - (2 * playerTransform.scale * 8);
+			playerTransform.position.x -= Collision::overlap.x;
 			break;
 
 		case Collision::ColSide::LEFT: // Move player to the right of the collider
-			playerTransform.position.x = storedColliderRect.x - ((2 * playerTransform.scale - 1) * 8);
+			playerTransform.position.x += Collision::overlap.x;
 			break;
 
 		case Collision::ColSide::DOWN: // Move player above the collider
-			playerTransform.position.y = storedColliderRect.y - (playerTransform.height * playerTransform.scale);
+			playerTransform.position.y -= Collision::overlap.y;
 			player.getComponent<RigidBodyComponent>().onGround = true;
 			break;
 
 		case Collision::ColSide::TOP: // Move player below the collider
-			playerTransform.position.y = storedColliderRect.y - ((playerTransform.scale - 1) * 8);
+			playerTransform.position.y += Collision::overlap.y;
 			playerTransform.velocity.y = 0;
 			break;
 
