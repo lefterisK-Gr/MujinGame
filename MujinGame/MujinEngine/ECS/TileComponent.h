@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "ECS.h"
+#include "ECS/ECS.h"
 #include <SDL/SDL.h>
 #include "Components.h"
 

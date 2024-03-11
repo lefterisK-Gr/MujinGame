@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Components.h"
+#include "ECS/Components.h"
+#include "../../AssetManager/AssetManager.h"
 
 
 extern Manager manager;

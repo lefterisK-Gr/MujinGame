@@ -4,6 +4,8 @@
 #include "ScreenList.h"
 #include "IGameScreen.h"
 
+#include "../Camera2D/CameraManager.h"
+
 IMainGame::IMainGame() {
 	_screenList = std::make_unique<ScreenList>(this);
 }
@@ -124,6 +126,8 @@ bool IMainGame::init() {
 
 	onInit();
 	addScreens();
+
+	CameraManager::getInstance().initializeCameras();
 
 	_currentScreen = _screenList->getCurrent();
 	_currentScreen->onEntry();

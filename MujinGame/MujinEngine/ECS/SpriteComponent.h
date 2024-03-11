@@ -8,13 +8,10 @@
 #include "MovingAnimation.h"
 #include "FlashAnimation.h"
 #include <map>
-#include "../Map/Map.h"
-#include "../AssetManager/AssetManager.h"
 #include "Vertex.h"
 #include <cstddef>
+#include "../../MujinGame/Src/Game.h"
 
-#include "../MainMenuScreen/MainMenuScreen.h"
-#include "../Game.h"
 
 // TODO: (extra): can add states for different states (0 for full solid tile or 1 for no solid
 class SpriteComponent : public Component //sprite -> transform
@@ -59,14 +56,7 @@ public:
 
 	void setTex(std::string id) //this function is used to change texture of a sprite
 	{
-		//texture = Game::assets->GetTexture(id);
-		if (_isMainMenu) {
-			gl_texture = MainMenuScreen::textures->Get_GLTexture(id);
-		}
-		else
-		{
-			gl_texture = Game::textures->Get_GLTexture(id);
-		}
+		gl_texture = TextureManager::getInstance().Get_GLTexture(id);
 	}
 
 	void init() override

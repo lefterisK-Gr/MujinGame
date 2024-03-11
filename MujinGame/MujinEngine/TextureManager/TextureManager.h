@@ -9,6 +9,7 @@
 class TextureManager {
 
 public:
+	static TextureManager& getInstance();
 	//OPENGL functions
 	static bool readFileToBuffer(const char* filePath, std::vector <unsigned char>& buffer);
 	static GLTexture* loadPNG(const char* filePath);

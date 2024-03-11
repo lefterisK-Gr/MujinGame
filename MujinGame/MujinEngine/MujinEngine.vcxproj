@@ -135,12 +135,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
-    <ClCompile Include="Camera2D\Camera2D.cpp" />
+    <ClCompile Include="ECS\ECS.cpp" />
     <ClCompile Include="GameScreen\IGameScreen.cpp" />
     <ClCompile Include="GameScreen\IMainGame.cpp" />
     <ClCompile Include="GameScreen\ScreenIndices.h" />
     <ClCompile Include="GameScreen\ScreenList.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
+    <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="SpriteBatch\SpriteBatch.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="Timing\Timing.cpp" />
@@ -150,6 +151,24 @@
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.h" />
     <ClInclude Include="Camera2D\Camera2D.h" />
+    <ClInclude Include="Camera2D\CameraManager.h" />
+    <ClInclude Include="Camera2D\ICamera.h" />
+    <ClInclude Include="ECS\Animation.h" />
+    <ClInclude Include="ECS\AnimatorComponent.h" />
+    <ClInclude Include="ECS\AnimatorManager.h" />
+    <ClInclude Include="ECS\ButtonComponent.h" />
+    <ClInclude Include="ECS\ColliderComponent.h" />
+    <ClInclude Include="ECS\Components.h" />
+    <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="ECS\FlashAnimation.h" />
+    <ClInclude Include="ECS\FlashAnimatorComponent.h" />
+    <ClInclude Include="ECS\GridComponent.h" />
+    <ClInclude Include="ECS\LightComponent.h" />
+    <ClInclude Include="ECS\Rectangle_w_Color.h" />
+    <ClInclude Include="ECS\RigidBodyComponent.h" />
+    <ClInclude Include="ECS\SpriteComponent.h" />
+    <ClInclude Include="ECS\TileComponent.h" />
+    <ClInclude Include="ECS\TransformComponent.h" />
     <ClInclude Include="GameScreen\IGameScreen.h" />
     <ClInclude Include="GameScreen\IMainGame.h" />
     <ClInclude Include="GameScreen\ScreenList.h" />
@@ -157,6 +176,7 @@
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
+    <ClInclude Include="PNG_Letters.h" />
     <ClInclude Include="SpriteBatch\SpriteBatch.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="Timing\Timing.h" />

@@ -1,7 +1,7 @@
 #include "MainMenuScreen.h"
 #include <iostream>
 #include <SDL/SDL.h>
-#include "../ECS/Components.h"
+#include "ECS/Components.h"
 #include "../ECS/ScriptComponents.h"
 #include "Vector2D/Vector2D.h"
 #include "../Collision/Collision.h"
@@ -16,7 +16,6 @@ Camera2D MainMenuScreen::hud_camera2D;
 
 SpriteBatch MainMenuScreen::_spriteBatch;
 
-TextureManager* MainMenuScreen::textures = new TextureManager();
 AssetManager* MainMenuScreen::assets = nullptr;
 
 auto& StartGameButton(main_menu_manager.addEntity());
@@ -85,20 +84,20 @@ void MainMenuScreen::onEntry()
 		std::cout << "Error : SDL_TTF" << std::endl;
 	}
 
-	MainMenuScreen::textures->Add_GLTexture("startgame", "assets/Sprites/StartGame.png");
-	MainMenuScreen::textures->Add_GLTexture("exitgame", "assets/Sprites/ExitGame.png");
+	TextureManager::getInstance().Add_GLTexture("startgame", "assets/Sprites/StartGame.png");
+	TextureManager::getInstance().Add_GLTexture("exitgame", "assets/Sprites/ExitGame.png");
 
 	StartGameButton.addComponent<TransformComponent>(230.0f, 100.0f,
-		MainMenuScreen::textures->Get_GLTexture("startgame")->height,
-		MainMenuScreen::textures->Get_GLTexture("startgame")->width,
+		TextureManager::getInstance().Get_GLTexture("startgame")->height,
+		TextureManager::getInstance().Get_GLTexture("startgame")->width,
 		1.0f);
 	StartGameButton.addComponent<SpriteComponent>("startgame", 1.0f, true);
 	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this));
 	StartGameButton.addGroup(MainMenuScreen::startGameGroup);
 
 	ExitGameButton.addComponent<TransformComponent>(240.0f, 250.0f,
-		MainMenuScreen::textures->Get_GLTexture("exitgame")->height,
-		MainMenuScreen::textures->Get_GLTexture("exitgame")->width,
+		TextureManager::getInstance().Get_GLTexture("exitgame")->height,
+		TextureManager::getInstance().Get_GLTexture("exitgame")->width,
 		1.0f);
 	ExitGameButton.addComponent<SpriteComponent>("exitgame", 1.0f, true);
 	ExitGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitGame, this));
@@ -151,7 +150,7 @@ void MainMenuScreen::update(float deltaTime)
 void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = textures->Get_GLTexture(textureName);
+	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);

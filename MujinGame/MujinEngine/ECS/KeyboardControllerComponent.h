@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "./ECS.h"
+#include "ECS/ECS.h"
 #include "./Components.h"
 #include <Windows.h>
 #include <MMSystem.h>

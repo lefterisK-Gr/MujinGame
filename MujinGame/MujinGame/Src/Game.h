@@ -71,7 +71,6 @@ public:
 
 	static Map* map;
 
-	static TextureManager* textures;
 	static AssetManager* assets;
 
 	static SceneManager* scenes;

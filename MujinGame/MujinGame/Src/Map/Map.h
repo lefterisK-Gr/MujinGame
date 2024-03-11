@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "../ECS\ECS.h"
+#include "ECS\ECS.h"
 #include "../Game.h"
 
 #include <algorithm>

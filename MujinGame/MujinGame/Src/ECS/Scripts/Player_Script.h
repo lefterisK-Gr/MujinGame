@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Components.h"
+#include "ECS/Components.h"
+#include "../../Map/Map.h"
 #include "AudioEngine/AudioEngine.h"
 #include "../../Collision/Collision.h"
 #include "../Scripts/Shop.h"

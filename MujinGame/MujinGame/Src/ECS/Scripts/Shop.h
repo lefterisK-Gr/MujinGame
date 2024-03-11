@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Components.h"
+#include "ECS/Components.h"
 #include "Item.h"
 
 class Shop : public Component

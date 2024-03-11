@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Components.h"
+#include "ECS/Components.h"
 #include "../../ShapeManager.h"
 
 class Sun_Script : public Component

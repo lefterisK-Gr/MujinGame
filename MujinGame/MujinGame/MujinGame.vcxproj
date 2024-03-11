@@ -149,12 +149,10 @@
     <ClCompile Include="Src\App\App.cpp" />
     <ClCompile Include="Src\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Src\Collision\Collision.cpp" />
-    <ClCompile Include="Src\ECS\ECS.cpp" />
     <ClCompile Include="Src\Game.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
-    <ClCompile Include="Src\PNG_Letters.cpp" />
     <ClCompile Include="Src\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,23 +160,10 @@
     <ClInclude Include="Src\AssetManager\AssetManager.h" />
     <ClInclude Include="Src\CircularBackground.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
-    <ClInclude Include="Src\ECS\Animation.h" />
-    <ClInclude Include="Src\ECS\AnimatorComponent.h" />
-    <ClInclude Include="Src\ECS\AnimatorManager.h" />
-    <ClInclude Include="Src\ECS\ButtonComponent.h" />
-    <ClInclude Include="Src\ECS\ColliderComponent.h" />
-    <ClInclude Include="Src\ECS\Components.h" />
-    <ClInclude Include="Src\ECS\ECS.h" />
-    <ClInclude Include="Src\ECS\FlashAnimation.h" />
-    <ClInclude Include="Src\ECS\FlashAnimatorComponent.h" />
-    <ClInclude Include="Src\ECS\GridComponent.h" />
     <ClInclude Include="Src\ECS\KeyboardController.h" />
     <ClInclude Include="Src\ECS\KeyboardController2.h" />
-    <ClInclude Include="Src\ECS\LightComponent.h" />
     <ClInclude Include="Src\ECS\ProjectileComponent.h" />
-    <ClInclude Include="Src\ECS\Rectangle_w_Color.h" />
-    <ClInclude Include="Src\ECS\RigidBodyComponent.h" />
-    <ClInclude Include="Src\ECS\ScoreComponent.h" />
+    <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h" />
     <ClInclude Include="Src\ECS\ScriptComponents.h" />
     <ClInclude Include="Src\ECS\Scripts\HPBar.h" />
     <ClInclude Include="Src\ECS\Scripts\Inventory.h" />
@@ -189,13 +174,9 @@
     <ClInclude Include="Src\ECS\Scripts\StageUpButton.h" />
     <ClInclude Include="Src\ECS\Scripts\StageUpButtons.h" />
     <ClInclude Include="Src\ECS\Scripts\Sword.h" />
-    <ClInclude Include="Src\ECS\TileComponent.h" />
-    <ClInclude Include="Src\ECS\TransformComponent.h" />
-    <ClInclude Include="Src\ECS\SpriteComponent.h" />
     <ClInclude Include="Src\Game.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Map.h" />
-    <ClInclude Include="Src\PNG_Letters.h" />
     <ClInclude Include="Src\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>

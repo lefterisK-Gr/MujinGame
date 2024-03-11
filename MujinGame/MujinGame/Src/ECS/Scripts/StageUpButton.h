@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Components.h"
+#include "ECS/Components.h"
 #include "AudioEngine/AudioEngine.h"
 
 class StageUpButton : public Component
@@ -36,8 +36,8 @@ public:
 	void init() override {
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(0.0f, offsetY,
-				Game::textures->Get_GLTexture(id)->height,
-				Game::textures->Get_GLTexture(id)->width,
+				TextureManager::getInstance().Get_GLTexture(id)->height,
+				TextureManager::getInstance().Get_GLTexture(id)->width,
 				1.0f);
 		}
 		transform = &entity->getComponent<TransformComponent>();

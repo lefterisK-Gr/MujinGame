@@ -4,6 +4,12 @@
 
 #include "../ConsoleLogger.h"
 
+
+TextureManager& TextureManager::getInstance() {
+	static TextureManager instance;
+	return instance;
+}
+
 bool TextureManager::readFileToBuffer(const char* filePath, std::vector <unsigned char>& buffer) {
 	std::ifstream file(filePath, std::ios::binary);
 

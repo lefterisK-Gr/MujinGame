@@ -8,7 +8,7 @@
 #include <array>
 
 #include <SDL/SDL.h>
-#include "SpriteBatch/SpriteBatch.h"
+#include "../SpriteBatch/SpriteBatch.h"
 class Component;
 class Entity;
 class Manager;
@@ -24,7 +24,7 @@ inline ComponentID getNewComponentTypeID()
 
 template <typename T> inline ComponentID getComponentTypeID() noexcept
 {
-	static ComponentID typeID = getNewComponentTypeID();
+	static ComponentID typeID = getNewComponentTypeID(); // typeID is unique for each function type T and only initialized once.
 	return typeID;
 }
 

@@ -16,6 +16,7 @@
 #include "Scripts/ProjectileComponent.h"
 #include "Scripts/StageUpButton.h"
 #include "Scripts/StageUpButtons.h"
+#include "Scripts/ScoreComponent.h"
 
 #include "Scripts/Item.h"
 #include "Scripts/Shop.h"

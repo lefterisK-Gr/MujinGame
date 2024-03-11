@@ -17,7 +17,7 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "../ECS/ECS.h"
+#include "ECS/ECS.h"
 
 #include "GameScreen/ScreenIndices.h"
 
@@ -47,8 +47,6 @@ public:
     static Camera2D hud_camera2D;
 
     static SpriteBatch _spriteBatch;
-
-    static TextureManager* textures;
 
     static AssetManager* assets;
 

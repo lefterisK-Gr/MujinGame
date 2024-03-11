@@ -1,5 +1,5 @@
 #include "AssetManager.h"
-#include "../ECS/Components.h"
+#include "ECS/Components.h"
 #include "../ECS/ScriptComponents.h"
 #include "../Collision/Collision.h"
 
@@ -98,7 +98,7 @@ void AssetManager::CreateSunShape(Entity& sun)
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());
-	const GLTexture* gl_texture = Game::textures->Get_GLTexture(id);
+	const GLTexture* gl_texture = TextureManager::getInstance().Get_GLTexture(id);
 	projectile.addComponent<TransformComponent>(pos.x-gl_texture->width/2, pos.y- gl_texture->height/2, gl_texture->width, gl_texture->height, 1, speed);
 	projectile.addComponent<AnimatorComponent>(id);
 	Vector2D direction = Vector2D::Distance(dest, pos).Normalize();

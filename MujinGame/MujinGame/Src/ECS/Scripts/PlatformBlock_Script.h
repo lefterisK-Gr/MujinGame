@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AnimatorComponent.h"
+#include "ECS/AnimatorComponent.h"
 
 
 class PlatformBlock_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Transform
