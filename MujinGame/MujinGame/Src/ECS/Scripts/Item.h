@@ -33,8 +33,8 @@ public:
 
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(0.0f, 100.0f,
-				Game::assets->Get_GLTexture(id)->height,
-				Game::assets->Get_GLTexture(id)->width,
+				Game::textures->Get_GLTexture(id)->height,
+				Game::textures->Get_GLTexture(id)->width,
 				2.0f);
 		}
 		transform = &entity->getComponent<TransformComponent>();

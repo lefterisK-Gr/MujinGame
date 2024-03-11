@@ -65,3 +65,24 @@ GLTexture* TextureManager::loadPNG(const char* filePath) {
 
 	return &texture;
 }
+
+
+void TextureManager::Add_GLTexture(std::string id, const char* path)
+{
+	const GLTexture* testPNG = TextureManager::loadPNG(path);
+	const int testHeight = testPNG->height;
+	const int testWidth = testPNG->width;
+	const unsigned int testId = testPNG->id;
+	const GLTexture* test1PNG = new GLTexture{ testId, testWidth, testHeight };
+
+	std::cout << id << "     " << test1PNG->width << std::endl;
+	std::cout << id << "     " << testPNG->width << std::endl;
+	std::cout << testHeight << std::endl;
+	gl_textures.emplace(id, test1PNG);
+	std::cout << id << "     " << (*gl_textures[id]).height << std::endl;
+}
+
+const GLTexture* TextureManager::Get_GLTexture(std::string id)
+{
+	return gl_textures[id];
+}

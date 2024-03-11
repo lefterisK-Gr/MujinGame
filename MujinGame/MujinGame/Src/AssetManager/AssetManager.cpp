@@ -98,7 +98,7 @@ void AssetManager::CreateSunShape(Entity& sun)
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());
-	const GLTexture* gl_texture = Game::assets->Get_GLTexture(id);
+	const GLTexture* gl_texture = Game::textures->Get_GLTexture(id);
 	projectile.addComponent<TransformComponent>(pos.x-gl_texture->width/2, pos.y- gl_texture->height/2, gl_texture->width, gl_texture->height, 1, speed);
 	projectile.addComponent<AnimatorComponent>(id);
 	Vector2D direction = Vector2D::Distance(dest, pos).Normalize();
@@ -231,25 +231,4 @@ bool AssetManager::LeftOfPipeTrigger(SDL_Rect collider)
 		}
 	}
 	return false;
-}
-
-
-void AssetManager::Add_GLTexture(std::string id, const char* path)
-{
-	const GLTexture *testPNG = TextureManager::loadPNG(path);
-	const int testHeight = testPNG->height;
-	const int testWidth = testPNG->width;
-	const unsigned int testId = testPNG->id;
-	const GLTexture* test1PNG = new GLTexture{ testId, testWidth, testHeight };
-
-	std::cout << id << "     " << test1PNG->width<< std::endl;
-	std::cout << id << "     " << testPNG->width << std::endl;
-	std::cout << testHeight << std::endl;
-	gl_textures.emplace(id, test1PNG);
-	std::cout << id << "     " << (*gl_textures[id]).height << std::endl;
-}
-
-const GLTexture* AssetManager::Get_GLTexture(std::string id)
-{
-	return gl_textures[id];
 }

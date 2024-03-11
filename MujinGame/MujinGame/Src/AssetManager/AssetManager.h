@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include <string>
 #include "TextureManager/TextureManager.h"
 #include "../ShapeManager.h"
@@ -40,17 +39,9 @@ public:
 	bool OnPipeTrigger(SDL_Rect collider);
 	bool LeftOfPipeTrigger(SDL_Rect collider);
 
-	//sprite management
-
-	//texture management
-	void Add_GLTexture(std::string id, const char* path);
-	const GLTexture* Get_GLTexture(std::string id);
-
 private:
 	Manager* manager;
 	InputManager& _inputManager;
-
-	std::map<std::string, const GLTexture*> gl_textures;
 
 	SDL_Rect onpipeTriggers[2];
 	SDL_Rect leftofpipeTriggers[1];

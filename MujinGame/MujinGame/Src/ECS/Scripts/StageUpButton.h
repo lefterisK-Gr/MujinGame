@@ -36,8 +36,8 @@ public:
 	void init() override {
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(0.0f, offsetY,
-				Game::assets->Get_GLTexture(id)->height,
-				Game::assets->Get_GLTexture(id)->width,
+				Game::textures->Get_GLTexture(id)->height,
+				Game::textures->Get_GLTexture(id)->width,
 				1.0f);
 		}
 		transform = &entity->getComponent<TransformComponent>();

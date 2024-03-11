@@ -29,6 +29,7 @@ SpriteBatch Game::_hudSpriteBatch;
 AudioEngine Game::audioEngine;
 
 Map* Game::map = nullptr;
+TextureManager* Game::textures = new TextureManager();
 AssetManager* Game::assets = nullptr;
 SceneManager* Game::scenes = new SceneManager();
 MujinEngine::Window* Game::_window = nullptr;
@@ -115,18 +116,18 @@ void Game::onEntry()
 	}
 
 	//add the textures to our texture library
-	assets->Add_GLTexture("backgroundMountains","assets/Sprites/villageBackground.png");
-	assets->Add_GLTexture("terrain", "assets/Sprites/village_tileset.png");
-	assets->Add_GLTexture("warrior", "assets/Sprites/samurai.png");
-	assets->Add_GLTexture("projectile", "assets/Sprites/my_projectile.png");
-	assets->Add_GLTexture("warriorProjectile", "assets/Sprites/warriorSlash.png");
-	assets->Add_GLTexture("skeleton", "assets/Sprites/skeleton.png"); // same path since the same png has all entities
-	assets->Add_GLTexture("greenkoopatroopa", "assets/Sprites/mushroom.png");
-	assets->Add_GLTexture("sword", "assets/Sprites/sword.png");
-	assets->Add_GLTexture("shield", "assets/Sprites/shield.png");
-	assets->Add_GLTexture("healthPotion", "assets/Sprites/healthPotion.png");
+	textures->Add_GLTexture("backgroundMountains","assets/Sprites/villageBackground.png");
+	textures->Add_GLTexture("terrain", "assets/Sprites/village_tileset.png");
+	textures->Add_GLTexture("warrior", "assets/Sprites/samurai.png");
+	textures->Add_GLTexture("projectile", "assets/Sprites/my_projectile.png");
+	textures->Add_GLTexture("warriorProjectile", "assets/Sprites/warriorSlash.png");
+	textures->Add_GLTexture("skeleton", "assets/Sprites/skeleton.png"); // same path since the same png has all entities
+	textures->Add_GLTexture("greenkoopatroopa", "assets/Sprites/mushroom.png");
+	textures->Add_GLTexture("sword", "assets/Sprites/sword.png");
+	textures->Add_GLTexture("shield", "assets/Sprites/shield.png");
+	textures->Add_GLTexture("healthPotion", "assets/Sprites/healthPotion.png");
 
-	assets->Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
+	textures->Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	Game::map = new Map("terrain", 1, 32);
 
@@ -737,7 +738,7 @@ void Game::checkInput() {
 void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camera) { // todo add camera argument
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
-	const GLTexture* texture = assets->Get_GLTexture(textureName);
+	const GLTexture* texture = textures->Get_GLTexture(textureName);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);

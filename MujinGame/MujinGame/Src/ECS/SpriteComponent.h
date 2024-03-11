@@ -61,11 +61,11 @@ public:
 	{
 		//texture = Game::assets->GetTexture(id);
 		if (_isMainMenu) {
-			gl_texture = MainMenuScreen::assets->Get_GLTexture(id);
+			gl_texture = MainMenuScreen::textures->Get_GLTexture(id);
 		}
 		else
 		{
-			gl_texture = Game::assets->Get_GLTexture(id);
+			gl_texture = Game::textures->Get_GLTexture(id);
 		}
 	}
 

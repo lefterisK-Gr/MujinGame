@@ -15,6 +15,7 @@
 //#include "../SpriteFont/SpriteFont.h"
 #include "AudioEngine/AudioEngine.h"
 #include "Window/Window.h"
+#include "TextureManager/TextureManager.h"
 
 #include "../ECS/ECS.h"
 
@@ -46,6 +47,8 @@ public:
     static Camera2D hud_camera2D;
 
     static SpriteBatch _spriteBatch;
+
+    static TextureManager* textures;
 
     static AssetManager* assets;
 
