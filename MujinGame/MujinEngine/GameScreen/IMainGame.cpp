@@ -104,6 +104,18 @@ void IMainGame::onSDLEvent(SDL_Event& evnt) {
 	case SDL_MOUSEBUTTONUP:
 		_inputManager.releaseKey(evnt.button.button);
 		break;
+	case SDL_WINDOWEVENT:
+		switch (evnt.window.event) {
+		case SDL_WINDOWEVENT_SIZE_CHANGED:
+		case SDL_WINDOWEVENT_RESIZED:
+			int newWidth = evnt.window.data1;
+			int newHeight = evnt.window.data2;
+			// Handle window resizing, update viewport or other necessary elements
+			_window.setScreenWidth(newWidth);
+			_window.setScreenHeight(newHeight);
+			break;
+		}
+		break;
 	default:
 		break;
 	}
@@ -137,7 +149,7 @@ bool IMainGame::init() {
 }
 
 bool IMainGame::initSystems() {
-	_window.create("Mujin", 800, 640, 1.0f, MujinEngine::INVISIBLE);
+	_window.create("Mujin", 800, 640, 1.0f, MujinEngine::VISIBLE);
 	return true;
 }
 

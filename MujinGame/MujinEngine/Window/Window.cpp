@@ -13,13 +13,16 @@ MujinEngine::Window::~Window()
 
 int MujinEngine::Window::create(std::string windowName, int screenWidth, int screenHeight, float scale, unsigned int currentFlags) {
 
-    Uint32 flags = SDL_WINDOW_OPENGL;
+    Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
     _screenWidth = screenWidth * scale;
     _screenHeight = screenHeight * scale;
     _scale = scale;
 
     if (currentFlags & INVISIBLE) {
         flags |= SDL_WINDOW_HIDDEN;
+    }
+    if (currentFlags & VISIBLE) {
+        flags &= ~INVISIBLE;
     }
     if (currentFlags & FULLSCREEN) {
         flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;

@@ -99,7 +99,7 @@ public:
 			return;
 		}
 		float tempScreenScale = Game::_window->getScale();
-		glm::vec4 pos((float)destRect.x* tempScreenScale, -Game::_window->getScreenHeight() + (float)destRect.y * tempScreenScale,
+		glm::vec4 pos((float)destRect.x* tempScreenScale, (float)destRect.y * tempScreenScale,
 			(float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
 
 		float srcUVposX = spriteFlip == SDL_FLIP_HORIZONTAL ?

@@ -24,7 +24,7 @@ public:
 	void init(int screenWidth, int screenHeight) override {
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
-		_orthoMatrix = glm::ortho(0.0f, (float)_screenWidth, 0.0f, -(float)_screenHeight); //left, right, bottom, top
+		_orthoMatrix = glm::ortho(0.0f, (float)_screenWidth, (float)_screenHeight, 0.0f ); //left, right, top, bottom
 	}
 
 	void update() override {
