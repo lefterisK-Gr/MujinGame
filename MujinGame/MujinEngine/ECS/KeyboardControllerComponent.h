@@ -62,10 +62,10 @@ public: //TODO: maybe have variables as private
 
 	void init() override
 	{
-		transform = &entity->getComponent<TransformComponent>();
-		animator = &entity->getComponent<AnimatorComponent>();
-		rigidbody = &entity->getComponent<RigidBodyComponent>();
-		sprite = &entity->getComponent<SpriteComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
+		animator = &entity->GetComponent<AnimatorComponent>();
+		rigidbody = &entity->GetComponent<RigidBodyComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
 	}
 
 	void update(float deltaTime) override

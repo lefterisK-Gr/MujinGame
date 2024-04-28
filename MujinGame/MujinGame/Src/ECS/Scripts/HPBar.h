@@ -21,11 +21,11 @@ public:
 	}
 
 	void init() override {
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 		if (!entity->hasComponent<Rectangle_w_Color>()) {
 			entity->addComponent<Rectangle_w_Color>();
 		}
-		rectangle = &entity->getComponent<Rectangle_w_Color>();
+		rectangle = &entity->GetComponent<Rectangle_w_Color>();
 	}
 
 	void update(float deltaTime) override {

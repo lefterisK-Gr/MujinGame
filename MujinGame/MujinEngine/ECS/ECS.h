@@ -22,7 +22,7 @@ inline ComponentID getNewComponentTypeID()
 	return lastID++;
 }
 
-template <typename T> inline ComponentID getComponentTypeID() noexcept
+template <typename T> inline ComponentID GetComponentTypeID() noexcept
 {
 	static ComponentID typeID = getNewComponentTypeID(); // typeID is unique for each function type T and only initialized once.
 	return typeID;
@@ -96,7 +96,7 @@ public:
 
 	template <typename T> bool hasComponent() const
 	{
-		return componentBitSet[getComponentTypeID<T>()];
+		return componentBitSet[GetComponentTypeID<T>()];
 	}
 	//! have addScript function
 	template <typename T, typename... TArgs>
@@ -107,16 +107,16 @@ public:
 		std::unique_ptr<Component> uPtr{ c };
 		components.emplace_back(std::move(uPtr));
 
-		componentArray[getComponentTypeID<T>()] = c;
-		componentBitSet[getComponentTypeID<T>()] = true;
+		componentArray[GetComponentTypeID<T>()] = c;
+		componentBitSet[GetComponentTypeID<T>()] = true;
 
 		c->init();
 		return *c;
 	}
 
-	template<typename T> T& getComponent() const
+	template<typename T> T& GetComponent() const
 	{
-		auto ptr(componentArray[getComponentTypeID<T>()]);
+		auto ptr(componentArray[GetComponentTypeID<T>()]);
 		return *static_cast<T*>(ptr);
 	}
 

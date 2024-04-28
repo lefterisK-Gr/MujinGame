@@ -137,7 +137,7 @@ bool IMainGame::init() {
 }
 
 bool IMainGame::initSystems() {
-	_window.create("Mujin", 800, 640, 1.2, 0);
+	_window.create("Mujin", 800, 640, 1.0f, MujinEngine::INVISIBLE);
 	return true;
 }
 

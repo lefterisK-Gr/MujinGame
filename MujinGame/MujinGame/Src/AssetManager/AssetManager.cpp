@@ -104,9 +104,9 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int s
 	Vector2D direction = Vector2D::Distance(dest, pos).Normalize();
 	projectile.addComponent<ProjectileComponent>(range, speed, direction);
 	if (direction.x < 0) {
-		projectile.getComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
+		projectile.GetComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
 	}
-	//projectile.getComponent<SpriteComponent>().animIndex = 0; //this actually shouldnt be here, this may result in errors, solution: decouple the character and his/her animations from SpriteComponent so we dont have to zero animIndex
+	//projectile.GetComponent<SpriteComponent>().animIndex = 0; //this actually shouldnt be here, this may result in errors, solution: decouple the character and his/her animations from SpriteComponent so we dont have to zero animIndex
 	projectile.addComponent<ColliderComponent>(id);
 	if(id == "projectile")
 		projectile.addGroup(Game::groupProjectiles);
@@ -118,11 +118,11 @@ void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bo
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, isGiant ? 2 : 1);
-	enemy.getComponent<TransformComponent>().velocity = vel;
+	enemy.GetComponent<TransformComponent>().velocity = vel;
 	enemy.addComponent<AnimatorComponent>(id);
 	enemy.addComponent<ColliderComponent>(id);
 	enemy.addComponent<RigidBodyComponent>();
-	enemy.getComponent<AnimatorComponent>().Play("SkeletonWalk");
+	enemy.GetComponent<AnimatorComponent>().Play("SkeletonWalk");
 	enemy.addComponent<Sword>(true);
 	enemy.addComponent<Skeleton_Script>(isGiant);
 	
@@ -149,7 +149,7 @@ void AssetManager::RefreshShop() {
 
 	for (auto& s : shop)
 	{
-		s->getComponent<Shop>().generateRandomItems();
+		s->GetComponent<Shop>().generateRandomItems();
 	}
 }
 
@@ -165,14 +165,14 @@ void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed,
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
-	enemy.getComponent<TransformComponent>().velocity = vel;
+	enemy.GetComponent<TransformComponent>().velocity = vel;
 	enemy.addComponent<AnimatorComponent>(id);
 	enemy.addComponent<GreenKoopaTroopa_Script>();
 	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
 	enemy.addComponent<ColliderComponent>(id);
 	enemy.addComponent<RigidBodyComponent>();
-	enemy.getComponent<AnimatorComponent>().Play("GreenKoopaTroopaWalk");
-	//enemy.getComponent<TransformComponent>().velocity.x = 1;
+	enemy.GetComponent<AnimatorComponent>().Play("GreenKoopaTroopaWalk");
+	//enemy.GetComponent<TransformComponent>().velocity.x = 1;
 
 	enemy.addGroup(Game::groupGreenKoopaTroopas);
 }

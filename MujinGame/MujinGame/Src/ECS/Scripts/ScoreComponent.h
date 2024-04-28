@@ -35,7 +35,7 @@ public:
 	void addToScore(int scr)
 	{
 		score += scr;
-		scorelabel->getComponent<UILabel>().setLetters("score" + std::to_string(score));
+		scorelabel->GetComponent<UILabel>().setLetters("score" + std::to_string(score));
 	}
 
 	int getScore()

@@ -38,10 +38,10 @@ public:
 	}
 
 	void init() override {
-		transform = &entity->getComponent<TransformComponent>();
-		collider = &entity->getComponent<ColliderComponent>();
-		sprite = &entity->getComponent<SpriteComponent>();
-		//livingCharacter = &entity->getComponent<LivingCharacter>();
+		transform = &entity->GetComponent<TransformComponent>();
+		collider = &entity->GetComponent<ColliderComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
+		//livingCharacter = &entity->GetComponent<LivingCharacter>();
 	}
 
 	void update(float deltaTime) override {
@@ -55,7 +55,7 @@ public:
 	bool attack() {
 		auto& slice(manager.addEntity());
 		slice.addComponent<Slice>(hitBoxCollider, _attackDamage);
-		sliceComp = &entity->getComponent<Slice>();
+		sliceComp = &entity->GetComponent<Slice>();
 		slice.addGroup(enemySlice ? Game::groupEnemySlices : Game::groupSlices);
 
 		return true;
@@ -63,7 +63,7 @@ public:
 
 	bool ability1() {
 		if (entity->hasComponent<LivingCharacter>()) {
-			if (!entity->getComponent<LivingCharacter>().applyMana(10)) {
+			if (!entity->GetComponent<LivingCharacter>().applyMana(10)) {
 				Vector2D centerTransform = transform->getCenterTransform();
 				Vector2D projectileDirection = sprite->spriteFlip == SDL_FLIP_NONE ? Vector2D(1, 0) : Vector2D(-1, 0);
 				Vector2D projectileStartPosition = centerTransform;

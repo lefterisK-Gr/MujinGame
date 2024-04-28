@@ -22,7 +22,7 @@ public:
     }
 
     void init() override {
-        transform = &entity->getComponent<TransformComponent>();
+        transform = &entity->GetComponent<TransformComponent>();
 
         destRect.w = transform->width * transform->scale;
         destRect.h = transform->height * transform->scale;

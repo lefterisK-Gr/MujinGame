@@ -34,8 +34,8 @@ bool Collision::checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_
 }
 
 void Collision::moveFromCollision(Entity& player) {
-	auto& playerTransform = player.getComponent<TransformComponent>();
-	auto playerCollider = player.getComponent<ColliderComponent>();
+	auto& playerTransform = player.GetComponent<TransformComponent>();
+	auto playerCollider = player.GetComponent<ColliderComponent>();
 
 	switch (Collision::movingRectColSide) {
 		case Collision::ColSide::RIGHT: // Move player to the left of the collider
@@ -48,7 +48,7 @@ void Collision::moveFromCollision(Entity& player) {
 
 		case Collision::ColSide::DOWN: // Move player above the collider
 			playerTransform.position.y -= Collision::overlap.y;
-			player.getComponent<RigidBodyComponent>().onGround = true;
+			player.GetComponent<RigidBodyComponent>().onGround = true;
 			break;
 
 		case Collision::ColSide::TOP: // Move player below the collider
@@ -59,5 +59,5 @@ void Collision::moveFromCollision(Entity& player) {
 		default:
 			break;
 	}
-	player.getComponent<ColliderComponent>().update(1.0f);
+	player.GetComponent<ColliderComponent>().update(1.0f);
 }

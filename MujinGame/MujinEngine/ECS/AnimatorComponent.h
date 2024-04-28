@@ -46,7 +46,7 @@ public:
 		{
 			entity->addComponent<SpriteComponent>(textureid);
 		}
-		sprite = &entity->getComponent<SpriteComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
 
 		Play("P1Idle"); //onStart
 		sprite->setTex(textureid);

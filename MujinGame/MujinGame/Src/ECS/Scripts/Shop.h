@@ -39,11 +39,11 @@ public:
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(50.0f, 50.0f, 400.0f, 600.0f, 1);
 		}
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 		if (!entity->hasComponent<Rectangle_w_Color>()) {
 			entity->addComponent<Rectangle_w_Color>();
 		}
-		rectangle = &entity->getComponent<Rectangle_w_Color>();
+		rectangle = &entity->GetComponent<Rectangle_w_Color>();
 		rectangle->color = Color(100, 100, 100, 255);
 	}
 
@@ -55,7 +55,7 @@ public:
 
 		for (auto& s : _items)
 		{
-			s->getComponent<TransformComponent>().position.x = currentX;
+			s->GetComponent<TransformComponent>().position.x = currentX;
 			currentX += itemPositionIncrementX;
 		}
 	}

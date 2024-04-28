@@ -34,14 +34,14 @@ public:
 	}
 
 	void init() override {
-		animator = &entity->getComponent<AnimatorComponent>();
-		sprite = &entity->getComponent<SpriteComponent>();
-		transform = &entity->getComponent<TransformComponent>();
+		animator = &entity->GetComponent<AnimatorComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 		if (!entity->hasComponent<LivingCharacter>()) //todo: problem: having transform on top left grid, not every collider its own
 		{
 			entity->addComponent<LivingCharacter>();
 		}
-		living = &entity->getComponent<LivingCharacter>();
+		living = &entity->GetComponent<LivingCharacter>();
 	}
 
 	void update(float deltaTime) override {
@@ -78,7 +78,7 @@ public:
 				for (auto& p : players)
 				{
 					auto enemyTransform = *transform;
-					auto playerTransform = p->getComponent<TransformComponent>();
+					auto playerTransform = p->GetComponent<TransformComponent>();
 
 					if ((enemyTransform.position.x < playerTransform.position.x + 200 && enemyTransform.position.x > playerTransform.position.x) ||
 						(enemyTransform.position.x > playerTransform.position.x - 200 && enemyTransform.position.x < playerTransform.position.x))

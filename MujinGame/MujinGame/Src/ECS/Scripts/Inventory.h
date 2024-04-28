@@ -35,11 +35,11 @@ public:
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(50.0f, 50.0f, 400.0f, 600.0f, 1);
 		}
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 		if (!entity->hasComponent<Rectangle_w_Color>()) {
 			entity->addComponent<Rectangle_w_Color>();
 		}
-		rectangle = &entity->getComponent<Rectangle_w_Color>();
+		rectangle = &entity->GetComponent<Rectangle_w_Color>();
 		rectangle->color = Color(200, 200, 200, 255);
 
 		for (auto i = 0; i < SLOTS_PER_COLUMN; i++)
@@ -49,7 +49,7 @@ public:
 				auto& slot = manager.addEntity();
 				slot.addComponent<TransformComponent>(0.0f, 0.0f, 64.0f, 64.0f, transform->scale);
 				slot.addComponent<Rectangle_w_Color>();
-				slot.getComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
+				slot.GetComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
 				slot.addGroup(Game::groupSlots);
 				_slots.emplace_back(&slot);
 			}
@@ -68,8 +68,8 @@ public:
 					float posX = transform->position.x + (SLOT_SIZE + SLOT_SPACE) * j;
 					float posY = transform->position.y + (SLOT_SIZE + SLOT_SPACE) * i;
 
-					slot->getComponent<TransformComponent>().position.x = posX + 50.0f;
-					slot->getComponent<TransformComponent>().position.y = posY + 50.0f;
+					slot->GetComponent<TransformComponent>().position.x = posX + 50.0f;
+					slot->GetComponent<TransformComponent>().position.y = posY + 50.0f;
 				}
 			}
 		}

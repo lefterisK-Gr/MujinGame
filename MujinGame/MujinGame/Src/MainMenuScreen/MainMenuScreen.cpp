@@ -109,7 +109,7 @@ void MainMenuScreen::onExit()
 {
 	for (auto& sb : startgamebuttons)
 	{
-		sb->getComponent<ButtonComponent>().setOnClick(std::bind(&MainMenuScreen::onResumeGame, this));
+		sb->GetComponent<ButtonComponent>().setOnClick(std::bind(&MainMenuScreen::onResumeGame, this));
 	}
 }
 
@@ -127,18 +127,18 @@ void MainMenuScreen::update(float deltaTime)
 
 	for (auto& sb : startgamebuttons)
 	{
-		SpriteComponent entitySprite = sb->getComponent<SpriteComponent>();
+		SpriteComponent entitySprite = sb->GetComponent<SpriteComponent>();
 		if (main_menu_collision.checkCollision(entitySprite.destRect, _mouseCoords)) { //culling
 			std::cout << "clicked button" << std::endl;
-			sb->getComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
+			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
 	}
 	for (auto& eb : exitgamebuttons)
 	{
-		SpriteComponent entitySprite = eb->getComponent<SpriteComponent>();
+		SpriteComponent entitySprite = eb->GetComponent<SpriteComponent>();
 		if (main_menu_collision.checkCollision(entitySprite.destRect, _mouseCoords)) { //culling
 			std::cout << "clicked button" << std::endl;
-			eb->getComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
+			eb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
 	}
 

@@ -42,7 +42,7 @@ public:
 	}
 
 	void init() override {
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 
 		auto& attackDamageBtn(manager.addEntity());
 		auto& defenceBtn(manager.addEntity());
@@ -73,7 +73,7 @@ public:
 
 		for (auto& p : players)
 		{
-			p->getComponent<Sword>().levelUpAttackDamage(10);
+			p->GetComponent<Sword>().levelUpAttackDamage(10);
 		}
 		entity->destroy();
 	}
@@ -83,7 +83,7 @@ public:
 
 		for (auto& p : players)
 		{
-			p->getComponent<LivingCharacter>().defence += 10;
+			p->GetComponent<LivingCharacter>().defence += 10;
 		}
 		entity->destroy();
 	}
@@ -93,7 +93,7 @@ public:
 
 		for (auto& p : players)
 		{
-			p->getComponent<LivingCharacter>().hp_bar->getComponent<HPBar>()._healthPoints += 10;
+			p->GetComponent<LivingCharacter>().hp_bar->GetComponent<HPBar>()._healthPoints += 10;
 		}
 		entity->destroy();
 	}

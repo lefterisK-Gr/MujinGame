@@ -65,21 +65,21 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void init() override {
-		rigidbody = &entity->getComponent<RigidBodyComponent>();
-		animator = &entity->getComponent<AnimatorComponent>();
-		moving_animator = &entity->getComponent<MovingAnimatorComponent>();
-		flash_animator = &entity->getComponent<FlashAnimatorComponent>();
-		sprite = &entity->getComponent<SpriteComponent>();
-		transform = &entity->getComponent<TransformComponent>();
-		keyboard = &entity->getComponent<KeyboardControllerComponent>();
-		sword = &entity->getComponent<Sword>();
+		rigidbody = &entity->GetComponent<RigidBodyComponent>();
+		animator = &entity->GetComponent<AnimatorComponent>();
+		moving_animator = &entity->GetComponent<MovingAnimatorComponent>();
+		flash_animator = &entity->GetComponent<FlashAnimatorComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
+		keyboard = &entity->GetComponent<KeyboardControllerComponent>();
+		sword = &entity->GetComponent<Sword>();
 
 		light = &manager.addEntity(); 
 
 		light->addComponent<TransformComponent>(transform->position.x, transform->position.y,
 			600.0f, 600.0f, transform->scale);
 		light->addComponent<LightComponent>(1);
-		light->getComponent<LightComponent>().color = Color(255, 255, 255, 150);
+		light->GetComponent<LightComponent>().color = Color(255, 255, 255, 150);
 
 		light->addGroup(Game::groupLights);
 
@@ -87,14 +87,14 @@ public: // it is like it has init that creates Animator Component since it inher
 		{
 			entity->addComponent<LivingCharacter>();
 		}
-		living = &entity->getComponent<LivingCharacter>();
+		living = &entity->GetComponent<LivingCharacter>();
 	}
 
 	void update(float deltaTime) override {
 		if (light) {
-			TransformComponent* lightTransform = &light->getComponent<TransformComponent>();
-			light->getComponent<TransformComponent>().position.x = transform->position.x - lightTransform->width/2 + transform->width/2;
-			light->getComponent<TransformComponent>().position.y = transform->position.y - lightTransform->height / 2 + transform->height / 2;
+			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
+			light->GetComponent<TransformComponent>().position.x = transform->position.x - lightTransform->width/2 + transform->width/2;
+			light->GetComponent<TransformComponent>().position.y = transform->position.y - lightTransform->height / 2 + transform->height / 2;
 		}
 
 		if (!attackAnimation) {
@@ -133,12 +133,12 @@ public: // it is like it has init that creates Animator Component since it inher
 			auto& markettiles(manager.getGroup(Game::groupMarket));
 
 			for (auto& mt : markettiles) {
-				if (Collision::checkCollision(mt->getComponent<ColliderComponent>().collider, entity->getComponent<ColliderComponent>().collider)) {
+				if (Collision::checkCollision(mt->GetComponent<ColliderComponent>().collider, entity->GetComponent<ColliderComponent>().collider)) {
 					// ****OPEN SHOP****
 					auto& shops(manager.getGroup(Game::groupShops));
 					for (auto& sh : shops)
 					{
-						sh->getComponent<Shop>().isOpen = !sh->getComponent<Shop>().isOpen;
+						sh->GetComponent<Shop>().isOpen = !sh->GetComponent<Shop>().isOpen;
 					}
 					break;
 				}
@@ -150,7 +150,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			auto& inventories(manager.getGroup(Game::groupInventories));
 			for (auto& sh : inventories)
 			{
-				sh->getComponent<Inventory>().isOpen = !sh->getComponent<Inventory>().isOpen;
+				sh->GetComponent<Inventory>().isOpen = !sh->GetComponent<Inventory>().isOpen;
 			}
 		}
 

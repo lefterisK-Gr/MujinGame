@@ -42,22 +42,22 @@ public:
 	}
 
 	void init() override {
-		sprite = &entity->getComponent<SpriteComponent>();
-		transform = &entity->getComponent<TransformComponent>();
-		sword = &entity->getComponent<Sword>();
-		animator = &entity->getComponent<AnimatorComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
+		sword = &entity->GetComponent<Sword>();
+		animator = &entity->GetComponent<AnimatorComponent>();
 
 		if (!entity->hasComponent<LivingCharacter>()) //todo: problem: having transform on top left grid, not every collider its own
 		{
 			entity->addComponent<LivingCharacter>();
 		}
-		living = &entity->getComponent<LivingCharacter>();
+		living = &entity->GetComponent<LivingCharacter>();
 		if (isGiant)
 		{
 			transform->speed *= 2;
 			animator->animManager.animations.find("SkeletonAttack")->second.speed *= 2;
-			living->hp_bar->getComponent<HPBar>()._healthPoints = 200;
-			living->hp_bar->getComponent<HPBar>()._maxHealthPoints = 200;
+			living->hp_bar->GetComponent<HPBar>()._healthPoints = 200;
+			living->hp_bar->GetComponent<HPBar>()._maxHealthPoints = 200;
 		}
 	}
 

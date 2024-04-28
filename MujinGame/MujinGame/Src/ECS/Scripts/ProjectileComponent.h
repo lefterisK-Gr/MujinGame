@@ -14,9 +14,9 @@ public:
 
 	void init() override
 	{
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 		transform->velocity = velocity;
-		sprite = &entity->getComponent<SpriteComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
 	}
 
 	void update(float deltaTime) override

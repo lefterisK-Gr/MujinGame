@@ -56,15 +56,15 @@ public:
 		if (!entity->hasComponent<TransformComponent>())
 		{
 			entity->addComponent<TransformComponent>(position.x, position.y, 32, 32, 1);
-			entity->getComponent<TransformComponent>().velocity = isHorizon ? Vector2D(-0.2,0) : Vector2D(0, 0);
+			entity->GetComponent<TransformComponent>().velocity = isHorizon ? Vector2D(-0.2,0) : Vector2D(0, 0);
 		}
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 
 		if (!entity->hasComponent<SpriteComponent>())
 		{
 			entity->addComponent<SpriteComponent>(textureid, isHorizon ? 3.0f : 1.0f);
 		}
-		sprite = &entity->getComponent<SpriteComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
 		sprite->srcRect = this->srcRect;
 		sprite->destRect = this->destRect;
 
@@ -72,7 +72,7 @@ public:
 		{
 			entity->addComponent<GridComponent>(position.x, position.y, scaledTile);
 		}
-		grid = &entity->getComponent<GridComponent>();
+		grid = &entity->GetComponent<GridComponent>();
 	}
 	
 	void update(float deltaTime) override //function like in sprite, but diffent moving in draw

@@ -27,9 +27,9 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void init() override {
-		animator = &entity->getComponent<AnimatorComponent>();
-		moving_animator = &entity->getComponent<MovingAnimatorComponent>();
-		sprite = &entity->getComponent<SpriteComponent>();
+		animator = &entity->GetComponent<AnimatorComponent>();
+		moving_animator = &entity->GetComponent<MovingAnimatorComponent>();
+		sprite = &entity->GetComponent<SpriteComponent>();
 	}
 
 	void update(float deltaTime) override {

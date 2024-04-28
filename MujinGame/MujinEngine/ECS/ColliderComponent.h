@@ -41,7 +41,7 @@ public:
 		{
 			entity->addComponent<TransformComponent>();
 		}
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 
 		if (tag == "terrain")
 		{

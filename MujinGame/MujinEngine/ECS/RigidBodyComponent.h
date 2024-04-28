@@ -27,7 +27,7 @@ public:
 
 	void init() override
 	{
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 	}
 
 	void update(float deltaTime) override

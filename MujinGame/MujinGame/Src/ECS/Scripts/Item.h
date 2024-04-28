@@ -37,7 +37,7 @@ public:
 				TextureManager::getInstance().Get_GLTexture(id)->width,
 				2.0f);
 		}
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 
 		if (!entity->hasComponent<SpriteComponent>()) {
 			entity->addComponent<SpriteComponent>(id, 1.0f);
@@ -47,13 +47,13 @@ public:
 		itemBack = &manager.addEntity();
 		itemBack->addComponent<TransformComponent>(transform->position.x, transform->position.y, 32.0f, 32.0f, transform->scale);
 		itemBack->addComponent<Rectangle_w_Color>();
-		itemBack->getComponent<Rectangle_w_Color>().color = Color(255, 0, 0, 255); // Grey color
+		itemBack->GetComponent<Rectangle_w_Color>().color = Color(255, 0, 0, 255); // Grey color
 
 		itemBack->addGroup(Game::groupStageUpButtonsBack);
 	}
 
 	void update(float deltaTime) override {
-		itemBack->getComponent<TransformComponent>().position.x = transform->position.x;
+		itemBack->GetComponent<TransformComponent>().position.x = transform->position.x;
 	}
 
 	void draw(SpriteBatch& batch) override {

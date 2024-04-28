@@ -65,7 +65,7 @@ public:
 		{
 			entity->addComponent<TransformComponent>();
 		}
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 		
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->width;

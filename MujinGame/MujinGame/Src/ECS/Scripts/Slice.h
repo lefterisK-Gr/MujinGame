@@ -31,8 +31,8 @@ public:
 		{
 			entity->addComponent<ColliderComponent>("slice", sliceRect);
 		}
-		transform = &entity->getComponent<TransformComponent>();
-		collider = &entity->getComponent<ColliderComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
+		collider = &entity->GetComponent<ColliderComponent>();
 	}
 
 	void update(float deltaTime) override {

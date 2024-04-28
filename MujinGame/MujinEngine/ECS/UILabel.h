@@ -33,7 +33,7 @@ public:
 		{
 			entity->addComponent<TransformComponent>();
 		}
-		transform = &entity->getComponent<TransformComponent>();
+		transform = &entity->GetComponent<TransformComponent>();
 		setLetters(label);
 	}
 
@@ -44,8 +44,8 @@ public:
 			int previousCharX = 0;
 
 			for (auto& l : letters) {
-				l->getComponent<TransformComponent>().position.x = Game::camera.x + transform->position.x + previousCharX;
-				previousCharX += l->getComponent<TransformComponent>().width;
+				l->GetComponent<TransformComponent>().position.x = Game::camera.x + transform->position.x + previousCharX;
+				previousCharX += l->GetComponent<TransformComponent>().width;
 			}
 		}
 	}
@@ -67,8 +67,8 @@ public:
 				charRect.w, charRect.h,//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position
 				1);
 			label.addComponent<SpriteComponent>(fontFamily);
-			label.getComponent<SpriteComponent>().srcRect.x = charRect.x;
-			label.getComponent<SpriteComponent>().srcRect.y = charRect.y;
+			label.GetComponent<SpriteComponent>().srcRect.x = charRect.x;
+			label.GetComponent<SpriteComponent>().srcRect.y = charRect.y;
 
 			letters.push_back(&label);
 
