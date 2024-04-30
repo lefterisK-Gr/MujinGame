@@ -745,6 +745,17 @@ void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camer
 	GLint pLocation = _textureProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	//for (auto& light : lights) {
+	//	TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
+
+	//	if (lightTransform) {
+	//		glm::vec2 lightPos = glm::vec2(lightTransform->position.x, lightTransform->position.y);
+	//		GLint lightPosLocation = _textureProgram.getUniformLocation("lightPos");
+	//		glUniform2fv(lightPosLocation, 1, &lightPos[0]);  // Pass the address of the first element of lightPos
+	//	}
+	//}
+	
 }
 
 void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
@@ -773,6 +784,7 @@ void Game::draw()
 
 
 	/////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	setupShaderAndTexture("backgroundMountains", camera2D);
 	renderBatch(backgrounds, _spriteBatch);
 	setupShaderAndTexture("terrain", camera2D);
@@ -793,10 +805,11 @@ void Game::draw()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureProgram.unuse();
 	///////////////////////////////////////////////////////
-	_lightProgram.use();
 
 	GLint pLocation = _lightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	_lightProgram.use();
+
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -844,10 +857,6 @@ void Game::draw()
 	_colorProgram.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	////////////SDL USE
-
-	////add stuff to render
 	
 }
 

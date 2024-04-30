@@ -81,7 +81,7 @@ public:
 		for (auto& c : components) c->draw(batch);
 	}
 	bool isActive() { return active; }
-	void destroy() { active = false; }
+	void destroy() { active = false; } // destroy happens relative to the group referencing
 
 	bool hasGroup(Group mGroup)
 	{

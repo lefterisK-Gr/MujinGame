@@ -16,6 +16,7 @@ private:
 	SoundEffect _slashSkillEffect = Game::audioEngine.loadSoundEffect("Sounds/skillSlash.wav");
 	SoundEffect _takeHitEffect = Game::audioEngine.loadSoundEffect("Sounds/takeHit.wav");
 
+	float _zIndex = 1.0f;
 
 public: // it is like it has init that creates Animator Component since it inherits it
 	bool attackAnimation = false;
@@ -76,10 +77,9 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		light = &manager.addEntity(); 
 
-		light->addComponent<TransformComponent>(transform->position.x, transform->position.y,
-			600.0f, 600.0f, transform->scale);
+		light->addComponent<TransformComponent>(transform->position.x, transform->position.y);
 		light->addComponent<LightComponent>(1);
-		light->GetComponent<LightComponent>().color = Color(255, 255, 255, 150);
+		light->GetComponent<LightComponent>().color = Color(255, 255, 200, 150);
 
 		light->addGroup(Game::groupLights);
 
@@ -91,10 +91,11 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void update(float deltaTime) override {
+		float parallaxFactor = 1.0f / _zIndex;
 		if (light) {
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
-			light->GetComponent<TransformComponent>().position.x = transform->position.x - lightTransform->width/2 + transform->width/2;
-			light->GetComponent<TransformComponent>().position.y = transform->position.y - lightTransform->height / 2 + transform->height / 2;
+			light->GetComponent<TransformComponent>().position.x = transform->position.x + transform->width/2 - (Game::camera.x * parallaxFactor);
+			light->GetComponent<TransformComponent>().position.y = transform->position.y + transform->height/2 - (Game::camera.y * parallaxFactor);
 		}
 
 		if (!attackAnimation) {

@@ -18,7 +18,7 @@ public:
     }
 
     ~LightComponent() {
-        // Destructor, if needed
+
     }
 
     void init() override {
@@ -30,8 +30,8 @@ public:
 
     void update(float deltaTime) override {
         float parallaxFactor = 1.0f / _zIndex;
-        destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
-        destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+        destRect.x = static_cast<int>(transform->position.x); //make player move with the camera, being stable in centre, except on edges
+        destRect.y = static_cast<int>(transform->position.y);
     }
 
     void draw(SpriteBatch& batch) override
