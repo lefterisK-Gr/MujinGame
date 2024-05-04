@@ -648,6 +648,7 @@ void Game::update(float deltaTime) //game objects updating
 		{
 			for (auto& player : players)
 			{
+				player->GetComponent<Player_Script>().light->destroy();
 				player->destroy();
 			}
 		}
@@ -746,16 +747,47 @@ void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camer
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
+	struct Light {
+		glm::vec2 position;
+		float radius;
+	};
+
+	std::vector<Light> lightsPos;
+
+	for (auto& light : lights) {
+		TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
+
+		if (lightTransform) {
+			Light tempLight;
+			tempLight.position = glm::vec2(lightTransform->position.x, lightTransform->position.y);
+			tempLight.radius = 0.0f;
+
+			lightsPos.push_back(tempLight);
+			//Light tempLight2;
+			//tempLight2.position = glm::vec2(lightTransform->position.x + 100.0f, lightTransform->position.y);
+			//tempLight2.radius = 0.0f;
+
+			//lightsPos.push_back(tempLight2);
+		}
+	}
+
+	GLint lightPosLocation = _textureProgram.getUniformLocation("lightPos[0].position");
+	glUniform2fv(lightPosLocation, 1, &(lightsPos[0].position[0]));  // Pass the address of the first element of lightPos
+
+	//GLint lightPosLocation2 = _textureProgram.getUniformLocation("lightPos[1].position");
+	//glUniform2fv(lightPosLocation2, 1, &(lightsPos[1].position[0]));  // Pass the address of the first element of lightPos
+	////////////////////////////////
 	//for (auto& light : lights) {
+
 	//	TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
 
 	//	if (lightTransform) {
 	//		glm::vec2 lightPos = glm::vec2(lightTransform->position.x, lightTransform->position.y);
-	//		GLint lightPosLocation = _textureProgram.getUniformLocation("lightPos");
-	//		glUniform2fv(lightPosLocation, 1, &lightPos[0]);  // Pass the address of the first element of lightPos
+	//		GLint lightPosLocation = _textureProgram.getUniformLocation("lightPos.position");
+	//		glUniform2fv(lightPosLocation, 1, &(lightPos[0]));  // Pass the address of the first element of lightPos
 	//	}
 	//}
-	
+
 }
 
 void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
@@ -808,15 +840,15 @@ void Game::draw()
 
 	GLint pLocation = _lightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
-	_lightProgram.use();
+	//_lightProgram.use();
 
-	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+	//glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	//renderBatch(lights);
-	renderBatch(lights, _spriteBatch);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	////renderBatch(lights);
+	//renderBatch(lights, _spriteBatch);
 
-	_lightProgram.unuse();
+	//_lightProgram.unuse();
 	///////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

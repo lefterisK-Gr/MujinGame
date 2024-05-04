@@ -62,7 +62,6 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	~Player_Script() {
-		light->destroy();
 	}
 
 	void init() override {

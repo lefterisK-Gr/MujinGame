@@ -8,6 +8,7 @@ private:
     float _zIndex = 1.0f;
 public:
     Color color;
+    float radius = 0.0f;
 
     SDL_Rect destRect;
     TransformComponent* transform = nullptr;
