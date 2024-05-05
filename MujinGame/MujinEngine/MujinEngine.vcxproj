@@ -164,6 +164,7 @@
     <ClInclude Include="ECS\FlashAnimatorComponent.h" />
     <ClInclude Include="ECS\GridComponent.h" />
     <ClInclude Include="ECS\LightComponent.h" />
+    <ClInclude Include="ECS\LightTextureComponent.h" />
     <ClInclude Include="ECS\Rectangle_w_Color.h" />
     <ClInclude Include="ECS\RigidBodyComponent.h" />
     <ClInclude Include="ECS\SpriteComponent.h" />

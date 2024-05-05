@@ -70,7 +70,7 @@ void MainMenuScreen::onEntry()
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 		//InitShaders function from Bengine
-		_textureProgram.compileShaders("Src/Shaders/textureShading.vert", "Src/Shaders/textureShading.frag");
+		_textureProgram.compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
 		_textureProgram.addAttribute("vertexPosition");
 		_textureProgram.addAttribute("vertexColor");
 		_textureProgram.addAttribute("vertexUV");

@@ -158,5 +158,8 @@
     <ClInclude Include="PNG_Letters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ECS\LightTextureComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

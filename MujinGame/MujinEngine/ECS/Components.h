@@ -12,6 +12,7 @@
 #include "ECS/RigidBodyComponent.h"
 
 #include "ECS/KeyboardControllerComponent.h"
+#include "ECS/LightTextureComponent.h"
 #include "ECS/LightComponent.h"
 
 #include "ECS/GridComponent.h"

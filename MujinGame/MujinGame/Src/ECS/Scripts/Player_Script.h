@@ -53,6 +53,8 @@ public: // it is like it has init that creates Animator Component since it inher
 	Sword* sword;
 
 	Entity* light;
+	Entity* lightTexture;
+
 
 	LivingCharacter* living;
 
@@ -75,12 +77,23 @@ public: // it is like it has init that creates Animator Component since it inher
 		sword = &entity->GetComponent<Sword>();
 
 		light = &manager.addEntity(); 
+		lightTexture = &manager.addEntity();
 
-		light->addComponent<TransformComponent>(transform->position.x, transform->position.y);
+
+		light->addComponent<TransformComponent>(transform->position.x, transform->position.y,
+			600.0f, 600.0f, transform->scale);
 		light->addComponent<LightComponent>(1);
-		light->GetComponent<LightComponent>().color = Color(255, 255, 200, 150);
+		light->GetComponent<LightComponent>().color = Color(255, 0, 0, 150);
 
 		light->addGroup(Game::groupLights);
+
+		lightTexture->addComponent<TransformComponent>(transform->position.x, transform->position.y,
+			600.0f, 600.0f, transform->scale);
+		lightTexture->addComponent<LightTextureComponent>(1);
+		lightTexture->GetComponent<LightTextureComponent>().color = Color(0, 255, 0, 150);
+
+		lightTexture->addGroup(Game::groupTextureLights);
+
 
 		if (!entity->hasComponent<LivingCharacter>()) //todo: problem: having transform on top left grid, not every collider its own
 		{
@@ -95,6 +108,12 @@ public: // it is like it has init that creates Animator Component since it inher
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
 			light->GetComponent<TransformComponent>().position.x = transform->position.x + transform->width/2 - (Game::camera.x * parallaxFactor);
 			light->GetComponent<TransformComponent>().position.y = transform->position.y + transform->height/2 - (Game::camera.y * parallaxFactor);
+		}
+
+		if (lightTexture) {
+			TransformComponent* lightTransform = &lightTexture->GetComponent<TransformComponent>();
+			lightTexture->GetComponent<TransformComponent>().position.x = transform->position.x + transform->width / 2 - (Game::camera.x * parallaxFactor);
+			lightTexture->GetComponent<TransformComponent>().position.y = transform->position.y + transform->height / 2 - (Game::camera.y * parallaxFactor);
 		}
 
 		if (!attackAnimation) {

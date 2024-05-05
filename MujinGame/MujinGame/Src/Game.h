@@ -52,6 +52,7 @@ public:
 
 	/////////////////////////
 	
+	void setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera);
 	void setupShaderAndTexture(const std::string& textureName, Camera2D& camera);
 	void renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch);
 	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
@@ -89,6 +90,7 @@ public:
 		groupSlices,
 		groupEnemySlices,
 		groupLights,
+		groupTextureLights,
 		groupProjectiles,
 		groupWarriorProjectiles,
 		groupSkeletons,
@@ -116,6 +118,7 @@ private:
 	bool onPauseGame();
 
 	GLSLProgram _colorProgram;
+	GLSLProgram _textureLightProgram;
 	GLSLProgram _textureProgram;
 	GLSLProgram _lightProgram;
 

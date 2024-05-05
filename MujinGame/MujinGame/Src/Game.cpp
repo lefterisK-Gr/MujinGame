@@ -91,7 +91,13 @@ void Game::onEntry()
 		_colorProgram.addAttribute("vertexUV");
 		_colorProgram.linkShaders();
 
-		_textureProgram.compileShaders("Src/Shaders/textureShading.vert", "Src/Shaders/textureShading.frag");
+		_textureLightProgram.compileShaders("Src/Shaders/textureShading.vert", "Src/Shaders/textureShading.frag");
+		_textureLightProgram.addAttribute("vertexPosition");
+		_textureLightProgram.addAttribute("vertexColor");
+		_textureLightProgram.addAttribute("vertexUV");
+		_textureLightProgram.linkShaders();
+
+		_textureProgram.compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
 		_textureProgram.addAttribute("vertexPosition");
 		_textureProgram.addAttribute("vertexColor");
 		_textureProgram.addAttribute("vertexUV");
@@ -187,6 +193,7 @@ auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
 auto& slices(manager.getGroup(Game::groupSlices));
 auto& enemyslices(manager.getGroup(Game::groupEnemySlices));
 auto& lights(manager.getGroup(Game::groupLights));
+auto& texturelights(manager.getGroup(Game::groupTextureLights));
 auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
@@ -736,14 +743,14 @@ void Game::checkInput() {
 }
 
 
-void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camera) { // todo add camera argument
-	_textureProgram.use();
+void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera) { // todo add camera argument
+	_textureLightProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
+	GLint textureLocation = _textureLightProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
-	GLint pLocation = _textureProgram.getUniformLocation("projection");
+	GLint pLocation = _textureLightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
@@ -760,7 +767,7 @@ void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camer
 		if (lightTransform) {
 			Light tempLight;
 			tempLight.position = glm::vec2(lightTransform->position.x, lightTransform->position.y);
-			tempLight.radius = 0.0f;
+			tempLight.radius = 100.0f;
 
 			lightsPos.push_back(tempLight);
 			//Light tempLight2;
@@ -771,23 +778,25 @@ void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camer
 		}
 	}
 
-	GLint lightPosLocation = _textureProgram.getUniformLocation("lightPos[0].position");
+	GLint lightPosLocation = _textureLightProgram.getUniformLocation("lightPos[0].position");
 	glUniform2fv(lightPosLocation, 1, &(lightsPos[0].position[0]));  // Pass the address of the first element of lightPos
+	GLint lightRadiusLocation = _textureLightProgram.getUniformLocation("lightPos[0].radius");
+	glUniform1f(lightRadiusLocation, lightsPos[0].radius);
 
-	//GLint lightPosLocation2 = _textureProgram.getUniformLocation("lightPos[1].position");
+	//GLint lightPosLocation2 = _textureLightProgram.getUniformLocation("lightPos[1].position");
 	//glUniform2fv(lightPosLocation2, 1, &(lightsPos[1].position[0]));  // Pass the address of the first element of lightPos
-	////////////////////////////////
-	//for (auto& light : lights) {
+}
 
-	//	TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
-
-	//	if (lightTransform) {
-	//		glm::vec2 lightPos = glm::vec2(lightTransform->position.x, lightTransform->position.y);
-	//		GLint lightPosLocation = _textureProgram.getUniformLocation("lightPos.position");
-	//		glUniform2fv(lightPosLocation, 1, &(lightPos[0]));  // Pass the address of the first element of lightPos
-	//	}
-	//}
-
+void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camera) { // todo add camera argument
+	_textureProgram.use();
+	glActiveTexture(GL_TEXTURE0);
+	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
+	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
+	glUniform1i(textureLocation, 0);
+	GLint pLocation = _textureProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = camera.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
 void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
@@ -812,55 +821,55 @@ void Game::draw()
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.2f, 0.4f, 1.0f, 1.0f);
+	glClearColor(0.025f, 0.05f, 0.15f, 1.0f);
 
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	setupShaderAndTexture("backgroundMountains", camera2D);
+	setupShaderAndLightTexture("backgroundMountains", camera2D);
 	renderBatch(backgrounds, _spriteBatch);
-	setupShaderAndTexture("terrain", camera2D);
+	setupShaderAndLightTexture("terrain", camera2D);
 	renderBatch(backgroundtiles, _spriteBatch);
 	renderBatch(sewerbackgroundtiles, _spriteBatch);
 	renderBatch(tiles, _spriteBatch);
 	//renderBatch(colliders);
 	
-	setupShaderAndTexture("projectile", camera2D);
+	setupShaderAndLightTexture("projectile", camera2D);
 	renderBatch(projectiles, _spriteBatch);
-	setupShaderAndTexture("warriorProjectile", camera2D);
+	setupShaderAndLightTexture("warriorProjectile", camera2D);
 	renderBatch(warriorprojectiles, _spriteBatch);
-	setupShaderAndTexture("skeleton", camera2D);
+	setupShaderAndLightTexture("skeleton", camera2D);
 	renderBatch(skeletons, _spriteBatch);
 	renderBatch(greenkoopatroopas, _spriteBatch);
-	setupShaderAndTexture("arial", camera2D);
+	setupShaderAndLightTexture("arial", camera2D);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	_textureProgram.unuse();
+	_textureLightProgram.unuse();
 	///////////////////////////////////////////////////////
 
 	GLint pLocation = _lightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
-	//_lightProgram.use();
+	_lightProgram.use();
 
-	//glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	////renderBatch(lights);
-	//renderBatch(lights, _spriteBatch);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//renderBatch(lights);
+	renderBatch(texturelights, _spriteBatch);
 
-	//_lightProgram.unuse();
+	_lightProgram.unuse();
 	///////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	setupShaderAndTexture("warrior", camera2D);
+	setupShaderAndLightTexture("warrior", camera2D);
 	renderBatch(players, _spriteBatch);
-	setupShaderAndTexture("terrain", camera2D);
+	setupShaderAndLightTexture("terrain", camera2D);
 	renderBatch(winningtiles, _spriteBatch);
 	renderBatch(foregroundtiles, _spriteBatch);
 	drawHUD(labels, "arial");
 	_colorProgram.use();
-	pLocation = _textureProgram.getUniformLocation("projection");
+	pLocation = _textureLightProgram.getUniformLocation("projection");
 	cameraMatrix = hudCamera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 	renderBatch(shop, _hudSpriteBatch);
@@ -875,11 +884,11 @@ void Game::draw()
 	drawHUD(stageuphpbtns, "healthPotion");
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	_textureProgram.unuse();
+	_textureLightProgram.unuse();
 	///////////////////////////////////////////////////////
 	_colorProgram.use();
 
-	pLocation = _textureProgram.getUniformLocation("projection");
+	pLocation = _textureLightProgram.getUniformLocation("projection");
 	cameraMatrix = camera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
