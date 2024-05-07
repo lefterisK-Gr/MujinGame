@@ -15,7 +15,7 @@ void main() {
 
     fragmentPosition = vertexPosition;
 
-    fragmentColor = vec4(vertexColor.xyz, 1.0f);
+    fragmentColor = vertexColor;
 
     fragmentUV = vertexUV;
 }

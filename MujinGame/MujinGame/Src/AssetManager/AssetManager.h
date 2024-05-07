@@ -25,6 +25,7 @@ public:
 	void CreatePlayer(Entity& player);
 	void CreateBackground();
 	void CreateSunShape(Entity& sun);
+	void CreateRandomParticlesGenerator();
 	void CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id);
 	void CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant);
 	void CreateStageUpButtons();

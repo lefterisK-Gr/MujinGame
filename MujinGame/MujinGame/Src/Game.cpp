@@ -144,6 +144,7 @@ void Game::onEntry()
 	assets->CreateBackground();
 
 	assets->CreateSunShape(sun);
+	assets->CreateRandomParticlesGenerator();
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
 	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), "skeleton", false);
@@ -655,7 +656,6 @@ void Game::update(float deltaTime) //game objects updating
 		{
 			for (auto& player : players)
 			{
-				player->GetComponent<Player_Script>().light->destroy();
 				player->destroy();
 			}
 		}
@@ -849,6 +849,15 @@ void Game::draw()
 
 	GLint pLocation = _lightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+
+	///////////////////////////////////////////////////////
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	setupShaderAndLightTexture("warrior", camera2D);
+	renderBatch(players, _spriteBatch);
+	setupShaderAndLightTexture("terrain", camera2D);
+	renderBatch(winningtiles, _spriteBatch);
+	renderBatch(foregroundtiles, _spriteBatch);
 	_lightProgram.use();
 
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
@@ -858,17 +867,9 @@ void Game::draw()
 	renderBatch(texturelights, _spriteBatch);
 
 	_lightProgram.unuse();
-	///////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
-	setupShaderAndLightTexture("warrior", camera2D);
-	renderBatch(players, _spriteBatch);
-	setupShaderAndLightTexture("terrain", camera2D);
-	renderBatch(winningtiles, _spriteBatch);
-	renderBatch(foregroundtiles, _spriteBatch);
 	drawHUD(labels, "arial");
 	_colorProgram.use();
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	pLocation = _textureLightProgram.getUniformLocation("projection");
 	cameraMatrix = hudCamera2D.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));

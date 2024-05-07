@@ -95,6 +95,12 @@ void AssetManager::CreateSunShape(Entity& sun)
 	sun.addGroup(Game::screenShapes);
 }
 
+void AssetManager::CreateRandomParticlesGenerator() {
+	auto& particlesGenerator(manager->addEntity());
+
+	particlesGenerator.addComponent<CreateRandomParticles>();
+}
+
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());

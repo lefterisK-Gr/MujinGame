@@ -21,10 +21,13 @@ private:
 	GLuint _vboID = 0; //32 bits
 	float _zIndex = 1.0f;
 	bool _isMainMenu = false;
+
 public:
+	Color default_color = { 255, 255, 255, 255 };
+	Color color = { 255, 255, 255, 255 };
+
 	TransformComponent* transform = nullptr;
 	SDL_Rect srcRect, destRect;
-	Color color = { 255, 255, 255, 255 };
 
 	Animation animation;
 	MovingAnimation moving_animation;
@@ -152,7 +155,7 @@ public:
 	}
 
 	void setFlashFrame() {
-		this->color = this->flash_animation.isFlashing ? this->flash_animation.flashColor : Color(255,255,255,255);
+		this->color = this->flash_animation.isFlashing ? this->flash_animation.flashColor : default_color;
 	}
 
 	void DestroyTex()

@@ -22,11 +22,11 @@ void main() {
 
     for(int i= 0; i < MAX_LIGHTS; i++) {
         float distance = length(fragmentPosition - lightPos[i].position);
-        float attenuation = clamp(pow(lightPos[i].radius / (distance + 1.0), 2.0), 0.0, 1.0);
-        totalLightEffect += textureColor.rgb * attenuation;
+        float attenuation = clamp(pow(lightPos[i].radius / (distance + 1.0), 2.0), 0.5, 1.0);
+        totalLightEffect += textureColor.rgb * fragmentColor.rgb * attenuation;
     }
 
-    vec3 finalColor = mix(textureColor.rgb * fragmentColor.rgb, totalLightEffect, 1.0);
+    vec3 finalColor = mix(textureColor.rgb * fragmentColor.rgb, totalLightEffect, 1.0f); // decide how much lights affect
 
-    color = vec4(finalColor, textureColor.a);
+    color = vec4(finalColor, textureColor.a * fragmentColor.a);
 }

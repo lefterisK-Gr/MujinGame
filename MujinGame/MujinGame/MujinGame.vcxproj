@@ -163,6 +163,7 @@
     <ClInclude Include="Src\ECS\KeyboardController.h" />
     <ClInclude Include="Src\ECS\KeyboardController2.h" />
     <ClInclude Include="Src\ECS\ProjectileComponent.h" />
+    <ClInclude Include="Src\ECS\Scripts\CreateRandomParticles.h" />
     <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h" />
     <ClInclude Include="Src\ECS\ScriptComponents.h" />
     <ClInclude Include="Src\ECS\Scripts\HPBar.h" />
