@@ -18,8 +18,8 @@ public:
 	CreateRandomParticles() :
 		distributionX(0, Game::camera.w),
 		distributionY(0, Game::camera2D.getCameraDimensions().y),
-		distributionVX(-2.0, 2.0),
-		distributionVY(-2.0, 2.0) {
+		distributionVX(-0.5, 0.5),
+		distributionVY(-0.5, 0.5) {
 		generator.seed(std::random_device{}());
 	}
 
@@ -46,7 +46,7 @@ public:
 			TransformComponent& tc = light->addComponent<TransformComponent>(randX, randY);
             tc.velocity = Vector2D(randVX, randVY);
 
-			light->addComponent<SpriteComponent>(Color(0, 0, 255, 150));
+			light->addComponent<SpriteComponent>(Color(255, 255, 255, 150));
 			light->addComponent<LightTextureComponent>(1);
 			FlashAnimatorComponent& fc = light->addComponent<FlashAnimatorComponent>();
 			fc.Play("RandomParticle");

@@ -5,7 +5,7 @@
 
 class LightTextureComponent : public Component {
 public:
-    float radius = 100.0f;
+    float radius = 10.0f;
 
     TransformComponent* transform = nullptr;
     SpriteComponent* sprite;
@@ -31,9 +31,7 @@ public:
     }
 
     void update(float deltaTime) override {
-        if (sprite->color == Color{ 255,255,255,255 }) {
-            std::cout << "holdup";
-        }
+
     }
 
     void draw(SpriteBatch& batch) override

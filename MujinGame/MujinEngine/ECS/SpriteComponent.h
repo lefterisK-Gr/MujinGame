@@ -79,6 +79,16 @@ public:
 		srcRect.w = transform->width;
 		srcRect.h = transform->height;
 
+		float parallaxFactor = 1.0f / _zIndex;
+		if (_isMainMenu) {
+			destRect.x = static_cast<int>(transform->position.x); //make player move with the camera, being stable in centre, except on edges
+			destRect.y = static_cast<int>(transform->position.y);
+		}
+		else
+		{
+			destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
+			destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		}
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 
@@ -96,11 +106,7 @@ public:
 		{
 			destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
 			destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
-			if (destRect.y == 0 && destRect.x == destRect.y && destRect.w == 100) {
-				std::cout << "holdup";
-			}
 		}
-	
 	}
 
 	void draw(SpriteBatch& batch) override
