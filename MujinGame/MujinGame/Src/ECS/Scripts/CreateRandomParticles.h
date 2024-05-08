@@ -46,8 +46,8 @@ public:
 			TransformComponent& tc = light->addComponent<TransformComponent>(randX, randY);
             tc.velocity = Vector2D(randVX, randVY);
 
+			light->addComponent<SpriteComponent>(Color(0, 0, 255, 150));
 			light->addComponent<LightTextureComponent>(1);
-			light->GetComponent<SpriteComponent>().default_color = Color(0, 0, 255, 150);
 			FlashAnimatorComponent& fc = light->addComponent<FlashAnimatorComponent>();
 			fc.Play("RandomParticle");
 			light->addGroup(Game::groupTextureLights);

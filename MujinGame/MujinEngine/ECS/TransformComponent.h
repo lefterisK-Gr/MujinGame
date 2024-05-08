@@ -61,7 +61,7 @@ public:
 	void update(float deltaTime) override
 	{
 		position.x += velocity.x * speed * deltaTime;
-		position.y += velocity.y * speed;
+		position.y += velocity.y * speed; //needs to have deltaTime
 	}
 
 	Vector2D getCenterTransform()

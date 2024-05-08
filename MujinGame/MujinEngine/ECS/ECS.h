@@ -74,7 +74,7 @@ public:
 	Entity(Manager& mManager) : manager(mManager) {}
 	void update(float deltaTime)
 	{
-		for (auto& c : components) c->update(deltaTime);
+		for (auto& c : components) c->update(deltaTime); // start from which was added first
 	}
 	void draw(SpriteBatch& batch) 
 	{

@@ -40,6 +40,11 @@ public:
 	{
 		setTex(id);
 	}
+	SpriteComponent(Color clr)
+	{
+		default_color = clr;
+		color = clr;
+	}
 
 	SpriteComponent(std::string id, float zIndex, bool isMainMenu = false)
 	{
@@ -91,6 +96,9 @@ public:
 		{
 			destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
 			destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+			if (destRect.y == 0 && destRect.x == destRect.y && destRect.w == 100) {
+				std::cout << "holdup";
+			}
 		}
 	
 	}
