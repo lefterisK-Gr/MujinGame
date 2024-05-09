@@ -68,9 +68,9 @@ public:
 		moving_animations.emplace("BlockBounce", block_bounce);
 		moving_animations.emplace("CoinBounce", coin_bounce);
 
-		FlashAnimation defaultFlashAnimation = FlashAnimation(0, 0, 1, 0, "looped", 0, 0, {255,255,255,255});
-		FlashAnimation playerHit = FlashAnimation(0, 0, 1, 0, "play_n_times", 0.2, 0.2, { 255,0,0,50 }, 10);
-		FlashAnimation randomParticle = FlashAnimation(0, 0, 1, 0, "play_n_times", 0.2, 0.2, { 0,0,255,50 }, 10);
+		FlashAnimation defaultFlashAnimation = FlashAnimation(0, 0, 4, 0, "looped", { 0.2f, 1.0f, 0.2f, 1.0f }, { 255,255,255,255 });
+		FlashAnimation playerHit = FlashAnimation(0, 0, 4, 0, "play_n_times", { 0.2f, 0.2f, 0.2f, 0.2f }, { 255,0,0,50 }, 10);
+		FlashAnimation randomParticle = FlashAnimation(0, 0, 4, 0, "play_n_times", { 0.2f, 0.02f, 0.2f, 0.02f }, { 0,0,255,50 }, 5);
 
 		flash_animations.emplace("Default", defaultFlashAnimation);
 		flash_animations.emplace("PlayerHit", playerHit);

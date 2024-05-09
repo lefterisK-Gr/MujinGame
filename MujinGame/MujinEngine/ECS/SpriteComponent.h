@@ -153,9 +153,9 @@ public:
 		moving_animation = MovingAnimation(idX, idY, fr, sp, type, dx, dy, reps);
 	}
 
-	void SetFlashAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, float flashD, float flashT, Color flashC, int reps = 0)
+	void SetFlashAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
 	{
-		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashD, flashT, flashC, reps);
+		flash_animation = FlashAnimation(idX, idY, fr, sp, type, flashTimes, flashC, reps);
 	}
 
 	void setCurrFrame() {
@@ -169,7 +169,8 @@ public:
 	}
 
 	void setFlashFrame() {
-		this->color = this->flash_animation.isFlashing ? this->flash_animation.flashColor : default_color;
+		this->color = this->flash_animation.flashColor * this->flash_animation.interpolation_a
+			+ default_color * (1 - this->flash_animation.interpolation_a);
 	}
 
 	void DestroyTex()

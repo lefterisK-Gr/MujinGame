@@ -62,7 +62,7 @@ public:
 			animManager.flash_animations[animationName].indexX, animManager.flash_animations[animationName].indexY,
 			animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,
 			animManager.flash_animations[animationName].type,
-			animManager.flash_animations[animationName].flashDurationSpeed, animManager.flash_animations[animationName].flashTimerSpeed,
+			animManager.flash_animations[animationName].getSpeedsAsVector(),
 			animManager.flash_animations[animationName].flashColor,
 			reps ? reps : animManager.flash_animations[animationName].reps
 		);
@@ -74,7 +74,7 @@ public:
 			animManager.flash_animations[animationName].indexX, animManager.flash_animations[animationName].indexY,
 			animManager.flash_animations[animationName].total_frames, animManager.flash_animations[animationName].speed,
 			animManager.flash_animations[animationName].type,
-			animManager.flash_animations[animationName].flashDurationSpeed, animManager.flash_animations[animationName].flashTimerSpeed,
+			animManager.flash_animations[animationName].getSpeedsAsVector(),
 			animManager.flash_animations[animationName].flashColor);
 	}
 

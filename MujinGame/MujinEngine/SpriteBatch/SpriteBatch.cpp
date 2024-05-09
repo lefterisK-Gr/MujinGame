@@ -29,8 +29,8 @@ void SpriteBatch::end() {
 	createRenderBatches();
 }
 
-void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color) {
-	_glyphs.emplace_back(destRect, uvRect, texture, depth, color);
+void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle) {
+	_glyphs.emplace_back(destRect, uvRect, texture, depth, color, angle);
 }
 
 void SpriteBatch::renderBatch() {

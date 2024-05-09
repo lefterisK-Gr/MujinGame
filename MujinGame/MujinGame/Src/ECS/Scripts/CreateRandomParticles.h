@@ -6,7 +6,7 @@ class CreateRandomParticles : public Component
 {
 private:
 
-	const int maxParticles = 10;
+	const int maxParticles = 20;
 	int numOfParticles = 0;
 	std::default_random_engine generator;  // Random number generator
 	std::uniform_int_distribution<int> distributionX;

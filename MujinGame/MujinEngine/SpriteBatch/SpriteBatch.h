@@ -29,24 +29,45 @@ class Glyph {
 
 public:
 	Glyph() {};
-	Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const Color& color)
+	Glyph(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint Texture, float Depth, const Color& color, float angle = 0.f)
 		: texture(Texture),
 		depth(Depth) {
 
+		float centerX = destRect.x + destRect.z / 2.0f;
+		float centerY = destRect.y + destRect.w / 2.0f;
+
+		// Convert angle from degrees to radians if necessary
+		float radians = glm::radians(angle);
+
+		// Lambda to calculate rotated positions
+		auto rotatePoint = [&](float x, float y) -> glm::vec2 {
+			float dx = x - centerX;
+			float dy = y - centerY;
+			return glm::vec2(
+				centerX + dx * cos(radians) - dy * sin(radians),
+				centerY + dx * sin(radians) + dy * cos(radians)
+			);
+			};
+
+		glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y + destRect.w);
+		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y);
+		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y);
+		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w);
+
 		topLeft.color = color;
-		topLeft.setPosition(destRect.x, destRect.y + destRect.w);
+		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y);
 		topLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use bottom y for top
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(destRect.x, destRect.y);
+		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y);
 		bottomLeft.setUV(uvRect.x, uvRect.y); // Use top y for bottom
 
 		bottomRight.color = color;
-		bottomRight.setPosition(destRect.x + destRect.z, destRect.y);
+		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y);
 		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y); // Use top y for bottom
 
 		topRight.color = color;
-		topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
+		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y);
 		topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use bottom y for top
 	};
 
@@ -69,7 +90,7 @@ public:
 	void begin(GlyphSortType sortType = GlyphSortType::TEXTURE);
 	void end();
 
-	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color);
+	void draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color, float angle = 0);
 
 	void renderBatch();
 private:

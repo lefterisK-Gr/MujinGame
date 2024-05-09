@@ -15,6 +15,21 @@ struct Color {
 	GLubyte b;
 	GLubyte a;
 
+	Color operator*(float scalar) const {
+		return Color(static_cast<GLubyte>(r * scalar),
+			static_cast<GLubyte>(g * scalar),
+			static_cast<GLubyte>(b * scalar),
+			static_cast<GLubyte>(a * scalar));
+	}
+
+	// Operator overload for color addition
+	Color operator+(const Color& other) const {
+		return Color(static_cast<GLubyte>(r + other.r),
+			static_cast<GLubyte>(g + other.g),
+			static_cast<GLubyte>(b + other.b),
+			static_cast<GLubyte>(a + other.a));
+	}
+
 	bool operator==(const Color& other) const {
         return r == other.r && g == other.g && b == other.b && a == other.a;
     }
