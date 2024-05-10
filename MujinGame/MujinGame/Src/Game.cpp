@@ -30,6 +30,7 @@ SpriteBatch Game::_hudSpriteBatch;
 AudioEngine Game::audioEngine;
 
 Map* Game::map = nullptr;
+//std::unique_ptr<Grid> Game::grid;
 AssetManager* Game::assets = nullptr;
 SceneManager* Game::scenes = new SceneManager();
 MujinEngine::Window* Game::_window = nullptr;
@@ -137,7 +138,13 @@ void Game::onEntry()
 
 	Game::map = new Map("terrain", 1, 32);
 
+	//grid = std::make_unique<Grid>(123,123,123);
+
 	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
+
+	camera = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
+	camera.w = camera.w - _window->getScreenWidth();
+	scenes->AddSceneCamera(camera);
 
 	assets->CreatePlayer(player1);
 
@@ -670,7 +677,8 @@ void Game::update(float deltaTime) //game objects updating
 			{
 				pl->GetComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(0);
 			}
-			camera = scenes->GetSceneCamera(0);
+			camera = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
+			camera.w = camera.w - _window->getScreenWidth();
 		}
 		p->GetComponent<Player_Script>().finishedHorAnimation = false;
 		p->GetComponent<Player_Script>().finishedVertAnimation = false;

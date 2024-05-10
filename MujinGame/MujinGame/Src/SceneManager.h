@@ -14,7 +14,8 @@ public:
 
 	Vector2D GetSceneStartupPosition(int i);
 	SDL_Rect GetSceneCamera(int i);
+	void AddSceneCamera(SDL_Rect scene);
 private:
-	Vector2D transitionScenePositions[2];
-	SDL_Rect sceneCameras[2];
+	std::vector<Vector2D> transitionScenePositions;
+	std::vector<SDL_Rect> sceneCameras;
 };

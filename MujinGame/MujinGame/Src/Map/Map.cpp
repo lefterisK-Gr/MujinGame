@@ -283,6 +283,40 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 	}
 }
 
+SDL_Rect Map::GetLayerDimensions(std::string filePath)
+{
+	std::fstream mapFile;
+
+	mapFile.open(filePath);
+
+	if (!mapFile.is_open()) {
+		throw std::runtime_error("File stream is not open or in a bad state.");
+	}
+
+	std::string line;
+	int width = 0, height = 0;
+
+	if (getline(mapFile, line)) {
+		std::stringstream ss(line);
+		std::string cell;
+
+		while (getline(ss, cell, ',')) {
+			width++; 
+		}
+
+		height++;  
+	}
+
+	while (getline(mapFile, line)) {
+		height++;  
+	}
+
+	mapFile.clear();  
+	mapFile.seekg(0);
+
+	return SDL_Rect{ 0, 0, width * scaledSize, height * scaledSize };
+}
+
 bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize) {
 	int arrayTilesIndex = 0;
 
