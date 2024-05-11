@@ -15,8 +15,6 @@
 
 #undef main
 
-
-
 SDL_Event Game::event;
 Manager manager;
 Collision collision;
@@ -30,7 +28,6 @@ SpriteBatch Game::_hudSpriteBatch;
 AudioEngine Game::audioEngine;
 
 Map* Game::map = nullptr;
-//std::unique_ptr<Grid> Game::grid;
 AssetManager* Game::assets = nullptr;
 SceneManager* Game::scenes = new SceneManager();
 MujinEngine::Window* Game::_window = nullptr;
@@ -137,8 +134,6 @@ void Game::onEntry()
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	Game::map = new Map("terrain", 1, 32);
-
-	//grid = std::make_unique<Grid>(123,123,123);
 
 	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
 

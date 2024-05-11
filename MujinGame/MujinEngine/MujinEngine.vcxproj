@@ -142,7 +142,6 @@
     <ClCompile Include="GameScreen\IMainGame.cpp" />
     <ClCompile Include="GameScreen\ScreenIndices.h" />
     <ClCompile Include="GameScreen\ScreenList.cpp" />
-    <ClCompile Include="Grid\Grid.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
     <ClCompile Include="SpriteBatch\SpriteBatch.cpp" />
@@ -178,7 +177,6 @@
     <ClInclude Include="GameScreen\ScreenList.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
-    <ClInclude Include="Grid\Grid.h" />
     <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />

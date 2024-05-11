@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "GameScreen/IGameScreen.h"
+#include <GameScreen/IGameScreen.h>
 #include <SDL/SDL.h>
 #include <SDL_IMAGE/SDL_image.h>
 #include <GL/glew.h>
@@ -21,11 +21,64 @@
 #include "ECS/ECS.h"
 
 #include "GameScreen/ScreenIndices.h"
+#include "Vector2D/Vector2D.h"
+
 
 class Map;
 class AssetManager;
 class SceneManager;
 class ColliderComponent;
+class TransformComponent;
+
+struct Cell {
+	std::vector<Entity*> entities;
+};
+
+class Grid {
+public:
+	Grid(int width, int height, int cellSize) :
+		_width(width),
+		_height(height),
+		_cellSize(cellSize) {
+		_numXCells = ceil((float)_width / _cellSize);
+		_numYCells = ceil((float)_height / _cellSize);
+
+		//allocate all the cells
+		_cells.resize(_numXCells * _numYCells);
+	}
+	~Grid() {
+
+	}
+
+	void addEntity(Entity* entity) {
+		//Cell* cell = getCell(entity->GetComponent<TransformComponent>().position);
+		//cell->entities.push_back(entity);
+
+	}
+
+	Cell* getCell(int x, int y) {
+		if (x < 0) x = 0;
+		if (x > _numXCells) x = _numXCells - 1;
+		if (y < 0) y = 0;
+		if (y > _numYCells) x = _numYCells - 1;
+
+		return &_cells[y * _numXCells + x];
+	}
+	Cell* getCell(const Vector2D& pos) {
+		int cellX = (int)(pos.x / _cellSize);
+		int cellY = (int)(pos.y / _cellSize);
+
+		return getCell(cellX, cellY);
+	}
+
+private:
+	std::vector<Cell> _cells; //cache friendly
+	int _cellSize;
+	int _width;
+	int _height;
+	int _numXCells;
+	int _numYCells;
+};
 
 class Game : public IGameScreen {
 
@@ -75,6 +128,8 @@ public:
 	static AssetManager* assets;
 
 	static SceneManager* scenes;
+
+	//std::unique_ptr<Grid> grid;
 
 	enum groupLabels : std::size_t //todo should add groups at end for some reason
 	{
