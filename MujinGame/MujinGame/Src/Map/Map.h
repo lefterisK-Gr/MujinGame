@@ -3,7 +3,6 @@
 #include <fstream>
 #include <sstream>
 #include "ECS\ECS.h"
-#include "../Game.h"
 
 #include <algorithm>
 #include <random>

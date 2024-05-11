@@ -9,7 +9,7 @@
 #include "Collision/Collision.h"
 #include "Map/Map.h"
 #include "AssetManager/AssetManager.h"
-#include "SceneManager.h"
+#include "SceneManager/SceneManager.h"
 #include <sstream>
 #include "GameScreen/IMainGame.h"
 

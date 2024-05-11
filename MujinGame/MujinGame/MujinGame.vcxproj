@@ -153,7 +153,7 @@
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScreen\MainMenuScreen.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
-    <ClCompile Include="Src\SceneManager.cpp" />
+    <ClCompile Include="Src\SceneManager\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\App\App.h" />
@@ -178,7 +178,7 @@
     <ClInclude Include="Src\Game.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />
     <ClInclude Include="Src\Map\Map.h" />
-    <ClInclude Include="Src\SceneManager.h" />
+    <ClInclude Include="Src\SceneManager\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MujinEngine\MujinEngine.vcxproj">
