@@ -98,7 +98,7 @@ void AssetManager::CreateSunShape(Entity& sun)
 void AssetManager::CreateRandomParticlesGenerator() {
 	auto& particlesGenerator(manager->addEntity());
 
-	particlesGenerator.addComponent<CreateRandomParticles>();
+	particlesGenerator.addComponent<CreateRandomParticles>(*Game::_window);
 }
 
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)

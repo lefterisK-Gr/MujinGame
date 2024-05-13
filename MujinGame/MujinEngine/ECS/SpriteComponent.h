@@ -118,7 +118,7 @@ public:
 		{
 			return;
 		}
-		float tempScreenScale = Game::_window->getScale();
+		float tempScreenScale = window.getScale();
 		glm::vec4 pos((float)destRect.x* tempScreenScale, (float)destRect.y * tempScreenScale,
 			(float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
 

@@ -16,8 +16,8 @@ private:
 	std::uniform_real_distribution<float> distributionVY;
 public:
 
-	CreateRandomParticles() :
-		distributionX(0, main_camera2D->worldLocation.w + Game::_window->getScreenWidth()),
+	CreateRandomParticles(MujinEngine::Window& window) :
+		distributionX(0, main_camera2D->worldLocation.w + window.getScreenWidth()),
 		distributionY(0, main_camera2D->getCameraDimensions().y),
 		distributionVX(-0.5, 0.5),
 		distributionVY(-0.5, 0.5) {
