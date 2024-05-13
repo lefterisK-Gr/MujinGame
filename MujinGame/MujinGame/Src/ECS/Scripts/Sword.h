@@ -56,7 +56,7 @@ public:
 		auto& slice(manager.addEntity());
 		slice.addComponent<Slice>(hitBoxCollider, _attackDamage);
 		sliceComp = &entity->GetComponent<Slice>();
-		slice.addGroup(enemySlice ? Game::groupEnemySlices : Game::groupSlices);
+		slice.addGroup(enemySlice ? Manager::groupEnemySlices : Manager::groupSlices);
 
 		return true;
 	}

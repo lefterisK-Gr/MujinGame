@@ -33,8 +33,8 @@ public:
 		}
 		_stageupbtns.clear();
 		// Assuming manager.getGroup returns a reference to the group
-		auto& stageupbtns = manager.getGroup(Game::groupStageUpButtons);
-		auto& stageupbtnsback = manager.getGroup(Game::groupStageUpButtonsBack);
+		auto& stageupbtns = manager.getGroup(Manager::groupStageUpButtons);
+		auto& stageupbtnsback = manager.getGroup(Manager::groupStageUpButtonsBack);
 
 		// Clear the entities from the groups
 		stageupbtns.clear();
@@ -50,15 +50,15 @@ public:
 
 		attackDamageBtn.addComponent<StageUpButton>("sword", transform->position.x + 0.0f, transform->position.y,isHud);
 		attackDamageBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleAttackDamageBtn, this));
-		attackDamageBtn.addGroup(Game::groupStageUpAttackButtons);
+		attackDamageBtn.addGroup(Manager::groupStageUpAttackButtons);
 
 		defenceBtn.addComponent<StageUpButton>("shield", transform->position.x + 100.0f, transform->position.y, isHud);
 		defenceBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleDefenceBtn, this));
-		defenceBtn.addGroup(Game::groupStageUpDefenceButtons);
+		defenceBtn.addGroup(Manager::groupStageUpDefenceButtons);
 
 		hpPotionBtn.addComponent<StageUpButton>("healthPotion", transform->position.x + 200.0f, transform->position.y, isHud);
 		hpPotionBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleHpPotionBtn, this));
-		hpPotionBtn.addGroup(Game::groupStageUpHpButtons);
+		hpPotionBtn.addGroup(Manager::groupStageUpHpButtons);
 
 		_stageupbtns.push_back(&attackDamageBtn);
 		_stageupbtns.push_back(&defenceBtn);
@@ -69,7 +69,7 @@ public:
 	}
 
 	void handleAttackDamageBtn() {
-		auto& players(manager.getGroup(Game::groupPlayers));
+		auto& players(manager.getGroup(Manager::groupPlayers));
 
 		for (auto& p : players)
 		{
@@ -79,7 +79,7 @@ public:
 	}
 
 	void handleDefenceBtn() {
-		auto& players(manager.getGroup(Game::groupPlayers));
+		auto& players(manager.getGroup(Manager::groupPlayers));
 
 		for (auto& p : players)
 		{
@@ -89,7 +89,7 @@ public:
 	}
 
 	void handleHpPotionBtn() {
-		auto& players(manager.getGroup(Game::groupPlayers));
+		auto& players(manager.getGroup(Manager::groupPlayers));
 
 		for (auto& p : players)
 		{

@@ -27,8 +27,8 @@ public:
 		_items.clear();
 
 		//// Assuming manager.getGroup returns a reference to the group
-		//auto& items = manager.getGroup(Game::groupShopItems);
-		//auto& itemsback = manager.getGroup(Game::groupShopItemsBack);
+		//auto& items = manager.getGroup(Manager::groupShopItems);
+		//auto& itemsback = manager.getGroup(Manager::groupShopItemsBack);
 
 		//// Clear the entities from the groups
 		//items.clear();
@@ -72,15 +72,15 @@ public:
 
 		item1.addComponent<Item>("sword", 100);
 		item1.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
-		item1.addGroup(Game::groupStageUpAttackButtons);
+		item1.addGroup(Manager::groupStageUpAttackButtons);
 
 		item2.addComponent<Item>("shield", 200);
 		item2.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
-		item2.addGroup(Game::groupStageUpDefenceButtons);
+		item2.addGroup(Manager::groupStageUpDefenceButtons);
 
 		item3.addComponent<Item>("healthPotion", 300);
 		item3.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
-		item3.addGroup(Game::groupStageUpHpButtons);
+		item3.addGroup(Manager::groupStageUpHpButtons);
 
 		// Generate 3 random items
 		_items.push_back(&item1); // Example item

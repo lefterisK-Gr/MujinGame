@@ -83,7 +83,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		light->addComponent<LightComponent>(1);
 		light->GetComponent<LightComponent>().color = Color(255, 0, 0, 150);
 
-		light->addGroup(Game::groupLights);
+		light->addGroup(Manager::groupLights);
 
 		if (!entity->hasComponent<LivingCharacter>()) //todo: problem: having transform on top left grid, not every collider its own
 		{
@@ -135,12 +135,12 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (keyboard->_inputManager.isKeyPressed(keyboard->pickUpKey))
 		{
-			auto& markettiles(manager.getGroup(Game::groupMarket));
+			auto& markettiles(manager.getGroup(Manager::groupMarket));
 
 			for (auto& mt : markettiles) {
 				if (Collision::checkCollision(mt->GetComponent<ColliderComponent>().collider, entity->GetComponent<ColliderComponent>().collider)) {
 					// ****OPEN SHOP****
-					auto& shops(manager.getGroup(Game::groupShops));
+					auto& shops(manager.getGroup(Manager::groupShops));
 					for (auto& sh : shops)
 					{
 						sh->GetComponent<Shop>().isOpen = !sh->GetComponent<Shop>().isOpen;
@@ -152,7 +152,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (keyboard->_inputManager.isKeyPressed(keyboard->inventoryKey))
 		{
-			auto& inventories(manager.getGroup(Game::groupInventories));
+			auto& inventories(manager.getGroup(Manager::groupInventories));
 			for (auto& sh : inventories)
 			{
 				sh->GetComponent<Inventory>().isOpen = !sh->GetComponent<Inventory>().isOpen;

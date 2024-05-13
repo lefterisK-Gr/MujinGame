@@ -2,7 +2,6 @@
 
 #include "Components.h"
 #include "Vector2D/Vector2D.h"
-#include "../../MujinGame/Src/Game.h"
 
 
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale

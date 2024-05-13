@@ -166,7 +166,7 @@ void Game::onEntry()
 
 	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
 	stagelabel.addComponent<UILabel>("stage 0", "arial", true);
-	stagelabel.addGroup(Game::groupLabels);
+	stagelabel.addGroup(Manager::groupLabels);
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
 	music.play(-1);
@@ -176,36 +176,36 @@ void Game::onExit() {
 
 }
 
-auto& tiles(manager.getGroup(Game::groupActionLayer));
-auto& players(manager.getGroup(Game::groupPlayers));
-auto& backgrounds(manager.getGroup(Game::groupBackgrounds));
-auto& colliders(manager.getGroup(Game::groupColliders));
-auto& projectiles(manager.getGroup(Game::groupProjectiles));
-auto& warriorprojectiles(manager.getGroup(Game::groupWarriorProjectiles));
-auto& skeletons(manager.getGroup(Game::groupSkeletons));
-auto& labels(manager.getGroup(Game::groupLabels));
-auto& stageupbtns(manager.getGroup(Game::groupStageUpButtons));
-auto& stageupattackbtns(manager.getGroup(Game::groupStageUpAttackButtons));
-auto& stageupdefencebtns(manager.getGroup(Game::groupStageUpDefenceButtons));
-auto& stageuphpbtns(manager.getGroup(Game::groupStageUpHpButtons));
-auto& stageupbtnsback(manager.getGroup(Game::groupStageUpButtonsBack));
-auto& itemslots(manager.getGroup(Game::groupSlots));
-auto& shop(manager.getGroup(Game::groupShops));
-auto& inventory(manager.getGroup(Game::groupInventories));
-auto& greenkoopatroopas(manager.getGroup(Game::groupGreenKoopaTroopas));
-auto& mysteryboxtiles(manager.getGroup(Game::groupMysteryBoxes));
-auto& winningtiles(manager.getGroup(Game::groupWinningTiles));
-auto& slices(manager.getGroup(Game::groupSlices));
-auto& enemyslices(manager.getGroup(Game::groupEnemySlices));
-auto& lights(manager.getGroup(Game::groupLights));
-auto& texturelights(manager.getGroup(Game::groupTextureLights));
-auto& pipeforegroundsprites(manager.getGroup(Game::groupPipeRingForeground));
-auto& foregroundtiles(manager.getGroup(Game::groupForegroundLayer));
-auto& backgroundtiles(manager.getGroup(Game::groupBackgroundLayer));
-auto& sewerbackgroundtiles(manager.getGroup(Game::groupSewerBackgroundLayer));
-auto& markettiles(manager.getGroup(Game::groupMarket));
-auto& screenshapes(manager.getGroup(Game::screenShapes));
-auto& hpbars(manager.getGroup(Game::groupHPBars));
+auto& tiles(manager.getGroup(Manager::groupActionLayer));
+auto& players(manager.getGroup(Manager::groupPlayers));
+auto& backgrounds(manager.getGroup(Manager::groupBackgrounds));
+auto& colliders(manager.getGroup(Manager::groupColliders));
+auto& projectiles(manager.getGroup(Manager::groupProjectiles));
+auto& warriorprojectiles(manager.getGroup(Manager::groupWarriorProjectiles));
+auto& skeletons(manager.getGroup(Manager::groupSkeletons));
+auto& labels(manager.getGroup(Manager::groupLabels));
+auto& stageupbtns(manager.getGroup(Manager::groupStageUpButtons));
+auto& stageupattackbtns(manager.getGroup(Manager::groupStageUpAttackButtons));
+auto& stageupdefencebtns(manager.getGroup(Manager::groupStageUpDefenceButtons));
+auto& stageuphpbtns(manager.getGroup(Manager::groupStageUpHpButtons));
+auto& stageupbtnsback(manager.getGroup(Manager::groupStageUpButtonsBack));
+auto& itemslots(manager.getGroup(Manager::groupSlots));
+auto& shop(manager.getGroup(Manager::groupShops));
+auto& inventory(manager.getGroup(Manager::groupInventories));
+auto& greenkoopatroopas(manager.getGroup(Manager::groupGreenKoopaTroopas));
+auto& mysteryboxtiles(manager.getGroup(Manager::groupMysteryBoxes));
+auto& winningtiles(manager.getGroup(Manager::groupWinningTiles));
+auto& slices(manager.getGroup(Manager::groupSlices));
+auto& enemyslices(manager.getGroup(Manager::groupEnemySlices));
+auto& lights(manager.getGroup(Manager::groupLights));
+auto& texturelights(manager.getGroup(Manager::groupTextureLights));
+auto& pipeforegroundsprites(manager.getGroup(Manager::groupPipeRingForeground));
+auto& foregroundtiles(manager.getGroup(Manager::groupForegroundLayer));
+auto& backgroundtiles(manager.getGroup(Manager::groupBackgroundLayer));
+auto& sewerbackgroundtiles(manager.getGroup(Manager::groupSewerBackgroundLayer));
+auto& markettiles(manager.getGroup(Manager::groupMarket));
+auto& screenshapes(manager.getGroup(Manager::screenShapes));
+auto& hpbars(manager.getGroup(Manager::groupHPBars));
 
 void Game::update(float deltaTime) //game objects updating
 {
@@ -362,7 +362,7 @@ void Game::update(float deltaTime) //game objects updating
 	{
 		for (auto& c : colliders)
 		{
-			if (c->hasGroup(Game::groupWinningTiles)) {
+			if (c->hasGroup(Manager::groupWinningTiles)) {
 				continue;
 			}
 			//SDL_Rect cCol = c->GetComponent<ColliderComponent>().collider;

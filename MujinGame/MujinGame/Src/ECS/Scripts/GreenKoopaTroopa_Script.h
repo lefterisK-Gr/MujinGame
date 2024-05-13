@@ -73,7 +73,7 @@ public:
 		if (action == greenKoopaTroopaAction::KOOPAACTION_ATTACK) {
 			if (sprite->animation.cur_frame_index == 6 && sprite->animation.frame_times_played == 1)
 			{
-				auto& players(manager.getGroup(Game::groupPlayers));
+				auto& players(manager.getGroup(Manager::groupPlayers));
 
 				for (auto& p : players)
 				{

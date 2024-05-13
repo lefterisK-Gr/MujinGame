@@ -33,7 +33,7 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		auto& texturelights(manager.getGroup(Game::groupTextureLights));
+		auto& texturelights(manager.getGroup(Manager::groupTextureLights));
 
 		if (numOfParticles < maxParticles) {
 			Entity* light;
@@ -51,7 +51,7 @@ public:
 			light->addComponent<LightTextureComponent>(1);
 			FlashAnimatorComponent& fc = light->addComponent<FlashAnimatorComponent>();
 			fc.Play("RandomParticle");
-			light->addGroup(Game::groupTextureLights);
+			light->addGroup(Manager::groupTextureLights);
 			numOfParticles++;
 		}
 

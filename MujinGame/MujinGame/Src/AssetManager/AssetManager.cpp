@@ -71,7 +71,7 @@ void AssetManager::CreatePlayer(Entity& player)
 	player.addComponent<Sword>();
 	player.addComponent<Player_Script>();
 
-	player.addGroup(Game::groupPlayers);
+	player.addGroup(Manager::groupPlayers);
 }
 
 void AssetManager::CreateBackground()
@@ -82,7 +82,7 @@ void AssetManager::CreateBackground()
 	background.addComponent<SpriteComponent>("backgroundMountains", 10.0f);
 
 
-	background.addGroup(Game::groupBackgrounds);
+	background.addGroup(Manager::groupBackgrounds);
 
 }
 
@@ -92,7 +92,7 @@ void AssetManager::CreateSunShape(Entity& sun)
 	sun.addComponent<TransformComponent>(200.0f, 100.0f);
 	sun.addComponent<Sun_Script>(black);
 
-	sun.addGroup(Game::screenShapes);
+	sun.addGroup(Manager::screenShapes);
 }
 
 void AssetManager::CreateRandomParticlesGenerator() {
@@ -115,9 +115,9 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int s
 	//projectile.GetComponent<SpriteComponent>().animIndex = 0; //this actually shouldnt be here, this may result in errors, solution: decouple the character and his/her animations from SpriteComponent so we dont have to zero animIndex
 	projectile.addComponent<ColliderComponent>(id);
 	if(id == "projectile")
-		projectile.addGroup(Game::groupProjectiles);
+		projectile.addGroup(Manager::groupProjectiles);
 	else
-		projectile.addGroup(Game::groupWarriorProjectiles);
+		projectile.addGroup(Manager::groupWarriorProjectiles);
 }
 
 void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant)
@@ -132,7 +132,7 @@ void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bo
 	enemy.addComponent<Sword>(true);
 	enemy.addComponent<Skeleton_Script>(isGiant);
 	
-	enemy.addGroup(Game::groupSkeletons);
+	enemy.addGroup(Manager::groupSkeletons);
 }
 
 void AssetManager::CreateStageUpButtons() {
@@ -147,11 +147,11 @@ void AssetManager::CreateShop() {
 
 	shop.addComponent<Shop>();
 
-	shop.addGroup(Game::groupShops);
+	shop.addGroup(Manager::groupShops);
 }
 
 void AssetManager::RefreshShop() {
-	auto& shop(manager->getGroup(Game::groupShops));
+	auto& shop(manager->getGroup(Manager::groupShops));
 
 	for (auto& s : shop)
 	{
@@ -164,7 +164,7 @@ void AssetManager::CreateInventory() {
 
 	inventory.addComponent<Inventory>();
 
-	inventory.addGroup(Game::groupInventories);
+	inventory.addGroup(Manager::groupInventories);
 }
 
 void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id)
@@ -180,7 +180,7 @@ void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed,
 	enemy.GetComponent<AnimatorComponent>().Play("GreenKoopaTroopaWalk");
 	//enemy.GetComponent<TransformComponent>().velocity.x = 1;
 
-	enemy.addGroup(Game::groupGreenKoopaTroopas);
+	enemy.addGroup(Manager::groupGreenKoopaTroopas);
 }
 
 void AssetManager::CreateEnemies() {

@@ -60,7 +60,7 @@ public:
 			mana_bar->addComponent<HPBar>();
 			mana_bar->GetComponent<HPBar>().rectangle->color = Color(0, 0, 255, 255);
 
-			mana_bar->addGroup(Game::groupHPBars);
+			mana_bar->addGroup(Manager::groupHPBars);
 
 			stamina_bar = &manager.addEntity();
 
@@ -69,7 +69,7 @@ public:
 			stamina_bar->addComponent<HPBar>();
 			stamina_bar->GetComponent<HPBar>().rectangle->color = Color(0, 100, 0, 255);
 
-			stamina_bar->addGroup(Game::groupHPBars);
+			stamina_bar->addGroup(Manager::groupHPBars);
 		}
 		else {
 			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y, 5.0f, 50.0f, transform->scale);
@@ -81,9 +81,9 @@ public:
 			hp_bar->addComponent<HPBar>();
 			hp_bar->GetComponent<HPBar>().rectangle->color = Color(0, 255, 0, 255);
 		}
-		greyBar->addGroup(Game::groupHPBars);
+		greyBar->addGroup(Manager::groupHPBars);
 
-		hp_bar->addGroup(Game::groupHPBars);
+		hp_bar->addGroup(Manager::groupHPBars);
 	}
 
 	void update(float deltaTime) override {

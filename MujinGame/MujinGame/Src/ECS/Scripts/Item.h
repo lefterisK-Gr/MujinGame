@@ -42,14 +42,14 @@ public:
 		if (!entity->hasComponent<SpriteComponent>()) {
 			entity->addComponent<SpriteComponent>(id, 1.0f);
 		}
-		entity->addGroup(Game::groupStageUpButtons);
+		entity->addGroup(Manager::groupStageUpButtons);
 
 		itemBack = &manager.addEntity();
 		itemBack->addComponent<TransformComponent>(transform->position.x, transform->position.y, 32.0f, 32.0f, transform->scale);
 		itemBack->addComponent<Rectangle_w_Color>();
 		itemBack->GetComponent<Rectangle_w_Color>().color = Color(255, 0, 0, 255); // Grey color
 
-		itemBack->addGroup(Game::groupStageUpButtonsBack);
+		itemBack->addGroup(Manager::groupStageUpButtonsBack);
 	}
 
 	void update(float deltaTime) override {

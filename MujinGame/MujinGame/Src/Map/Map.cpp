@@ -339,7 +339,7 @@ void Map::addBouncyTileFeature(Entity& tile, int wordNum) {
 
 void Map::addWinningTileFeature(Entity& tile, int wordNum) {
 	if (tileHasFeature(tile, wordNum, winningTiles, ARRAY_SIZE(winningTiles))) {
-		tile.addGroup(Game::groupWinningTiles);
+		tile.addGroup(Manager::groupWinningTiles);
 	}
 }
 
@@ -352,21 +352,21 @@ void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
 		tile2.addComponent<MovingAnimatorComponent>(texID);
 		tile2.addComponent<MysteryBox_Script>(Game::audioEngine.loadSoundEffect("Sounds/coin_collect.wav")); //insert tile and grid (texID is set in Game::init() ("terrain"))
 		tile2.GetComponent<AnimatorComponent>().Play("QuestionMark");
-		tile2.addGroup(Game::groupForegroundLayer);
-		tile2.addGroup(Game::groupMysteryBoxes);
+		tile2.addGroup(Manager::groupForegroundLayer);
+		tile2.addGroup(Manager::groupMysteryBoxes);
 	}
 }
 
 void Map::addMarketTileFeature(Entity& tile, int wordNum) {
 	if (tileHasFeature(tile, wordNum, marketTiles, ARRAY_SIZE(marketTiles))) {
 		tile.addComponent<ColliderComponent>("market");
-		tile.addGroup(Game::groupMarket);
+		tile.addGroup(Manager::groupMarket);
 	}
 }
 
 void Map::addPipeTileFeature(Entity& tile, int wordNum) {
 	if (tileHasFeature(tile, wordNum, pipeTiles, ARRAY_SIZE(pipeTiles))) {
-		tile.addGroup(Game::groupForegroundLayer);
+		tile.addGroup(Manager::groupForegroundLayer);
 	}
 }
 
@@ -395,30 +395,30 @@ void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bo
 {
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false); //insert tile and grid and colliders(somehow we refer to background)
 
-	tile.addGroup(Game::groupActionLayer);
+	tile.addGroup(Manager::groupActionLayer);
 
 	if (isSolid)
 	{
-		tile.addGroup(Game::groupColliders);
+		tile.addGroup(Manager::groupColliders);
 	}
 }
 
 void Map::AddForegroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false); //insert foregroundtile
-	tile.addGroup(Game::groupForegroundLayer);
+	tile.addGroup(Manager::groupForegroundLayer);
 }
 
 void Map::AddBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, true); //insert backgroundtile
-	tile.addGroup(Game::groupBackgroundLayer);
+	tile.addGroup(Manager::groupBackgroundLayer);
 }
 
 void Map::AddSewersBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid, false); //insert backgroundtile
-	tile.addGroup(Game::groupSewerBackgroundLayer);
+	tile.addGroup(Manager::groupSewerBackgroundLayer);
 }
 
 void Map::setMapCompleted(bool completed)

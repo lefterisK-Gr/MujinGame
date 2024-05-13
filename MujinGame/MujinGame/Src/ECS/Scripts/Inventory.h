@@ -50,7 +50,7 @@ public:
 				slot.addComponent<TransformComponent>(0.0f, 0.0f, 64.0f, 64.0f, transform->scale);
 				slot.addComponent<Rectangle_w_Color>();
 				slot.GetComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
-				slot.addGroup(Game::groupSlots);
+				slot.addGroup(Manager::groupSlots);
 				_slots.emplace_back(&slot);
 			}
 		}

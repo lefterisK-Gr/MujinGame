@@ -78,41 +78,6 @@ public:
 
 	//std::unique_ptr<Grid> grid;
 
-	enum groupLabels : std::size_t //todo should add groups at end for some reason
-	{
-		groupBackgroundLayer,
-		groupSewerBackgroundLayer,
-		groupActionLayer,
-		groupPlayers,
-		groupBackgrounds,
-		//groupEnemies,
-		groupColliders,
-		groupMysteryBoxes,
-		groupWinningTiles,
-		groupSlices,
-		groupEnemySlices,
-		groupLights,
-		groupTextureLights,
-		groupProjectiles,
-		groupWarriorProjectiles,
-		groupSkeletons,
-		groupLabels,
-		groupStageUpButtons,
-		groupStageUpAttackButtons,
-		groupStageUpDefenceButtons,
-		groupStageUpHpButtons,
-		groupStageUpButtonsBack,
-		groupSlots,
-		groupShops,
-		groupInventories,
-		groupGreenKoopaTroopas,
-		groupPipeRingForeground,
-		groupForegroundLayer,
-		groupMarket,
-		screenShapes,
-		groupHPBars
-	};
-
 	static MujinEngine::Window* _window;
 
 private:
