@@ -38,13 +38,15 @@ public:
 	}
 
 	void update(float deltaTime) override {
+		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
 		//if string changes then for all the labels that have been created,
 		//find the ones that are for that string and delete them?
 		if (isHud) {
 			int previousCharX = 0;
 
 			for (auto& l : letters) {
-				l->GetComponent<TransformComponent>().position.x = Game::camera2D.worldLocation.x + transform->position.x + previousCharX;
+				l->GetComponent<TransformComponent>().position.x = main_camera2D->worldLocation.x + transform->position.x + previousCharX;
 				previousCharX += l->GetComponent<TransformComponent>().width;
 			}
 		}

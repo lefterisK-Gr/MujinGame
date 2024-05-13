@@ -19,8 +19,6 @@ SDL_Event Game::event;
 Manager manager;
 Collision collision;
 
-Camera2D Game::camera2D;
-Camera2D Game::hudCamera2D;
 SpriteBatch Game::_spriteBatch;
 SpriteBatch Game::_hudSpriteBatch;
 
@@ -65,14 +63,18 @@ void Game::onEntry()
 {
 	assets = new AssetManager(&manager, _game->_inputManager);
 
-	Game::camera2D.init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
-	Game::camera2D.setPosition(camera2D.getPosition() /*+ glm::vec2(
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+
+
+	main_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
+	main_camera2D->setPosition(main_camera2D->getPosition() /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
 	)*/);;
-	Game::camera2D.setScale(1.0f);
+	main_camera2D->setScale(1.0f);
 
-	Game::hudCamera2D.init(_window->getScreenWidth(), _window->getScreenHeight());
+	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight());
 
 	audioEngine.init();
 	
@@ -136,10 +138,10 @@ void Game::onEntry()
 
 	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
 
-	camera2D.worldLocation = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
-	camera2D.worldLocation.w = camera2D.worldLocation.w - _window->getScreenWidth();
+	main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
+	main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
 
-	scenes->AddSceneCamera(camera2D.worldLocation);
+	scenes->AddSceneCamera(main_camera2D->worldLocation);
 
 	assets->CreatePlayer(player1);
 
@@ -207,6 +209,10 @@ auto& hpbars(manager.getGroup(Game::groupHPBars));
 
 void Game::update(float deltaTime) //game objects updating
 {
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+
+
 	if (map->getMapCompleted()) {
 
 		//manager.clearAllEntities();
@@ -294,8 +300,8 @@ void Game::update(float deltaTime) //game objects updating
 	manager.refresh(); 
 	manager.update(deltaTime );
 
-	Game::camera2D.update();
-	Game::hudCamera2D.update();
+	main_camera2D->update();
+	hud_camera2D->update();
 
 	
 	for (auto& p : players)
@@ -445,7 +451,7 @@ void Game::update(float deltaTime) //game objects updating
 					collision.movingRectColSide = Collision::ColSide::NONE;
 				}
 			}
-			if (enemy->GetComponent<TransformComponent>().position.y > (camera2D.worldLocation.y + camera2D.worldLocation.h))
+			if (enemy->GetComponent<TransformComponent>().position.y > (main_camera2D->worldLocation.y + main_camera2D->worldLocation.h))
 				enemy->destroy();
 		}
 	}
@@ -658,8 +664,8 @@ void Game::update(float deltaTime) //game objects updating
 		{
 			plMaxDistance.x = pl->GetComponent<TransformComponent>().position.x;
 		}
-		camera2D.worldLocation.x = plMaxDistance.x - 400;
-		if (pl->GetComponent<TransformComponent>().position.y >(camera2D.worldLocation.y + camera2D.worldLocation.h)) //player death
+		main_camera2D->worldLocation.x = plMaxDistance.x - 400;
+		if (pl->GetComponent<TransformComponent>().position.y >(main_camera2D->worldLocation.y + main_camera2D->worldLocation.h)) //player death
 		{
 			for (auto& player : players)
 			{
@@ -677,8 +683,8 @@ void Game::update(float deltaTime) //game objects updating
 			{
 				pl->GetComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(0);
 			}
-			camera2D.worldLocation = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
-			camera2D.worldLocation.w = camera2D.worldLocation.w - _window->getScreenWidth();
+			main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
+			main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
 		}
 		p->GetComponent<Player_Script>().finishedHorAnimation = false;
 		p->GetComponent<Player_Script>().finishedVertAnimation = false;
@@ -686,7 +692,7 @@ void Game::update(float deltaTime) //game objects updating
 
 	for (auto& clouds : backgroundtiles) {
 		if (clouds->GetComponent<TransformComponent>().position.x + clouds->GetComponent<TransformComponent>().width < 0) {
-			clouds->GetComponent<TransformComponent>().position.x = camera2D.worldLocation.w * 1.0f/3.0f +_window->getScreenWidth(); //due to cloud z-index
+			clouds->GetComponent<TransformComponent>().position.x = main_camera2D->worldLocation.w * 1.0f/3.0f +_window->getScreenWidth(); //due to cloud z-index
 		}
 	}
 
@@ -703,13 +709,16 @@ void Game::update(float deltaTime) //game objects updating
 	_mouseCoords.x = -100.0f;
 	_mouseCoords.y = -100.0f;
 
-	if (camera2D.worldLocation.x < scenes->GetSceneCamera(scenes->sceneSelected).x)
-		camera2D.worldLocation.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
-	if (camera2D.worldLocation.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + camera2D.worldLocation.w))
-		camera2D.worldLocation.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + camera2D.worldLocation.w);
+	if (main_camera2D->worldLocation.x < scenes->GetSceneCamera(scenes->sceneSelected).x)
+		main_camera2D->worldLocation.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
+	if (main_camera2D->worldLocation.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + main_camera2D->worldLocation.w))
+		main_camera2D->worldLocation.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + main_camera2D->worldLocation.w);
 }
 
 void Game::checkInput() {
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+
 	_game->_inputManager.update();
 
 	SDL_Event evnt;
@@ -723,12 +732,12 @@ void Game::checkInput() {
 			if (evnt.wheel.y > 0)
 			{
 				// Scrolling up
-				camera2D.setScale(camera2D.getScale() + SCALE_SPEED);
+				main_camera2D->setScale(main_camera2D->getScale() + SCALE_SPEED);
 			}
 			else if (evnt.wheel.y < 0)
 			{
 				// Scrolling down
-				camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
+				main_camera2D->setScale(main_camera2D->getScale() - SCALE_SPEED);
 			}
 			break;
 		}
@@ -808,11 +817,13 @@ void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camer
 }
 
 void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
 	batch.begin();
 	for (const auto& entity : entities) {
 		if (entity->hasComponent<SpriteComponent>()) {
 			SpriteComponent entitySprite = entity->GetComponent<SpriteComponent>();
-			if (collision.checkCollision(entitySprite.destRect, camera2D.getCameraRect())) { //culling
+			if (collision.checkCollision(entitySprite.destRect, main_camera2D->getCameraRect())) { //culling
 				entity->draw(batch);
 			}
 		}
@@ -826,6 +837,9 @@ void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch)
 
 void Game::draw()
 {
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -834,36 +848,36 @@ void Game::draw()
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	setupShaderAndLightTexture("backgroundMountains", camera2D);
+	setupShaderAndLightTexture("backgroundMountains", *main_camera2D);
 	renderBatch(backgrounds, _spriteBatch);
-	setupShaderAndLightTexture("terrain", camera2D);
+	setupShaderAndLightTexture("terrain", *main_camera2D);
 	renderBatch(backgroundtiles, _spriteBatch);
 	renderBatch(sewerbackgroundtiles, _spriteBatch);
 	renderBatch(tiles, _spriteBatch);
 	//renderBatch(colliders);
 	
-	setupShaderAndLightTexture("projectile", camera2D);
+	setupShaderAndLightTexture("projectile", *main_camera2D);
 	renderBatch(projectiles, _spriteBatch);
-	setupShaderAndLightTexture("warriorProjectile", camera2D);
+	setupShaderAndLightTexture("warriorProjectile", *main_camera2D);
 	renderBatch(warriorprojectiles, _spriteBatch);
-	setupShaderAndLightTexture("skeleton", camera2D);
+	setupShaderAndLightTexture("skeleton", *main_camera2D);
 	renderBatch(skeletons, _spriteBatch);
 	renderBatch(greenkoopatroopas, _spriteBatch);
-	setupShaderAndLightTexture("arial", camera2D);
+	setupShaderAndLightTexture("arial", *main_camera2D);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureLightProgram.unuse();
 	///////////////////////////////////////////////////////
 
 	GLint pLocation = _lightProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	glm::mat4 cameraMatrix = main_camera2D->getCameraMatrix();
 
 	///////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	setupShaderAndLightTexture("warrior", camera2D);
+	setupShaderAndLightTexture("warrior", *main_camera2D);
 	renderBatch(players, _spriteBatch);
-	setupShaderAndLightTexture("terrain", camera2D);
+	setupShaderAndLightTexture("terrain", *main_camera2D);
 	renderBatch(winningtiles, _spriteBatch);
 	renderBatch(foregroundtiles, _spriteBatch);
 	_lightProgram.use();
@@ -879,7 +893,7 @@ void Game::draw()
 	_colorProgram.use();
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	pLocation = _textureLightProgram.getUniformLocation("projection");
-	cameraMatrix = hudCamera2D.getCameraMatrix();
+	cameraMatrix = hud_camera2D->getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 	renderBatch(shop, _hudSpriteBatch);
 	renderBatch(stageupbtnsback, _hudSpriteBatch);
@@ -898,7 +912,7 @@ void Game::draw()
 	_colorProgram.use();
 
 	pLocation = _textureLightProgram.getUniformLocation("projection");
-	cameraMatrix = camera2D.getCameraMatrix();
+	cameraMatrix = main_camera2D->getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	//renderBatch(screenshapes);
@@ -912,7 +926,9 @@ void Game::draw()
 
 
 void Game::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
-	setupShaderAndTexture(textureName, hudCamera2D);
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+
+	setupShaderAndTexture(textureName, *hud_camera2D);
 	renderBatch(entities, _hudSpriteBatch);
 }
 

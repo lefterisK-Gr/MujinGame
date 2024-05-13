@@ -41,14 +41,16 @@ public:
 
 	void update(float deltaTime) override
 	{
+		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
 		if (sprite->moving_animation.hasFinished()) { // playing again animation
 			sprite->moving_animation.finished = false;
 			sprite->moving_animation.times_played = 0;
 			resetAnimation();
 		}
 
-		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - Game::camera2D.worldLocation.x; //make player move with the camera, being stable in centre, except on edges
-		sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - Game::camera2D.worldLocation.y;
+		sprite->destRect.x = static_cast<int>(sprite->transform->position.x) - main_camera2D->worldLocation.x; //make player move with the camera, being stable in centre, except on edges
+		sprite->destRect.y = static_cast<int>(sprite->transform->position.y) - main_camera2D->worldLocation.y;
 
 		sprite->destRect.w = sprite->transform->width * sprite->transform->scale;
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;

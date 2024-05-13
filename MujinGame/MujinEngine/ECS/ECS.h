@@ -9,6 +9,8 @@
 
 #include <SDL/SDL.h>
 #include "../SpriteBatch/SpriteBatch.h"
+#include "../Camera2D/CameraManager.h"
+
 class Component;
 class Entity;
 class Manager;

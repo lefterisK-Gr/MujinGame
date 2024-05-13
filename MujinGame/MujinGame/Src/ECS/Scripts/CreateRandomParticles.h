@@ -5,6 +5,7 @@
 class CreateRandomParticles : public Component
 {
 private:
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
 	const int maxParticles = 20;
 	int numOfParticles = 0;
@@ -16,8 +17,8 @@ private:
 public:
 
 	CreateRandomParticles() :
-		distributionX(0, Game::camera2D.worldLocation.w + Game::_window->getScreenWidth()),
-		distributionY(0, Game::camera2D.getCameraDimensions().y),
+		distributionX(0, main_camera2D->worldLocation.w + Game::_window->getScreenWidth()),
+		distributionY(0, main_camera2D->getCameraDimensions().y),
 		distributionVX(-0.5, 0.5),
 		distributionVY(-0.5, 0.5) {
 		generator.seed(std::random_device{}());

@@ -30,55 +30,6 @@ class SceneManager;
 class ColliderComponent;
 class TransformComponent;
 
-struct Cell {
-	std::vector<Entity*> entities;
-};
-
-class Grid {
-public:
-	Grid(int width, int height, int cellSize) :
-		_width(width),
-		_height(height),
-		_cellSize(cellSize) {
-		_numXCells = ceil((float)_width / _cellSize);
-		_numYCells = ceil((float)_height / _cellSize);
-
-		//allocate all the cells
-		_cells.resize(_numXCells * _numYCells);
-	}
-	~Grid() {
-
-	}
-
-	void addEntity(Entity* entity) {
-		//Cell* cell = getCell(entity->GetComponent<TransformComponent>().position);
-		//cell->entities.push_back(entity);
-
-	}
-
-	Cell* getCell(int x, int y) {
-		if (x < 0) x = 0;
-		if (x > _numXCells) x = _numXCells - 1;
-		if (y < 0) y = 0;
-		if (y > _numYCells) x = _numYCells - 1;
-
-		return &_cells[y * _numXCells + x];
-	}
-	Cell* getCell(const Vector2D& pos) {
-		int cellX = (int)(pos.x / _cellSize);
-		int cellY = (int)(pos.y / _cellSize);
-
-		return getCell(cellX, cellY);
-	}
-
-private:
-	std::vector<Cell> _cells; //cache friendly
-	int _cellSize;
-	int _width;
-	int _height;
-	int _numXCells;
-	int _numYCells;
-};
 
 class Game : public IGameScreen {
 
@@ -113,9 +64,6 @@ public:
 	/////////////////////////
 
 	static SDL_Event event;
-
-	static Camera2D camera2D;
-	static Camera2D hudCamera2D;
 
 	static SpriteBatch _spriteBatch;
 	static SpriteBatch _hudSpriteBatch;

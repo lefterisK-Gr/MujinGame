@@ -44,8 +44,6 @@ public:
 
     virtual void draw() override;
 
-    static Camera2D hud_camera2D;
-
     static SpriteBatch _spriteBatch;
 
     static AssetManager* assets;

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SDL/SDL.h>
 #include "ECS/Components.h"
+#include "Camera2D/CameraManager.h"
 #include "../ECS/ScriptComponents.h"
 #include "Vector2D/Vector2D.h"
 #include "../Collision/Collision.h"
@@ -11,8 +12,6 @@
 Manager main_menu_manager;
 
 Collision main_menu_collision;
-
-Camera2D MainMenuScreen::hud_camera2D;
 
 SpriteBatch MainMenuScreen::_spriteBatch;
 
@@ -56,12 +55,14 @@ void MainMenuScreen::onEntry()
 {
 	assets = new AssetManager(&manager, _game->_inputManager);
 
-	MainMenuScreen::hud_camera2D.init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
-	MainMenuScreen::hud_camera2D.setPosition(hud_camera2D.getPosition() /*+ glm::vec2(
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+
+	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
+	hud_camera2D->setPosition(hud_camera2D->getPosition() /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
 	)*/);;
-	MainMenuScreen::hud_camera2D.setScale(1.0f);
+	hud_camera2D->setScale(1.0f);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
@@ -117,12 +118,14 @@ void MainMenuScreen::onExit()
 
 void MainMenuScreen::update(float deltaTime)
 {
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+
 	checkInput();
 
 	main_menu_manager.refresh();
 	main_menu_manager.update(deltaTime);
 
-	MainMenuScreen::hud_camera2D.update();
+	hud_camera2D->update();
 
 
 	for (auto& sb : startgamebuttons)
@@ -148,6 +151,8 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
+	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
@@ -155,7 +160,7 @@ void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
 	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
 	GLint pLocation = _textureProgram.getUniformLocation("projection");
-	glm::mat4 cameraMatrix = hud_camera2D.getCameraMatrix();
+	glm::mat4 cameraMatrix = hud_camera2D->getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 

@@ -36,6 +36,10 @@ public:
         auto hudCamera = std::make_shared<Camera2D>();
         // Configure your hudCamera as needed, usually orthographic with fixed positioning
         CameraManager::getInstance().addCamera("hud", hudCamera);
+
+        auto mainMenu_hudCamera = std::make_shared<Camera2D>();
+        // Configure your hudCamera as needed, usually orthographic with fixed positioning
+        CameraManager::getInstance().addCamera("mainMenu_hud", mainMenu_hudCamera);
     }
 
 private:

@@ -57,7 +57,9 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		transform->position.x = isOpen ? Game::camera2D.worldLocation.x + 50.0f : -1000.0f;
+		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
+		transform->position.x = isOpen ? main_camera2D->worldLocation.x + 50.0f : -1000.0f;
 		
 		for (int i = 0; i < SLOTS_PER_COLUMN; i++) {
 			for (int j = 0; j < SLOTS_PER_ROW; j++) {
