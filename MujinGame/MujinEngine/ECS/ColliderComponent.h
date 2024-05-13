@@ -62,8 +62,8 @@ public:
 			collider.w = (transform->width * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
 			collider.h = (transform->height * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
 		}
-		destR.x = collider.x - Game::camera.x;
-		destR.y = collider.y - Game::camera.y;
+		destR.x = collider.x - Game::camera2D.worldLocation.x;
+		destR.y = collider.y - Game::camera2D.worldLocation.y;
 	}
 
 	void draw(SpriteBatch& batch) override

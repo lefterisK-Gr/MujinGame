@@ -16,7 +16,7 @@ private:
 public:
 
 	CreateRandomParticles() :
-		distributionX(0, Game::camera.w + Game::_window->getScreenWidth()),
+		distributionX(0, Game::camera2D.worldLocation.w + Game::_window->getScreenWidth()),
 		distributionY(0, Game::camera2D.getCameraDimensions().y),
 		distributionVX(-0.5, 0.5),
 		distributionVY(-0.5, 0.5) {

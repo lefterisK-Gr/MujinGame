@@ -25,7 +25,7 @@ public:
         if (it != cameras.end()) {
             return it->second;
         }
-        return nullptr; // or a default camera if you prefer
+        return nullptr; // or a default camera2D.worldLocation if you prefer
     }
 
     void initializeCameras() {

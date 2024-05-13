@@ -44,7 +44,7 @@ public:
 			int previousCharX = 0;
 
 			for (auto& l : letters) {
-				l->GetComponent<TransformComponent>().position.x = Game::camera.x + transform->position.x + previousCharX;
+				l->GetComponent<TransformComponent>().position.x = Game::camera2D.worldLocation.x + transform->position.x + previousCharX;
 				previousCharX += l->GetComponent<TransformComponent>().width;
 			}
 		}

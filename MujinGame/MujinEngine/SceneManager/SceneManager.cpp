@@ -1,5 +1,4 @@
 #include "SceneManager.h"
-#include "ECS/Components.h"
 
 SceneManager::SceneManager() // todo make structure like animationManager with names for scenes
 {

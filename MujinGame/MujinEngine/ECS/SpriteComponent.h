@@ -86,8 +86,8 @@ public:
 		}
 		else
 		{
-			destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
-			destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+			destRect.x = static_cast<int>(transform->position.x) - (Game::camera2D.worldLocation.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
+			destRect.y = static_cast<int>(transform->position.y) - Game::camera2D.worldLocation.y;
 		}
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
@@ -104,8 +104,8 @@ public:
 		}
 		else
 		{
-			destRect.x = static_cast<int>(transform->position.x) - (Game::camera.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
-			destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+			destRect.x = static_cast<int>(transform->position.x) - (Game::camera2D.worldLocation.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
+			destRect.y = static_cast<int>(transform->position.y) - Game::camera2D.worldLocation.y;
 		}
 	}
 
@@ -164,8 +164,8 @@ public:
 	}
 
 	void setMoveFrame() {
-		this->destRect.x = (static_cast<int>(this->transform->position.x) - Game::camera.x + this->moving_animation.indexX) /* init */ + (this->moving_animation.distanceX * moving_animation.cur_frame_index);
-		this->destRect.y = (static_cast<int>(this->transform->position.y) - Game::camera.y + this->moving_animation.indexY) + (this->moving_animation.distanceY * moving_animation.cur_frame_index);
+		this->destRect.x = (static_cast<int>(this->transform->position.x) - Game::camera2D.worldLocation.x + this->moving_animation.indexX) /* init */ + (this->moving_animation.distanceX * moving_animation.cur_frame_index);
+		this->destRect.y = (static_cast<int>(this->transform->position.y) - Game::camera2D.worldLocation.y + this->moving_animation.indexY) + (this->moving_animation.distanceY * moving_animation.cur_frame_index);
 	}
 
 	void setFlashFrame() {

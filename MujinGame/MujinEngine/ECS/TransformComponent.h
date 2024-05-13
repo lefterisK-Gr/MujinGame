@@ -2,9 +2,14 @@
 
 #include "Components.h"
 #include "Vector2D/Vector2D.h"
+#include "../../MujinGame/Src/Game.h"
+
 
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
+private:
+	float _zIndex = 1.0f;
+	float parallaxFactor = 1.0f;
 public:
 
 	Vector2D position;
@@ -56,6 +61,7 @@ public:
 	
 	void init() override
 	{
+		parallaxFactor = 1.0f / _zIndex;
 		velocity.Zero();
 	}
 	void update(float deltaTime) override

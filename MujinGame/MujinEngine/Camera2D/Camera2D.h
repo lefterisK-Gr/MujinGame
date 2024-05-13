@@ -6,6 +6,8 @@
 
 class Camera2D : public ICamera{
 public:
+	SDL_Rect worldLocation;
+
 	Camera2D() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
 		_orthoMatrix(1.0f),		//I
@@ -46,7 +48,7 @@ public:
 		screenCoords -= glm::vec2(_screenWidth / 2, _screenHeight / 2);
 		//Scale coordinates
 		screenCoords /= _scale;
-		//Translate with the camera position
+		//Translate with the camera2D.worldLocation position
 		screenCoords += _position;
 		return screenCoords;
 	}

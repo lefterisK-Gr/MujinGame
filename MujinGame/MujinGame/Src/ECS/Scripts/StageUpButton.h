@@ -57,8 +57,8 @@ public:
 
 	void update(float deltaTime) override {
 		if (isHud) {
-			entity->GetComponent<TransformComponent>().position.x = Game::camera.x + offsetX;
-			stageUpBtnBack->GetComponent<TransformComponent>().position.x = Game::camera.x + offsetX;
+			entity->GetComponent<TransformComponent>().position.x = Game::camera2D.worldLocation.x + offsetX;
+			stageUpBtnBack->GetComponent<TransformComponent>().position.x = Game::camera2D.worldLocation.x + offsetX;
 		}
 	}
 

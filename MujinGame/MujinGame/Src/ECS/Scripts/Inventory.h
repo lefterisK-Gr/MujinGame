@@ -57,7 +57,7 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		transform->position.x = isOpen ? Game::camera.x + 50.0f : -1000.0f;
+		transform->position.x = isOpen ? Game::camera2D.worldLocation.x + 50.0f : -1000.0f;
 		
 		for (int i = 0; i < SLOTS_PER_COLUMN; i++) {
 			for (int j = 0; j < SLOTS_PER_ROW; j++) {

@@ -96,8 +96,8 @@ public: // it is like it has init that creates Animator Component since it inher
 		float parallaxFactor = 1.0f / _zIndex;
 		if (light) {
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
-			light->GetComponent<TransformComponent>().position.x = transform->position.x + transform->width/2 - (Game::camera.x * parallaxFactor);
-			light->GetComponent<TransformComponent>().position.y = transform->position.y + transform->height/2 - (Game::camera.y * parallaxFactor);
+			light->GetComponent<TransformComponent>().position.x = transform->position.x + transform->width/2 - (Game::camera2D.worldLocation.x * parallaxFactor);
+			light->GetComponent<TransformComponent>().position.y = transform->position.y + transform->height/2 - (Game::camera2D.worldLocation.y * parallaxFactor);
 		}
 
 		if (!attackAnimation) {

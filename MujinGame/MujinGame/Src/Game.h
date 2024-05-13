@@ -114,7 +114,6 @@ public:
 
 	static SDL_Event event;
 
-	static SDL_Rect camera;
 	static Camera2D camera2D;
 	static Camera2D hudCamera2D;
 

@@ -144,6 +144,7 @@
     <ClCompile Include="GameScreen\ScreenList.cpp" />
     <ClCompile Include="InputManager\InputManager.cpp" />
     <ClCompile Include="PNG_Letters.cpp" />
+    <ClCompile Include="SceneManager\SceneManager.cpp" />
     <ClCompile Include="SpriteBatch\SpriteBatch.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="Timing\Timing.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="InputManager\InputManager.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="PNG_Letters.h" />
+    <ClInclude Include="SceneManager\SceneManager.h" />
     <ClInclude Include="SpriteBatch\SpriteBatch.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="Timing\Timing.h" />

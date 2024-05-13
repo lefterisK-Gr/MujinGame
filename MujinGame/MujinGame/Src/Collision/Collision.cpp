@@ -59,5 +59,4 @@ void Collision::moveFromCollision(Entity& player) {
 		default:
 			break;
 	}
-	player.GetComponent<ColliderComponent>().update(1.0f);
 }

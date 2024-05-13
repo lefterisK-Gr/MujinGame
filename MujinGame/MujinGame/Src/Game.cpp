@@ -19,7 +19,6 @@ SDL_Event Game::event;
 Manager manager;
 Collision collision;
 
-SDL_Rect Game::camera = { 0,0,3040,0 }; // camera.w shows how far right camera can go
 Camera2D Game::camera2D;
 Camera2D Game::hudCamera2D;
 SpriteBatch Game::_spriteBatch;
@@ -137,9 +136,10 @@ void Game::onEntry()
 
 	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
 
-	camera = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
-	camera.w = camera.w - _window->getScreenWidth();
-	scenes->AddSceneCamera(camera);
+	camera2D.worldLocation = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
+	camera2D.worldLocation.w = camera2D.worldLocation.w - _window->getScreenWidth();
+
+	scenes->AddSceneCamera(camera2D.worldLocation);
 
 	assets->CreatePlayer(player1);
 
@@ -292,7 +292,7 @@ void Game::update(float deltaTime) //game objects updating
 	Vector2D plMaxDistance;
 
 	manager.refresh(); 
-	manager.update(deltaTime);
+	manager.update(deltaTime );
 
 	Game::camera2D.update();
 	Game::hudCamera2D.update();
@@ -331,6 +331,7 @@ void Game::update(float deltaTime) //game objects updating
 				bool hasCollision = collision.checkCollisionIsSideways(pCol, cCol);
 				if (hasCollision) {
 					collision.moveFromCollision(*p);
+					p->GetComponent<ColliderComponent>().update(1.0f);
 				}
 
 				if (collision.movingRectColSide == Collision::ColSide::TOP) {
@@ -375,14 +376,16 @@ void Game::update(float deltaTime) //game objects updating
 					if (collision.isSidewaysCollision) {
 
 						collision.moveFromCollision(*p);
+						p->GetComponent<ColliderComponent>().update(1.0f);
 
 						p->GetComponent<Player_Script>().leftofPipe = assets->LeftOfPipeTrigger(pCol);
 					}
 					if (!collision.isSidewaysCollision) {
 
 						collision.moveFromCollision(*p);
+						p->GetComponent<ColliderComponent>().update(1.0f);
 
-						//p->GetComponent<Player_Script>().onPipe = assets->OnPipeTrigger(cCol);
+						p->GetComponent<Player_Script>().leftofPipe = assets->LeftOfPipeTrigger(pCol);
 					}
 				}
 
@@ -424,6 +427,7 @@ void Game::update(float deltaTime) //game objects updating
 						if (collision.isSidewaysCollision) {
 							
 							collision.moveFromCollision(*enemy);
+							enemy->GetComponent<ColliderComponent>().update(1.0f);
 
 							if ((enemy->GetComponent<TransformComponent>().velocity.x < 0 && collision.movingRectColSide == Collision::ColSide::LEFT) 
 								|| (enemy->GetComponent<TransformComponent>().velocity.x > 0 && collision.movingRectColSide == Collision::ColSide::RIGHT)) {
@@ -432,6 +436,7 @@ void Game::update(float deltaTime) //game objects updating
 						}
 						if (!collision.isSidewaysCollision) {
 							collision.moveFromCollision(*enemy);
+							enemy->GetComponent<ColliderComponent>().update(1.0f);
 						}
 					}
 
@@ -440,7 +445,7 @@ void Game::update(float deltaTime) //game objects updating
 					collision.movingRectColSide = Collision::ColSide::NONE;
 				}
 			}
-			if (enemy->GetComponent<TransformComponent>().position.y > (camera.y + 640))
+			if (enemy->GetComponent<TransformComponent>().position.y > (camera2D.worldLocation.y + camera2D.worldLocation.h))
 				enemy->destroy();
 		}
 	}
@@ -653,8 +658,8 @@ void Game::update(float deltaTime) //game objects updating
 		{
 			plMaxDistance.x = pl->GetComponent<TransformComponent>().position.x;
 		}
-		camera.x = plMaxDistance.x - 400;
-		if (pl->GetComponent<TransformComponent>().position.y >(camera.y + 640)) //player death
+		camera2D.worldLocation.x = plMaxDistance.x - 400;
+		if (pl->GetComponent<TransformComponent>().position.y >(camera2D.worldLocation.y + camera2D.worldLocation.h)) //player death
 		{
 			for (auto& player : players)
 			{
@@ -672,8 +677,8 @@ void Game::update(float deltaTime) //game objects updating
 			{
 				pl->GetComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(0);
 			}
-			camera = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
-			camera.w = camera.w - _window->getScreenWidth();
+			camera2D.worldLocation = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
+			camera2D.worldLocation.w = camera2D.worldLocation.w - _window->getScreenWidth();
 		}
 		p->GetComponent<Player_Script>().finishedHorAnimation = false;
 		p->GetComponent<Player_Script>().finishedVertAnimation = false;
@@ -681,7 +686,7 @@ void Game::update(float deltaTime) //game objects updating
 
 	for (auto& clouds : backgroundtiles) {
 		if (clouds->GetComponent<TransformComponent>().position.x + clouds->GetComponent<TransformComponent>().width < 0) {
-			clouds->GetComponent<TransformComponent>().position.x = camera.w * 1.0f/3.0f +_window->getScreenWidth(); //due to cloud z-index
+			clouds->GetComponent<TransformComponent>().position.x = camera2D.worldLocation.w * 1.0f/3.0f +_window->getScreenWidth(); //due to cloud z-index
 		}
 	}
 
@@ -698,10 +703,10 @@ void Game::update(float deltaTime) //game objects updating
 	_mouseCoords.x = -100.0f;
 	_mouseCoords.y = -100.0f;
 
-	if (camera.x < scenes->GetSceneCamera(scenes->sceneSelected).x)
-		camera.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
-	if (camera.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w))
-		camera.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + camera.w);
+	if (camera2D.worldLocation.x < scenes->GetSceneCamera(scenes->sceneSelected).x)
+		camera2D.worldLocation.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
+	if (camera2D.worldLocation.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + camera2D.worldLocation.w))
+		camera2D.worldLocation.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + camera2D.worldLocation.w);
 }
 
 void Game::checkInput() {
@@ -746,7 +751,7 @@ void Game::checkInput() {
 }
 
 
-void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera) { // todo add camera argument
+void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
 	_textureLightProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
@@ -790,7 +795,7 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 	//glUniform2fv(lightPosLocation2, 1, &(lightsPos[1].position[0]));  // Pass the address of the first element of lightPos
 }
 
-void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camera) { // todo add camera argument
+void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);

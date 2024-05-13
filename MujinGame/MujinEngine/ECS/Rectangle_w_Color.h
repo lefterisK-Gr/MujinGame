@@ -28,8 +28,8 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		destRect.x = static_cast<int>(transform->position.x) - Game::camera.x; //make player move with the camera, being stable in centre, except on edges
-		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		destRect.x = static_cast<int>(transform->position.x) - Game::camera2D.worldLocation.x; //make player move with the camera, being stable in centre, except on edges
+		destRect.y = static_cast<int>(transform->position.y) - Game::camera2D.worldLocation.y;
 	}
 
 	void draw(SpriteBatch& batch) override {
