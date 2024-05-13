@@ -824,11 +824,11 @@ void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch)
 		if (entity->hasComponent<SpriteComponent>()) {
 			SpriteComponent entitySprite = entity->GetComponent<SpriteComponent>();
 			if (collision.checkCollision(entitySprite.destRect, main_camera2D->getCameraRect())) { //culling
-				entity->draw(batch);
+				entity->draw(batch, *Game::_window);
 			}
 		}
 		else {
-			entity->draw(batch);
+			entity->draw(batch, *Game::_window);
 		}
 	}
 	batch.end();

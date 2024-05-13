@@ -10,7 +10,6 @@
 #include <map>
 #include "Vertex.h"
 #include <cstddef>
-#include "../../MujinGame/Src/Game.h"
 
 
 // TODO: (extra): can add states for different states (0 for full solid tile or 1 for no solid
@@ -113,7 +112,7 @@ public:
 		}
 	}
 
-	void draw(SpriteBatch& batch) override
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
 	{
 		if (gl_texture == NULL)
 		{

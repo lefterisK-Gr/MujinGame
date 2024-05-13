@@ -60,7 +60,7 @@ public:
 		}
 	}
 
-	void draw(SpriteBatch& batch) override {
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override {
 	}
 
 	void generateRandomItems() {

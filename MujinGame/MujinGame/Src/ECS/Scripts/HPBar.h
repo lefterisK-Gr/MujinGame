@@ -32,6 +32,6 @@ public:
 		rectangle->destRect.w = transform->width * transform->scale * (_healthPoints / _maxHealthPoints);
 	}
 
-	void draw(SpriteBatch& batch) override {
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override {
 	}
 };

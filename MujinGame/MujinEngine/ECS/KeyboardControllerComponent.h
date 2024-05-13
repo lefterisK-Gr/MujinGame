@@ -5,6 +5,7 @@
 #include "./Components.h"
 #include <Windows.h>
 #include <MMSystem.h>
+#include "../InputManager/InputManager.h"
 
 class KeyboardControllerComponent : public Component //! moving animation
 {

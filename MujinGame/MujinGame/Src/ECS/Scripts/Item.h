@@ -56,6 +56,6 @@ public:
 		itemBack->GetComponent<TransformComponent>().position.x = transform->position.x;
 	}
 
-	void draw(SpriteBatch& batch) override {
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override {
 	}
 };

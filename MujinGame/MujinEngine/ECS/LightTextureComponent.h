@@ -34,7 +34,7 @@ public:
 
     }
 
-    void draw(SpriteBatch& batch) override
+    void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
     {
         float tempScreenScale = Game::_window->getScale();
         glm::vec4 pos((float)sprite->destRect.x * tempScreenScale, (float)sprite->destRect.y * tempScreenScale,

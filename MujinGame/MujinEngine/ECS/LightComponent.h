@@ -35,7 +35,7 @@ public:
         destRect.y = static_cast<int>(transform->position.y);
     }
 
-    void draw(SpriteBatch& batch) override
+    void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
     {
         float tempScreenScale = Game::_window->getScale();
         glm::vec4 pos((float)destRect.x * tempScreenScale, (float)destRect.y * tempScreenScale,

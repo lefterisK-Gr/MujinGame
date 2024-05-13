@@ -167,7 +167,7 @@ void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
 void MainMenuScreen::renderBatch(const std::vector<Entity*>& entities) {
 	_spriteBatch.begin();
 	for (const auto& entity : entities) {
-		entity->draw(_spriteBatch);
+		entity->draw(_spriteBatch, *Game::_window);
 	}
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();

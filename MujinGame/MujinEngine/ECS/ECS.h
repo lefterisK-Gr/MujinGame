@@ -10,10 +10,12 @@
 #include <SDL/SDL.h>
 #include "../SpriteBatch/SpriteBatch.h"
 #include "../Camera2D/CameraManager.h"
+#include "../Window/Window.h"
 
 class Component;
 class Entity;
 class Manager;
+class Window;
 
 using ComponentID = std::size_t;
 using Group = std::size_t;
@@ -45,7 +47,7 @@ public:
 
 	virtual void init(){}
 	virtual void update(float deltaTime) {}
-	virtual void draw(SpriteBatch& batch) {}
+	virtual void draw(SpriteBatch&  batch, MujinEngine::Window& window) {}
 
 	virtual SDL_Rect getRect() 
 	{
@@ -78,9 +80,9 @@ public:
 	{
 		for (auto& c : components) c->update(deltaTime); // start from which was added first
 	}
-	void draw(SpriteBatch& batch) 
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window) 
 	{
-		for (auto& c : components) c->draw(batch);
+		for (auto& c : components) c->draw(batch, window);
 	}
 	bool isActive() { return active; }
 	void destroy() { active = false; } // destroy happens relative to the group referencing
@@ -135,9 +137,9 @@ public:
 	{
 		for (auto& e : entities) e->update(deltaTime);
 	}
-	void draw(SpriteBatch& batch)
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window)
 	{
-		for (auto& e : entities) e->draw(batch);
+		for (auto& e : entities) e->draw(batch, window);
 	}
 	void refresh()
 	{

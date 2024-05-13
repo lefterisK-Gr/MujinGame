@@ -59,7 +59,7 @@ public:
 		sprite->setMoveFrame();
 	}
 
-	void draw(SpriteBatch& batch) override
+	void draw(SpriteBatch& batch, MujinEngine::Window& window) override
 	{
 		//sprite->draw();
 	}

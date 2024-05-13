@@ -68,7 +68,7 @@ public:
 		destR.y = collider.y - main_camera2D->worldLocation.y;
 	}
 
-	void draw(SpriteBatch& batch) override
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
 	{
 	}
 

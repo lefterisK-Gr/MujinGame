@@ -50,7 +50,7 @@ public:
 		sprite->setFlashFrame();
 	}
 
-	void draw(SpriteBatch& batch) override
+	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
 	{
 		//sprite->draw(batch);
 	}

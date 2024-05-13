@@ -52,10 +52,10 @@ public:
 		}
 	}
 
-	void draw(SpriteBatch& batch) override {
+	void draw(SpriteBatch& batch, MujinEngine::Window& window) override {
 		//draw each letter
 		for (auto& l : letters) {
-			l->draw(batch);
+			l->draw(batch, window);
 		}
 	}
 
