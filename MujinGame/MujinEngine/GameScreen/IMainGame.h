@@ -27,6 +27,7 @@ public:
 	}
 
 	InputManager _inputManager;
+	MujinEngine::Window _window;
 
 protected:
 	virtual void update(float deltaTime);
@@ -39,7 +40,6 @@ protected:
 	IGameScreen* _currentScreen = nullptr;
 	bool _isRunning = false;
 	float _fps = 0.0f;
-	MujinEngine::Window _window;
 
 	const float SCALE_SPEED = 0.1f;
 };

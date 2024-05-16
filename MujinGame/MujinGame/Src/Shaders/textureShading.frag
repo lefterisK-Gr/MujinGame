@@ -22,7 +22,7 @@ void main() {
 
     for(int i= 0; i < MAX_LIGHTS; i++) {
         float distance = length(fragmentPosition - lightPos[i].position);
-        float attenuation = clamp(pow(lightPos[i].radius / (distance + 1.0), 2.0), 0.5, 1.0);
+        float attenuation = exp(-pow((distance / lightPos[i].radius), 2.0) * 0.1);
         totalLightEffect += textureColor.rgb * fragmentColor.rgb * attenuation;
     }
 

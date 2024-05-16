@@ -61,7 +61,7 @@ void Game::destroy() {
 
 void Game::onEntry()
 {
-	assets = new AssetManager(&manager, _game->_inputManager);
+	assets = new AssetManager(&manager, _game->_inputManager, _game->_window);
 
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
@@ -140,8 +140,6 @@ void Game::onEntry()
 
 	main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
 	main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
-
-	scenes->AddSceneCamera(main_camera2D->worldLocation);
 
 	assets->CreatePlayer(player1);
 
@@ -407,6 +405,8 @@ void Game::update(float deltaTime) //game objects updating
 				collision.movingRectColSide = Collision::ColSide::NONE; 
 			}
 		}
+
+		collision.moveFromOuterBounds(*p, *_window);
 	}
 
 
@@ -450,6 +450,9 @@ void Game::update(float deltaTime) //game objects updating
 					collision.isSidewaysCollision = false;
 					collision.movingRectColSide = Collision::ColSide::NONE;
 				}
+			}
+			if (collision.moveFromOuterBounds(*enemy, *_window)) {
+				enemy->GetComponent<TransformComponent>().velocity.x *= -1;
 			}
 			if (enemy->GetComponent<TransformComponent>().position.y > (main_camera2D->worldLocation.y + main_camera2D->worldLocation.h))
 				enemy->destroy();
@@ -678,7 +681,6 @@ void Game::update(float deltaTime) //game objects updating
 	{
 		if (p->GetComponent<Player_Script>().finishedHorAnimation)
 		{
-			scenes->sceneSelected = 0;
 			for (auto& pl : players)
 			{
 				pl->GetComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(0);
@@ -709,10 +711,10 @@ void Game::update(float deltaTime) //game objects updating
 	_mouseCoords.x = -100.0f;
 	_mouseCoords.y = -100.0f;
 
-	if (main_camera2D->worldLocation.x < scenes->GetSceneCamera(scenes->sceneSelected).x)
-		main_camera2D->worldLocation.x = scenes->GetSceneCamera(scenes->sceneSelected).x;
-	if (main_camera2D->worldLocation.x > (scenes->GetSceneCamera(scenes->sceneSelected).x + main_camera2D->worldLocation.w))
-		main_camera2D->worldLocation.x = (scenes->GetSceneCamera(scenes->sceneSelected).x + main_camera2D->worldLocation.w);
+	if (main_camera2D->worldLocation.x < 0)
+		main_camera2D->worldLocation.x = 0;
+	if (main_camera2D->worldLocation.x > main_camera2D->worldLocation.w)
+		main_camera2D->worldLocation.x = main_camera2D->worldLocation.w;
 }
 
 void Game::checkInput() {

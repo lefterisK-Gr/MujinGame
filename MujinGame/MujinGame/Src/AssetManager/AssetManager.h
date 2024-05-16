@@ -17,7 +17,7 @@ public:
 	SDL_Color red = { 255, 0 ,0 ,255 };
 	SDL_Color green = { 0, 255 ,0 ,255 };
 
-	AssetManager(Manager* man, InputManager& inputManager);
+	AssetManager(Manager* man, InputManager& inputManager, MujinEngine::Window& window);
 	~AssetManager();
 
 	//gameobjects
@@ -43,6 +43,7 @@ public:
 private:
 	Manager* manager;
 	InputManager& _inputManager;
+	MujinEngine::Window& _window;
 
 	SDL_Rect onpipeTriggers[2];
 	SDL_Rect leftofpipeTriggers[1];

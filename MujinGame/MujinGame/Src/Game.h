@@ -23,6 +23,7 @@
 #include "GameScreen/ScreenIndices.h"
 #include "Vector2D/Vector2D.h"
 
+#include "Grid/Grid.h"
 
 class Map;
 class AssetManager;
@@ -91,6 +92,8 @@ private:
 
 	SDL_Rect _mouseCoords = { -100, -100 , 1, 1 };
 	//SpriteFont* _spriteFont;
+	
+	Grid* _grid = nullptr; //< Grid for spatial partitioning for collision
 
 	int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
 	int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;

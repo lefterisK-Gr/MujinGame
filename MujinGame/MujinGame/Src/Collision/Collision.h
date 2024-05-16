@@ -2,6 +2,7 @@
 #include <SDL/SDL.h>
 #include "ECS/Components.h"
 #include "Vector2D/Vector2D.h"
+#include "Window/Window.h"
 #include <algorithm>
 
 class Collision;
@@ -21,4 +22,5 @@ public:
 	static bool checkCollision(const SDL_Rect recA, const SDL_Rect recB);
 	bool checkCollisionIsSideways(const SDL_Rect& moving_recA, const SDL_Rect& recB);
 	void moveFromCollision(Entity& player);
+	bool moveFromOuterBounds(Entity& entity, MujinEngine::Window& window);
 };

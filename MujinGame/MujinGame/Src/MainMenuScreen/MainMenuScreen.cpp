@@ -53,7 +53,7 @@ void MainMenuScreen::destroy()
 
 void MainMenuScreen::onEntry()
 {
-	assets = new AssetManager(&manager, _game->_inputManager);
+	assets = new AssetManager(&manager, _game->_inputManager, _game->_window);
 
 	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 

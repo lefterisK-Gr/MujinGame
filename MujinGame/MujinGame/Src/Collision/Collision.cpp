@@ -60,3 +60,19 @@ void Collision::moveFromCollision(Entity& player) {
 			break;
 	}
 }
+
+bool Collision::moveFromOuterBounds(Entity& entity, MujinEngine::Window& window) {
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
+	auto& pos = entity.GetComponent<TransformComponent>().position;
+
+	if (pos.x < 0) {
+		pos.x = 0;
+		return true;
+	}
+	else if (pos.x + entity.GetComponent<TransformComponent>().width > main_camera2D->worldLocation.w + window.getScreenWidth()) {
+		pos.x = main_camera2D->worldLocation.w + window.getScreenWidth() - entity.GetComponent<TransformComponent>().width;
+		return true;
+	}
+	return false;
+}

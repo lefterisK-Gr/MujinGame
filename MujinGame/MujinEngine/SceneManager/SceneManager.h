@@ -8,7 +8,6 @@
 class SceneManager //this class created when we added projectiles, based on this class other components changed
 {					//it just replaces the paths of textures with names
 public:
-	int sceneSelected = 0;
 	SceneManager();
 	~SceneManager();
 

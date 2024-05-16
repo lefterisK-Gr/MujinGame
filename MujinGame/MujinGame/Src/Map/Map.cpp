@@ -42,15 +42,9 @@ std::vector<std::vector<int>> Map::generateRandomMap(int width, int height) {
 
 	// Set 69 on the top and bottom rows
 	for (int x = 0; x < width; ++x) {
-		map[0][x] = 69;          // Top row
 		map[height - 1][x] = 1; // Bottom row
 	}
 
-	// Set 69 on the left and right columns
-	for (int y = 1; y < height - 1; ++y) {
-		map[y][0] = 69;          // Left column
-		map[y][width - 1] = 69;  // Right column
-	}
 
 	if (width >= 2 && height >= 2) {
 		//top left pipe
