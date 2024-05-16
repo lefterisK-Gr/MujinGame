@@ -2,7 +2,7 @@
 #include <string>
 #include <SDL/SDL.h>
 #include "Components.h"
-#include "TextureManager/TextureManager.h"
+#include "../TextureManager/TextureManager.h"
 
 #define COL_POS_OFFSET 8
 

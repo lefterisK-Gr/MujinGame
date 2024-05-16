@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ECS/ECS.h"
 #include "Components.h"
 
 class LightComponent : public Component {
