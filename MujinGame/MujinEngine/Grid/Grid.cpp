@@ -68,6 +68,7 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
 		for (int offsetY = -1; offsetY <= 1; offsetY++) {
 			if (offsetX == 0 && offsetY == 0) {
 				adjacentCells.push_back(entity.ownerCell);
+				continue;
 			}
 			int neighborX = cellX + offsetX;
 			int neighborY = cellY + offsetY;

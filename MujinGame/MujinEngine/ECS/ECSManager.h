@@ -95,7 +95,7 @@ public:
 		auto adjacentCells = grid->getAdjacentCells(*mainEntity);
 
 		for (Cell* adjCell : adjacentCells) {
-			for (Entity* neighbor : adjCell->entities) {
+			for (auto& neighbor : adjCell->entities) {
 				if (neighbor->hasGroup(group)) { // Optional: Exclude the original entity if necessary
 					nearbyEntities.push_back(neighbor);
 				}
