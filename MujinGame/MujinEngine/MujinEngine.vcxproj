@@ -164,6 +164,7 @@
     <ClInclude Include="ECS\ColliderComponent.h" />
     <ClInclude Include="ECS\Components.h" />
     <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="ECS\ECSManager.h" />
     <ClInclude Include="ECS\FlashAnimation.h" />
     <ClInclude Include="ECS\FlashAnimatorComponent.h" />
     <ClInclude Include="ECS\GridComponent.h" />

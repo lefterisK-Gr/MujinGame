@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ECS\ECS.h"
+#include "ECS\ECSManager.h"
 #include <TTF/SDL_ttf.h>
 #include <glm/glm.hpp>
 

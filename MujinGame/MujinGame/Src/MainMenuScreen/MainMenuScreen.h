@@ -17,7 +17,7 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "ECS/ECS.h"
+#include "ECS/ECSManager.h"
 
 #include "GameScreen/ScreenIndices.h"
 

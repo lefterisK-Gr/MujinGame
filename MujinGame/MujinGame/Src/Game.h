@@ -18,7 +18,7 @@
 #include "Window/Window.h"
 #include "TextureManager/TextureManager.h"
 
-#include "ECS/ECS.h"
+#include "ECS/ECSManager.h"
 
 #include "GameScreen/ScreenIndices.h"
 #include "Vector2D/Vector2D.h"
@@ -31,6 +31,7 @@ class SceneManager;
 class ColliderComponent;
 class TransformComponent;
 
+constexpr int CELL_SIZE = 128;
 
 class Game : public IGameScreen {
 

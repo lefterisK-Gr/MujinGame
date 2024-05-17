@@ -4,7 +4,7 @@
 #include "TextureManager/TextureManager.h"
 #include "../ShapeManager.h"
 #include "Vector2D/Vector2D.h"
-#include "ECS\ECS.h"
+#include "ECS\ECSManager.h"
 #include <TTF/SDL_ttf.h>
 #include "../Game.h"
 

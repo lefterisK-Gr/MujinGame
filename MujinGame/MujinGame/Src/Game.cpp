@@ -141,6 +141,8 @@ void Game::onEntry()
 	main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
 	main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
 
+	manager.grid = std::make_unique<Grid>(main_camera2D->worldLocation.w + _window->getScreenWidth(), main_camera2D->worldLocation.h, CELL_SIZE);
+
 	assets->CreatePlayer(player1);
 
 	assets->CreateBackground();
@@ -163,7 +165,7 @@ void Game::onEntry()
 	assets->CreateInventory();
 
 	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
-	stagelabel.addComponent<UILabel>("stage 0", "arial", true);
+	stagelabel.addComponent<UILabel>(&manager, "stage 0", "arial", true);
 	stagelabel.addGroup(Manager::groupLabels);
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
@@ -293,7 +295,6 @@ void Game::update(float deltaTime) //game objects updating
 	}
 
 	checkInput(); //handleEvents
-	Vector2D plMaxDistance;
 
 	manager.refresh(); 
 	manager.update(deltaTime );
@@ -358,7 +359,7 @@ void Game::update(float deltaTime) //game objects updating
 
 	for (auto& p : players) //player with colliders
 	{
-		for (auto& c : colliders)
+		for (auto& c : manager.adjacentEntities(p, Manager::groupColliders))
 		{
 			if (c->hasGroup(Manager::groupWinningTiles)) {
 				continue;
@@ -659,15 +660,7 @@ void Game::update(float deltaTime) //game objects updating
 	
 	for (auto& pl : players) //player rules
 	{
-		if (!plMaxDistance.x)
-		{
-			plMaxDistance.x = pl->GetComponent<TransformComponent>().position.x;
-		}
-		else if (pl->GetComponent<TransformComponent>().position.x > plMaxDistance.x)
-		{
-			plMaxDistance.x = pl->GetComponent<TransformComponent>().position.x;
-		}
-		main_camera2D->worldLocation.x = plMaxDistance.x - 400;
+		main_camera2D->worldLocation.x = pl->GetComponent<TransformComponent>().position.x - main_camera2D->getCameraDimensions().x/2;
 		if (pl->GetComponent<TransformComponent>().position.y >(main_camera2D->worldLocation.y + main_camera2D->worldLocation.h)) //player death
 		{
 			for (auto& player : players)

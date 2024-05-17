@@ -118,6 +118,7 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int s
 		projectile.addGroup(Manager::groupProjectiles);
 	else
 		projectile.addGroup(Manager::groupWarriorProjectiles);
+	manager->grid->addEntity(&projectile);
 }
 
 void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant)

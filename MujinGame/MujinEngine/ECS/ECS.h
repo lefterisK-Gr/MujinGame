@@ -16,6 +16,7 @@ class Component;
 class Entity;
 class Manager;
 class Window;
+struct Cell;
 
 using ComponentID = std::size_t;
 using Group = std::size_t;
@@ -74,6 +75,7 @@ private:
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 public:
+	Cell* ownerCell = nullptr;
 	std::vector<std::unique_ptr<Component>> components;
 	Entity(Manager& mManager) : manager(mManager) {}
 	void update(float deltaTime)
@@ -126,102 +128,3 @@ public:
 
 };
 
-class Manager
-{
-private:
-	std::vector<std::unique_ptr<Entity>> entities;
-	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
-
-public:
-	void update( float deltaTime = 1.0f)
-	{
-		for (auto& e : entities) e->update(deltaTime);
-	}
-	void draw(SpriteBatch&  batch, MujinEngine::Window& window)
-	{
-		for (auto& e : entities) e->draw(batch, window);
-	}
-	void refresh()
-	{
-		for (auto i(0u); i < maxGroups; i++)
-		{
-			auto& v(groupedEntities[i]);
-			v.erase(
-				std::remove_if(std::begin(v), std::end(v),
-					[i](Entity* mEntity)
-					{
-						return !mEntity->isActive() || !mEntity->hasGroup(i);
-					}),
-				std::end(v));
-		}
-
-
-		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-			[](const std::unique_ptr<Entity>& mEntity)
-			{
-				return !mEntity->isActive();
-			}),
-				std::end(entities));
-	}
-
-	void AddToGroup(Entity* mEntity, Group mGroup)
-	{
-		groupedEntities[mGroup].emplace_back(mEntity);
-	}
-
-	std::vector<Entity*>& getGroup(Group mGroup)
-	{
-		return groupedEntities[mGroup];
-	}
-
-	Entity& addEntity()
-	{
-		Entity* e = new Entity(*this);
-		std::unique_ptr<Entity> uPtr{ e };
-		entities.emplace_back(std::move(uPtr));
-		return *e;
-	}
-
-	void clearAllEntities() {
-		for (auto& group : groupedEntities) {
-			group.clear();
-		}
-		entities.clear();
-	}
-
-	enum groupLabels : std::size_t //todo should add groups at end for some reason
-	{
-		groupBackgroundLayer,
-		groupSewerBackgroundLayer,
-		groupActionLayer,
-		groupPlayers,
-		groupBackgrounds,
-		//groupEnemies,
-		groupColliders,
-		groupMysteryBoxes,
-		groupWinningTiles,
-		groupSlices,
-		groupEnemySlices,
-		groupLights,
-		groupTextureLights,
-		groupProjectiles,
-		groupWarriorProjectiles,
-		groupSkeletons,
-		groupLabels,
-		groupStageUpButtons,
-		groupStageUpAttackButtons,
-		groupStageUpDefenceButtons,
-		groupStageUpHpButtons,
-		groupStageUpButtonsBack,
-		groupSlots,
-		groupShops,
-		groupInventories,
-		groupGreenKoopaTroopas,
-		groupPipeRingForeground,
-		groupForegroundLayer,
-		groupMarket,
-		screenShapes,
-		groupHPBars
-	};
-
-};

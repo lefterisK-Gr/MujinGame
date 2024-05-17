@@ -3,11 +3,12 @@
 #include "../PNG_Letters.h"
 #include "Components.h"
 
-extern Manager manager;
+class Manager;
 
 class UILabel : public Component
 {
 private:
+	Manager* _manager;
 	std::vector<Entity*> letters;
 	std::string label;
 	std::string fontFamily;
@@ -16,8 +17,9 @@ public:
 	TransformComponent* transform = nullptr;
 
 	UILabel() = default;
-	UILabel(std::string lab, std::string fontFam, bool is_hud)
+	UILabel(Manager* manager, std::string lab, std::string fontFam, bool is_hud)
 	{
+		_manager = manager;
 		isHud = is_hud;
 		fontFamily = fontFam;
 		label = lab;
@@ -63,7 +65,7 @@ public:
 		letters.clear();
 		label = lab;
 		for (char c : label) {
-			auto& label(manager.addEntity());
+			auto& label(_manager->addEntity());
 			SDL_Rect charRect = getLetterRect(c);
 			label.addComponent<TransformComponent>(transform->position.x, transform->position.y,
 				charRect.w, charRect.h,//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position

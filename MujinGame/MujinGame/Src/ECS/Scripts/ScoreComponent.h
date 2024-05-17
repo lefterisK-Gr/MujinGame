@@ -2,6 +2,8 @@
 
 #include "ECS/Components.h"
 
+extern Manager manager;
+
 class ScoreComponent : public Component
 {
 private:
@@ -23,7 +25,7 @@ public:
 	{
 		scorelabel = &manager.addEntity();
 		scorelabel->addComponent<TransformComponent>(32, 576, 32, 32, 1);
-		scorelabel->addComponent<UILabel>("score 0", "arial", true);
+		scorelabel->addComponent<UILabel>(&manager, "score 0", "arial", true);
 		scorelabel->addGroup(Manager::groupLabels);
 	}
 

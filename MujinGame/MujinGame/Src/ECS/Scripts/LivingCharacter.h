@@ -47,11 +47,13 @@ public:
 			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y - 10.0f, 10.0f, 100.0f, transform->scale);
 			greyBar->addComponent<HPBar>();
 			greyBar->GetComponent<HPBar>().rectangle->color= Color(128, 128, 128, 255); // Grey color
+			greyBar->addGroup(Manager::groupHPBars);
 
 			hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y - 10.0f,
 				10.0f, 100.0f, transform->scale);
 			hp_bar->addComponent<HPBar>();
 			hp_bar->GetComponent<HPBar>().rectangle->color = Color(255, 0, 0, 255);
+			hp_bar->addGroup(Manager::groupHPBars);
 
 			mana_bar = &manager.addEntity();
 
@@ -75,15 +77,13 @@ public:
 			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y, 5.0f, 50.0f, transform->scale);
 			greyBar->addComponent<HPBar>();
 			greyBar->GetComponent<HPBar>().rectangle->color = Color(128, 128, 128, 255); // Grey color
-
+			greyBar->addGroup(Manager::groupHPBars);
 			hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y,
 				5.0f, 50.0f, transform->scale);
 			hp_bar->addComponent<HPBar>();
 			hp_bar->GetComponent<HPBar>().rectangle->color = Color(0, 255, 0, 255);
+			hp_bar->addGroup(Manager::groupHPBars);
 		}
-		greyBar->addGroup(Manager::groupHPBars);
-
-		hp_bar->addGroup(Manager::groupHPBars);
 	}
 
 	void update(float deltaTime) override {

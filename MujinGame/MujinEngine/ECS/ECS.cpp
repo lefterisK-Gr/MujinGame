@@ -1,4 +1,4 @@
-#include "ECS.h"
+#include "ECSManager.h"
 
 void Entity::addGroup(Group mGroup)
 {
