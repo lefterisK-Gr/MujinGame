@@ -134,6 +134,7 @@ void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bo
 	enemy.addComponent<Skeleton_Script>(isGiant);
 	
 	enemy.addGroup(Manager::groupSkeletons);
+	manager->grid->addEntity(&enemy);
 }
 
 void AssetManager::CreateStageUpButtons() {
@@ -182,6 +183,7 @@ void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed,
 	//enemy.GetComponent<TransformComponent>().velocity.x = 1;
 
 	enemy.addGroup(Manager::groupGreenKoopaTroopas);
+	manager->grid->addEntity(&enemy);
 }
 
 void AssetManager::CreateEnemies() {

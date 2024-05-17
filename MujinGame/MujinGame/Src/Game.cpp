@@ -136,15 +136,15 @@ void Game::onEntry()
 
 	Game::map = new Map("terrain", 1, 32);
 
-	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
-
 	main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
 	main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
 
 	manager.grid = std::make_unique<Grid>(main_camera2D->worldLocation.w + _window->getScreenWidth(), main_camera2D->worldLocation.h, CELL_SIZE);
 
-	assets->CreatePlayer(player1);
+	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
 
+	assets->CreatePlayer(player1);
+	manager.grid->addEntity(&player1);
 	assets->CreateBackground();
 
 	assets->CreateSunShape(sun);
@@ -414,7 +414,7 @@ void Game::update(float deltaTime) //game objects updating
 	for (auto& enemyGroup : { skeletons, greenkoopatroopas }) // enemies with colliders
 	{
 		for (auto& enemy : enemyGroup) {
-			for (auto& c : colliders)
+			for (auto& c : manager.adjacentEntities(enemy, Manager::groupColliders))
 			{
 				//SDL_Rect cCol = c->GetComponent<ColliderComponent>().collider;
 				for (auto& ccomp : c->components) {

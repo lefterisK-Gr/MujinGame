@@ -263,6 +263,7 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 				for (int i = 0; i < tileFeatures.size(); i++) {
 					(this->*tileFeatures[i])(tile, wordNum);
 				}
+				manager.grid->addEntity(&tile);
 			}
 			
 
@@ -348,6 +349,7 @@ void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
 		tile2.GetComponent<AnimatorComponent>().Play("QuestionMark");
 		tile2.addGroup(Manager::groupForegroundLayer);
 		tile2.addGroup(Manager::groupMysteryBoxes);
+		manager.grid->addEntity(&tile2);
 	}
 }
 
