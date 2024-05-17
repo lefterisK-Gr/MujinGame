@@ -101,6 +101,12 @@ void AssetManager::CreateRandomParticlesGenerator() {
 	particlesGenerator.addComponent<CreateRandomParticles>(*Game::_window);
 }
 
+void AssetManager::CreateRain() {
+	auto& rainGenerator(manager->addEntity());
+
+	rainGenerator.addComponent<CreateRainDrops>(*Game::_window);
+}
+
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());

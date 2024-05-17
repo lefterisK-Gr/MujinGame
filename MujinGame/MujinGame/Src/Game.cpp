@@ -149,6 +149,7 @@ void Game::onEntry()
 
 	assets->CreateSunShape(sun);
 	assets->CreateRandomParticlesGenerator();
+	assets->CreateRain();
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
 	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), "skeleton", false);
@@ -199,6 +200,7 @@ auto& slices(manager.getGroup(Manager::groupSlices));
 auto& enemyslices(manager.getGroup(Manager::groupEnemySlices));
 auto& lights(manager.getGroup(Manager::groupLights));
 auto& texturelights(manager.getGroup(Manager::groupTextureLights));
+auto& raindrops(manager.getGroup(Manager::groupRainDrop));
 auto& pipeforegroundsprites(manager.getGroup(Manager::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Manager::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Manager::groupBackgroundLayer));
@@ -912,6 +914,7 @@ void Game::draw()
 
 	//renderBatch(screenshapes);
 	renderBatch(hpbars, _spriteBatch);
+	renderBatch(raindrops, _spriteBatch);
 
 	_colorProgram.unuse();
 

@@ -20,7 +20,8 @@ public:
 		distributionX(0, main_camera2D->worldLocation.w + window.getScreenWidth()),
 		distributionY(0, main_camera2D->getCameraDimensions().y),
 		distributionVX(-0.5, 0.5),
-		distributionVY(-0.5, 0.5) {
+		distributionVY(-0.5, 0.5) 
+	{
 		generator.seed(std::random_device{}());
 	}
 

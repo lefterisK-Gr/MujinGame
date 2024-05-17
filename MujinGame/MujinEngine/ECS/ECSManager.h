@@ -120,6 +120,7 @@ public:
 		groupEnemySlices,
 		groupLights,
 		groupTextureLights,
+		groupRainDrop,
 		groupProjectiles,
 		groupWarriorProjectiles,
 		groupSkeletons,

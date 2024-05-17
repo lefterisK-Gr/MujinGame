@@ -23,3 +23,4 @@
 #include "Scripts/Inventory.h"
 
 #include "Scripts/CreateRandomParticles.h"
+#include "Scripts/CreateRain.h"

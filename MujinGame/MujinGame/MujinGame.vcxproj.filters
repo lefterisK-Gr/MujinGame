@@ -104,5 +104,8 @@
     <ClInclude Include="Src\ECS\Scripts\CreateRandomParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\ECS\Scripts\CreateRain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
