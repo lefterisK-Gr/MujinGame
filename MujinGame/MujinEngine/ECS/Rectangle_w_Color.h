@@ -16,6 +16,11 @@ public:
 
 	}
 
+	Rectangle_w_Color(float degrees) 
+		: rotation(degrees)
+	{
+	}
+
 	~Rectangle_w_Color() {
 
 	}

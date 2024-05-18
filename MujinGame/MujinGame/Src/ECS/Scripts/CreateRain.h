@@ -7,10 +7,11 @@ class CreateRainDrops : public Component
 private:
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-	const int maxParticles = 20;
-	int numOfParticles = 0;
+	const int maxParticles = 120;
+	float numOfParticles = 0;
 	std::default_random_engine generator;  // Random number generator
 	std::uniform_int_distribution<int> distributionX;
+	float dropRate = 0.2f;
 public:
 
 	CreateRainDrops(MujinEngine::Window& window) :
@@ -30,19 +31,24 @@ public:
 	void update(float deltaTime) override {
 		auto& textureraindrop(manager.getGroup(Manager::groupRainDrop));
 
-		if (numOfParticles < maxParticles) {
+		const unsigned short prevNumOfParticles = static_cast<unsigned short>(numOfParticles);
+
+		if (numOfParticles + dropRate <= maxParticles) {
+			numOfParticles += dropRate;
+		}
+
+		if (static_cast<unsigned short>(numOfParticles) > prevNumOfParticles && numOfParticles < maxParticles) {
 			Entity* raindrop;
 			raindrop = &manager.addEntity();
 
 			int randX = distributionX(generator);  // Generate random X within camera width
 
-			TransformComponent& tc = raindrop->addComponent<TransformComponent>(100, 0, 100, 100, 1);
-			tc.velocity = Vector2D(0, 1);
+			TransformComponent& tc = raindrop->addComponent<TransformComponent>(randX, 0, 10, 2, 1);
+			tc.velocity = Vector2D(-0.5, 3);
 
-			raindrop->addComponent<Rectangle_w_Color>();
-			raindrop->GetComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255);
+			raindrop->addComponent<Rectangle_w_Color>(20);
+			raindrop->GetComponent<Rectangle_w_Color>().color = Color(0, 102, 204, 255);
 			raindrop->addGroup(Manager::groupRainDrop);
-			numOfParticles++;
 		}
 
 		for (auto& tr : textureraindrop) {
