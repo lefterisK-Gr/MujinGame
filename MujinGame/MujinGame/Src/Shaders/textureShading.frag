@@ -12,12 +12,16 @@ in vec2 fragmentUV;
 out vec4 color;
 
 uniform sampler2D texture_sampler;
+uniform float time;
 const int MAX_LIGHTS = 1;
 uniform Light lightPos[MAX_LIGHTS];
 
 void main() {
-
-    vec4 textureColor = texture(texture_sampler, fragmentUV);
+    
+    float wiggleAmount = 0.01;
+    vec2 wiggledUV = fragmentUV + vec2(sin(time + fragmentPosition.x * 10.0) * wiggleAmount, cos(time + fragmentPosition.y * 10.0) * wiggleAmount);
+    
+    vec4 textureColor = texture(texture_sampler, wiggledUV);
     vec3 totalLightEffect = vec3(0.0);
 
     for(int i= 0; i < MAX_LIGHTS; i++) {

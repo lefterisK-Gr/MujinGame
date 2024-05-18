@@ -101,10 +101,10 @@ void AssetManager::CreateRandomParticlesGenerator() {
 	particlesGenerator.addComponent<CreateRandomParticles>(*Game::_window);
 }
 
-void AssetManager::CreateRain() {
+void AssetManager::CreateRain(Entity& entity) {
 	auto& rainGenerator(manager->addEntity());
 
-	rainGenerator.addComponent<CreateRainDrops>(*Game::_window);
+	rainGenerator.addComponent<CreateRainDrops>(100.0f);
 }
 
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)

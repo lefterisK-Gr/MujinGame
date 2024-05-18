@@ -149,7 +149,7 @@ void Game::onEntry()
 
 	assets->CreateSunShape(sun);
 	assets->CreateRandomParticlesGenerator();
-	assets->CreateRain();
+	assets->CreateRain(player1);
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
 	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), "skeleton", false);
@@ -764,6 +764,8 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 	GLint textureLocation = _textureLightProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
+	GLuint timeLocation = _textureLightProgram.getUniformLocation( "time");
+	glUniform1f(timeLocation, 1);
 	GLint pLocation = _textureLightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
