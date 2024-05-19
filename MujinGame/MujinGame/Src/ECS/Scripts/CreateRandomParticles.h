@@ -8,19 +8,18 @@ private:
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
 	const int maxParticles = 20;
-	int numOfParticles = 0;
+	float numOfParticles = 0;
+	float spawnRate = 0.1f;
 	std::default_random_engine generator;  // Random number generator
-	std::uniform_int_distribution<int> distributionX;
 	std::uniform_int_distribution<int> distributionY;
 	std::uniform_real_distribution<float> distributionVX; // Distribution for X velocity
 	std::uniform_real_distribution<float> distributionVY;
 public:
 
 	CreateRandomParticles(MujinEngine::Window& window) :
-		distributionX(0, main_camera2D->worldLocation.w + window.getScreenWidth()),
 		distributionY(0, main_camera2D->getCameraDimensions().y),
-		distributionVX(-0.5, 0.5),
-		distributionVY(-0.5, 0.5) 
+		distributionVX(-0.2, 0.2),
+		distributionVY(-0.2, 0.2) 
 	{
 		generator.seed(std::random_device{}());
 	}
@@ -35,31 +34,41 @@ public:
 
 	void update(float deltaTime) override {
 		auto& texturelights(manager.getGroup(Manager::groupTextureLights));
+		auto& players(manager.getGroup(Manager::groupPlayers));
 
-		if (numOfParticles < maxParticles) {
-			Entity* light;
-			light = &manager.addEntity();
+		for (auto& pl : players) {
+			TransformComponent* tr = &pl->GetComponent<TransformComponent>();
+			std::uniform_int_distribution<int> distributionX(tr->position.x - main_camera2D->getCameraDimensions().x,
+				tr->position.x + main_camera2D->getCameraDimensions().x);
+			const unsigned short prevNumOfParticles = static_cast<unsigned short>(numOfParticles);
 
-			int randX = distributionX(generator);  // Generate random X within camera width
-			int randY = distributionY(generator);
-			float randVX = distributionVX(generator);
-			float randVY = distributionVY(generator);
+			if (numOfParticles + spawnRate <= maxParticles) {
+				numOfParticles += spawnRate;
+			}
+			if (static_cast<unsigned short>(numOfParticles) > prevNumOfParticles && numOfParticles < maxParticles) {
+				Entity* light;
+				light = &manager.addEntity();
 
-			TransformComponent& tc = light->addComponent<TransformComponent>(randX, randY);
-            tc.velocity = Vector2D(randVX, randVY);
+				int randX = distributionX(generator);  // Generate random X within camera width
+				int randY = distributionY(generator);
+				float randVX = distributionVX(generator);
+				float randVY = distributionVY(generator);
 
-			light->addComponent<SpriteComponent>(Color(255, 255, 255, 150));
-			light->addComponent<LightTextureComponent>(1);
-			FlashAnimatorComponent& fc = light->addComponent<FlashAnimatorComponent>();
-			fc.Play("RandomParticle");
-			light->addGroup(Manager::groupTextureLights);
-			numOfParticles++;
-		}
+				TransformComponent& tc = light->addComponent<TransformComponent>(randX, randY);
+				tc.velocity = Vector2D(randVX, randVY);
 
-		for (auto& tl : texturelights) {
-			if (tl->GetComponent<SpriteComponent>().flash_animation.hasFinished()) {
-				tl->destroy();
-				numOfParticles--;
+				light->addComponent<SpriteComponent>(Color(255, 255, 255, 200));
+				light->addComponent<LightTextureComponent>(1);
+				FlashAnimatorComponent& fc = light->addComponent<FlashAnimatorComponent>();
+				fc.Play("RandomParticle");
+				light->addGroup(Manager::groupTextureLights);
+			}
+
+			for (auto& tl : texturelights) {
+				if (tl->GetComponent<SpriteComponent>().flash_animation.hasFinished()) {
+					tl->destroy();
+					numOfParticles--;
+				}
 			}
 		}
 	}

@@ -35,6 +35,7 @@ public:
 	void addMysteryBoxTileFeature(Entity& tile, int wordNum);
 	void addMarketTileFeature(Entity& tile, int wordNum);
 	void addPipeTileFeature(Entity& tile, int wordNum);
+	void addPuddleTileFeature(Entity& tile, int wordNum);
 	bool tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize); //, void (Map::* addTileFeature)(Entity&)
 	//void DrawMap();
 

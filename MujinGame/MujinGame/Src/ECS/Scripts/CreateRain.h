@@ -49,7 +49,7 @@ public:
 				int randX = distributionX(generator);  // Generate random X within camera width
 
 				TransformComponent& tc = raindrop->addComponent<TransformComponent>(randX, 0, 10, 2, 1);
-				tc.velocity = Vector2D(-0.5, 3);
+				tc.velocity = Vector2D(-0.5, 5);
 
 				raindrop->addComponent<Rectangle_w_Color>(20);
 				raindrop->GetComponent<Rectangle_w_Color>().color = Color(0, 102, 204, 255);

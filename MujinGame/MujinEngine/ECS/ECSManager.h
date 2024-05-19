@@ -15,6 +15,7 @@ public:
 	void update(float deltaTime = 1.0f)
 	{
 		for (auto& e : entities) {
+			if (!e || !e->isActive()) continue;
 			e->update(deltaTime);
 
 			//check if entity that has cell has to change cell

@@ -4,7 +4,7 @@
 
 class LightTextureComponent : public Component {
 public:
-    float radius = 10.0f;
+    float radius = 20.0f;
 
     TransformComponent* transform = nullptr;
     SpriteComponent* sprite;

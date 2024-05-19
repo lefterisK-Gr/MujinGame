@@ -108,6 +108,12 @@ void Game::onEntry()
 		_lightProgram.addAttribute("vertexUV");
 		_lightProgram.linkShaders();
 
+		_waveProgram.compileShaders("Src/Shaders/waveEffect.vert", "Src/Shaders/waveEffect.frag");
+		_waveProgram.addAttribute("vertexPosition");
+		_waveProgram.addAttribute("vertexColor");
+		_waveProgram.addAttribute("vertexUV");
+		_waveProgram.linkShaders();
+
 		Game::_spriteBatch.init();
 		Game::_hudSpriteBatch.init();
 
@@ -764,8 +770,6 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 	GLint textureLocation = _textureLightProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
-	GLuint timeLocation = _textureLightProgram.getUniformLocation( "time");
-	glUniform1f(timeLocation, 1);
 	GLint pLocation = _textureLightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
@@ -815,6 +819,22 @@ void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camer
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
+void Game::setupShaderAndWaveTexture(const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
+	_waveProgram.use();
+	glActiveTexture(GL_TEXTURE0);
+	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
+	GLint textureLocation = _waveProgram.getUniformLocation("texture_sampler");
+	glUniform1i(textureLocation, 0);
+	float currentTime = SDL_GetTicks() / 1000.0f;
+	float elapsedTime = currentTime - Game::startTime;
+	GLuint timeLocation = _waveProgram.getUniformLocation("time");
+	glUniform1f(timeLocation, elapsedTime);
+	GLint pLocation = _waveProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = camera.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+}
+
 void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
@@ -847,8 +867,9 @@ void Game::draw()
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	setupShaderAndLightTexture("backgroundMountains", *main_camera2D);
+	setupShaderAndWaveTexture("backgroundMountains", *main_camera2D);
 	renderBatch(backgrounds, _spriteBatch);
+	_waveProgram.unuse();
 	setupShaderAndLightTexture("terrain", *main_camera2D);
 	renderBatch(backgroundtiles, _spriteBatch);
 	renderBatch(sewerbackgroundtiles, _spriteBatch);
