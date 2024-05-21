@@ -139,7 +139,8 @@ public:
 		groupForegroundLayer,
 		groupMarket,
 		screenShapes,
-		groupHPBars
+		groupHPBars,
+		groupFog
 	};
 
 };

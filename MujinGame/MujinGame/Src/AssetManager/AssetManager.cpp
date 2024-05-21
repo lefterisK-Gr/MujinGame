@@ -175,6 +175,17 @@ void AssetManager::CreateInventory() {
 	inventory.addGroup(Manager::groupInventories);
 }
 
+void AssetManager::CreateFog()
+{
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	auto& fog(manager->addEntity());
+
+	fog.addComponent<TransformComponent>(0,0, main_camera2D->worldLocation.h, main_camera2D->worldLocation.w, 1);
+	fog.addComponent<Rectangle_w_Color>();
+
+	fog.addGroup(Manager::groupFog);
+}
+
 void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());

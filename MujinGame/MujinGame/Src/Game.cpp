@@ -114,6 +114,12 @@ void Game::onEntry()
 		_waveProgram.addAttribute("vertexUV");
 		_waveProgram.linkShaders();
 
+		_fogProgram.compileShaders("Src/Shaders/fogEffect.vert", "Src/Shaders/fogEffect.frag");
+		_fogProgram.addAttribute("vertexPosition");
+		_fogProgram.addAttribute("vertexColor");
+		_fogProgram.addAttribute("vertexUV");
+		_fogProgram.linkShaders();
+
 		Game::_spriteBatch.init();
 		Game::_hudSpriteBatch.init();
 
@@ -170,6 +176,7 @@ void Game::onEntry()
 
 	assets->CreateShop();
 	assets->CreateInventory();
+	assets->CreateFog();
 
 	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
 	stagelabel.addComponent<UILabel>(&manager, "stage 0", "arial", true);
@@ -214,6 +221,7 @@ auto& sewerbackgroundtiles(manager.getGroup(Manager::groupSewerBackgroundLayer))
 auto& markettiles(manager.getGroup(Manager::groupMarket));
 auto& screenshapes(manager.getGroup(Manager::screenShapes));
 auto& hpbars(manager.getGroup(Manager::groupHPBars));
+auto& fog(manager.getGroup(Manager::groupFog));
 
 void Game::update(float deltaTime) //game objects updating
 {
@@ -835,6 +843,17 @@ void Game::setupShaderAndWaveTexture(const std::string& textureName, Camera2D& c
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
+void Game::setupShaderAndFogTexture(Camera2D& camera) { // todo add camera2D.worldLocation argument
+	_fogProgram.use();
+	float currentTime = SDL_GetTicks() / 1000.0f;
+	float elapsedTime = currentTime - Game::startTime;
+	GLuint timeLocation = _fogProgram.getUniformLocation("time");
+	glUniform1f(timeLocation, elapsedTime);
+	GLint pLocation = _fogProgram.getUniformLocation("projection");
+	glm::mat4 cameraMatrix = camera.getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+}
+
 void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
@@ -928,10 +947,14 @@ void Game::draw()
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_textureLightProgram.unuse();
+	setupShaderAndFogTexture(*main_camera2D);
+
+	renderBatch(fog, _spriteBatch);
+	_fogProgram.unuse();
 	///////////////////////////////////////////////////////
 	_colorProgram.use();
 
-	pLocation = _textureLightProgram.getUniformLocation("projection");
+	pLocation = _colorProgram.getUniformLocation("projection");
 	cameraMatrix = main_camera2D->getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 

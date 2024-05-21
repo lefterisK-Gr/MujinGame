@@ -5,7 +5,7 @@
 class Rectangle_w_Color : public Component
 {
 public:
-	Color color;
+	Color color = { 255, 255, 255, 255 };
 	float rotation = 0.0f;
 
 	SDL_Rect destRect;

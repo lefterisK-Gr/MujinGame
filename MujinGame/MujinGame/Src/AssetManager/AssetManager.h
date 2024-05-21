@@ -33,6 +33,7 @@ public:
 	void CreateShop();
 	void RefreshShop();
 	void CreateInventory();
+	void CreateFog();
 	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id);
 
 	void CreateEnemies();

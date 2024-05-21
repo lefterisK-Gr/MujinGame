@@ -61,7 +61,7 @@ public:
 	void setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera);
 	void setupShaderAndTexture(const std::string& textureName, Camera2D& camera);
 	void setupShaderAndWaveTexture(const std::string& textureName, Camera2D& camera);
-	void setupShaderAndPuddleTexture(const std::string& textureName, Camera2D& camera);
+	void setupShaderAndFogTexture(Camera2D& camera);
 	void renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch);
 	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
 
@@ -94,8 +94,7 @@ private:
 	GLSLProgram _textureProgram;
 	GLSLProgram _lightProgram;
 	GLSLProgram _waveProgram;
-	GLSLProgram _grassProgram;
-	GLSLProgram _puddleProgram;
+	GLSLProgram _fogProgram;
 
 	SDL_Rect _mouseCoords = { -100, -100 , 1, 1 };
 	//SpriteFont* _spriteFont;
