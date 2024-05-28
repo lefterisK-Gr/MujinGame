@@ -4,6 +4,10 @@
 #include <GL/glew.h>
 #include <string>
 
+#include <IMGUI/imgui.h>
+#include <IMGUI/imgui_impl_sdl2.h>
+#include <IMGUI/imgui_impl_opengl3.h>
+
 namespace MujinEngine {
 
     enum WindowFlags { INVISIBLE = 0x1, VISIBLE = 0x2, FULLSCREEN = 0x4, BORDERLESS = 0x8 };

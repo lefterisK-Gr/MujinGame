@@ -734,7 +734,7 @@ void Game::checkInput() {
 
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
-	
+		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_game->onSDLEvent(evnt);
 
 		switch (evnt.type)
@@ -770,6 +770,19 @@ void Game::checkInput() {
 	}
 }
 
+void Game::updateUI() {
+
+	// Default ImGui window
+	ImGui::Begin("Default UI");
+	ImGui::Text("This is a permanent UI element.");
+	ImGui::End();
+
+	ImGui::Begin("Background UI");
+	ImGui::Text("This is a Background UI element.");
+	ImGui::ColorEdit4("Background Color", _backgroundColor);
+	ImGui::End();
+
+}
 
 void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
 	_textureLightProgram.use();
@@ -881,7 +894,7 @@ void Game::draw()
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.025f, 0.05f, 0.15f, 1.0f);
+	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
 
 
 	/////////////////////////////////////////////////////

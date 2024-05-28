@@ -37,6 +37,8 @@ public:
 	virtual void update(float deltaTime) = 0;
 	virtual void draw() = 0;
 
+	virtual void updateUI() = 0;
+
 	int getScreenIndex() const {
 		return _screenIndex;
 	}

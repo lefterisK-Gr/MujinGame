@@ -44,6 +44,8 @@ public:
 
     virtual void draw() override;
 
+    virtual void updateUI() override;
+
     static SpriteBatch _spriteBatch;
 
     static AssetManager* assets;

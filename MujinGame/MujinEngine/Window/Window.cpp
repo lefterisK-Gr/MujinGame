@@ -49,6 +49,11 @@ int MujinEngine::Window::create(std::string windowName, int screenWidth, int scr
         MujinEngine::ConsoleLogger::error("Could not initialize glew!");
     }
 
+    ImGui::CreateContext();
+    // Setup Platform/Renderer bindings
+    ImGui_ImplSDL2_InitForOpenGL(_sdlWindow, &glContext);
+    ImGui_ImplOpenGL3_Init("#version 330"); // Or whatever GLSL version suits your needs
+
     //Check the OpenGL version
     std::printf("***   OpenGL Version: %s   ***\n", glGetString(GL_VERSION));
 

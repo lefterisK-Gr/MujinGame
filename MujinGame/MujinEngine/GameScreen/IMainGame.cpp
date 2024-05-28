@@ -59,6 +59,8 @@ void IMainGame::run() {
 			frameCounter = 0;
 		}
 
+		updateUI();
+
 		_window.swapBuffer();
 	}
 }
@@ -192,4 +194,18 @@ void IMainGame::draw() {
 	if (_currentScreen && _currentScreen->getState() == ScreenState::RUNNING) {
 		_currentScreen->draw();
 	}
+}
+
+void IMainGame::updateUI()
+{
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	if (_currentScreen && _currentScreen->getState() == ScreenState::RUNNING) {
+		_currentScreen->updateUI();
+	}
+	// Rendering
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

@@ -56,6 +56,8 @@ public:
 
 	virtual void draw() override;
 
+	virtual void updateUI() override;
+
 	/////////////////////////
 	
 	void setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera);
@@ -105,6 +107,8 @@ private:
 	int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
 
 	const float SCALE_SPEED = 0.1f;
+
+	float _backgroundColor[4] = { 0.025f, 0.05f, 0.15f, 1.0f };
 };
 
 

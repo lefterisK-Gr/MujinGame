@@ -193,7 +193,7 @@ void MainMenuScreen::draw()
 void MainMenuScreen::checkInput() {
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
-		
+		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_game->onSDLEvent(evnt);
 
 		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
@@ -206,6 +206,13 @@ void MainMenuScreen::checkInput() {
 		_game->_inputManager.update();
 
 	}
+}
+
+void MainMenuScreen::updateUI() {
+	// Default ImGui window
+	ImGui::Begin("Default UI");
+	ImGui::Text("This is a permanent UI element.");
+	ImGui::End();
 }
 
 bool MainMenuScreen::onStartGame() {

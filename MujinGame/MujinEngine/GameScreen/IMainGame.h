@@ -32,6 +32,7 @@ public:
 protected:
 	virtual void update(float deltaTime);
 	virtual void draw();
+	virtual void updateUI();
 
 	bool init();
 	bool initSystems();
