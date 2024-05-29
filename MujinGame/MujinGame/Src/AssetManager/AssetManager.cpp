@@ -187,9 +187,11 @@ void AssetManager::CreateFog()
 }
 
 void AssetManager::CreateWeather(Entity& entity) {
+	_weather = static_cast<Weather>((static_cast<int>(_weather) + 1) % (static_cast<int>(Weather::SNOW) + 1));
+
 	switch (_weather) {
 	case Weather::CLEAR:
-		SetBackGroundColor(50,50,50,50);
+		SetBackGroundColor(141,228,255,50);
 		break;
 	case Weather::RAIN:
 		SetBackGroundColor(20, 5, 40, 256);
@@ -203,7 +205,6 @@ void AssetManager::CreateWeather(Entity& entity) {
 		CreateFog();
 		break;
 	}
-	_weather = static_cast<Weather>((static_cast<int>(_weather) + 1) % (static_cast<int>(Weather::SNOW) + 1));
 }
 
 void AssetManager::SetBackGroundColor(float r, float g, float b, float a)

@@ -936,41 +936,70 @@ void Game::draw()
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//based on weather change Shader of background
-	setupShaderAndWaveTexture("backgroundMountains", *main_camera2D);
-	renderBatch(backgrounds, _spriteBatch);
-	_waveProgram.unuse();
-	setupShaderAndLightTexture("terrain", *main_camera2D);
-	renderBatch(backgroundtiles, _spriteBatch);
-	renderBatch(sewerbackgroundtiles, _spriteBatch);
-	renderBatch(tiles, _spriteBatch);
-	//renderBatch(colliders);
-	//based on weather change Shader of textures
-	setupShaderAndLightTexture("projectile", *main_camera2D);
-	renderBatch(projectiles, _spriteBatch);
-	setupShaderAndLightTexture("warriorProjectile", *main_camera2D);
-	renderBatch(warriorprojectiles, _spriteBatch);
-	setupShaderAndLightTexture("skeleton", *main_camera2D);
-	renderBatch(skeletons, _spriteBatch);
-	renderBatch(greenkoopatroopas, _spriteBatch);
-	setupShaderAndLightTexture("arial", *main_camera2D);
+	if (assets->getWeather() == AssetManager::Weather::RAIN) {
+		setupShaderAndWaveTexture("backgroundMountains", *main_camera2D);
+		renderBatch(backgrounds, _spriteBatch);
+		_waveProgram.unuse();
+	}
+	else {
+		setupShaderAndTexture(_textureProgram, "backgroundMountains", *main_camera2D);
+		renderBatch(backgrounds, _spriteBatch);
+		_textureProgram.unuse();
+	}
+	if (assets->getWeather() == AssetManager::Weather::RAIN) {
+		setupShaderAndLightTexture("terrain", *main_camera2D);
+		renderBatch(backgroundtiles, _spriteBatch);
+		renderBatch(sewerbackgroundtiles, _spriteBatch);
+		renderBatch(tiles, _spriteBatch);
+		//renderBatch(colliders);
+		//based on weather change Shader of textures
+		setupShaderAndLightTexture("projectile", *main_camera2D);
+		renderBatch(projectiles, _spriteBatch);
+		setupShaderAndLightTexture("warriorProjectile", *main_camera2D);
+		renderBatch(warriorprojectiles, _spriteBatch);
+		setupShaderAndLightTexture("skeleton", *main_camera2D);
+		renderBatch(skeletons, _spriteBatch);
+		renderBatch(greenkoopatroopas, _spriteBatch);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-	_textureLightProgram.unuse();
-	///////////////////////////////////////////////////////
+		setupShaderAndLightTexture("warrior", *main_camera2D);
+		renderBatch(players, _spriteBatch);
+		setupShaderAndLightTexture("terrain", *main_camera2D);
+		renderBatch(winningtiles, _spriteBatch);
+		renderBatch(foregroundtiles, _spriteBatch);
+		_textureLightProgram.unuse();
+	}
+	else {
+		setupShaderAndTexture(_textureProgram,"terrain", *main_camera2D);
+		renderBatch(backgroundtiles, _spriteBatch);
+		renderBatch(sewerbackgroundtiles, _spriteBatch);
+		if (assets->getWeather() == AssetManager::Weather::SNOW) {
+			setupShaderAndTexture(_textureSnowProgram, "terrain", *main_camera2D);
+		}
+		renderBatch(tiles, _spriteBatch);
+		_textureSnowProgram.unuse();
+		//renderBatch(colliders);
+		//based on weather change Shader of textures
+		setupShaderAndTexture(_textureProgram, "projectile", *main_camera2D);
+		renderBatch(projectiles, _spriteBatch);
+		setupShaderAndTexture(_textureProgram, "warriorProjectile", *main_camera2D);
+		renderBatch(warriorprojectiles, _spriteBatch);
+		setupShaderAndTexture(_textureProgram, "skeleton", *main_camera2D);
+		renderBatch(skeletons, _spriteBatch);
+		renderBatch(greenkoopatroopas, _spriteBatch);
 
+		setupShaderAndTexture(_textureProgram, "warrior", *main_camera2D);
+		renderBatch(players, _spriteBatch);
+		setupShaderAndTexture(_textureProgram, "terrain", *main_camera2D);
+		renderBatch(winningtiles, _spriteBatch);
+		renderBatch(foregroundtiles, _spriteBatch);
+		_textureLightProgram.unuse();
+	}
+	
+
+
+	_lightProgram.use();
 	GLint pLocation = _lightProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = main_camera2D->getCameraMatrix();
-
-	///////////////////////////////////////////////////////
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	setupShaderAndLightTexture("warrior", *main_camera2D);
-	renderBatch(players, _spriteBatch);
-	setupShaderAndLightTexture("terrain", *main_camera2D);
-	renderBatch(winningtiles, _spriteBatch);
-	renderBatch(foregroundtiles, _spriteBatch);
-	_lightProgram.use();
-
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
