@@ -122,6 +122,7 @@ public:
 		groupLights,
 		groupTextureLights,
 		groupRainDrop,
+		groupSnow,
 		groupProjectiles,
 		groupWarriorProjectiles,
 		groupSkeletons,
@@ -140,7 +141,9 @@ public:
 		groupMarket,
 		screenShapes,
 		groupHPBars,
-		groupFog
+		groupFog,
+		groupEnvironmentGenerators,
+		groupCircles
 	};
 
 };

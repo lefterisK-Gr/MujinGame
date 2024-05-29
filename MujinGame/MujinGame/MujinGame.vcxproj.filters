@@ -107,5 +107,8 @@
     <ClInclude Include="Src\ECS\Scripts\CreateRain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\ECS\Scripts\CreateSnow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

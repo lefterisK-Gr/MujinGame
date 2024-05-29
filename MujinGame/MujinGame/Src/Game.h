@@ -61,7 +61,7 @@ public:
 	/////////////////////////
 	
 	void setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera);
-	void setupShaderAndTexture(const std::string& textureName, Camera2D& camera);
+	void setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, Camera2D& camera);
 	void setupShaderAndWaveTexture(const std::string& textureName, Camera2D& camera);
 	void setupShaderAndFogTexture(Camera2D& camera);
 	void renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch);
@@ -87,12 +87,16 @@ public:
 	static MujinEngine::Window* _window;
 	float startTime = SDL_GetTicks() / 1000.0f;
 
+	static float backgroundColor[4];
+
 private:
 	void checkInput();
 	bool onPauseGame();
 
 	GLSLProgram _colorProgram;
+	GLSLProgram _circleColorProgram;
 	GLSLProgram _textureLightProgram;
+	GLSLProgram _textureSnowProgram;
 	GLSLProgram _textureProgram;
 	GLSLProgram _lightProgram;
 	GLSLProgram _waveProgram;
@@ -108,7 +112,6 @@ private:
 
 	const float SCALE_SPEED = 0.1f;
 
-	float _backgroundColor[4] = { 0.025f, 0.05f, 0.15f, 1.0f };
 };
 
 

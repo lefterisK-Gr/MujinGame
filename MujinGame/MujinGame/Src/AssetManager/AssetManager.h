@@ -12,6 +12,11 @@
 class AssetManager //this class created when we added projectiles, based on this class other components changed
 {					//it just replaces the paths of textures with names
 public:
+	enum class Weather {
+		CLEAR,
+		RAIN,
+		SNOW
+	};
 	SDL_Color black = { 0, 0 ,0 ,255 };
 	SDL_Color white = { 255, 255 ,255 ,255 };
 	SDL_Color red = { 255, 0 ,0 ,255 };
@@ -24,9 +29,9 @@ public:
 	void ProjectileExplosion(int camerapos);
 	void CreatePlayer(Entity& player);
 	void CreateBackground();
-	void CreateSunShape(Entity& sun);
 	void CreateRandomParticlesGenerator();
 	void CreateRain(Entity& entity);
+	void CreateSnow(Entity& entity);
 	void CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id);
 	void CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant);
 	void CreateStageUpButtons();
@@ -34,6 +39,11 @@ public:
 	void RefreshShop();
 	void CreateInventory();
 	void CreateFog();
+	void CreateWeather(Entity& entity);
+	void SetBackGroundColor(float r, float g, float b, float a);
+	Weather getWeather() const {
+		return _weather;
+	}
 	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id);
 
 	void CreateEnemies();
@@ -43,6 +53,7 @@ public:
 	bool LeftOfPipeTrigger(SDL_Rect collider);
 
 private:
+	Weather _weather;
 	Manager* manager;
 	InputManager& _inputManager;
 	MujinEngine::Window& _window;

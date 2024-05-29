@@ -86,25 +86,25 @@ void AssetManager::CreateBackground()
 
 }
 
-void AssetManager::CreateSunShape(Entity& sun)
-{
-	SDL_Color black = { 0, 0 ,0 ,255 };
-	sun.addComponent<TransformComponent>(200.0f, 100.0f);
-	sun.addComponent<Sun_Script>(black);
-
-	sun.addGroup(Manager::screenShapes);
-}
-
 void AssetManager::CreateRandomParticlesGenerator() {
 	auto& particlesGenerator(manager->addEntity());
 
 	particlesGenerator.addComponent<CreateRandomParticles>(*Game::_window);
+	particlesGenerator.addGroup(Manager::groupEnvironmentGenerators);
 }
 
 void AssetManager::CreateRain(Entity& entity) {
 	auto& rainGenerator(manager->addEntity());
 
 	rainGenerator.addComponent<CreateRainDrops>(100.0f);
+	rainGenerator.addGroup(Manager::groupEnvironmentGenerators);
+}
+
+void AssetManager::CreateSnow(Entity& entity) {
+	auto& snowGenerator(manager->addEntity());
+
+	snowGenerator.addComponent<CreateSnowDrops>(100.0f);
+	snowGenerator.addGroup(Manager::groupEnvironmentGenerators);
 }
 
 void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
@@ -184,6 +184,35 @@ void AssetManager::CreateFog()
 	fog.addComponent<Rectangle_w_Color>();
 
 	fog.addGroup(Manager::groupFog);
+}
+
+void AssetManager::CreateWeather(Entity& entity) {
+	switch (_weather) {
+	case Weather::CLEAR:
+		SetBackGroundColor(50,50,50,50);
+		break;
+	case Weather::RAIN:
+		SetBackGroundColor(20, 5, 40, 256);
+		CreateRandomParticlesGenerator();
+		CreateRain(entity);
+		CreateFog();
+		break;
+	case Weather::SNOW:
+		SetBackGroundColor(130, 130, 130, 130);
+		CreateSnow(entity);
+		CreateFog();
+		break;
+	}
+	_weather = static_cast<Weather>((static_cast<int>(_weather) + 1) % (static_cast<int>(Weather::SNOW) + 1));
+}
+
+void AssetManager::SetBackGroundColor(float r, float g, float b, float a)
+{
+	Game::backgroundColor[0] = r / 256;
+	Game::backgroundColor[1] = g / 256;
+	Game::backgroundColor[2] = b / 256;
+	Game::backgroundColor[3] = a / 256;
+
 }
 
 void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id)

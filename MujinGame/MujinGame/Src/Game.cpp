@@ -27,10 +27,10 @@ AudioEngine Game::audioEngine;
 Map* Game::map = nullptr;
 AssetManager* Game::assets = nullptr;
 SceneManager* Game::scenes = new SceneManager();
+float Game::backgroundColor[4] = {0.025f, 0.05f, 0.15f, 1.0f};
 MujinEngine::Window* Game::_window = nullptr;
 
 auto& player1(manager.addEntity());
-auto& sun(manager.addEntity());
 auto& stagelabel(manager.addEntity());
 
 Game::Game(MujinEngine::Window* window)
@@ -90,11 +90,23 @@ void Game::onEntry()
 		_colorProgram.addAttribute("vertexUV");
 		_colorProgram.linkShaders();
 
+		_circleColorProgram.compileShaders("Src/Shaders/circleColorShading.vert", "Src/Shaders/circleColorShading.frag");
+		_circleColorProgram.addAttribute("vertexPosition");
+		_circleColorProgram.addAttribute("vertexColor");
+		_circleColorProgram.addAttribute("vertexUV");
+		_circleColorProgram.linkShaders();
+
 		_textureLightProgram.compileShaders("Src/Shaders/textureShading.vert", "Src/Shaders/textureShading.frag");
 		_textureLightProgram.addAttribute("vertexPosition");
 		_textureLightProgram.addAttribute("vertexColor");
 		_textureLightProgram.addAttribute("vertexUV");
 		_textureLightProgram.linkShaders();
+
+		_textureSnowProgram.compileShaders("Src/Shaders/snowTexture.vert", "Src/Shaders/snowTexture.frag");
+		_textureSnowProgram.addAttribute("vertexPosition");
+		_textureSnowProgram.addAttribute("vertexColor");
+		_textureSnowProgram.addAttribute("vertexUV");
+		_textureSnowProgram.linkShaders();
 
 		_textureProgram.compileShaders("Src/Shaders/textureBright.vert", "Src/Shaders/textureBright.frag");
 		_textureProgram.addAttribute("vertexPosition");
@@ -159,9 +171,7 @@ void Game::onEntry()
 	manager.grid->addEntity(&player1);
 	assets->CreateBackground();
 
-	assets->CreateSunShape(sun);
-	assets->CreateRandomParticlesGenerator();
-	assets->CreateRain(player1);
+	assets->CreateWeather(player1);
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
 	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), "skeleton", false);
@@ -176,7 +186,6 @@ void Game::onEntry()
 
 	assets->CreateShop();
 	assets->CreateInventory();
-	assets->CreateFog();
 
 	stagelabel.addComponent<TransformComponent>(32, 608, 32, 32, 1);
 	stagelabel.addComponent<UILabel>(&manager, "stage 0", "arial", true);
@@ -214,6 +223,7 @@ auto& enemyslices(manager.getGroup(Manager::groupEnemySlices));
 auto& lights(manager.getGroup(Manager::groupLights));
 auto& texturelights(manager.getGroup(Manager::groupTextureLights));
 auto& raindrops(manager.getGroup(Manager::groupRainDrop));
+auto& snowdrops(manager.getGroup(Manager::groupSnow));
 auto& pipeforegroundsprites(manager.getGroup(Manager::groupPipeRingForeground));
 auto& foregroundtiles(manager.getGroup(Manager::groupForegroundLayer));
 auto& backgroundtiles(manager.getGroup(Manager::groupBackgroundLayer));
@@ -222,6 +232,7 @@ auto& markettiles(manager.getGroup(Manager::groupMarket));
 auto& screenshapes(manager.getGroup(Manager::screenShapes));
 auto& hpbars(manager.getGroup(Manager::groupHPBars));
 auto& fog(manager.getGroup(Manager::groupFog));
+auto& generators(manager.getGroup(Manager::groupEnvironmentGenerators));
 
 void Game::update(float deltaTime) //game objects updating
 {
@@ -260,13 +271,38 @@ void Game::update(float deltaTime) //game objects updating
 			enemy->destroy();
 		}
 		greenkoopatroopas.clear();
+		for (auto& raindrop: raindrops)
+		{
+			raindrop->destroy();
+		}
+		raindrops.clear();
+		for (auto& snowdrop : snowdrops)
+		{
+			snowdrop->destroy();
+		}
+		snowdrops.clear();
+		for (auto& texturelight : texturelights)
+		{
+			texturelight->destroy();
+		}
+		texturelights.clear();
+		for (auto& f : fog)
+		{
+			f->destroy();
+		}
+		fog.clear();
+		for (auto& g : generators)
+		{
+			g->destroy();
+		}
+		generators.clear();
 		projectiles.clear();
 		map->resetMap();
 		assets->CreateEnemies();
 		assets->CreateStageUpButtons();
 		assets->RefreshShop();
 		stagelabel.GetComponent<UILabel>().setLetters("stage" + std::to_string(map->getStage()));
-
+		assets->CreateWeather(player1);
 		manager.refresh();
 		manager.update(deltaTime);
 
@@ -779,7 +815,7 @@ void Game::updateUI() {
 
 	ImGui::Begin("Background UI");
 	ImGui::Text("This is a Background UI element.");
-	ImGui::ColorEdit4("Background Color", _backgroundColor);
+	ImGui::ColorEdit4("Background Color", backgroundColor);
 	ImGui::End();
 
 }
@@ -828,14 +864,14 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 	//glUniform2fv(lightPosLocation2, 1, &(lightsPos[1].position[0]));  // Pass the address of the first element of lightPos
 }
 
-void Game::setupShaderAndTexture(const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
-	_textureProgram.use();
+void Game::setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
+	shaderProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
 	glBindTexture(GL_TEXTURE_2D, texture->id);
-	GLint textureLocation = _textureProgram.getUniformLocation("texture_sampler");
+	GLint textureLocation = shaderProgram.getUniformLocation("texture_sampler");
 	glUniform1i(textureLocation, 0);
-	GLint pLocation = _textureProgram.getUniformLocation("projection");
+	GLint pLocation = shaderProgram.getUniformLocation("projection");
 	glm::mat4 cameraMatrix = camera.getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
@@ -894,11 +930,12 @@ void Game::draw()
 	////////////OPENGL USE
 	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(_backgroundColor[0], _backgroundColor[1], _backgroundColor[2], _backgroundColor[3]);
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 
 
 	/////////////////////////////////////////////////////
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//based on weather change Shader of background
 	setupShaderAndWaveTexture("backgroundMountains", *main_camera2D);
 	renderBatch(backgrounds, _spriteBatch);
 	_waveProgram.unuse();
@@ -907,7 +944,7 @@ void Game::draw()
 	renderBatch(sewerbackgroundtiles, _spriteBatch);
 	renderBatch(tiles, _spriteBatch);
 	//renderBatch(colliders);
-	
+	//based on weather change Shader of textures
 	setupShaderAndLightTexture("projectile", *main_camera2D);
 	renderBatch(projectiles, _spriteBatch);
 	setupShaderAndLightTexture("warriorProjectile", *main_camera2D);
@@ -974,8 +1011,16 @@ void Game::draw()
 	//renderBatch(screenshapes);
 	renderBatch(hpbars, _spriteBatch);
 	renderBatch(raindrops, _spriteBatch);
-
 	_colorProgram.unuse();
+	_circleColorProgram.use();
+
+	pLocation = _colorProgram.getUniformLocation("projection");
+	cameraMatrix = main_camera2D->getCameraMatrix();
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	renderBatch(snowdrops, _spriteBatch);
+
+	_circleColorProgram.unuse();
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
@@ -985,7 +1030,7 @@ void Game::draw()
 void Game::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
 	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
 
-	setupShaderAndTexture(textureName, *hud_camera2D);
+	setupShaderAndTexture(_textureProgram, textureName, *hud_camera2D);
 	renderBatch(entities, _hudSpriteBatch);
 }
 

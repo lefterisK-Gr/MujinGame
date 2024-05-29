@@ -8,7 +8,6 @@
 #include "Scripts/GreenKoopaTroopa_Script.h"
 #include "Scripts/Skeleton_Script.h"
 
-#include "Scripts/Sun_Script.h"
 #include "Scripts/Player_Script.h"
 #include "Scripts/PlatformBlock_Script.h"
 #include "Scripts/MysteryBox_Script.h"
@@ -24,3 +23,4 @@
 
 #include "Scripts/CreateRandomParticles.h"
 #include "Scripts/CreateRain.h"
+#include "Scripts/CreateSnow.h"
