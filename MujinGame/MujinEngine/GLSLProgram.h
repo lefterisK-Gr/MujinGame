@@ -120,6 +120,10 @@ public:
 		}
 	}
 
+	void dispose() {
+		if(_programID != 0) glDeleteProgram(_programID);
+	}
+
 private:
 	GLuint _programID;
 

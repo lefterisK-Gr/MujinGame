@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../DebugRenderer/DebugRenderer.h"
+
 #define SCREEN_INDEX_NO_SCREEN -1
 
 class IMainGame;
@@ -54,4 +56,6 @@ protected:
 	ScreenState _currentState = ScreenState::NONE;
 	IMainGame* _game = nullptr;
 	int _screenIndex = -1;
+
+	DebugRenderer _debugRenderer;
 };

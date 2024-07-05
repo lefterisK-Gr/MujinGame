@@ -47,7 +47,9 @@ void IMainGame::run() {
 			update(deltaTime); //handleEvents first thing in update
 			totalDeltaTime -= deltaTime;
 			i++;
-			draw();
+			if (_isRunning) {
+				draw();
+			}
 		}
 
 		_fps = limiter.end();

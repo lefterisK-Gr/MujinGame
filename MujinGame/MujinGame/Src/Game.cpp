@@ -66,6 +66,7 @@ void Game::onEntry()
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
 
+	_debugRenderer.init();
 
 	main_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
 	main_camera2D->setPosition(main_camera2D->getPosition() /*+ glm::vec2(
@@ -196,7 +197,7 @@ void Game::onEntry()
 }
 
 void Game::onExit() {
-
+	_debugRenderer.dispose();
 }
 
 auto& tiles(manager.getGroup(Manager::groupActionLayer));
@@ -1053,6 +1054,23 @@ void Game::draw()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
+	// Debug Rendering
+	if (_renderDebug) {
+		for (auto& entity : tiles) {
+			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
+
+			glm::vec4 destRect; 
+			destRect.x = tr->position.x + tr->getCenterTransform().x;
+			destRect.y = tr->position.y + tr->getCenterTransform().y;
+			destRect.z = tr->width;
+			destRect.w = tr->height;
+			_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f);
+			//_debugRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
+		}
+		_debugRenderer.end();
+		_debugRenderer.render(cameraMatrix, 2.0f);
+	}
+
 }
 
 

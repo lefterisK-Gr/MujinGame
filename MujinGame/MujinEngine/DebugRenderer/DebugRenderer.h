@@ -16,7 +16,7 @@ public:
 	void end();
 	void drawBox(const glm::vec4& destRect, const Color& color, float angle);
 	void drawCircle(const glm::vec2& center, const Color& color, float radius);
-	void render();
+	void render(const glm::mat4& projectionMatrix, float lineWidth);
 	void dispose();
 
 	struct DebugVertex { //instead of using the general Vertex that has also info about texture
@@ -29,6 +29,7 @@ private:
 	GLSLProgram _program;
 	std::vector<DebugVertex> _verts;
 	std::vector<GLubyte> _indices;
-	GLuint _vbo, _vao, _ibo; //! ibo is what is going to store the integers for each vertex so we can
-								//! use index drawing, without specifying the lines by duplicating the vertices
+	GLuint _vbo = 0, _vao = 0, _ibo = 0; //! ibo is what is going to store the integers for each 
+	//! vertex so we can use index drawing, without specifying the lines by duplicating the vertices
+	int _numElements = 0;
 };
