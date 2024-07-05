@@ -71,12 +71,12 @@ private:
 	Manager& manager;
 	bool active = true;
 	
-	ComponentArray componentArray;
+	ComponentArray componentArray;//create 2 arrays, this is for the fast access
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 public:
 	Cell* ownerCell = nullptr;
-	std::vector<std::unique_ptr<Component>> components;
+	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}
 	void update(float deltaTime)
 	{

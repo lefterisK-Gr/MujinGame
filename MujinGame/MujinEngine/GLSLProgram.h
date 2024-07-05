@@ -7,6 +7,7 @@
 #include <vector>
 #include <fstream>
 
+#include "TextureManager/TextureManager.h"
 #include "ConsoleLogger.h"
 
 class GLSLProgram {
@@ -21,6 +22,21 @@ public:
 	}
 
 	void compileShaders(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+
+		std::vector<unsigned char> vertSourceVec;
+		std::vector<unsigned char> fragSourceVec;
+
+		TextureManager::readFileToBuffer(vertexShaderFilePath.c_str(), vertSourceVec);
+		TextureManager::readFileToBuffer(fragmentShaderFilePath.c_str(), fragSourceVec);
+
+		std::string vertSource(vertSourceVec.begin(), vertSourceVec.end());
+		std::string fragSource(fragSourceVec.begin(), fragSourceVec.end());
+
+		compileShadersFromSource(vertSource.c_str(), fragSource.c_str());
+	}
+
+	void compileShadersFromSource(const char* vertexSource, const char* fragmentSource) {
+
 		// Vertex and fragment shaders are successfully compiled.
 		// Now time to link them together into a program.
 		// Get a program object.
@@ -36,8 +52,8 @@ public:
 			MujinEngine::ConsoleLogger::error("Fragment Shader Failed to create!");
 		}
 
-		compileShader(vertexShaderFilePath, _vertexShaderID);
-		compileShader(fragmentShaderFilePath, _fragmentShaderID);
+		compileShader(vertexSource, "vertex Shader", _vertexShaderID);
+		compileShader(fragmentSource, "fragment Shader", _fragmentShaderID);
 	}
 
 	void linkShaders() {
@@ -112,23 +128,9 @@ private:
 
 	int _numAttributes;
 
-	void compileShader(const std::string& filePath, GLuint id) {
-		std::ifstream vertexFile(filePath);
-		if (vertexFile.fail()) {
-			std::cout << "failed to open " + filePath << std::endl;
-		}
+	void compileShader(const char* source, const std::string& name, GLuint id) {
 
-		std::string fileContents = "";
-		std::string line;
-
-		while (std::getline(vertexFile, line)) {
-			fileContents += line + "\n";
-		}
-
-		vertexFile.close();
-
-		const char* contentPtr = fileContents.c_str();
-		glShaderSource(id, 1, &contentPtr, nullptr); //1 for number of strings
+		glShaderSource(id, 1, &source, nullptr); //1 for number of strings
 
 		glCompileShader(id);
 
@@ -149,7 +151,7 @@ private:
 			glDeleteShader(id); // Don't leak the shader.
 
 			std::printf("%s\n", &(errorLog[0]));
-			std::cout << "Shader " + filePath + " failed to compile" << std::endl;
+			std::cout << "Shader " + name + " failed to compile" << std::endl;
 
 		}
 	}

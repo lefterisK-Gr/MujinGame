@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\AudioEngine.cpp" />
+    <ClCompile Include="DebugRenderer\DebugRenderer.cpp" />
     <ClCompile Include="ECS\ECS.cpp" />
     <ClCompile Include="GameScreen\IGameScreen.cpp" />
     <ClCompile Include="GameScreen\IMainGame.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Camera2D\Camera2D.h" />
     <ClInclude Include="Camera2D\CameraManager.h" />
     <ClInclude Include="Camera2D\ICamera.h" />
+    <ClInclude Include="DebugRenderer\DebugRenderer.h" />
     <ClInclude Include="ECS\Animation.h" />
     <ClInclude Include="ECS\AnimatorComponent.h" />
     <ClInclude Include="ECS\AnimatorManager.h" />
