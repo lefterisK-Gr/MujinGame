@@ -102,11 +102,13 @@ void DebugRenderer::end()
 
 void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle)
 {
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
 	int i = _verts.size();
 	_verts.resize(_verts.size() + 4); // more efficient than calling pushBack 4 times
 
-	float centerX = destRect.x + destRect.z / 2.0f;
-	float centerY = destRect.y + destRect.w / 2.0f;
+	float centerX = destRect.x + destRect.z / 2.0f - main_camera2D->worldLocation.x;
+	float centerY = destRect.y + destRect.w / 2.0f - main_camera2D->worldLocation.y;
 
 	// Convert angle from degrees to radians if necessary
 	float radians = glm::radians(angle);
@@ -121,12 +123,12 @@ void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float
 		);
 		};
 
-	glm::vec2 positionOffset(destRect.x, destRect.y);
+	glm::vec2 positionOffset(destRect.x - main_camera2D->worldLocation.x, destRect.y - main_camera2D->worldLocation.y);
 
-	_verts[  i  ].position = rotatePoint(destRect.x, destRect.y + destRect.w) + positionOffset;
-	_verts[i + 1].position = rotatePoint(destRect.x, destRect.y) + positionOffset;
-	_verts[i + 2].position = rotatePoint(destRect.x + destRect.z, destRect.y) + positionOffset;
-	_verts[i + 3].position = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w) + positionOffset;
+	_verts[  i  ].position = rotatePoint(positionOffset.x, positionOffset.y + destRect.w);
+	_verts[i + 1].position = rotatePoint(positionOffset.x, positionOffset.y);
+	_verts[i + 2].position = rotatePoint(positionOffset.x + destRect.z, positionOffset.y);
+	_verts[i + 3].position = rotatePoint(positionOffset.x + destRect.z, positionOffset.y + destRect.w);
 
 	for (int j = i; j < i + 4; j++) {
 		_verts[j].color = color;
@@ -158,7 +160,7 @@ void DebugRenderer::drawCircle(const glm::vec2& center, const Color& color, floa
 		float angle = ((float)i / NUM_VERTS) * 2.0f * PI;
 
 		_verts[start + i].position.x = cos(angle) * radius + center.x;
-		_verts[start + i].position.x = sin(angle) * radius + center.y;
+		_verts[start + i].position.y = sin(angle) * radius + center.y;
 		_verts[start + i].color = color;
 	}
 

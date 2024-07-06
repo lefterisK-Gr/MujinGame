@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "../Vertex.h"
+#include "../Camera2D/CameraManager.h"
 #include <vector>
 
 
@@ -28,7 +29,7 @@ public:
 private:
 	GLSLProgram _program;
 	std::vector<DebugVertex> _verts;
-	std::vector<GLubyte> _indices;
+	std::vector<GLuint> _indices;
 	GLuint _vbo = 0, _vao = 0, _ibo = 0; //! ibo is what is going to store the integers for each 
 	//! vertex so we can use index drawing, without specifying the lines by duplicating the vertices
 	int _numElements = 0;

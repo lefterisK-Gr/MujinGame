@@ -58,4 +58,6 @@ protected:
 	int _screenIndex = -1;
 
 	DebugRenderer _debugRenderer;
+
+	bool _renderDebug = false;
 };

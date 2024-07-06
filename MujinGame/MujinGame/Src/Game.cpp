@@ -763,6 +763,27 @@ void Game::update(float deltaTime) //game objects updating
 		main_camera2D->worldLocation.x = main_camera2D->worldLocation.w;
 }
 
+glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
+	screenCoords = main_camera2D->convertScreenToWorld(screenCoords);  
+	return screenCoords;
+}
+
+void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
+
+	for (auto& entity : tiles) {
+		TransformComponent* tr = &entity->GetComponent<TransformComponent>();
+		glm::vec2 pos = glm::vec2(tr->position.x, tr->position.y);
+		// Check if the mouse click is within the entity's bounding box
+		if (worldCoords.x > pos.x && worldCoords.x < pos.x + tr->width &&
+			worldCoords.y > pos.y && worldCoords.y < pos.y + tr->height) {
+			_selectedEntity = entity;  // Store a pointer or reference to the selected entity
+			break;
+		}
+	}
+}
+
 void Game::checkInput() {
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
@@ -788,6 +809,17 @@ void Game::checkInput() {
 				main_camera2D->setScale(main_camera2D->getScale() - SCALE_SPEED);
 			}
 			break;
+		case SDL_MOUSEMOTION:
+			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
+
+			if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
+			{
+				std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
+			}
+			if (_selectedEntity) {
+				_selectedEntity->GetComponent<TransformComponent>().position.x = mouseCoordsVec.x;
+				_selectedEntity->GetComponent<TransformComponent>().position.y = mouseCoordsVec.y;
+			}
 		}
 		if (_game->_inputManager.isKeyPressed(SDLK_p)) {
 			onPauseGame();
@@ -802,6 +834,10 @@ void Game::checkInput() {
 			_mouseCoords.x = mouseCoordsVec.x;
 			_mouseCoords.y = mouseCoordsVec.y;
 			std::cout << _mouseCoords.x << " " << _mouseCoords.y << std::endl;
+			if ( _selectedEntity == nullptr) {
+				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
+			}
+			
 		}
 
 	}
@@ -817,6 +853,20 @@ void Game::updateUI() {
 	ImGui::Begin("Background UI");
 	ImGui::Text("This is a Background UI element.");
 	ImGui::ColorEdit4("Background Color", backgroundColor);
+	// Change color based on the debug mode state
+	if (_renderDebug) {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.7f, 0.2f, 1.0f));  // Green for ON
+	}
+	else {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.7f, 0.2f, 0.2f, 1.0f));  // Red for OFF
+	}
+
+	// Button toggles the debug mode
+	if (ImGui::Button("Enable Debug Mode")) {
+		_renderDebug = !_renderDebug;  // Toggle the state
+	}
+
+	ImGui::PopStyleColor(1);
 	ImGui::End();
 
 }
@@ -1052,7 +1102,6 @@ void Game::draw()
 
 	_circleColorProgram.unuse();
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	// Debug Rendering
 	if (_renderDebug) {
@@ -1060,17 +1109,19 @@ void Game::draw()
 			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 
 			glm::vec4 destRect; 
-			destRect.x = tr->position.x + tr->getCenterTransform().x;
-			destRect.y = tr->position.y + tr->getCenterTransform().y;
+			destRect.x = tr->position.x;
+			destRect.y = tr->position.y;
 			destRect.z = tr->width;
 			destRect.w = tr->height;
-			_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f);
+			_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f); //todo add angle for drawbox
 			//_debugRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
+			//break;
 		}
 		_debugRenderer.end();
 		_debugRenderer.render(cameraMatrix, 2.0f);
 	}
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 

@@ -90,6 +90,7 @@ public:
 	static float backgroundColor[4];
 
 private:
+	void selectEntityAtPosition(glm::vec2 worldCoords);
 	void checkInput();
 	bool onPauseGame();
 
@@ -103,6 +104,7 @@ private:
 	GLSLProgram _fogProgram;
 
 	SDL_Rect _mouseCoords = { -100, -100 , 1, 1 };
+	Entity* _selectedEntity;
 	//SpriteFont* _spriteFont;
 	
 	Grid* _grid = nullptr; //< Grid for spatial partitioning for collision

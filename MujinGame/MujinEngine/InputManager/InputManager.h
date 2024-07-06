@@ -19,7 +19,7 @@ public:
     //returns true if the key was just pressed
     bool isKeyPressed(unsigned int keyID);
 
-
+    bool checkMouseCollision();
     void setMouseCoords(float x, float y);
 
     glm::vec2 getMouseCoords() const;

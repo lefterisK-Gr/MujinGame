@@ -50,6 +50,10 @@ bool InputManager::wasKeyDown(unsigned int keyID) {
     }
 }
 
+bool checkMouseCollision() {
+    return false;
+}
+
 void InputManager::setMouseCoords(float x, float y) {
     _mouseCoords.x = x;
     _mouseCoords.y = y;

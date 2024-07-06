@@ -55,7 +55,7 @@ int MujinEngine::Window::create(std::string windowName, int screenWidth, int scr
     ImGui_ImplOpenGL3_Init("#version 330"); // Or whatever GLSL version suits your needs
 
     //Check the OpenGL version
-    std::printf("***   OpenGL Version: %s   ***\n", glGetString(GL_VERSION));
+    std::cout << "***   OpenGL Version: "<< glGetString(GL_VERSION) << "    ***\n";
 
     //Set VSYNC
     SDL_GL_SetSwapInterval(0);
