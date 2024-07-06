@@ -131,7 +131,7 @@ void MainMenuScreen::update(float deltaTime)
 	for (auto& sb : startgamebuttons)
 	{
 		SpriteComponent entitySprite = sb->GetComponent<SpriteComponent>();
-		if (main_menu_collision.checkCollision(entitySprite.destRect, _mouseCoords)) { //culling
+		if (_game->_inputManager.checkMouseCollision(entitySprite.destRect)) { //culling
 			std::cout << "clicked button" << std::endl;
 			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
@@ -139,14 +139,11 @@ void MainMenuScreen::update(float deltaTime)
 	for (auto& eb : exitgamebuttons)
 	{
 		SpriteComponent entitySprite = eb->GetComponent<SpriteComponent>();
-		if (main_menu_collision.checkCollision(entitySprite.destRect, _mouseCoords)) { //culling
+		if (_game->_inputManager.checkMouseCollision(entitySprite.destRect)) { //culling
 			std::cout << "clicked button" << std::endl;
 			eb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
 	}
-
-	_mouseCoords.x = -100.0f;
-	_mouseCoords.y = -100.0f;
 
 }
 
@@ -198,9 +195,7 @@ void MainMenuScreen::checkInput() {
 
 		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
-			_mouseCoords.x = mouseCoordsVec.x;
-			_mouseCoords.y = mouseCoordsVec.y;
-			std::cout << _mouseCoords.x << " " << _mouseCoords.y << std::endl;
+			std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
 		}
 
 		_game->_inputManager.update();

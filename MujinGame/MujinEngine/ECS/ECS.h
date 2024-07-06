@@ -102,7 +102,7 @@ public:
 
 	template <typename T> bool hasComponent() const
 	{
-		return componentBitSet[GetComponentTypeID<T>()];
+		return this && componentBitSet[GetComponentTypeID<T>()];
 	}
 	//! have addScript function
 	template <typename T, typename... TArgs>

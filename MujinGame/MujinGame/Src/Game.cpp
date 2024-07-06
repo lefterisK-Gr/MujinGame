@@ -747,15 +747,13 @@ void Game::update(float deltaTime) //game objects updating
 	for (auto& sb : stageupbtns)
 	{
 		SpriteComponent entitySprite = sb->GetComponent<SpriteComponent>();
-		if (collision.checkCollision(entitySprite.destRect, _mouseCoords)) { //culling
+
+		if (_game->_inputManager.checkMouseCollision(entitySprite.destRect)) { //culling
 			std::cout << "clicked button" << std::endl;
 			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 			break;
 		}
 	}
-
-	_mouseCoords.x = -100.0f;
-	_mouseCoords.y = -100.0f;
 
 	if (main_camera2D->worldLocation.x < 0)
 		main_camera2D->worldLocation.x = 0;
@@ -817,8 +815,8 @@ void Game::checkInput() {
 				std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
 			}
 			if (_selectedEntity) {
-				_selectedEntity->GetComponent<TransformComponent>().position.x = mouseCoordsVec.x;
-				_selectedEntity->GetComponent<TransformComponent>().position.y = mouseCoordsVec.y;
+				_selectedEntity->GetComponent<TransformComponent>().position.x = mouseCoordsVec.x + main_camera2D->worldLocation.x;
+				_selectedEntity->GetComponent<TransformComponent>().position.y = mouseCoordsVec.y + main_camera2D->worldLocation.y;
 			}
 		}
 		if (_game->_inputManager.isKeyPressed(SDLK_p)) {
@@ -831,9 +829,6 @@ void Game::checkInput() {
 
 		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
-			_mouseCoords.x = mouseCoordsVec.x;
-			_mouseCoords.y = mouseCoordsVec.y;
-			std::cout << _mouseCoords.x << " " << _mouseCoords.y << std::endl;
 			if ( _selectedEntity == nullptr) {
 				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
 			}
@@ -1105,17 +1100,25 @@ void Game::draw()
 	
 	// Debug Rendering
 	if (_renderDebug) {
-		for (auto& entity : tiles) {
-			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
+		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::groupCircles; group++) {
 
-			glm::vec4 destRect; 
-			destRect.x = tr->position.x;
-			destRect.y = tr->position.y;
-			destRect.z = tr->width;
-			destRect.w = tr->height;
-			_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f); //todo add angle for drawbox
-			//_debugRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
-			//break;
+			std::vector<Entity*>& groupVec = manager.getGroup(group);
+			for (auto& entity : groupVec) {
+				if (entity->hasComponent<TransformComponent>())
+				{
+					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
+
+					glm::vec4 destRect;
+					destRect.x = tr->position.x;
+					destRect.y = tr->position.y;
+					destRect.z = tr->width;
+					destRect.w = tr->height;
+					_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f); //todo add angle for drawbox
+					//_debugRenderer.drawCircle(glm::vec2(tr->position.x, tr->position.y), Color(255, 255, 255, 255), tr->getCenterTransform().x);
+					//break;
+				}
+				
+			}
 		}
 		_debugRenderer.end();
 		_debugRenderer.render(cameraMatrix, 2.0f);

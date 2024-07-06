@@ -68,8 +68,6 @@ private:
     MujinEngine::Window* _window;
     GLSLProgram _textureProgram;
 
-    SDL_Rect _mouseCoords = {- 100, -100 , 1, 1};
-
     int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;
     int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
 

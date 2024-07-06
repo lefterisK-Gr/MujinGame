@@ -103,7 +103,6 @@ private:
 	GLSLProgram _waveProgram;
 	GLSLProgram _fogProgram;
 
-	SDL_Rect _mouseCoords = { -100, -100 , 1, 1 };
 	Entity* _selectedEntity;
 	//SpriteFont* _spriteFont;
 	

@@ -44,10 +44,15 @@ public:
 	}
 
 	glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const override {
+		//Make 0 the center
+		screenCoords -= glm::vec2(_screenWidth / 2, _screenHeight / 2);
+		//Scale coordinates
 		screenCoords /= _scale;
+		screenCoords += glm::vec2(_screenWidth / 2, _screenHeight / 2);
 		//Translate with the camera2D.worldLocation position
-		screenCoords += _position;
-		screenCoords *= _scale;
+		screenCoords.x += worldLocation.x;
+		screenCoords.y += worldLocation.y;
+
 
 		return screenCoords;
 	}

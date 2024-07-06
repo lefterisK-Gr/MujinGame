@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 
+#include <SDL/SDL.h>
 class InputManager {
 public:
     InputManager();
@@ -19,7 +20,7 @@ public:
     //returns true if the key was just pressed
     bool isKeyPressed(unsigned int keyID);
 
-    bool checkMouseCollision();
+    bool checkMouseCollision(SDL_Rect);
     void setMouseCoords(float x, float y);
 
     glm::vec2 getMouseCoords() const;
