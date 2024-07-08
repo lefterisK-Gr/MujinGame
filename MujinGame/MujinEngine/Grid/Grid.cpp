@@ -82,3 +82,16 @@ std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
 	}
 	return adjacentCells;
 }
+
+std::vector<Cell> Grid::getCells() {
+	return _cells;
+}
+int Grid::getCellSize() {
+	return _cellSize;
+}
+int Grid::getNumXCells() {
+	return _numXCells;
+}
+int Grid::getNumYCells() {
+	return _numYCells;
+}

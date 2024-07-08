@@ -2,6 +2,7 @@
 
 #include "ECS/Components.h"
 #include "AudioEngine/AudioEngine.h"
+#include "../../Collision/Collision.h"
 
 
 class Skeleton_Script : public Component
@@ -62,6 +63,39 @@ public:
 	}
 
 	void update(float deltaTime) override {
+		auto& warriorprojectiles(manager.getGroup(Manager::groupWarriorProjectiles));
+		auto& slices(manager.getGroup(Manager::groupSlices));
+		auto& players(manager.getGroup(Manager::groupPlayers));
+
+		for (auto& sl : slices)
+		{
+			if (Collision::checkCollision(sl->GetComponent<ColliderComponent>().collider, entity->GetComponent<ColliderComponent>().collider))
+			{
+				for (auto& pl : players) {
+					if (entity->GetComponent<LivingCharacter>().applyDamage(sl->GetComponent<Slice>().sliceDamage)) {
+						pl->GetComponent<ScoreComponent>().addToScore(100);
+						entity->destroy();
+						return;
+					}
+				}
+
+			}
+		}
+
+		for (auto& wpr : warriorprojectiles) {
+
+			if (Collision::checkCollision(entity->GetComponent<ColliderComponent>().collider, wpr->GetComponent<ColliderComponent>().collider))
+			{
+				for (auto& pl : players) {
+					if (entity->GetComponent<LivingCharacter>().applyDamage(1)) {
+						pl->GetComponent<ScoreComponent>().addToScore(100);
+						entity->destroy();
+						return;
+					}
+				}
+			}
+		}
+
 		if (transform->velocity.x < 0) {
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
@@ -105,7 +139,7 @@ public:
 			break;
 		default:
 			break;
-		}
+		}		
 	}
 
 	void activateAttack() {

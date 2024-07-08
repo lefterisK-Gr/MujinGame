@@ -634,38 +634,7 @@ void Game::update(float deltaTime) //game objects updating
 
 	for (auto& sl : slices)
 	{
-		for (auto& enemy : { skeletons , greenkoopatroopas })
-		{
-			for (auto& e : enemy)
-			{
-				if (Collision::checkCollision(sl->GetComponent<ColliderComponent>().collider, e->GetComponent<ColliderComponent>().collider))
-				{
-					if (e->GetComponent<LivingCharacter>().applyDamage(sl->GetComponent<Slice>().sliceDamage)) {
-						player1.GetComponent<ScoreComponent>().addToScore(100);
-						e->destroy();
-					}
-				}
-			}
-		}
 		sl->destroy();
-
-	}
-
-	for (auto& wpr : warriorprojectiles) {
-		for (auto& enemy : { skeletons , greenkoopatroopas })
-		{
-			for (auto& e : enemy)
-			{
-				if (Collision::checkCollision(e->GetComponent<ColliderComponent>().collider, wpr->GetComponent<ColliderComponent>().collider))
-				{
-					if (e->GetComponent<LivingCharacter>().applyDamage(1)) {
-						player1.GetComponent<ScoreComponent>().addToScore(100);
-						e->destroy();
-					}
-				}
-				collision.isCollision = false;
-			}
-		}
 	}
 
 	for (auto& esl : enemyslices)
@@ -770,16 +739,20 @@ glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
 
 void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
 
-	for (auto& entity : tiles) {
-		TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-		glm::vec2 pos = glm::vec2(tr->position.x, tr->position.y);
-		// Check if the mouse click is within the entity's bounding box
-		if (worldCoords.x > pos.x && worldCoords.x < pos.x + tr->width &&
-			worldCoords.y > pos.y && worldCoords.y < pos.y + tr->height) {
-			_selectedEntity = entity;  // Store a pointer or reference to the selected entity
-			break;
+	for (auto& groups : { tiles,skeletons , greenkoopatroopas })
+	{
+		for (auto& entity : groups) {
+			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
+			glm::vec2 pos = glm::vec2(tr->position.x, tr->position.y);
+			// Check if the mouse click is within the entity's bounding box
+			if (worldCoords.x > pos.x && worldCoords.x < pos.x + tr->width &&
+				worldCoords.y > pos.y && worldCoords.y < pos.y + tr->height) {
+				_selectedEntity = entity;  // Store a pointer or reference to the selected entity
+				break;
+			}
 		}
 	}
+	
 }
 
 void Game::checkInput() {
@@ -831,8 +804,10 @@ void Game::checkInput() {
 			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
 			if ( _selectedEntity == nullptr) {
 				selectEntityAtPosition(convertScreenToWorld(mouseCoordsVec));
-			}
-			
+			}	
+		}
+		if (!_game->_inputManager.isKeyDown(SDL_BUTTON_LEFT)) {
+			_selectedEntity = nullptr;
 		}
 
 	}
@@ -862,6 +837,16 @@ void Game::updateUI() {
 	}
 
 	ImGui::PopStyleColor(1);
+	if (_selectedEntity) {
+		ImGui::Text("Selected Entity Details");
+
+		// Example: Display components of the selected entity
+		if (_selectedEntity->hasComponent<TransformComponent>()) {
+			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
+			ImGui::Text("Position: (%.2f, %.2f)", tr->position.x, tr->position.y);
+			ImGui::Text("Size: (%.2f, %.2f)", tr->width, tr->height);
+		}
+	}
 	ImGui::End();
 
 }
@@ -1100,7 +1085,22 @@ void Game::draw()
 	
 	// Debug Rendering
 	if (_renderDebug) {
+		int cellIndex = 0;
+		for (const auto& cell : manager.grid->getCells()) {
+			// Calculate the position of the cell in world coordinates based on its index
+			int x = (cellIndex % manager.grid->getNumXCells()) * manager.grid->getCellSize();
+			int y = (cellIndex / manager.grid->getNumXCells()) * manager.grid->getCellSize();
+
+			glm::vec4 destRect(x, y, manager.grid->getCellSize(), manager.grid->getCellSize());
+			_debugRenderer.drawBox(destRect, Color(0, 255, 0, 25), 0.0f);  // Drawing each cell in red for visibility
+
+			cellIndex++;
+		}
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::groupCircles; group++) {
+
+			if (group == Manager::groupHPBars) {
+				continue; 
+			}
 
 			std::vector<Entity*>& groupVec = manager.getGroup(group);
 			for (auto& entity : groupVec) {
@@ -1119,6 +1119,16 @@ void Game::draw()
 				}
 				
 			}
+		}
+		if (_selectedEntity) {
+			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
+
+			glm::vec4 destRect;
+			destRect.x = tr->position.x;
+			destRect.y = tr->position.y;
+			destRect.z = tr->width;
+			destRect.w = tr->height;
+			_debugRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f); //todo add angle for drawbox
 		}
 		_debugRenderer.end();
 		_debugRenderer.render(cameraMatrix, 2.0f);

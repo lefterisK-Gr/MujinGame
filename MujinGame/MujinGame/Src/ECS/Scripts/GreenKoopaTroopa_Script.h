@@ -3,6 +3,7 @@
 #include "ECS/Components.h"
 #include "../../AssetManager/AssetManager.h"
 #include "AudioEngine/AudioEngine.h"
+#include "../../Collision/Collision.h"
 
 class GreenKoopaTroopa_Script : public Component
 {
@@ -15,6 +16,7 @@ public:
 	SpriteComponent* sprite = nullptr;
 	TransformComponent* transform = nullptr;
 	LivingCharacter* living;
+	ColliderComponent* collider;
 
 	typedef enum {
 		KOOPAACTION_IDLE = 0,
@@ -42,9 +44,40 @@ public:
 			entity->addComponent<LivingCharacter>();
 		}
 		living = &entity->GetComponent<LivingCharacter>();
+		collider = &entity->GetComponent<ColliderComponent>();
 	}
 
 	void update(float deltaTime) override {
+		auto& warriorprojectiles(manager.getGroup(Manager::groupWarriorProjectiles));
+		auto& slices(manager.getGroup(Manager::groupSlices));
+		auto& players(manager.getGroup(Manager::groupPlayers));
+
+		for (auto& sl : slices)
+		{
+			if (Collision::checkCollision(sl->GetComponent<ColliderComponent>().collider, entity->GetComponent<ColliderComponent>().collider))
+			{
+				for (auto& pl : players) {
+					if (living->applyDamage(sl->GetComponent<Slice>().sliceDamage)) {
+						pl->GetComponent<ScoreComponent>().addToScore(100);
+						entity->destroy();
+						return;
+					}
+				}
+			}
+		}
+
+		for (auto& wpr : warriorprojectiles) {
+			if (Collision::checkCollision(entity->GetComponent<ColliderComponent>().collider, wpr->GetComponent<ColliderComponent>().collider))
+			{
+				for (auto& pl : players) {
+					if (entity->GetComponent<LivingCharacter>().applyDamage(1)) {
+						pl->GetComponent<ScoreComponent>().addToScore(100);
+						entity->destroy();
+						return;
+					}
+				}
+			}
+		}
 
 		if (transform->velocity.x < 0) {
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;

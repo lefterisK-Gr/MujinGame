@@ -5,6 +5,7 @@
 #include "Scripts/Sword.h"
 #include "Scripts/HPBar.h"
 #include "Scripts/LivingCharacter.h"
+#include "Scripts/ScoreComponent.h"
 #include "Scripts/GreenKoopaTroopa_Script.h"
 #include "Scripts/Skeleton_Script.h"
 
@@ -15,7 +16,6 @@
 #include "Scripts/ProjectileComponent.h"
 #include "Scripts/StageUpButton.h"
 #include "Scripts/StageUpButtons.h"
-#include "Scripts/ScoreComponent.h"
 
 #include "Scripts/Item.h"
 #include "Scripts/Shop.h"
