@@ -8,7 +8,7 @@ class CreateSnowDrops : public Component
 private:
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-	const int maxParticles = 120;
+	const int maxParticles = 20;
 	float numOfParticles = 0;
 	std::default_random_engine generator;  // Random number generator
 	float dropRate = 0.2f;

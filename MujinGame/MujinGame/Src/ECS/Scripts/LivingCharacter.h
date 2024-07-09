@@ -14,7 +14,7 @@ public:
 
 	int defence = 0;
 	bool tookDamage = false;
-
+	bool isActive = false;
 	Entity* hp_bar;
 	Entity* mana_bar; // todo: dont make all entities have mana bar, takes space
 	Entity* stamina_bar; // todo: dont make all entities have stamina bar, takes space

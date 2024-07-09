@@ -6,7 +6,7 @@
 class StageUpButton : public Component
 {
 public:
-	std::string id;
+	std::string idName;
 
 	float offsetX = 0;
 	float offsetY = 0;
@@ -23,7 +23,7 @@ public:
 
 	StageUpButton(std::string textId, float offset_x, float offset_y, bool is_hud)
 	{
-		id = textId;
+		idName = textId;
 		offsetX = offset_x;
 		offsetY = offset_y;
 		isHud = is_hud;
@@ -36,14 +36,14 @@ public:
 	void init() override {
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(0.0f, offsetY,
-				TextureManager::getInstance().Get_GLTexture(id)->height,
-				TextureManager::getInstance().Get_GLTexture(id)->width,
+				TextureManager::getInstance().Get_GLTexture(idName)->height,
+				TextureManager::getInstance().Get_GLTexture(idName)->width,
 				1.0f);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 
 		if (!entity->hasComponent<SpriteComponent>()) {
-			entity->addComponent<SpriteComponent>(id, 1.0f);
+			entity->addComponent<SpriteComponent>(idName, 1.0f);
 		}
 		entity->addGroup(Manager::groupStageUpButtons);
 

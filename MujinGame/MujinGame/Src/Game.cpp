@@ -305,7 +305,7 @@ void Game::update(float deltaTime) //game objects updating
 		stagelabel.GetComponent<UILabel>().setLetters("stage" + std::to_string(map->getStage()));
 		assets->CreateWeather(player1);
 		manager.refresh();
-		manager.update(deltaTime);
+		manager.updateFully(deltaTime);
 
 		for (auto& enemyGroup : { skeletons, greenkoopatroopas }) // enemies with colliders
 		{
@@ -349,11 +349,11 @@ void Game::update(float deltaTime) //game objects updating
 
 	checkInput(); //handleEvents
 
-	manager.refresh(); 
-	manager.update(deltaTime );
-
 	main_camera2D->update();
 	hud_camera2D->update();
+
+	manager.refresh(); 
+	manager.update(deltaTime );
 
 	
 	for (auto& p : players)

@@ -6,7 +6,7 @@ class Item : public Component
 {
 public:
 
-	std::string id;
+	std::string idName;
 
 	TransformComponent* transform = nullptr;
 
@@ -21,7 +21,7 @@ public:
 
 	Item(std::string textId, float _price)
 	{
-		id = textId;
+		idName = textId;
 		price = _price;
 	}
 
@@ -33,14 +33,14 @@ public:
 
 		if (!entity->hasComponent<TransformComponent>()) {
 			entity->addComponent<TransformComponent>(0.0f, 100.0f,
-				TextureManager::getInstance().Get_GLTexture(id)->height,
-				TextureManager::getInstance().Get_GLTexture(id)->width,
+				TextureManager::getInstance().Get_GLTexture(idName)->height,
+				TextureManager::getInstance().Get_GLTexture(idName)->width,
 				2.0f);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 
 		if (!entity->hasComponent<SpriteComponent>()) {
-			entity->addComponent<SpriteComponent>(id, 1.0f);
+			entity->addComponent<SpriteComponent>(idName, 1.0f);
 		}
 		entity->addGroup(Manager::groupStageUpButtons);
 

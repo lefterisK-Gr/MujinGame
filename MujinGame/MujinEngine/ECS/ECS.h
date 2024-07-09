@@ -46,6 +46,8 @@ class Component
 public:
 	Entity* entity;
 
+	ComponentID id = 0u;
+
 	virtual void init(){}
 	virtual void update(float deltaTime) {}
 	virtual void draw(SpriteBatch&  batch, MujinEngine::Window& window) {}
@@ -70,21 +72,43 @@ class Entity
 private:
 	Manager& manager;
 	bool active = true;
-	
 	ComponentArray componentArray;//create 2 arrays, this is for the fast access
 	ComponentBitSet componentBitSet;
 	GroupBitSet groupBitSet;
 public:
+	bool paused = false;
+
+	bool checkCollision(const SDL_Rect recA, const SDL_Rect recB) {
+		if (recA.x >= recB.x + recB.w || recA.x + recA.w <= recB.x ||
+			recA.y >= recB.y + recB.h || recA.y + recA.h <= recB.y) {
+			return false; // no collision
+		}
+		return true;
+	}
 	Cell* ownerCell = nullptr;
 	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager) : manager(mManager) {}
 	void update(float deltaTime)
 	{
-		for (auto& c : components) c->update(deltaTime); // start from which was added first
+		for (auto& c : components) {
+			c->update(deltaTime); // start from which was added first
+			if (c->id == 0 && paused)
+			{
+				//break;
+			}
+		}
+	}
+	void updateFully(float deltaTime)
+	{
+		for (auto& c : components) {
+			c->update(deltaTime); // start from which was added first
+		}
 	}
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) 
 	{
-		for (auto& c : components) c->draw(batch, window);
+		for (auto& c : components) { 
+			c->draw(batch, window); 
+		}
 	}
 	bool isActive() { return active; }
 	void destroy() { active = false; } // destroy happens relative to the group referencing
@@ -115,6 +139,7 @@ public:
 
 		componentArray[GetComponentTypeID<T>()] = c;
 		componentBitSet[GetComponentTypeID<T>()] = true;
+		c->id = GetComponentTypeID<T>();
 
 		c->init();
 		return *c;

@@ -29,6 +29,23 @@ public:
 			}
 		}
 	}
+	void updateFully(float deltaTime = 1.0f)
+	{
+		for (auto& e : entities) {
+			if (!e || !e->isActive()) continue;
+			e->updateFully(deltaTime);
+
+			//check if entity that has cell has to change cell
+			if (e->ownerCell) {
+				Cell* newCell = grid->getCell(*e);
+				if (newCell != e->ownerCell) {
+					// Need to shift the entity
+					grid->removeEntity(e.get());
+					grid->addEntity(e.get(), newCell);
+				}
+			}
+		}
+	}
 	void draw(SpriteBatch& batch, MujinEngine::Window& window)
 	{
 		for (auto& e : entities) e->draw(batch, window);
