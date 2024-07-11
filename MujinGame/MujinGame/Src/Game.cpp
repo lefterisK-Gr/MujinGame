@@ -242,7 +242,7 @@ void Game::update(float deltaTime) //game objects updating
 
 
 	if (map->getMapCompleted()) {
-
+		_firstLoop = true;
 		//manager.clearAllEntities();
 		for (auto& tile : tiles)
 		{
@@ -352,8 +352,14 @@ void Game::update(float deltaTime) //game objects updating
 	main_camera2D->update();
 	hud_camera2D->update();
 
-	manager.refresh(); 
-	manager.update(deltaTime );
+	manager.refresh();
+	if (_firstLoop) {
+		manager.updateFully(deltaTime);
+		_firstLoop = false;
+	}
+	else {
+		manager.update(deltaTime);
+	}
 
 	
 	for (auto& p : players)
@@ -837,6 +843,12 @@ void Game::updateUI() {
 	}
 
 	ImGui::PopStyleColor(1);
+	ImGui::Text("Camera Position");
+
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
+	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->worldLocation.x, main_camera2D->worldLocation.y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
+	
 	if (_selectedEntity) {
 		ImGui::Text("Selected Entity Details");
 

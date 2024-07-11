@@ -65,20 +65,21 @@ public:
 	}
 	void update(float deltaTime) override
 	{
-		if (entity->paused)
-		{
-			std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-			SDL_Rect dimensions = { position.x, position.x, width, height };
-			SDL_Rect cameraDimensions = main_camera2D->getCameraRect();
-			cameraDimensions.x = main_camera2D->worldLocation.x >= 0 ? main_camera2D->worldLocation.x : 0;
-			cameraDimensions.y = main_camera2D->worldLocation.y >= 0 ? main_camera2D->worldLocation.y : 0;
-			if (entity->checkCollision(dimensions, cameraDimensions)) { //culling
-				entity->paused = false;
-			}
+		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+
+		SDL_Rect dimensions = { position.x, position.y, width, height };
+		SDL_Rect cameraDimensions = main_camera2D->getCameraRect();
+		cameraDimensions.x = main_camera2D->worldLocation.x >= 0 ? main_camera2D->worldLocation.x : 0;
+		cameraDimensions.y = main_camera2D->worldLocation.y >= 0 ? main_camera2D->worldLocation.y : 0;
+		if (entity->checkCollision(dimensions, cameraDimensions)) { //culling
+			entity->paused = false;
 		}
-		
-		
+		else {
+			entity->paused = true;
+			return;
+		}
+			
 		position.x += velocity.x * speed * deltaTime;
 		position.y += velocity.y * speed; //needs to have deltaTime
 	}

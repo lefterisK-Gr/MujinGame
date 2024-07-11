@@ -112,7 +112,7 @@ private:
 	int _prevScreenIndex = SCREEN_INDEX_GAMEPLAY;
 
 	const float SCALE_SPEED = 0.1f;
-
+	bool _firstLoop = true;
 };
 
 

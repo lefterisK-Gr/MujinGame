@@ -79,8 +79,8 @@ public:
 	bool paused = false;
 
 	bool checkCollision(const SDL_Rect recA, const SDL_Rect recB) {
-		if (recA.x >= recB.x + recB.w || recA.x + recA.w <= recB.x ||
-			recA.y >= recB.y + recB.h || recA.y + recA.h <= recB.y) {
+		if (recA.x > recB.x + recB.w + 100 || recA.x + recA.w < recB.x - 100 ||
+			recA.y > recB.y + recB.h + 100 || recA.y + recA.h < recB.y - 100) {
 			return false; // no collision
 		}
 		return true;
@@ -92,9 +92,14 @@ public:
 	{
 		for (auto& c : components) {
 			c->update(deltaTime); // start from which was added first
-			if (c->id == 0 && paused)
+			
+			if (c->id == 0 && paused && 	
+				!hasGroup(static_cast<Group>(17))	&&
+				!hasGroup(static_cast<Group>(0))	&&
+				!hasGroup(static_cast<Group>(4)) 
+				)
 			{
-				//break;
+				break;
 			}
 		}
 	}
