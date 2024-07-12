@@ -64,8 +64,9 @@ public:
 			collider.w = (transform->width * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
 			collider.h = (transform->height * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
 		}
-		destR.x = collider.x - main_camera2D->worldLocation.x;
-		destR.y = collider.y - main_camera2D->worldLocation.y;
+
+		//destR.x = collider.x - main_camera2D->worldLocation.x;
+		//destR.y = collider.y - main_camera2D->worldLocation.y;
 	}
 
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override

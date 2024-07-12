@@ -92,12 +92,7 @@ public:
 	{
 		for (auto& c : components) {
 			c->update(deltaTime); // start from which was added first
-			
-			if (c->id == 0 && paused && 	
-				!hasGroup(static_cast<Group>(17))	&&
-				!hasGroup(static_cast<Group>(0))	&&
-				!hasGroup(static_cast<Group>(4)) 
-				)
+			if (c->id == 0 && paused)
 			{
 				break;
 			}

@@ -77,7 +77,14 @@ public:
 		}
 		else {
 			entity->paused = true;
-			return;
+			if (!entity->hasGroup(static_cast<Group>(17)) &&
+				!entity->hasGroup(static_cast<Group>(0)) &&
+				!entity->hasGroup(static_cast<Group>(11)) &&
+				!entity->hasGroup(static_cast<Group>(12)) &&
+				!entity->hasGroup(static_cast<Group>(13)) &&
+				!entity->hasGroup(static_cast<Group>(4))) {
+				return;
+			}
 		}
 			
 		position.x += velocity.x * speed * deltaTime;
