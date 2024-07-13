@@ -796,6 +796,7 @@ void Game::checkInput() {
 			if (_selectedEntity) {
 				_selectedEntity->GetComponent<TransformComponent>().position.x = mouseCoordsVec.x + main_camera2D->worldLocation.x;
 				_selectedEntity->GetComponent<TransformComponent>().position.y = mouseCoordsVec.y + main_camera2D->worldLocation.y;
+				_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
 			}
 		}
 		if (_game->_inputManager.isKeyPressed(SDLK_p)) {
@@ -1108,6 +1109,27 @@ void Game::draw()
 
 			cellIndex++;
 		}
+		for (auto& p : players) //player with colliders
+		{
+			for (auto& c : manager.adjacentEntities(p, Manager::groupColliders))
+			{
+				if (c->hasGroup(Manager::groupWinningTiles)) {
+					continue;
+				}
+				//SDL_Rect cCol = c->GetComponent<ColliderComponent>().collider;
+				for (auto& ccomp : c->components) { // get all the ColliderComponents
+
+					ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+
+					if (!colliderComponentPtr) {
+						continue;
+					}
+					SDL_Rect cCol = ccomp->getRect();
+					glm::vec4 destRect(cCol.x, cCol.y, cCol.w, cCol.h);
+					_debugRenderer.drawBox(destRect, Color(255, 0, 0, 255), 0.0f);
+				}
+			}
+		}
 		for (std::size_t group = Manager::groupBackgroundLayer; group != Manager::groupCircles; group++) {
 
 			if (group == Manager::groupHPBars) {
@@ -1116,6 +1138,7 @@ void Game::draw()
 
 			std::vector<Entity*>& groupVec = manager.getGroup(group);
 			for (auto& entity : groupVec) {
+				
 				if (entity->hasComponent<TransformComponent>())
 				{
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();

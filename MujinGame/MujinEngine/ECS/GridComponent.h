@@ -51,6 +51,26 @@ public:
 
 	void update(float deltaTime) override
 	{
+		
+	}
 
+	void updateCollidersGrid() {
+		int gridindex = 0;
+
+		for (auto& ccomp : entity->components) { // get all the ColliderComponents
+
+			ColliderComponent* colliderComponentPtr = dynamic_cast<ColliderComponent*>(ccomp.get());
+
+			if (!colliderComponentPtr) {
+				continue;
+			}
+			glm::vec2 gridPos;
+			gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
+			gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
+
+			colliderComponentPtr->updateCollider(gridPos);
+
+			gridindex++;
+		}
 	}
 };

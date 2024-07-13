@@ -69,6 +69,11 @@ public:
 		//destR.y = collider.y - main_camera2D->worldLocation.y;
 	}
 
+	void updateCollider(glm::vec2 gridpos) {
+		collider.x = static_cast<int>(transform->position.x) + transform->scale + gridpos.x;
+		collider.y = static_cast<int>(transform->position.y) + transform->scale + gridpos.y;
+	}
+
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override
 	{
 	}
