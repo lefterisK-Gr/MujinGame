@@ -796,7 +796,8 @@ void Game::checkInput() {
 			if (_selectedEntity) {
 				_selectedEntity->GetComponent<TransformComponent>().position.x = mouseCoordsVec.x + main_camera2D->worldLocation.x;
 				_selectedEntity->GetComponent<TransformComponent>().position.y = mouseCoordsVec.y + main_camera2D->worldLocation.y;
-				_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
+				if(_selectedEntity->hasComponent<GridComponent>())
+					_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
 			}
 		}
 		if (_game->_inputManager.isKeyPressed(SDLK_p)) {
