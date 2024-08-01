@@ -103,5 +103,5 @@ private:
 	float _scale;
 	glm::vec2 _position;
 	glm::mat4 _cameraMatrix;
-	glm::mat4 _orthoMatrix;
+	glm::mat4 _orthoMatrix; // changed once in init
 };

@@ -1128,6 +1128,8 @@ void Game::draw()
 					SDL_Rect cCol = ccomp->getRect();
 					glm::vec4 destRect(cCol.x, cCol.y, cCol.w, cCol.h);
 					_debugRenderer.drawBox(destRect, Color(255, 0, 0, 255), 0.0f);
+					_debugRenderer.end();
+					_debugRenderer.render(cameraMatrix, 4.0f);
 				}
 			}
 		}
