@@ -18,7 +18,6 @@ public:
 	// difference between this and from the lectures is that in lectures it uses seperate animator for each animation
 
 	SpriteComponent* sprite = nullptr;
-	AnimatorManager animManager;
 	std::string textureid;
 	const char* animationName = NULL;
 	timestamp resumeTime = 0;
@@ -71,6 +70,7 @@ public:
 
 	void Play(const char* animName, int reps = 0)
 	{
+		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
 		sprite->SetAnimation(animManager.animations[animName].indexX, animManager.animations[animName].indexY,
 			animManager.animations[animName].total_frames, animManager.animations[animName].speed,
@@ -79,6 +79,7 @@ public:
 	}
 
 	void resetAnimation() {
+		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = "P1Idle";
 		sprite->SetAnimation(
 			animManager.animations[animationName].indexX, animManager.animations[animationName].indexY,

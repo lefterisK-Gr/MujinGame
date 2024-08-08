@@ -78,6 +78,8 @@ void Game::onEntry()
 	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight());
 
 	audioEngine.init();
+	AnimatorManager& animManager = AnimatorManager::getInstance();
+	animManager.InitializeAnimators();
 	
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{

@@ -48,6 +48,8 @@ public:
 		sword = &entity->GetComponent<Sword>();
 		animator = &entity->GetComponent<AnimatorComponent>();
 
+		AnimatorManager& animManager = AnimatorManager::getInstance();
+
 		if (!entity->hasComponent<LivingCharacter>()) //todo: problem: having transform on top left grid, not every collider its own
 		{
 			entity->addComponent<LivingCharacter>();
@@ -56,7 +58,7 @@ public:
 		if (isGiant)
 		{
 			transform->speed *= 2;
-			animator->animManager.animations.find("SkeletonAttack")->second.speed *= 2;
+			animManager.getInstance().animations.find("SkeletonAttack")->second.speed *= 2;
 			living->hp_bar->GetComponent<HPBar>()._healthPoints = 200;
 			living->hp_bar->GetComponent<HPBar>()._maxHealthPoints = 200;
 		}

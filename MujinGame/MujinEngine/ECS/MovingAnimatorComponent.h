@@ -66,6 +66,7 @@ public:
 
 	void Play(const char* animName, int reps = 0)
 	{
+		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = animName;
 		sprite->SetMovingAnimation(
 			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
@@ -77,6 +78,7 @@ public:
 	}
 
 	void resetAnimation() {
+		AnimatorManager& animManager = AnimatorManager::getInstance();
 		animationName = "Default";
 		sprite->SetMovingAnimation(
 			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
