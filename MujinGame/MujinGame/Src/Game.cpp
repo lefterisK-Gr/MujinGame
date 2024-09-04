@@ -78,6 +78,8 @@ void Game::onEntry()
 	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight());
 
 	audioEngine.init();
+	AnimatorManager& animManager = AnimatorManager::getInstance();
+	animManager.InitializeAnimators();
 	
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
@@ -1128,6 +1130,8 @@ void Game::draw()
 					SDL_Rect cCol = ccomp->getRect();
 					glm::vec4 destRect(cCol.x, cCol.y, cCol.w, cCol.h);
 					_debugRenderer.drawBox(destRect, Color(255, 0, 0, 255), 0.0f);
+					_debugRenderer.end();
+					_debugRenderer.render(cameraMatrix, 4.0f);
 				}
 			}
 		}

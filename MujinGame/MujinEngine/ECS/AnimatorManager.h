@@ -14,6 +14,14 @@ public:
 	std::map<const char*, FlashAnimation> flash_animations;
 
 	AnimatorManager()
+	{}
+
+	static AnimatorManager& getInstance() {
+		static AnimatorManager instance;
+		return instance;
+	}
+
+	void InitializeAnimators()
 	{
 		Animation defaultAnimation = Animation(6, 2, 1, 0.04, "looped");
 

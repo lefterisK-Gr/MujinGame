@@ -14,8 +14,12 @@
 #define MAX_MAP_GRID_HEIGHT (MAX_MAP_TILE_HEIGHT * GRID_ROWS) //80
 #define MAX_MAP_GRID_WIDTH (MAX_MAP_TILE_HEIGHT * GRID_COLUMNS) //100
 
+constexpr size_t GRID_CELL_NUM = 16;
+
 class GridComponent : public Component //GridComp --> ColliderComp
 {
+private: 
+	std::bitset<GRID_CELL_NUM> bitset ;
 public:
 	Vector2D position;
 	int scaledTile;
@@ -28,25 +32,38 @@ public:
 
 	}
 
-	GridComponent(int xpos, int ypos, int tscaled)
+	GridComponent(int xpos, int ypos, int tscaled, std::bitset<GRID_CELL_NUM> collider_bitSet = std::bitset<GRID_CELL_NUM>())
 	{
 		position.x = xpos;
 		position.y = ypos;
 
 		scaledTile = tscaled;
+
+		bitset = collider_bitSet.set();
 	}
 
 	void init() override
 	{
-		Vector2D gridPos;
+		auto flippedBitset = ~bitset;
 
-		for (auto gridindex = 0; gridindex < TILE_NUM_GRID_ELEMENTS; gridindex++)
-		{ //SetGridTileBlock
-			gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
-			gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
-
-			entity->addComponent<ColliderComponent>("terrain", (position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
+		if (flippedBitset.none()) {
+			entity->addComponent<ColliderComponent>("terrain", (position.x), (position.y), GRID_ELEMENT_WIDTH * GRID_COLUMNS);
 		}
+		else {
+			Vector2D gridPos;
+
+			for (auto gridindex = 0; gridindex < TILE_NUM_GRID_ELEMENTS; gridindex++)
+			{ //SetGridTileBlock
+				if (bitset[gridindex]) {
+					gridPos.x = (gridindex % GRID_COLUMNS) * GRID_ELEMENT_WIDTH;
+					gridPos.y = (int)(gridindex / GRID_ROWS) * GRID_ELEMENT_HEIGHT;
+
+					entity->addComponent<ColliderComponent>("terrain", (position.x + gridPos.x), (position.y + gridPos.y), GRID_ELEMENT_WIDTH);
+
+				}
+			}
+		}
+		
 	}
 
 	void update(float deltaTime) override
