@@ -35,17 +35,17 @@ public:
 		if (onGround && !justjumped)
 		{
 			GravityForce = 1.0f;
-			transform->velocity.y = static_cast<int>(GravityForce);
+			transform->setVelocity_Y(static_cast<int>(GravityForce));
 			GravityForce = 0.0f;
 		}
 		else
 		{
 			justjumped = false;
 			GravityForce += accelGravity * deltaTime;
-			transform->velocity.y += static_cast<int>(GravityForce) * deltaTime;
-			if (transform->velocity.y > static_cast<int>(maxGravity))
+			transform->setVelocity_Y(transform->getVelocity().y + static_cast<int>(GravityForce) * deltaTime);
+			if (transform->getVelocity().y > static_cast<int>(maxGravity))
 			{
-				transform->velocity.y = static_cast<int>(maxGravity);
+				transform->setVelocity_Y(static_cast<int>(maxGravity));
 			}
 		}
 	}

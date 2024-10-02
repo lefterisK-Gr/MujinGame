@@ -98,10 +98,10 @@ public:
 			}
 		}
 
-		if (transform->velocity.x < 0) {
+		if (transform->getVelocity().x < 0) {
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
-		else if(transform->velocity.x > 0){
+		else if(transform->getVelocity().x > 0){
 			sprite->spriteFlip = SDL_FLIP_NONE;
 		}
 
@@ -109,7 +109,7 @@ public:
 			if (sprite->animation.hasFinished()) {
 				this->attackAnimation = false;
 				this->action = Skeleton_Script::skeletonAction::SKELETONACTION_IDLE;
-				transform->velocity.x = 1;
+				transform->setVelocity_X(1);
 			}
 		}
 
@@ -121,7 +121,7 @@ public:
 			}
 			return;
 		}
-		else if (transform->velocity.x != 0)
+		else if (transform->getVelocity().x != 0)
 		{
 			if (action == skeletonAction::SKELETONACTION_WALK)
 				return;

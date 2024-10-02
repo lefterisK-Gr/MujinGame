@@ -2,13 +2,13 @@
 
 SceneManager::SceneManager() // todo make structure like animationManager with names for scenes
 {
-	transitionScenePositions.push_back(Vector2D(64, 33));
+	transitionScenePositions.push_back(glm::ivec2(64, 33));
 }
 
 SceneManager::~SceneManager()
 {}
 
-Vector2D SceneManager::GetSceneStartupPosition(int i)
+glm::ivec2 SceneManager::GetSceneStartupPosition(int i)
 {
 	return transitionScenePositions[i];
 }

@@ -48,14 +48,14 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		transform->position.x = isOpen ? 0 : -1000;
+		transform->setPosition_X(isOpen ? 0 : -1000) ;
 
-		float currentX = transform->position.x + 100.0f;
+		float currentX = transform->getPosition().x + 100.0f;
 		float itemPositionIncrementX = 100.0f;
 
 		for (auto& s : _items)
 		{
-			s->GetComponent<TransformComponent>().position.x = currentX;
+			s->GetComponent<TransformComponent>().setPosition_X(currentX);
 			currentX += itemPositionIncrementX;
 		}
 	}

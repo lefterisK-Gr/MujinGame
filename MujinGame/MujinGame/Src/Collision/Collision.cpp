@@ -39,21 +39,21 @@ void Collision::moveFromCollision(Entity& player) {
 
 	switch (Collision::movingRectColSide) {
 		case Collision::ColSide::RIGHT: // Move player to the left of the collider
-			playerTransform.position.x -= Collision::overlap.x;
+			playerTransform.setPosition_X(playerTransform.getPosition().x - Collision::overlap.x);
 			break;
 
 		case Collision::ColSide::LEFT: // Move player to the right of the collider
-			playerTransform.position.x += Collision::overlap.x;
+			playerTransform.setPosition_X(playerTransform.getPosition().x + Collision::overlap.x);
 			break;
 
 		case Collision::ColSide::DOWN: // Move player above the collider
-			playerTransform.position.y -= Collision::overlap.y;
+			playerTransform.setPosition_Y(playerTransform.getPosition().y - Collision::overlap.y);
 			player.GetComponent<RigidBodyComponent>().onGround = true;
 			break;
 
 		case Collision::ColSide::TOP: // Move player below the collider
-			playerTransform.position.y += Collision::overlap.y;
-			playerTransform.velocity.y = 0;
+			playerTransform.setPosition_Y(playerTransform.getPosition().y + Collision::overlap.y);
+			playerTransform.setVelocity_Y(0);
 			break;
 
 		default:
@@ -64,7 +64,7 @@ void Collision::moveFromCollision(Entity& player) {
 bool Collision::moveFromOuterBounds(Entity& entity, MujinEngine::Window& window) {
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-	auto& pos = entity.GetComponent<TransformComponent>().position;
+	auto pos = entity.GetComponent<TransformComponent>().getPosition();
 
 	if (pos.x < 0) {
 		pos.x = 0;

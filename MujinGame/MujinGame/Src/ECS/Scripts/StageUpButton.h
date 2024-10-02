@@ -48,7 +48,7 @@ public:
 		entity->addGroup(Manager::groupStageUpButtons);
 
 		stageUpBtnBack = &manager.addEntity();
-		stageUpBtnBack->addComponent<TransformComponent>(transform->position.x, transform->position.y, 32.0f, 32.0f, transform->scale);
+		stageUpBtnBack->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y, 32.0f, 32.0f, transform->scale);
 		stageUpBtnBack->addComponent<Rectangle_w_Color>();
 		stageUpBtnBack->GetComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
 
@@ -59,8 +59,8 @@ public:
 		if (isHud) {
 			std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-			entity->GetComponent<TransformComponent>().position.x = main_camera2D->worldLocation.x + offsetX;
-			stageUpBtnBack->GetComponent<TransformComponent>().position.x = main_camera2D->worldLocation.x + offsetX;
+			entity->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldLocation.x + offsetX);
+			stageUpBtnBack->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldLocation.x + offsetX);
 		}
 	}
 

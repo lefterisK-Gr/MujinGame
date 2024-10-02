@@ -59,8 +59,8 @@ public:
 
 		if (tag != "terrain") // for all npcs
 		{
-			collider.x = static_cast<int>(transform->position.x) + (2 * (transform->scale) * COL_POS_OFFSET);
-			collider.y = static_cast<int>(transform->position.y) + (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.x = static_cast<int>(transform->getPosition().x) + (2 * (transform->scale) * COL_POS_OFFSET);
+			collider.y = static_cast<int>(transform->getPosition().y) + (2 * (transform->scale) * COL_POS_OFFSET);
 			collider.w = (transform->width * transform->scale) - (4 * (transform->scale) * COL_POS_OFFSET);
 			collider.h = (transform->height * transform->scale) - (2 * (transform->scale) * COL_POS_OFFSET);
 		}
@@ -70,8 +70,8 @@ public:
 	}
 
 	void updateCollider(glm::vec2 gridpos) {
-		collider.x = static_cast<int>(transform->position.x) + transform->scale + gridpos.x;
-		collider.y = static_cast<int>(transform->position.y) + transform->scale + gridpos.y;
+		collider.x = static_cast<int>(transform->getPosition().x) + transform->scale + gridpos.x;
+		collider.y = static_cast<int>(transform->getPosition().y) + transform->scale + gridpos.y;
 	}
 
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override

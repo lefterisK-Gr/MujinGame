@@ -31,14 +31,14 @@ AssetManager::~AssetManager()
 void AssetManager::ProjectileExplosion(int camerapos)
 {
 	std::cout << "Projectile Explosion!" << std::endl;
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(2, 0), 200, 2, "projectile");
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(-2, 0), 200, 2, "projectile");
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(0, 2), 200, 2, "projectile");
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(0, -2), 200, 2, "projectile");
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(2, 2), 200, 2, "projectile");
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(2, -2), 200, 2, "projectile");
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(-2, 2), 200, 2, "projectile");
-	CreateProjectile(Vector2D(camerapos + 400, 320), Vector2D(-2, -2), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(2, 0), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(-2, 0), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(0, 2), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(0, -2), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(2, 2), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(2, -2), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(-2, 2), 200, 2, "projectile");
+	CreateProjectile(glm::ivec2(camerapos + 400, 320), glm::ivec2(-2, -2), 200, 2, "projectile");
 }
 
 void AssetManager::CreatePlayer(Entity& player)
@@ -107,13 +107,13 @@ void AssetManager::CreateSnow(Entity& entity) {
 	snowGenerator.addGroup(Manager::groupEnvironmentGenerators);
 }
 
-void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int speed, std::string id)
+void AssetManager::CreateProjectile(glm::ivec2 pos, glm::ivec2 dest,int range, int speed, std::string id)
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());
 	const GLTexture* gl_texture = TextureManager::getInstance().Get_GLTexture(id);
 	projectile.addComponent<TransformComponent>(pos.x-gl_texture->width/2, pos.y- gl_texture->height/2, gl_texture->width, gl_texture->height, 1, speed);
 	projectile.addComponent<AnimatorComponent>(id);
-	Vector2D direction = Vector2D::Distance(dest, pos).Normalize();
+	glm::ivec2 direction = glm::normalize(glm::vec2(dest - pos));
 	projectile.addComponent<ProjectileComponent>(range, speed, direction);
 	if (direction.x < 0) {
 		projectile.GetComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
@@ -127,11 +127,12 @@ void AssetManager::CreateProjectile(Vector2D pos, Vector2D dest,int range, int s
 	manager->grid->addEntity(&projectile);
 }
 
-void AssetManager::CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant)
+void AssetManager::CreateSkeleton(glm::ivec2 pos, glm::ivec2 vel, std::string id, bool isGiant)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, isGiant ? 2 : 1);
-	enemy.GetComponent<TransformComponent>().velocity = vel;
+	enemy.GetComponent<TransformComponent>().setVelocity_X(vel.x);
+	enemy.GetComponent<TransformComponent>().setVelocity_Y(vel.y);
 	enemy.addComponent<AnimatorComponent>(id);
 	enemy.addComponent<ColliderComponent>(id);
 	enemy.addComponent<RigidBodyComponent>();
@@ -216,11 +217,12 @@ void AssetManager::SetBackGroundColor(float r, float g, float b, float a)
 
 }
 
-void AssetManager::CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id)
+void AssetManager::CreateGreenKoopaTroopa(glm::ivec2 pos, glm::ivec2 vel, int speed, std::string id)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
 	enemy.addComponent<TransformComponent>(pos.x, pos.y, 64, 64, 1);
-	enemy.GetComponent<TransformComponent>().velocity = vel;
+	enemy.GetComponent<TransformComponent>().setVelocity_X(vel.x);
+	enemy.GetComponent<TransformComponent>().setVelocity_Y(vel.y);
 	enemy.addComponent<AnimatorComponent>(id);
 	enemy.addComponent<GreenKoopaTroopa_Script>();
 	//enemy.addComponent<ProjectileComponent>(range, speed, vel);
@@ -248,19 +250,19 @@ void AssetManager::CreateEnemies() {
 
 	//// Create skeletons
 	for (int i = 0; i < numSkeletons; ++i) {
-		Vector2D pos(disX(gen), 512);
-		Vector2D vel(-1, 0);
+		glm::ivec2 pos(disX(gen), 512);
+		glm::ivec2 vel(-1, 0);
 
 		CreateSkeleton(pos, vel, "skeleton", false);
 	}
-	Vector2D pos(disX(gen), 512);
-	Vector2D vel(-1, 0);
+	glm::ivec2 pos(disX(gen), 512);
+	glm::ivec2 vel(-1, 0);
 
 	CreateSkeleton(pos, vel, "skeleton", true);
 	// Create green koopa troopas
 	for (int i = 0; i < numGreenKoopaTroopas; ++i) {
-		Vector2D pos(disX(gen), 512);
-		Vector2D vel(-1, 0);
+		glm::ivec2 pos(disX(gen), 512);
+		glm::ivec2 vel(-1, 0);
 		int speed = 1;
 
 		CreateGreenKoopaTroopa(pos, vel, speed, "greenkoopatroopa");

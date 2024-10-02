@@ -2,12 +2,11 @@
 
 #include "ECS/ECS.h"
 #include "ECS/Components.h"
-#include "Vector2D/Vector2D.h"
 
 class ProjectileComponent : public Component
 {
 public:
-	ProjectileComponent(int rng, int sp, Vector2D vel) : range(rng), speed(sp), velocity(vel)
+	ProjectileComponent(int rng, int sp, glm::ivec2 vel) : range(rng), speed(sp), velocity(vel)
 	{}
 	~ProjectileComponent()
 	{}
@@ -15,7 +14,8 @@ public:
 	void init() override
 	{
 		transform = &entity->GetComponent<TransformComponent>();
-		transform->velocity = velocity;
+		transform->setVelocity_X(velocity.x);
+		transform->setVelocity_Y(velocity.y);
 		sprite = &entity->GetComponent<SpriteComponent>();
 	}
 
@@ -39,5 +39,5 @@ private:
 	int range = 0;
 	int speed = 0;
 	int distance = 0;
-	Vector2D velocity;
+	glm::vec2 velocity;
 };

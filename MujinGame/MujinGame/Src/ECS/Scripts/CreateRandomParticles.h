@@ -38,8 +38,8 @@ public:
 
 		for (auto& pl : players) {
 			TransformComponent* tr = &pl->GetComponent<TransformComponent>();
-			std::uniform_int_distribution<int> distributionX(tr->position.x - main_camera2D->getCameraDimensions().x,
-				tr->position.x + main_camera2D->getCameraDimensions().x);
+			std::uniform_int_distribution<int> distributionX(tr->getPosition().x - main_camera2D->getCameraDimensions().x,
+				tr->getPosition().x + main_camera2D->getCameraDimensions().x);
 			const unsigned short prevNumOfParticles = static_cast<unsigned short>(numOfParticles);
 
 			if (numOfParticles + spawnRate <= maxParticles) {
@@ -55,7 +55,8 @@ public:
 				float randVY = distributionVY(generator);
 
 				TransformComponent& tc = light->addComponent<TransformComponent>(randX, randY);
-				tc.velocity = Vector2D(randVX, randVY);
+				tc.setVelocity_X(randVX);
+				tc.setVelocity_Y(randVY);
 
 				light->addComponent<SpriteComponent>(Color(255, 255, 255, 200));
 				light->addComponent<LightTextureComponent>(1);

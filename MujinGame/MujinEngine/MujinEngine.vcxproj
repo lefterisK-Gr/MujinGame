@@ -157,7 +157,6 @@
     <ClCompile Include="SpriteBatch\SpriteBatch.cpp" />
     <ClCompile Include="TextureManager\TextureManager.cpp" />
     <ClCompile Include="Timing\Timing.cpp" />
-    <ClCompile Include="Vector2D\Vector2D.cpp" />
     <ClCompile Include="Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,7 +196,6 @@
     <ClInclude Include="SpriteBatch\SpriteBatch.h" />
     <ClInclude Include="TextureManager\TextureManager.h" />
     <ClInclude Include="Timing\Timing.h" />
-    <ClInclude Include="Vector2D\Vector2D.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window\Window.h" />
   </ItemGroup>

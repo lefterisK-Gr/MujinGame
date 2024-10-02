@@ -44,12 +44,12 @@ public:
 		
 		
 		if (entity->hasComponent<Player_Script>()) {
-			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y - 10.0f, 10.0f, 100.0f, transform->scale);
+			greyBar->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y - 10.0f, 10.0f, 100.0f, transform->scale);
 			greyBar->addComponent<HPBar>();
 			greyBar->GetComponent<HPBar>().rectangle->color= Color(128, 128, 128, 255); // Grey color
 			greyBar->addGroup(Manager::groupHPBars);
 
-			hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y - 10.0f,
+			hp_bar->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y - 10.0f,
 				10.0f, 100.0f, transform->scale);
 			hp_bar->addComponent<HPBar>();
 			hp_bar->GetComponent<HPBar>().rectangle->color = Color(255, 0, 0, 255);
@@ -57,7 +57,7 @@ public:
 
 			mana_bar = &manager.addEntity();
 
-			mana_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y,
+			mana_bar->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y,
 				5.0f, 100.0f, transform->scale);
 			mana_bar->addComponent<HPBar>();
 			mana_bar->GetComponent<HPBar>().rectangle->color = Color(0, 0, 255, 255);
@@ -66,7 +66,7 @@ public:
 
 			stamina_bar = &manager.addEntity();
 
-			stamina_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y + 5,
+			stamina_bar->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y + 5,
 				5.0f, 100.0f, transform->scale);
 			stamina_bar->addComponent<HPBar>();
 			stamina_bar->GetComponent<HPBar>().rectangle->color = Color(0, 100, 0, 255);
@@ -74,11 +74,11 @@ public:
 			stamina_bar->addGroup(Manager::groupHPBars);
 		}
 		else {
-			greyBar->addComponent<TransformComponent>(transform->position.x, transform->position.y, 5.0f, 50.0f, transform->scale);
+			greyBar->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y, 5.0f, 50.0f, transform->scale);
 			greyBar->addComponent<HPBar>();
 			greyBar->GetComponent<HPBar>().rectangle->color = Color(128, 128, 128, 255); // Grey color
 			greyBar->addGroup(Manager::groupHPBars);
-			hp_bar->addComponent<TransformComponent>(transform->position.x, transform->position.y,
+			hp_bar->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y,
 				5.0f, 50.0f, transform->scale);
 			hp_bar->addComponent<HPBar>();
 			hp_bar->GetComponent<HPBar>().rectangle->color = Color(0, 255, 0, 255);
@@ -90,24 +90,24 @@ public:
 		tookDamage = false;
 
 		TransformComponent* defaultBarTransform = &greyBar->GetComponent<TransformComponent>();
-		greyBar->GetComponent<TransformComponent>().position.x = transform->position.x - defaultBarTransform->width / 2 + transform->width / 2;
-		greyBar->GetComponent<TransformComponent>().position.y = transform->position.y - 10;
+		greyBar->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x - defaultBarTransform->width / 2 + transform->width / 2);
+		greyBar->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y - 10);
 
 		if (hp_bar) {
 			TransformComponent* hpBarTransform = &hp_bar->GetComponent<TransformComponent>();
-			hp_bar->GetComponent<TransformComponent>().position.x = transform->position.x - hpBarTransform->width / 2 + transform->width / 2;
-			hp_bar->GetComponent<TransformComponent>().position.y = transform->position.y - 10;
+			hp_bar->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x - hpBarTransform->width / 2 + transform->width / 2);
+			hp_bar->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y - 10);
 		}
 		if (mana_bar) {
 			TransformComponent* manaBarTransform = &mana_bar->GetComponent<TransformComponent>();
-			mana_bar->GetComponent<TransformComponent>().position.x = transform->position.x - manaBarTransform->width / 2 + transform->width / 2;
-			mana_bar->GetComponent<TransformComponent>().position.y = transform->position.y;
+			mana_bar->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x - manaBarTransform->width / 2 + transform->width / 2);
+			mana_bar->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y);
 		
 		}
 		if (stamina_bar) {
 			TransformComponent* staminaBarTransform = &stamina_bar->GetComponent<TransformComponent>();
-			stamina_bar->GetComponent<TransformComponent>().position.x = transform->position.x - staminaBarTransform->width / 2 + transform->width / 2;
-			stamina_bar->GetComponent<TransformComponent>().position.y = transform->position.y + 5;
+			stamina_bar->GetComponent<TransformComponent>().setPosition_X (transform->getPosition().x - staminaBarTransform->width / 2 + transform->width / 2);
+			stamina_bar->GetComponent<TransformComponent>().setPosition_Y (transform->getPosition().y + 5);
 		
 		}
 	}

@@ -17,7 +17,7 @@ public:
     virtual glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) const = 0;
 
     // Returns the dimensions of the camera2D.worldLocation's view
-    virtual glm::vec2 getCameraDimensions() const = 0;
+    virtual glm::ivec2 getCameraDimensions() const = 0;
 
     // Returns the SDL_Rect representing the camera2D.worldLocation's viewport
     virtual SDL_Rect getCameraRect() const = 0;

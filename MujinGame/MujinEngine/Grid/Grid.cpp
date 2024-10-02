@@ -49,7 +49,7 @@ Cell* Grid::getCell(int x, int y)
 
 Cell* Grid::getCell(const Entity& entity)
 {
-	auto& pos = entity.GetComponent<TransformComponent>().position;
+	auto pos = entity.GetComponent<TransformComponent>().getPosition();
 	int cellX = (int)(pos.x / _cellSize);
 	int cellY = (int)(pos.y / _cellSize);
 
@@ -60,7 +60,7 @@ Cell* Grid::getCell(const Entity& entity)
 std::vector<Cell*> Grid::getAdjacentCells(const Entity& entity) {
 	std::vector<Cell*> adjacentCells;
 
-	auto& pos = entity.GetComponent<TransformComponent>().position;
+	auto pos = entity.GetComponent<TransformComponent>().getPosition();
 	int cellX = (int)(pos.x / _cellSize);
 	int cellY = (int)(pos.y / _cellSize);
 

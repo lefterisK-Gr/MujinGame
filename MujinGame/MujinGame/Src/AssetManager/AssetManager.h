@@ -3,7 +3,6 @@
 #include <string>
 #include "TextureManager/TextureManager.h"
 #include "../ShapeManager.h"
-#include "Vector2D/Vector2D.h"
 #include "ECS\ECSManager.h"
 #include <TTF/SDL_ttf.h>
 #include "../Game.h"
@@ -32,8 +31,8 @@ public:
 	void CreateRandomParticlesGenerator();
 	void CreateRain(Entity& entity);
 	void CreateSnow(Entity& entity);
-	void CreateProjectile(Vector2D pos, Vector2D vel,int range, int speed, std::string id);
-	void CreateSkeleton(Vector2D pos, Vector2D vel, std::string id, bool isGiant);
+	void CreateProjectile(glm::ivec2 pos, glm::ivec2 vel,int range, int speed, std::string id);
+	void CreateSkeleton(glm::ivec2 pos, glm::ivec2 vel, std::string id, bool isGiant);
 	void CreateStageUpButtons();
 	void CreateShop();
 	void RefreshShop();
@@ -44,7 +43,7 @@ public:
 	Weather getWeather() const {
 		return _weather;
 	}
-	void CreateGreenKoopaTroopa(Vector2D pos, Vector2D vel, int speed, std::string id);
+	void CreateGreenKoopaTroopa(glm::ivec2 pos, glm::ivec2 vel, int speed, std::string id);
 
 	void CreateEnemies();
 

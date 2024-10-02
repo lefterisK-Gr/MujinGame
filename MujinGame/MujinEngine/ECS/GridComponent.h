@@ -21,7 +21,7 @@ class GridComponent : public Component //GridComp --> ColliderComp
 private: 
 	std::bitset<GRID_CELL_NUM> bitset ;
 public:
-	Vector2D position;
+	glm::ivec2 position;
 	int scaledTile;
 	ColliderComponent* collider = nullptr;
 
@@ -50,7 +50,7 @@ public:
 			entity->addComponent<ColliderComponent>("terrain", (position.x), (position.y), GRID_ELEMENT_WIDTH * GRID_COLUMNS);
 		}
 		else {
-			Vector2D gridPos;
+			glm::ivec2 gridPos;
 
 			for (auto gridindex = 0; gridindex < TILE_NUM_GRID_ELEMENTS; gridindex++)
 			{ //SetGridTileBlock

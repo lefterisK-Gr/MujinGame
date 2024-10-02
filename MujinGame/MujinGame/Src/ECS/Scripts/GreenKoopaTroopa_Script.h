@@ -79,10 +79,10 @@ public:
 			}
 		}
 
-		if (transform->velocity.x < 0) {
+		if (transform->getVelocity().x < 0) {
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
-		else if (transform->velocity.x > 0) {
+		else if (transform->getVelocity().x > 0) {
 			sprite->spriteFlip = SDL_FLIP_NONE;
 		}
 
@@ -91,7 +91,7 @@ public:
 			if (sprite->animation.hasFinished()) {
 				shelltoturtle = false;
 				sprite->spriteFlip = SDL_FLIP_NONE;
-				sprite->transform->velocity.x = -1;
+				sprite->transform->setVelocity_X(-1) ;
 			}
 		}
 
@@ -99,7 +99,7 @@ public:
 			if (sprite->animation.hasFinished()) {
 				this->attackAnimation = false;
 				this->action = GreenKoopaTroopa_Script::greenKoopaTroopaAction::KOOPAACTION_IDLE;
-				transform->velocity.x = 1;
+				transform->setVelocity_X(1);
 			}
 		}
 
@@ -113,8 +113,8 @@ public:
 					auto enemyTransform = *transform;
 					auto playerTransform = p->GetComponent<TransformComponent>();
 
-					if ((enemyTransform.position.x < playerTransform.position.x + 200 && enemyTransform.position.x > playerTransform.position.x) ||
-						(enemyTransform.position.x > playerTransform.position.x - 200 && enemyTransform.position.x < playerTransform.position.x))
+					if ((enemyTransform.getPosition().x < playerTransform.getPosition().x + 200 && enemyTransform.getPosition().x > playerTransform.getPosition().x) ||
+						(enemyTransform.getPosition().x > playerTransform.getPosition().x - 200 && enemyTransform.getPosition().x < playerTransform.getPosition().x))
 					{
 						_projectileEffect.play();
 						Game::assets->CreateProjectile(enemyTransform.getCenterTransform(), playerTransform.getCenterTransform(), 300, 3, "projectile");
@@ -123,7 +123,7 @@ public:
 			}
 			return;
 		}
-		else if (transform->velocity.x != 0)
+		else if (transform->getVelocity().x != 0)
 		{
 			if (action == greenKoopaTroopaAction::KOOPAACTION_WALK)
 				return;

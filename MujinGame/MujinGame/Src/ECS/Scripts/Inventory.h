@@ -59,7 +59,7 @@ public:
 	void update(float deltaTime) override {
 		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-		transform->position.x = isOpen ? main_camera2D->worldLocation.x + 50.0f : -1000.0f;
+		transform->setPosition_X(isOpen ? main_camera2D->worldLocation.x + 50.0f : -1000.0f);
 		
 		for (int i = 0; i < SLOTS_PER_COLUMN; i++) {
 			for (int j = 0; j < SLOTS_PER_ROW; j++) {
@@ -67,11 +67,11 @@ public:
 				if (index < _slots.size()) {
 					auto& slot = _slots[index];
 					// Calculate position based on row and column
-					float posX = transform->position.x + (SLOT_SIZE + SLOT_SPACE) * j;
-					float posY = transform->position.y + (SLOT_SIZE + SLOT_SPACE) * i;
+					float posX = transform->getPosition().x + (SLOT_SIZE + SLOT_SPACE) * j;
+					float posY = transform->getPosition().y + (SLOT_SIZE + SLOT_SPACE) * i;
 
-					slot->GetComponent<TransformComponent>().position.x = posX + 50.0f;
-					slot->GetComponent<TransformComponent>().position.y = posY + 50.0f;
+					slot->GetComponent<TransformComponent>().setPosition_X(posX + 50.0f);
+					slot->GetComponent<TransformComponent>().setPosition_Y(posY + 50.0f);
 				}
 			}
 		}

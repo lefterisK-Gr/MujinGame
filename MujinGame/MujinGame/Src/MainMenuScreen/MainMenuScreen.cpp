@@ -4,7 +4,6 @@
 #include "ECS/Components.h"
 #include "Camera2D/CameraManager.h"
 #include "../ECS/ScriptComponents.h"
-#include "Vector2D/Vector2D.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
 #include "GameScreen/IMainGame.h"

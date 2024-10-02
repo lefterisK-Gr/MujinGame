@@ -48,15 +48,15 @@ public:
 		auto& defenceBtn(manager.addEntity());
 		auto& hpPotionBtn(manager.addEntity());
 
-		attackDamageBtn.addComponent<StageUpButton>("sword", transform->position.x + 0.0f, transform->position.y,isHud);
+		attackDamageBtn.addComponent<StageUpButton>("sword", transform->getPosition().x + 0.0f, transform->getPosition().y, isHud);
 		attackDamageBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleAttackDamageBtn, this));
 		attackDamageBtn.addGroup(Manager::groupStageUpAttackButtons);
 
-		defenceBtn.addComponent<StageUpButton>("shield", transform->position.x + 100.0f, transform->position.y, isHud);
+		defenceBtn.addComponent<StageUpButton>("shield", transform->getPosition().x + 100.0f, transform->getPosition().y, isHud);
 		defenceBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleDefenceBtn, this));
 		defenceBtn.addGroup(Manager::groupStageUpDefenceButtons);
 
-		hpPotionBtn.addComponent<StageUpButton>("healthPotion", transform->position.x + 200.0f, transform->position.y, isHud);
+		hpPotionBtn.addComponent<StageUpButton>("healthPotion", transform->getPosition().x + 200.0f, transform->getPosition().y, isHud);
 		hpPotionBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleHpPotionBtn, this));
 		hpPotionBtn.addGroup(Manager::groupStageUpHpButtons);
 

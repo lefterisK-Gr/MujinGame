@@ -26,7 +26,32 @@ public:
 	void init(int screenWidth, int screenHeight) override {
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
-		_orthoMatrix = glm::ortho(0.0f, (float)_screenWidth, (float)_screenHeight, 0.0f ); //left, right, top, bottom
+
+		GLdouble vvLeft = 0.0f;
+		GLdouble vvRight = (float)_screenWidth;
+		GLdouble vvBottom = (float)_screenHeight;
+		GLdouble vvTop = 0.0f;
+		GLdouble vvNear = 0.1f;
+		GLdouble vvFar = 200.0f;
+
+		GLdouble vvDepth = vvFar - vvNear;
+		GLdouble vvHeight = vvTop - vvBottom;
+
+		const GLdouble vvFovDegs = 45.0;
+		GLdouble vvFovRads = 1.0f;
+
+		_orthoMatrix[0][0] = (2) / (vvRight - vvLeft);
+		_orthoMatrix[1][1] = (2) / (vvTop - vvBottom);
+		_orthoMatrix[3][0] = -(vvRight + vvLeft) / (vvRight - vvLeft);
+		_orthoMatrix[3][1] = -(vvTop + vvBottom) / (vvTop - vvBottom);
+		_orthoMatrix[3][2] = -(vvFar + vvNear) / (vvFar - vvNear);
+
+		_orthoMatrix[2][1] = (vvTop + vvBottom) / (vvTop - vvBottom);
+		_orthoMatrix[2][2] = -(vvFar + vvNear) / (vvFar - vvNear);
+		_orthoMatrix[2][3] = (-1);
+		/*Result[3][2] = -(static_cast<T>(2) * farVal * nearVal) / (farVal - nearVal); */
+		//glm::frustum
+		//_orthoMatrix = glm::frustum(vvLeft, vvRight, vvBottom, vvTop, vvNear, vvFar); //left, right, top, bottom
 	}
 
 	void update() override {
@@ -81,7 +106,7 @@ public:
 		return _cameraMatrix;
 	}
 
-	glm::vec2 getCameraDimensions() const override {
+	glm::ivec2 getCameraDimensions() const override {
 		glm::vec2 cameraDimensions = { _screenWidth, _screenHeight };
 		return cameraDimensions;
 	}

@@ -2,7 +2,6 @@
 
 #include <string>
 #include "../TextureManager/TextureManager.h"
-#include "../Vector2D/Vector2D.h"
 #include "../ECS\ECSManager.h"
 
 class SceneManager //this class created when we added projectiles, based on this class other components changed
@@ -11,10 +10,10 @@ public:
 	SceneManager();
 	~SceneManager();
 
-	Vector2D GetSceneStartupPosition(int i);
+	glm::ivec2 GetSceneStartupPosition(int i);
 	SDL_Rect GetSceneCamera(int i);
 	void AddSceneCamera(SDL_Rect scene);
 private:
-	std::vector<Vector2D> transitionScenePositions;
+	std::vector<glm::ivec2> transitionScenePositions;
 	std::vector<SDL_Rect> sceneCameras;
 };

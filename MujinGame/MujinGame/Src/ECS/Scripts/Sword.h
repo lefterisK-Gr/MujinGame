@@ -64,10 +64,10 @@ public:
 	bool ability1() {
 		if (entity->hasComponent<LivingCharacter>()) {
 			if (!entity->GetComponent<LivingCharacter>().applyMana(10)) {
-				Vector2D centerTransform = transform->getCenterTransform();
-				Vector2D projectileDirection = sprite->spriteFlip == SDL_FLIP_NONE ? Vector2D(1, 0) : Vector2D(-1, 0);
-				Vector2D projectileStartPosition = centerTransform;
-				projectileStartPosition.Add(projectileDirection);
+				glm::vec2 centerTransform = transform->getCenterTransform();
+				glm::vec2 projectileDirection = sprite->spriteFlip == SDL_FLIP_NONE ? glm::vec2(1, 0) : glm::vec2(-1, 0);
+				glm::vec2 projectileStartPosition = centerTransform;
+				projectileStartPosition += projectileDirection;
 				Game::assets->CreateProjectile(centerTransform, projectileStartPosition, 300, 3, "warriorProjectile");
 			}
 		}

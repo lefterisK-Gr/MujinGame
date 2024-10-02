@@ -48,7 +48,7 @@ public:
 			int previousCharX = 0;
 
 			for (auto& l : letters) {
-				l->GetComponent<TransformComponent>().position.x = main_camera2D->worldLocation.x + transform->position.x + previousCharX;
+				l->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldLocation.x + transform->getPosition().x + previousCharX) ;
 				previousCharX += l->GetComponent<TransformComponent>().width;
 			}
 		}
@@ -67,7 +67,7 @@ public:
 		for (char c : label) {
 			auto& label(_manager->addEntity());
 			SDL_Rect charRect = getLetterRect(c);
-			label.addComponent<TransformComponent>(transform->position.x, transform->position.y,
+			label.addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y,
 				charRect.w, charRect.h,//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position
 				1);
 			label.addComponent<SpriteComponent>(fontFamily);

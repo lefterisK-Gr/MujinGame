@@ -30,8 +30,8 @@ public:
 
     void update(float deltaTime) override {
         float parallaxFactor = 1.0f / _zIndex;
-        destRect.x = static_cast<int>(transform->position.x); //make player move with the camera, being stable in centre, except on edges
-        destRect.y = static_cast<int>(transform->position.y);
+        destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
+        destRect.y = static_cast<int>(transform->getPosition().y);
     }
 
     void draw(SpriteBatch&  batch, MujinEngine::Window& window) override

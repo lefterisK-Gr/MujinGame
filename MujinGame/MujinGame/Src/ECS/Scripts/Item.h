@@ -45,7 +45,7 @@ public:
 		entity->addGroup(Manager::groupStageUpButtons);
 
 		itemBack = &manager.addEntity();
-		itemBack->addComponent<TransformComponent>(transform->position.x, transform->position.y, 32.0f, 32.0f, transform->scale);
+		itemBack->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y, 32.0f, 32.0f, transform->scale);
 		itemBack->addComponent<Rectangle_w_Color>();
 		itemBack->GetComponent<Rectangle_w_Color>().color = Color(255, 0, 0, 255); // Grey color
 
@@ -53,7 +53,7 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		itemBack->GetComponent<TransformComponent>().position.x = transform->position.x;
+		itemBack->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x);
 	}
 
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override {

@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL/SDL.h>
 #include "ECS/Components.h"
-#include "Vector2D/Vector2D.h"
 #include "Window/Window.h"
 #include <algorithm>
 
@@ -15,7 +14,7 @@ public:
 	ColSide movingRectColSide;
 
 	SDL_Rect storedColliderRect;
-	Vector2D overlap;
+	glm::ivec2 overlap;
 	bool isSidewaysCollision = false;
 	bool isCollision = false;
 

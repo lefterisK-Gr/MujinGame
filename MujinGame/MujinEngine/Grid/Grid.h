@@ -5,8 +5,6 @@
 
 #include <cmath>
 
-#include "../Vector2D/Vector2D.h"
-
 struct Cell {
 	std::vector<Entity*> entities;
 };

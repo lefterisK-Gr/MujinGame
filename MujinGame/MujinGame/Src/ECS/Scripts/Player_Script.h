@@ -78,7 +78,7 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		light = &manager.addEntity(); 
 
-		light->addComponent<TransformComponent>(transform->position.x, transform->position.y,
+		light->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y,
 			600.0f, 600.0f, transform->scale);
 		light->addComponent<LightComponent>(1);
 		light->GetComponent<LightComponent>().color = Color(255, 0, 0, 150);
@@ -95,11 +95,14 @@ public: // it is like it has init that creates Animator Component since it inher
 	void update(float deltaTime) override {
 		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
+		sprite->destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
+		sprite->destRect.y = static_cast<int>(transform->getPosition().y);
+
 		float parallaxFactor = 1.0f / _zIndex;
 		if (light) {
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
-			light->GetComponent<TransformComponent>().position.x = transform->position.x + transform->width/2 - (main_camera2D->worldLocation.x * parallaxFactor);
-			light->GetComponent<TransformComponent>().position.y = transform->position.y + transform->height/2 - (main_camera2D->worldLocation.y * parallaxFactor);
+			light->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + transform->width / 2 - (main_camera2D->worldLocation.x * parallaxFactor));
+			light->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y + transform->height / 2 - (main_camera2D->worldLocation.y * parallaxFactor));
 		}
 
 		if (!attackAnimation) {
@@ -126,7 +129,7 @@ public: // it is like it has init that creates Animator Component since it inher
 		if (	keyboard->_inputManager.isKeyDown(keyboard->runKey) 
 			&&	(	keyboard->_inputManager.isKeyDown(keyboard->walkRightKey) || keyboard->_inputManager.isKeyDown(keyboard->walkLeftKey)	)) {
 			if (!living->exhaust(0.2f)) {
-				transform->velocity.x *= 1.2;
+				transform->setVelocity_X(transform->getVelocity().x * 1.2);
 			}
 		}
 		else {
@@ -165,7 +168,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				if (this->leftofPipe)
 				{
-					sprite->transform->velocity.x = 0;
+					sprite->transform->setVelocity_X(0);
 					moving_animator->Play("PlayerHorTransition");
 					this->horTransitionPlayerAnimation = true;
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
@@ -175,7 +178,7 @@ public: // it is like it has init that creates Animator Component since it inher
 			{
 				if (this->onPipe)
 				{
-					sprite->transform->velocity.x = 0;
+					sprite->transform->setVelocity_X(0);
 					moving_animator->Play("PlayerVertTransition");
 					this->vertTransitionPlayerAnimation = true;
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
@@ -231,14 +234,14 @@ public: // it is like it has init that creates Animator Component since it inher
 				return;
 			action = playerAction::PLAYERACTION_JUMP;
 		}
-		else if (rigidbody->onGround && transform->velocity.x == 0 
+		else if (rigidbody->onGround && transform->getVelocity().x == 0
 			&& action != playerAction::PLAYERACTION_ATTACK && action != playerAction::PLAYERACTION_ABILITY_1)
 		{
 			if (action == playerAction::PLAYERACTION_IDLE)
 				return;
 			action = playerAction::PLAYERACTION_IDLE;
 		}
-		else if (rigidbody->onGround && transform->velocity.x != 0)
+		else if (rigidbody->onGround && transform->getVelocity().x != 0)
 		{
 			if (action == playerAction::PLAYERACTION_WALK)
 				return;

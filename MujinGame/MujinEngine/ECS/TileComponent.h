@@ -14,7 +14,7 @@ public:
 	std::string textureid;
 
 	SDL_Rect srcRect, destRect;
-	Vector2D position;
+	glm::ivec2 position;
 
 	TransformComponent* transform = nullptr;
 	SpriteComponent* sprite = nullptr;
@@ -55,7 +55,8 @@ public:
 		if (!entity->hasComponent<TransformComponent>())
 		{
 			entity->addComponent<TransformComponent>(position.x, position.y, 32, 32, 1);
-			entity->GetComponent<TransformComponent>().velocity = isHorizon ? Vector2D(-0.2,0) : Vector2D(0, 0);
+			entity->GetComponent<TransformComponent>().setVelocity_X(isHorizon ? -0.2 : 0);
+			entity->GetComponent<TransformComponent>().setVelocity_Y(0);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 

@@ -5,7 +5,6 @@
 #include "Map/Map.h"
 #include "ECS/Components.h"
 #include "ECS/ScriptComponents.h"
-#include "Vector2D/Vector2D.h"
 #include "Collision/Collision.h"
 #include "Map/Map.h"
 #include "AssetManager/AssetManager.h"
@@ -177,15 +176,15 @@ void Game::onEntry()
 	assets->CreateWeather(player1);
 
 	//assets->CreateSkeleton(Vector2D(100, 300), Vector2D(-1, 0), 200, 2, "enemy");
-	assets->CreateSkeleton(Vector2D(3744, 300), Vector2D(-1, 0), "skeleton", false);
-	assets->CreateSkeleton(Vector2D(500, 300), Vector2D(1, 0), "skeleton", false);
-	assets->CreateSkeleton(Vector2D(1000, 300), Vector2D(1, -1), "skeleton", false);
-	assets->CreateSkeleton(Vector2D(1400, 288), Vector2D(-1, -1), "skeleton", false);
-	assets->CreateSkeleton(Vector2D(1900, 300), Vector2D(-1, -1), "skeleton", false);
-	assets->CreateSkeleton(Vector2D(2675, 300), Vector2D(-1, -1), "skeleton", false);
+	assets->CreateSkeleton(glm::ivec2(3744, 300), glm::ivec2(-1, 0), "skeleton", false);
+	assets->CreateSkeleton(glm::ivec2(500, 300), glm::ivec2(1, 0), "skeleton", false);
+	assets->CreateSkeleton(glm::ivec2(1000, 300), glm::ivec2(1, -1), "skeleton", false);
+	assets->CreateSkeleton(glm::ivec2(1400, 288), glm::ivec2(-1, -1), "skeleton", false);
+	assets->CreateSkeleton(glm::ivec2(1900, 300), glm::ivec2(-1, -1), "skeleton", false);
+	assets->CreateSkeleton(glm::ivec2(2675, 300), glm::ivec2(-1, -1), "skeleton", false);
 
-	assets->CreateGreenKoopaTroopa(Vector2D(200, 400), Vector2D(-1, 0), 2, "greenkoopatroopa");
-	assets->CreateGreenKoopaTroopa(Vector2D(3644, 100), Vector2D(-1, -1), 2, "greenkoopatroopa");
+	assets->CreateGreenKoopaTroopa(glm::ivec2(200, 400), glm::ivec2(-1, 0), 2, "greenkoopatroopa");
+	assets->CreateGreenKoopaTroopa(glm::ivec2(3644, 100), glm::ivec2(-1, -1), 2, "greenkoopatroopa");
 
 	assets->CreateShop();
 	assets->CreateInventory();
@@ -332,7 +331,7 @@ void Game::update(float deltaTime) //game objects updating
 
 							if (hasCollision) {
 								collisionDetected = true;
-								enemy->GetComponent<TransformComponent>().position.y -= 32;
+								enemy->GetComponent<TransformComponent>().setPosition_Y(enemy->GetComponent<TransformComponent>().getPosition().y - 32);
 								enemy->GetComponent<ColliderComponent>().update(1.0f);
 								break;
 							}
@@ -497,9 +496,9 @@ void Game::update(float deltaTime) //game objects updating
 							collision.moveFromCollision(*enemy);
 							enemy->GetComponent<ColliderComponent>().update(1.0f);
 
-							if ((enemy->GetComponent<TransformComponent>().velocity.x < 0 && collision.movingRectColSide == Collision::ColSide::LEFT) 
-								|| (enemy->GetComponent<TransformComponent>().velocity.x > 0 && collision.movingRectColSide == Collision::ColSide::RIGHT)) {
-								enemy->GetComponent<TransformComponent>().velocity.x *= -1;
+							if ((enemy->GetComponent<TransformComponent>().getVelocity().x < 0 && collision.movingRectColSide == Collision::ColSide::LEFT)
+								|| (enemy->GetComponent<TransformComponent>().getVelocity().x > 0 && collision.movingRectColSide == Collision::ColSide::RIGHT)) {
+								enemy->GetComponent<TransformComponent>().setVelocity_X(enemy->GetComponent<TransformComponent>().getVelocity().x * -1);
 							}
 						}
 						if (!collision.isSidewaysCollision) {
@@ -514,9 +513,9 @@ void Game::update(float deltaTime) //game objects updating
 				}
 			}
 			if (collision.moveFromOuterBounds(*enemy, *_window)) {
-				enemy->GetComponent<TransformComponent>().velocity.x *= -1;
+				enemy->GetComponent<TransformComponent>().setVelocity_X(enemy->GetComponent<TransformComponent>().getVelocity().x * -1);
 			}
-			if (enemy->GetComponent<TransformComponent>().position.y > (main_camera2D->worldLocation.y + main_camera2D->worldLocation.h))
+			if (enemy->GetComponent<TransformComponent>().getPosition().y > (main_camera2D->worldLocation.y + main_camera2D->worldLocation.h))
 				enemy->destroy();
 		}
 	}
@@ -534,18 +533,18 @@ void Game::update(float deltaTime) //game objects updating
 				
 				if (enemy != greenkoopatroopas || !e->GetComponent<GreenKoopaTroopa_Script>().shelltoturtle)
 				{
-					if (e->GetComponent<TransformComponent>().position.x < player->GetComponent<TransformComponent>().position.x + 300
-						&& e->GetComponent<TransformComponent>().position.x > player->GetComponent<TransformComponent>().position.x) {
-						e->GetComponent<TransformComponent>().velocity.x = -1;
+					if (e->GetComponent<TransformComponent>().getPosition().x < player->GetComponent<TransformComponent>().getPosition().x + 300
+						&& e->GetComponent<TransformComponent>().getPosition().x > player->GetComponent<TransformComponent>().getPosition().x) {
+						e->GetComponent<TransformComponent>().setVelocity_X(-1) ;
 					}
-					else if (e->GetComponent<TransformComponent>().position.x > player->GetComponent<TransformComponent>().position.x - 300
-						&& e->GetComponent<TransformComponent>().position.x < player->GetComponent<TransformComponent>().position.x) {
-						e->GetComponent<TransformComponent>().velocity.x = 1;
+					else if (e->GetComponent<TransformComponent>().getPosition().x > player->GetComponent<TransformComponent>().getPosition().x - 300
+						&& e->GetComponent<TransformComponent>().getPosition().x < player->GetComponent<TransformComponent>().getPosition().x) {
+						e->GetComponent<TransformComponent>().setVelocity_X(1);
 					}
 				}
 				if (enemy == skeletons && e->GetComponent<Skeleton_Script>().attackAnimation ||
 					enemy == greenkoopatroopas && e->GetComponent<GreenKoopaTroopa_Script>().attackAnimation) {
-					e->GetComponent<TransformComponent>().velocity.x = 0;
+					e->GetComponent<TransformComponent>().setVelocity_X (0);
 				}
 				
 
@@ -553,10 +552,10 @@ void Game::update(float deltaTime) //game objects updating
 
 					if (collision.movingRectColSide == Collision::ColSide::DOWN) {
 						player->GetComponent<RigidBodyComponent>().onGround = true;
-						player->GetComponent<TransformComponent>().velocity.y = -20;
+						player->GetComponent<TransformComponent>().setVelocity_Y(-20) ;
 						if (enemy == greenkoopatroopas) //green koopa troopa case
 						{
-							e->GetComponent<TransformComponent>().velocity.x = 0;
+							e->GetComponent<TransformComponent>().setVelocity_X(0) ;
 							e->GetComponent<AnimatorComponent>().Play("GreenShell");
 							e->GetComponent<GreenKoopaTroopa_Script>().shelltoturtle = true;
 						}
@@ -613,8 +612,8 @@ void Game::update(float deltaTime) //game objects updating
 					auto enemyTransform = e->GetComponent<TransformComponent>();
 					auto playerTransform = player->GetComponent<TransformComponent>();
 
-					if ((enemyTransform.position.x < playerTransform.position.x + 200 && enemyTransform.position.x > playerTransform.position.x) ||
-						(enemyTransform.position.x > playerTransform.position.x - 200 && enemyTransform.position.x < playerTransform.position.x))
+					if ((enemyTransform.getPosition().x < playerTransform.getPosition().x + 200 && enemyTransform.getPosition().x > playerTransform.getPosition().x) ||
+						(enemyTransform.getPosition().x > playerTransform.getPosition().x - 200 && enemyTransform.getPosition().x < playerTransform.getPosition().x))
 					{
 						e->GetComponent<GreenKoopaTroopa_Script>().activateShoot();
 					}
@@ -690,8 +689,10 @@ void Game::update(float deltaTime) //game objects updating
 	
 	for (auto& pl : players) //player rules
 	{
-		main_camera2D->worldLocation.x = pl->GetComponent<TransformComponent>().position.x - main_camera2D->getCameraDimensions().x/2;
-		if (pl->GetComponent<TransformComponent>().position.y >(main_camera2D->worldLocation.y + main_camera2D->worldLocation.h)) //player death
+		main_camera2D->worldLocation.x = pl->GetComponent<TransformComponent>().getPosition().x - main_camera2D->getCameraDimensions().x / 2;
+		main_camera2D->setPosition(glm::vec2(pl->GetComponent<TransformComponent>().getPosition() - main_camera2D->getCameraDimensions() / glm::ivec2(2)));
+
+		if (pl->GetComponent<TransformComponent>().getPosition().y >(main_camera2D->worldLocation.y + main_camera2D->worldLocation.h)) //player death
 		{
 			for (auto& player : players)
 			{
@@ -706,7 +707,8 @@ void Game::update(float deltaTime) //game objects updating
 		{
 			for (auto& pl : players)
 			{
-				pl->GetComponent<TransformComponent>().position = scenes->GetSceneStartupPosition(0);
+				pl->GetComponent<TransformComponent>().setPosition_X(scenes->GetSceneStartupPosition(0).x);
+				pl->GetComponent<TransformComponent>().setPosition_Y(scenes->GetSceneStartupPosition(0).y);
 			}
 			main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
 			main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
@@ -716,8 +718,8 @@ void Game::update(float deltaTime) //game objects updating
 	}
 
 	for (auto& clouds : backgroundtiles) {
-		if (clouds->GetComponent<TransformComponent>().position.x + clouds->GetComponent<TransformComponent>().width < 0) {
-			clouds->GetComponent<TransformComponent>().position.x = main_camera2D->worldLocation.w * 1.0f/3.0f +_window->getScreenWidth(); //due to cloud z-index
+		if (clouds->GetComponent<TransformComponent>().getPosition().x + clouds->GetComponent<TransformComponent>().width < 0) {
+			clouds->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldLocation.w * 1.0f / 3.0f + _window->getScreenWidth())  ; //due to cloud z-index
 		}
 	}
 
@@ -751,7 +753,7 @@ void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
 	{
 		for (auto& entity : groups) {
 			TransformComponent* tr = &entity->GetComponent<TransformComponent>();
-			glm::vec2 pos = glm::vec2(tr->position.x, tr->position.y);
+			glm::vec2 pos = glm::vec2(tr->getPosition().x, tr->getPosition().y);
 			// Check if the mouse click is within the entity's bounding box
 			if (worldCoords.x > pos.x && worldCoords.x < pos.x + tr->width &&
 				worldCoords.y > pos.y && worldCoords.y < pos.y + tr->height) {
@@ -796,8 +798,8 @@ void Game::checkInput() {
 				std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
 			}
 			if (_selectedEntity) {
-				_selectedEntity->GetComponent<TransformComponent>().position.x = mouseCoordsVec.x + main_camera2D->worldLocation.x;
-				_selectedEntity->GetComponent<TransformComponent>().position.y = mouseCoordsVec.y + main_camera2D->worldLocation.y;
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(mouseCoordsVec.x + main_camera2D->worldLocation.x);
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y ( mouseCoordsVec.y + main_camera2D->worldLocation.y);
 				if(_selectedEntity->hasComponent<GridComponent>())
 					_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
 			}
@@ -859,7 +861,7 @@ void Game::updateUI() {
 		// Example: Display components of the selected entity
 		if (_selectedEntity->hasComponent<TransformComponent>()) {
 			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%.2f, %.2f)", tr->position.x, tr->position.y);
+			ImGui::Text("Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
 			ImGui::Text("Size: (%.2f, %.2f)", tr->width, tr->height);
 		}
 	}
@@ -890,7 +892,7 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 
 		if (lightTransform) {
 			Light tempLight;
-			tempLight.position = glm::vec2(lightTransform->position.x, lightTransform->position.y);
+			tempLight.position = glm::vec2(lightTransform->getPosition().x, lightTransform->getPosition().y);
 			tempLight.radius = 100.0f;
 
 			lightsPos.push_back(tempLight);
@@ -1149,8 +1151,8 @@ void Game::draw()
 					TransformComponent* tr = &entity->GetComponent<TransformComponent>();
 
 					glm::vec4 destRect;
-					destRect.x = tr->position.x;
-					destRect.y = tr->position.y;
+					destRect.x = tr->getPosition().x;
+					destRect.y = tr->getPosition().y;
 					destRect.z = tr->width;
 					destRect.w = tr->height;
 					_debugRenderer.drawBox(destRect, Color(255, 255, 255, 255), 0.0f); //todo add angle for drawbox
@@ -1164,8 +1166,8 @@ void Game::draw()
 			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
 
 			glm::vec4 destRect;
-			destRect.x = tr->position.x;
-			destRect.y = tr->position.y;
+			destRect.x = tr->getPosition().x;
+			destRect.y = tr->getPosition().y;
 			destRect.z = tr->width;
 			destRect.w = tr->height;
 			_debugRenderer.drawBox(destRect, Color(255, 255, 0, 255), 0.0f); //todo add angle for drawbox
