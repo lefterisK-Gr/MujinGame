@@ -33,10 +33,8 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-
-		destRect.x = static_cast<int>(transform->getPosition().x) - main_camera2D->worldLocation.x; //make player move with the camera, being stable in centre, except on edges
-		destRect.y = static_cast<int>(transform->getPosition().y) - main_camera2D->worldLocation.y;
+		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
+		destRect.y = static_cast<int>(transform->getPosition().y);
 	}
 
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override {

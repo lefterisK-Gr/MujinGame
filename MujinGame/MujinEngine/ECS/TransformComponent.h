@@ -68,8 +68,7 @@ public:
 
 		SDL_Rect dimensions = { _position.x, _position.y, width, height };
 		SDL_Rect cameraDimensions = main_camera2D->getCameraRect();
-		cameraDimensions.x = main_camera2D->worldLocation.x >= 0 ? main_camera2D->worldLocation.x : 0;
-		cameraDimensions.y = main_camera2D->worldLocation.y >= 0 ? main_camera2D->worldLocation.y : 0;
+
 		if (entity->checkCollision(dimensions, cameraDimensions)) { //culling
 			entity->paused = false;
 		}

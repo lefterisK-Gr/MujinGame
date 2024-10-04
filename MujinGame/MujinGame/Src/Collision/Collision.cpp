@@ -67,11 +67,11 @@ bool Collision::moveFromOuterBounds(Entity& entity, MujinEngine::Window& window)
 	auto pos = entity.GetComponent<TransformComponent>().getPosition();
 
 	if (pos.x < 0) {
-		pos.x = 0;
+		entity.GetComponent<TransformComponent>().setPosition_X(0);
 		return true;
 	}
-	else if (pos.x + entity.GetComponent<TransformComponent>().width > main_camera2D->worldLocation.w + window.getScreenWidth()) {
-		pos.x = main_camera2D->worldLocation.w + window.getScreenWidth() - entity.GetComponent<TransformComponent>().width;
+	else if (pos.x + entity.GetComponent<TransformComponent>().width > main_camera2D->worldDimensions.x + window.getScreenWidth()) {
+		entity.GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldDimensions.x + window.getScreenWidth() - entity.GetComponent<TransformComponent>().width);
 		return true;
 	}
 	return false;

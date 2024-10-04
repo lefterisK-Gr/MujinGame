@@ -93,7 +93,6 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void update(float deltaTime) override {
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
 		sprite->destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		sprite->destRect.y = static_cast<int>(transform->getPosition().y);
@@ -101,8 +100,8 @@ public: // it is like it has init that creates Animator Component since it inher
 		float parallaxFactor = 1.0f / _zIndex;
 		if (light) {
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
-			light->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + transform->width / 2 - (main_camera2D->worldLocation.x * parallaxFactor));
-			light->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y + transform->height / 2 - (main_camera2D->worldLocation.y * parallaxFactor));
+			light->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + transform->width / 2 );
+			light->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y + transform->height / 2);
 		}
 
 		if (!attackAnimation) {

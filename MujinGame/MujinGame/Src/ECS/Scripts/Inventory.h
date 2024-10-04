@@ -59,7 +59,7 @@ public:
 	void update(float deltaTime) override {
 		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-		transform->setPosition_X(isOpen ? main_camera2D->worldLocation.x + 50.0f : -1000.0f);
+		transform->setPosition_X(isOpen ? 50.0f : -1000.0f);
 		
 		for (int i = 0; i < SLOTS_PER_COLUMN; i++) {
 			for (int j = 0; j < SLOTS_PER_ROW; j++) {

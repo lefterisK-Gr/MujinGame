@@ -55,8 +55,6 @@ public:
 
 	void update(float deltaTime) override
 	{
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-
 		if (tag != "terrain") // for all npcs
 		{
 			collider.x = static_cast<int>(transform->getPosition().x) + (2 * (transform->scale) * COL_POS_OFFSET);

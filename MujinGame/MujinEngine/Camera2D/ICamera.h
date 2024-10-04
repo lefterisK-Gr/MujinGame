@@ -24,7 +24,8 @@ public:
 
     // Additional methods to expose camera2D.worldLocation properties as needed
     virtual glm::vec2 getPosition() const = 0;
-    virtual void setPosition(const glm::vec2& position) = 0;
+    virtual void setPosition_X(const float newPosition) = 0;
+    virtual void setPosition_Y(const float newPosition) = 0;
     virtual float getScale() const = 0;
     virtual glm::mat4 getCameraMatrix() const = 0;
     virtual void setScale(float scale) = 0;

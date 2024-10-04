@@ -12,6 +12,8 @@
 #include "../Camera2D/CameraManager.h"
 #include "../Window/Window.h"
 
+#define CULLING_OFFSET 100
+
 class Component;
 class Entity;
 class Manager;
@@ -79,8 +81,8 @@ public:
 	bool paused = false;
 
 	bool checkCollision(const SDL_Rect recA, const SDL_Rect recB) {
-		if (recA.x > recB.x + recB.w + 100 || recA.x + recA.w < recB.x - 100 ||
-			recA.y > recB.y + recB.h + 100 || recA.y + recA.h < recB.y - 100) {
+		if (recA.x > recB.x + recB.w + CULLING_OFFSET || recA.x + recA.w < recB.x - CULLING_OFFSET ||
+			recA.y > recB.y + recB.h + CULLING_OFFSET || recA.y + recA.h < recB.y - CULLING_OFFSET) {
 			return false; // no collision
 		}
 		return true;

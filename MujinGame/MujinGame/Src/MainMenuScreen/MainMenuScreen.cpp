@@ -57,10 +57,11 @@ void MainMenuScreen::onEntry()
 	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
 	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
-	hud_camera2D->setPosition(hud_camera2D->getPosition() /*+ glm::vec2(
+	hud_camera2D->setPosition_X(hud_camera2D->getPosition().x /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
-	)*/);;
+	)*/);
+	hud_camera2D->setPosition_Y(hud_camera2D->getPosition().y);
 	hud_camera2D->setScale(1.0f);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)

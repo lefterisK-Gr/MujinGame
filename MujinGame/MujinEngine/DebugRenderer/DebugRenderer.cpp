@@ -102,13 +102,11 @@ void DebugRenderer::end()
 
 void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float angle)
 {
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-
 	int i = _verts.size();
 	_verts.resize(_verts.size() + 4); // more efficient than calling pushBack 4 times
 
-	float centerX = destRect.x + destRect.z / 2.0f - main_camera2D->worldLocation.x;
-	float centerY = destRect.y + destRect.w / 2.0f - main_camera2D->worldLocation.y;
+	float centerX = destRect.x + destRect.z / 2.0f;
+	float centerY = destRect.y + destRect.w / 2.0f;
 
 	// Convert angle from degrees to radians if necessary
 	float radians = glm::radians(angle);
@@ -123,7 +121,7 @@ void DebugRenderer::drawBox(const glm::vec4& destRect, const Color& color, float
 		);
 		};
 
-	glm::vec2 positionOffset(destRect.x - main_camera2D->worldLocation.x, destRect.y - main_camera2D->worldLocation.y);
+	glm::vec2 positionOffset(destRect.x , destRect.y );
 
 	_verts[  i  ].position = rotatePoint(positionOffset.x, positionOffset.y + destRect.w);
 	_verts[i + 1].position = rotatePoint(positionOffset.x, positionOffset.y);

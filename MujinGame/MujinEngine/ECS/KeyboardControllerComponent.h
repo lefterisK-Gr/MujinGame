@@ -6,6 +6,9 @@
 #include <MMSystem.h>
 #include "../InputManager/InputManager.h"
 
+constexpr float walkingSpeed = 3.5f, runningSpeed = 4.5f, jumpingSpeed = 3.0f;
+
+
 class KeyboardControllerComponent : public Component //! moving animation
 {
 public: //TODO: maybe have variables as private
@@ -75,13 +78,13 @@ public: //TODO: maybe have variables as private
 			{
 				//PlaySound(TEXT("jump.wav"), NULL, SND_ASYNC);
 				rigidbody->justjumped = true;
-				transform->setVelocity_Y(-3);
+				transform->setVelocity_Y(-jumpingSpeed);
 				//animation->Play(jumpAnimation.c_str()); // todo maybe not needing that because of !rigidbody->onGround
 			}
 		}
 
 		if (_inputManager.isKeyDown(walkLeftKey)) {
-			transform->setVelocity_X(-3.5);
+			transform->setVelocity_X(-runningSpeed);
 
 			sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 		}
@@ -91,17 +94,17 @@ public: //TODO: maybe have variables as private
 				animator->sprite->spriteFlip = SDL_FLIP_NONE;
 			}
 
-			transform->setVelocity_X(3.5);
+			transform->setVelocity_X(runningSpeed);
 		}
 		if (!_inputManager.isKeyDown(walkRightKey) && !_inputManager.isKeyDown(walkLeftKey)) {
 			transform->setVelocity_X(0);
 		}
 		if (!_inputManager.isKeyDown(runKey)) {
 			if (_inputManager.isKeyDown(walkLeftKey)) {
-				transform->setVelocity_X(-2.5) ;  // Set velocity to 1 (walking speed) in left direction
+				transform->setVelocity_X(-walkingSpeed) ;  // Set velocity to 1 (walking speed) in left direction
 			}
 			else if (_inputManager.isKeyDown(walkRightKey)) {
-				transform->setVelocity_X(2.5);   // Set velocity to 1 (walking speed) in right direction
+				transform->setVelocity_X(walkingSpeed);   // Set velocity to 1 (walking speed) in right direction
 			}
 		}
 	}

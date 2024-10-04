@@ -57,10 +57,8 @@ public:
 
 	void update(float deltaTime) override {
 		if (isHud) {
-			std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-
-			entity->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldLocation.x + offsetX);
-			stageUpBtnBack->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldLocation.x + offsetX);
+			entity->GetComponent<TransformComponent>().setPosition_X( offsetX);
+			stageUpBtnBack->GetComponent<TransformComponent>().setPosition_X(offsetX);
 		}
 	}
 

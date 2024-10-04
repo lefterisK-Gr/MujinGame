@@ -278,7 +278,7 @@ void Map::ProcessLayer(std::fstream& mapFile, void (Map::* addTileFunction)(Enti
 	}
 }
 
-SDL_Rect Map::GetLayerDimensions(std::string filePath)
+glm::ivec2 Map::GetLayerDimensions(std::string filePath)
 {
 	std::fstream mapFile;
 
@@ -309,7 +309,7 @@ SDL_Rect Map::GetLayerDimensions(std::string filePath)
 	mapFile.clear();  
 	mapFile.seekg(0);
 
-	return SDL_Rect{ 0, 0, width * scaledSize, height * scaledSize };
+	return glm::ivec2(width * scaledSize, height * scaledSize );
 }
 
 bool Map::tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize) {

@@ -6,7 +6,7 @@
 
 class Camera2D : public ICamera{
 public:
-	SDL_Rect worldLocation;
+	glm::ivec2 worldDimensions;
 
 	Camera2D() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
@@ -75,16 +75,21 @@ public:
 		screenCoords /= _scale;
 		screenCoords += glm::vec2(_screenWidth / 2, _screenHeight / 2);
 		//Translate with the camera2D.worldLocation position
-		screenCoords.x += worldLocation.x;
-		screenCoords.y += worldLocation.y;
+		screenCoords.x += _position.x;
+		screenCoords.y += _position.y;
 
 
 		return screenCoords;
 	}
 
 	//setters
-	void setPosition(const glm::vec2& newPosition) override {
-		_position = newPosition;
+	void setPosition_X(const float newPosition) override {
+		_position.x = newPosition;
+		_cameraChange = true;
+	}
+
+	void setPosition_Y(const float newPosition) override {
+		_position.y = newPosition;
 		_cameraChange = true;
 	}
 
@@ -112,13 +117,13 @@ public:
 	}
 
 	SDL_Rect getCameraRect() const override {
-		int cameraWidth = getCameraDimensions().x / getScale();
-		int cameraHeight = getCameraDimensions().y / getScale();
+		float cameraWidth = getCameraDimensions().x / getScale();
+		float cameraHeight = getCameraDimensions().y / getScale();
 
-		int cameraX = getCameraDimensions().x / 2 - cameraWidth / 2;
-		int cameraY = getCameraDimensions().y / 2 - cameraHeight / 2;
+		int cameraX = _position.x - cameraWidth / 2.0f + getCameraDimensions().x / 2;
+		int cameraY = _position.y - cameraHeight / 2.0f + getCameraDimensions().y / 2;
 
-		SDL_Rect cameraRect = { cameraX, cameraY, cameraWidth, cameraHeight };
+		SDL_Rect cameraRect = { cameraX , cameraY , cameraWidth, cameraHeight };
 		return cameraRect;
 	}
 

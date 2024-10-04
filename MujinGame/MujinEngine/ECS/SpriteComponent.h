@@ -68,8 +68,6 @@ public:
 
 	void init() override
 	{
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-
 		if (!entity->hasComponent<TransformComponent>())
 		{
 			entity->addComponent<TransformComponent>();
@@ -81,15 +79,9 @@ public:
 		srcRect.h = transform->height;
 
 		float parallaxFactor = 1.0f / _zIndex;
-		if (_isMainMenu) {
-			destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
-			destRect.y = static_cast<int>(transform->getPosition().y);
-		}
-		else
-		{
-			destRect.x = static_cast<int>(transform->getPosition().x) - (main_camera2D->worldLocation.x * parallaxFactor); //make player move with the camera, being stable in centre, except on edges
-			destRect.y = static_cast<int>(transform->getPosition().y) - main_camera2D->worldLocation.y;
-		}
+		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
+		destRect.y = static_cast<int>(transform->getPosition().y);
+
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 
@@ -98,8 +90,6 @@ public:
 
 	void update(float deltaTime) override
 	{
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-
 		float parallaxFactor = 1.0f / _zIndex;
 		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->getPosition().y);
@@ -160,10 +150,9 @@ public:
 	}
 
 	void setMoveFrame() {
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-		this->destRect.x = (static_cast<int>(this->transform->getPosition().x) - main_camera2D->worldLocation.x + this->moving_animation.indexX) /* init */ + (this->moving_animation.distanceX * moving_animation.cur_frame_index);
-		this->destRect.y = (static_cast<int>(this->transform->getPosition().y) - main_camera2D->worldLocation.y + this->moving_animation.indexY) + (this->moving_animation.distanceY * moving_animation.cur_frame_index);
+		this->destRect.x = (static_cast<int>(this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.distanceX * moving_animation.cur_frame_index);
+		this->destRect.y = (static_cast<int>(this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.distanceY * moving_animation.cur_frame_index);
 	}
 
 	void setFlashFrame() {

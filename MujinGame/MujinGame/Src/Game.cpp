@@ -68,10 +68,11 @@ void Game::onEntry()
 	_debugRenderer.init();
 
 	main_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
-	main_camera2D->setPosition(main_camera2D->getPosition() /*+ glm::vec2(
+	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
-	)*/);;
+	)*/);
+	main_camera2D->setPosition_Y(main_camera2D->getPosition().y);
 	main_camera2D->setScale(1.0f);
 
 	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight());
@@ -162,10 +163,10 @@ void Game::onEntry()
 
 	Game::map = new Map("terrain", 1, 32);
 
-	main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
-	main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
+	main_camera2D->worldDimensions= map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
+	main_camera2D->worldDimensions.x = main_camera2D->worldDimensions.x - _window->getScreenWidth();
 
-	manager.grid = std::make_unique<Grid>(main_camera2D->worldLocation.w + _window->getScreenWidth(), main_camera2D->worldLocation.h, CELL_SIZE);
+	manager.grid = std::make_unique<Grid>(main_camera2D->worldDimensions.x + _window->getScreenWidth(), main_camera2D->worldDimensions.y, CELL_SIZE);
 
 	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
 
@@ -515,7 +516,7 @@ void Game::update(float deltaTime) //game objects updating
 			if (collision.moveFromOuterBounds(*enemy, *_window)) {
 				enemy->GetComponent<TransformComponent>().setVelocity_X(enemy->GetComponent<TransformComponent>().getVelocity().x * -1);
 			}
-			if (enemy->GetComponent<TransformComponent>().getPosition().y > (main_camera2D->worldLocation.y + main_camera2D->worldLocation.h))
+			if (enemy->GetComponent<TransformComponent>().getPosition().y > (main_camera2D->getPosition().y + main_camera2D->worldDimensions.y))
 				enemy->destroy();
 		}
 	}
@@ -689,10 +690,9 @@ void Game::update(float deltaTime) //game objects updating
 	
 	for (auto& pl : players) //player rules
 	{
-		main_camera2D->worldLocation.x = pl->GetComponent<TransformComponent>().getPosition().x - main_camera2D->getCameraDimensions().x / 2;
-		main_camera2D->setPosition(glm::vec2(pl->GetComponent<TransformComponent>().getPosition() - main_camera2D->getCameraDimensions() / glm::ivec2(2)));
+		main_camera2D->setPosition_X(pl->GetComponent<TransformComponent>().getPosition().x - main_camera2D->getCameraDimensions().x / 2);
 
-		if (pl->GetComponent<TransformComponent>().getPosition().y >(main_camera2D->worldLocation.y + main_camera2D->worldLocation.h)) //player death
+		if (pl->GetComponent<TransformComponent>().getPosition().y >(main_camera2D->getPosition().y + main_camera2D->worldDimensions.y)) //player death
 		{
 			for (auto& player : players)
 			{
@@ -710,8 +710,8 @@ void Game::update(float deltaTime) //game objects updating
 				pl->GetComponent<TransformComponent>().setPosition_X(scenes->GetSceneStartupPosition(0).x);
 				pl->GetComponent<TransformComponent>().setPosition_Y(scenes->GetSceneStartupPosition(0).y);
 			}
-			main_camera2D->worldLocation = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
-			main_camera2D->worldLocation.w = main_camera2D->worldLocation.w - _window->getScreenWidth();
+			main_camera2D->worldDimensions = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
+			main_camera2D->worldDimensions.x = main_camera2D->worldDimensions.x - _window->getScreenWidth();
 		}
 		p->GetComponent<Player_Script>().finishedHorAnimation = false;
 		p->GetComponent<Player_Script>().finishedVertAnimation = false;
@@ -719,7 +719,7 @@ void Game::update(float deltaTime) //game objects updating
 
 	for (auto& clouds : backgroundtiles) {
 		if (clouds->GetComponent<TransformComponent>().getPosition().x + clouds->GetComponent<TransformComponent>().width < 0) {
-			clouds->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldLocation.w * 1.0f / 3.0f + _window->getScreenWidth())  ; //due to cloud z-index
+			clouds->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldDimensions.x * 1.0f / 3.0f + _window->getScreenWidth())  ; //due to cloud z-index
 		}
 	}
 
@@ -734,10 +734,10 @@ void Game::update(float deltaTime) //game objects updating
 		}
 	}
 
-	if (main_camera2D->worldLocation.x < 0)
-		main_camera2D->worldLocation.x = 0;
-	if (main_camera2D->worldLocation.x > main_camera2D->worldLocation.w)
-		main_camera2D->worldLocation.x = main_camera2D->worldLocation.w;
+	if (main_camera2D->getPosition().x < 0)
+		main_camera2D->setPosition_X(0.0f);
+	if (main_camera2D->getPosition().x > main_camera2D->worldDimensions.x)
+		main_camera2D->setPosition_X(main_camera2D->worldDimensions.x);
 }
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
@@ -748,7 +748,7 @@ glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
 }
 
 void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
-
+	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 	for (auto& groups : { tiles,skeletons , greenkoopatroopas })
 	{
 		for (auto& entity : groups) {
@@ -792,14 +792,11 @@ void Game::checkInput() {
 			break;
 		case SDL_MOUSEMOTION:
 			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
-
-			if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT))
-			{
-				std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
-			}
+			_game->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+			mouseCoordsVec = _game->_inputManager.getMouseCoords();
 			if (_selectedEntity) {
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(mouseCoordsVec.x + main_camera2D->worldLocation.x);
-				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y ( mouseCoordsVec.y + main_camera2D->worldLocation.y);
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_X(convertScreenToWorld(mouseCoordsVec ).x);
+				_selectedEntity->GetComponent<TransformComponent>().setPosition_Y (convertScreenToWorld(mouseCoordsVec ).y);
 				if(_selectedEntity->hasComponent<GridComponent>())
 					_selectedEntity->GetComponent<GridComponent>().updateCollidersGrid();
 			}
@@ -853,16 +850,17 @@ void Game::updateUI() {
 
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
-	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->worldLocation.x, main_camera2D->worldLocation.y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
-	
+	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
+	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _game->_inputManager.getMouseCoords().x, _game->_inputManager.getMouseCoords().y);
+
 	if (_selectedEntity) {
 		ImGui::Text("Selected Entity Details");
 
 		// Example: Display components of the selected entity
 		if (_selectedEntity->hasComponent<TransformComponent>()) {
 			TransformComponent* tr = &_selectedEntity->GetComponent<TransformComponent>();
-			ImGui::Text("Position: (%.2f, %.2f)", tr->getPosition().x, tr->getPosition().y);
-			ImGui::Text("Size: (%.2f, %.2f)", tr->width, tr->height);
+			ImGui::Text("Position: (%d, %d)", tr->getPosition().x, tr->getPosition().y);
+			ImGui::Text("Size: (%d, %d)", tr->width, tr->height);
 		}
 	}
 	ImGui::End();
