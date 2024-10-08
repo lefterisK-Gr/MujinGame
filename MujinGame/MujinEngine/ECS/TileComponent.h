@@ -9,7 +9,6 @@ class TileComponent : public Component //tileComp --> GridComp --> ColliderComp 
 public:
 	bool fullSolid;
 	bool hasGrid = false;
-	bool isHorizon = false;
 
 	std::string textureid;
 
@@ -28,7 +27,7 @@ public:
 	{
 	}
 
-	TileComponent(int srcX, int srcY, int xpos, int ypos,int tsize, int tscale, std::string id , bool isSolid , bool ishor)
+	TileComponent(int srcX, int srcY, int xpos, int ypos,int tsize, int tscale, std::string id , bool isSolid )
 	{
 		textureid = id;
 
@@ -45,8 +44,6 @@ public:
 
 		fullSolid = isSolid; //todo remove this (have instead an array that shows the indexes in grid where its solid)
 
-		isHorizon = ishor; //todo remove this (use z-order)
-
 		scaledTile = tsize * tscale;
 	}
 	
@@ -55,14 +52,14 @@ public:
 		if (!entity->hasComponent<TransformComponent>())
 		{
 			entity->addComponent<TransformComponent>(position.x, position.y, 32, 32, 1);
-			entity->GetComponent<TransformComponent>().setVelocity_X(isHorizon ? -0.2 : 0);
+			entity->GetComponent<TransformComponent>().setVelocity_X(0);
 			entity->GetComponent<TransformComponent>().setVelocity_Y(0);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 
 		if (!entity->hasComponent<SpriteComponent>())
 		{
-			entity->addComponent<SpriteComponent>(textureid, isHorizon ? 3.0f : 1.0f);
+			entity->addComponent<SpriteComponent>(textureid, 1.0f);
 		}
 		sprite = &entity->GetComponent<SpriteComponent>();
 		sprite->srcRect = this->srcRect;

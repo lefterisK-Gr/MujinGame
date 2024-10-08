@@ -39,6 +39,6 @@ public:
         float tempScreenScale = window.getScale();
         glm::vec4 pos((float)destRect.x * tempScreenScale, (float)destRect.y * tempScreenScale,
             (float)destRect.w * tempScreenScale, (float)destRect.h * tempScreenScale);
-        batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 0.0f, color);
+        batch.draw(pos, glm::vec4(-1.0f, -1.0f, 2.0f, 2.0f), 0, 10.0f, color);
 	}
 };

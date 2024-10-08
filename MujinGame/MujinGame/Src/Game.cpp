@@ -851,6 +851,39 @@ void Game::updateUI() {
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
 	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][0]);
+	ImGui::SliderFloat("_orthoMatrix[0][0]", &main_camera2D->_orthoMatrix[0][0], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][1]);
+	ImGui::SliderFloat("_orthoMatrix[0][1]", &main_camera2D->_orthoMatrix[0][1], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][2]);
+	ImGui::SliderFloat("_orthoMatrix[0][2]", &main_camera2D->_orthoMatrix[0][2], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][3]);
+	ImGui::SliderFloat("_orthoMatrix[0][3]", &main_camera2D->_orthoMatrix[0][3], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][0]);
+	ImGui::SliderFloat("_orthoMatrix[1][0]", &main_camera2D->_orthoMatrix[1][0], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][1]);
+	ImGui::SliderFloat("_orthoMatrix[1][1]", &main_camera2D->_orthoMatrix[1][1], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][2]);
+	ImGui::SliderFloat("_orthoMatrix[1][2]", &main_camera2D->_orthoMatrix[1][2], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][3]);
+	ImGui::SliderFloat("_orthoMatrix[1][3]", &main_camera2D->_orthoMatrix[1][3], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][0]);
+	ImGui::SliderFloat("_orthoMatrix[2][0]", &main_camera2D->_orthoMatrix[2][0], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][1]);
+	ImGui::SliderFloat("_orthoMatrix[2][1]", &main_camera2D->_orthoMatrix[2][1], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][2]);
+	ImGui::SliderFloat("_orthoMatrix[2][2]", &main_camera2D->_orthoMatrix[2][2], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][3]);
+	ImGui::SliderFloat("_orthoMatrix[2][3]", &main_camera2D->_orthoMatrix[2][3], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][0]);
+	ImGui::SliderFloat("_orthoMatrix[3][0]", &main_camera2D->_orthoMatrix[3][0], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][1]);
+	ImGui::SliderFloat("_orthoMatrix[3][1]", &main_camera2D->_orthoMatrix[3][1], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][2]);
+	ImGui::SliderFloat("_orthoMatrix[3][2]", &main_camera2D->_orthoMatrix[3][2], -1.0f, 1.0f);
+	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][3]);
+	ImGui::SliderFloat("_orthoMatrix[3][3]", &main_camera2D->_orthoMatrix[3][3], -1.0f, 1.0f);
+
 	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _game->_inputManager.getMouseCoords().x, _game->_inputManager.getMouseCoords().y);
 
 	if (_selectedEntity) {

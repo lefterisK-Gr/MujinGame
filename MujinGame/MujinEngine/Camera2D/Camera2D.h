@@ -7,6 +7,8 @@
 class Camera2D : public ICamera{
 public:
 	glm::ivec2 worldDimensions;
+	glm::mat4 _orthoMatrix; // changed once in init
+
 
 	Camera2D() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
@@ -26,6 +28,9 @@ public:
 	void init(int screenWidth, int screenHeight) override {
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
+
+		//_orthoMatrix = glm::ortho(0.0f, (float)_screenWidth, (float)_screenHeight, 0.0f); //left, right, top, bottom
+
 
 		GLdouble vvLeft = 0.0f;
 		GLdouble vvRight = (float)_screenWidth;
@@ -133,5 +138,4 @@ private:
 	float _scale;
 	glm::vec2 _position;
 	glm::mat4 _cameraMatrix;
-	glm::mat4 _orthoMatrix; // changed once in init
 };
