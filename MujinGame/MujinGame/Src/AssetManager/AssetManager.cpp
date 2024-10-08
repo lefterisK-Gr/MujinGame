@@ -79,7 +79,8 @@ void AssetManager::CreateBackground()
 	auto& background(manager->addEntity());
 
 	background.addComponent<TransformComponent>(0, 0, 640, 1142, 1);
-	background.addComponent<SpriteComponent>("backgroundMountains", 10.0f);
+	background.addComponent<SpriteComponent>("backgroundMountains");
+	background.GetComponent<TransformComponent>().setZIndex(10.0f);
 
 
 	background.addGroup(Manager::groupBackgrounds);

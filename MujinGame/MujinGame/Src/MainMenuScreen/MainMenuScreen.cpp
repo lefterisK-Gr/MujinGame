@@ -92,7 +92,7 @@ void MainMenuScreen::onEntry()
 		TextureManager::getInstance().Get_GLTexture("startgame")->height,
 		TextureManager::getInstance().Get_GLTexture("startgame")->width,
 		1.0f);
-	StartGameButton.addComponent<SpriteComponent>("startgame", 1.0f, true);
+	StartGameButton.addComponent<SpriteComponent>("startgame", true);
 	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this));
 	StartGameButton.addGroup(MainMenuScreen::startGameGroup);
 
@@ -100,7 +100,7 @@ void MainMenuScreen::onEntry()
 		TextureManager::getInstance().Get_GLTexture("exitgame")->height,
 		TextureManager::getInstance().Get_GLTexture("exitgame")->width,
 		1.0f);
-	ExitGameButton.addComponent<SpriteComponent>("exitgame", 1.0f, true);
+	ExitGameButton.addComponent<SpriteComponent>("exitgame", true);
 	ExitGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitGame, this));
 	ExitGameButton.addGroup(MainMenuScreen::exitGameGroup);
 }

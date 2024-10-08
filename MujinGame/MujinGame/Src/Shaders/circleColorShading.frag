@@ -1,6 +1,5 @@
 #version 330
 
-in vec2 fragmentPosition;
 in vec4 fragmentColor;
 in vec2 fragmentUV;
 

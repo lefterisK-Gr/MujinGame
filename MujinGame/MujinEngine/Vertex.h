@@ -5,6 +5,7 @@
 struct Position {
 	float x;
 	float y;
+	float z;
 };
 
 struct Color {
@@ -48,9 +49,10 @@ struct Vertex {
 	// UV texture coordinates
 	UV uv;
 
-	void setPosition(float x, float y) {
+	void setPosition(float x, float y, float z = 0.0f) {
 		position.x = x;
 		position.y = y;
+		position.z = z;
 	}
 
 	void setColor(GLubyte r, GLubyte g, GLubyte b, GLubyte a) {

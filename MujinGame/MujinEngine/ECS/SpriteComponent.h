@@ -18,7 +18,6 @@ class SpriteComponent : public Component //sprite -> transform
 private:
 	const GLTexture *gl_texture;
 	GLuint _vboID = 0; //32 bits
-	float _zIndex = 1.0f;
 	bool _isMainMenu = false;
 
 public:
@@ -45,11 +44,10 @@ public:
 		color = clr;
 	}
 
-	SpriteComponent(std::string id, float zIndex, bool isMainMenu = false)
+	SpriteComponent(std::string id, bool isMainMenu)
 	{
 		_isMainMenu = isMainMenu;
 		setTex(id);
-		_zIndex = zIndex;
 	}
 
 	~SpriteComponent()
@@ -78,7 +76,7 @@ public:
 		srcRect.w = transform->width;
 		srcRect.h = transform->height;
 
-		float parallaxFactor = 1.0f / _zIndex;
+		float parallaxFactor = 1.0f / transform->getZIndex();
 		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->getPosition().y);
 
@@ -90,7 +88,7 @@ public:
 
 	void update(float deltaTime) override
 	{
-		float parallaxFactor = 1.0f / _zIndex;
+		float parallaxFactor = 1.0f / transform->getZIndex();
 		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->getPosition().y);
 	}

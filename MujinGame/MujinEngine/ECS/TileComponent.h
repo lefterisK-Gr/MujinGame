@@ -59,7 +59,7 @@ public:
 
 		if (!entity->hasComponent<SpriteComponent>())
 		{
-			entity->addComponent<SpriteComponent>(textureid, 1.0f);
+			entity->addComponent<SpriteComponent>(textureid);
 		}
 		sprite = &entity->GetComponent<SpriteComponent>();
 		sprite->srcRect = this->srcRect;

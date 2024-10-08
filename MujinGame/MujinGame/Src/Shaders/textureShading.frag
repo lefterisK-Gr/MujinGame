@@ -1,11 +1,11 @@
 #version 330
 
 struct Light {
-    vec2 position;
+    vec3 position;
     float radius;
 };
 
-in vec2 fragmentPosition;
+in vec3 fragmentPosition;
 in vec4 fragmentColor;
 in vec2 fragmentUV;
 
@@ -21,7 +21,7 @@ void main() {
     vec3 totalLightEffect = vec3(0.0);
 
     for(int i= 0; i < MAX_LIGHTS; i++) {
-        float distance = length(fragmentPosition - lightPos[i].position);
+        float distance = length(fragmentPosition.xy - lightPos[i].position.xy);
         float attenuation = exp(-pow((distance / lightPos[i].radius), 2.0) * 0.1);
         totalLightEffect += textureColor.rgb * fragmentColor.rgb * attenuation;
     }

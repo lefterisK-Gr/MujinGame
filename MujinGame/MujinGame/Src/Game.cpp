@@ -851,38 +851,11 @@ void Game::updateUI() {
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 
 	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][0]);
-	ImGui::SliderFloat("_orthoMatrix[0][0]", &main_camera2D->_orthoMatrix[0][0], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][1]);
-	ImGui::SliderFloat("_orthoMatrix[0][1]", &main_camera2D->_orthoMatrix[0][1], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][2]);
-	ImGui::SliderFloat("_orthoMatrix[0][2]", &main_camera2D->_orthoMatrix[0][2], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][3]);
-	ImGui::SliderFloat("_orthoMatrix[0][3]", &main_camera2D->_orthoMatrix[0][3], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][0]);
-	ImGui::SliderFloat("_orthoMatrix[1][0]", &main_camera2D->_orthoMatrix[1][0], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][1]);
-	ImGui::SliderFloat("_orthoMatrix[1][1]", &main_camera2D->_orthoMatrix[1][1], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][2]);
-	ImGui::SliderFloat("_orthoMatrix[1][2]", &main_camera2D->_orthoMatrix[1][2], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][3]);
-	ImGui::SliderFloat("_orthoMatrix[1][3]", &main_camera2D->_orthoMatrix[1][3], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][0]);
-	ImGui::SliderFloat("_orthoMatrix[2][0]", &main_camera2D->_orthoMatrix[2][0], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][1]);
-	ImGui::SliderFloat("_orthoMatrix[2][1]", &main_camera2D->_orthoMatrix[2][1], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][2]);
-	ImGui::SliderFloat("_orthoMatrix[2][2]", &main_camera2D->_orthoMatrix[2][2], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][3]);
-	ImGui::SliderFloat("_orthoMatrix[2][3]", &main_camera2D->_orthoMatrix[2][3], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][0]);
-	ImGui::SliderFloat("_orthoMatrix[3][0]", &main_camera2D->_orthoMatrix[3][0], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][1]);
-	ImGui::SliderFloat("_orthoMatrix[3][1]", &main_camera2D->_orthoMatrix[3][1], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][2]);
-	ImGui::SliderFloat("_orthoMatrix[3][2]", &main_camera2D->_orthoMatrix[3][2], -1.0f, 1.0f);
-	ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][3]);
-	ImGui::SliderFloat("_orthoMatrix[3][3]", &main_camera2D->_orthoMatrix[3][3], -1.0f, 1.0f);
+	
+	glm::vec3 tempVec3 = glm::vec3(1.f, 1.f, -3.f);
+	if (ImGui::SliderFloat3("Position", &tempVec3[0], -10.0f, 10.0f)) {
+		main_camera2D->_orthoMatrix = glm::lookAt(tempVec3, glm::vec3(320.f, 400.f, 0.f),glm::vec3(0.f, 0.f, 1.f));
+	}
 
 	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _game->_inputManager.getMouseCoords().x, _game->_inputManager.getMouseCoords().y);
 
@@ -912,7 +885,7 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
 	struct Light {
-		glm::vec2 position;
+		glm::vec3 position;
 		float radius;
 	};
 
@@ -923,7 +896,7 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 
 		if (lightTransform) {
 			Light tempLight;
-			tempLight.position = glm::vec2(lightTransform->getPosition().x, lightTransform->getPosition().y);
+			tempLight.position = glm::vec3(lightTransform->getPosition().x, lightTransform->getPosition().y, lightTransform->getZIndex());
 			tempLight.radius = 100.0f;
 
 			lightsPos.push_back(tempLight);
@@ -936,7 +909,7 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 	}
 
 	GLint lightPosLocation = _textureLightProgram.getUniformLocation("lightPos[0].position");
-	glUniform2fv(lightPosLocation, 1, &(lightsPos[0].position[0]));  // Pass the address of the first element of lightPos
+	glUniform3fv(lightPosLocation, 1, &(lightsPos[0].position[0]));  // Pass the address of the first element of lightPos
 	GLint lightRadiusLocation = _textureLightProgram.getUniformLocation("lightPos[0].radius");
 	glUniform1f(lightRadiusLocation, lightsPos[0].radius);
 

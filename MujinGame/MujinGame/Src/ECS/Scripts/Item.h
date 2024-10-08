@@ -40,7 +40,7 @@ public:
 		transform = &entity->GetComponent<TransformComponent>();
 
 		if (!entity->hasComponent<SpriteComponent>()) {
-			entity->addComponent<SpriteComponent>(idName, 1.0f);
+			entity->addComponent<SpriteComponent>(idName);
 		}
 		entity->addGroup(Manager::groupStageUpButtons);
 

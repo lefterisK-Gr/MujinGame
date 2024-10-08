@@ -6,7 +6,7 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 private:
-	float _zIndex = 1.0f;
+	float _zIndex = 0.0f;
 	float parallaxFactor = 1.0f;
 
 	glm::vec2 _position;
@@ -91,6 +91,13 @@ public:
 	glm::vec2 getCenterTransform()
 	{
 		return glm::vec2(_position.x + width * scale / 2, _position.y + height * scale / 2);
+	}
+
+	float getZIndex() {
+		return _zIndex;
+	}
+	void setZIndex( float newZIndex) {
+		_zIndex = newZIndex;
 	}
 
 	glm::ivec2 getPosition() {
