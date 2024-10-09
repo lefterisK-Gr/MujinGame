@@ -852,10 +852,43 @@ void Game::updateUI() {
 
 	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
 	
-	glm::vec3 tempVec3 = glm::vec3(1.f, 1.f, -3.f);
-	if (ImGui::SliderFloat3("Position", &tempVec3[0], -10.0f, 10.0f)) {
-		main_camera2D->_orthoMatrix = glm::lookAt(tempVec3, glm::vec3(320.f, 400.f, 0.f),glm::vec3(0.f, 0.f, 1.f));
+	if (ImGui::SliderFloat3("Eye Position", &main_camera2D->eyePos[0], -1000.0f, 1000.0f)) {
+		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
 	}
+	if (ImGui::SliderFloat3("Aim Position", &main_camera2D->aimPos[0], -1000.0f, 1000.0f)) {
+		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
+	}
+	if (ImGui::SliderFloat3("Up Direction", &main_camera2D->upDir[0], -1000.0f, 1000.0f)) {
+		main_camera2D->setCameraMatrix(glm::lookAt(main_camera2D->eyePos, main_camera2D->aimPos, main_camera2D->upDir));
+	}
+
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][0]);
+	//ImGui::SliderFloat("_orthoMatrix[0][0]", &main_camera2D->_orthoMatrix[0][0], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][1]);
+	//ImGui::SliderFloat("_orthoMatrix[0][1]", &main_camera2D->_orthoMatrix[0][1], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][2]);
+	//ImGui::SliderFloat("_orthoMatrix[0][2]", &main_camera2D->_orthoMatrix[0][2], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[0][3]);
+	//ImGui::SliderFloat("_orthoMatrix[0][3]", &main_camera2D->_orthoMatrix[0][3], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][0]);
+	//ImGui::SliderFloat("_orthoMatrix[1][0]", &main_camera2D->_orthoMatrix[1][0], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][1]);
+	//ImGui::SliderFloat("_orthoMatrix[1][1]", &main_camera2D->_orthoMatrix[1][1], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][2]);
+	//ImGui::SliderFloat("_orthoMatrix[1][2]", &main_camera2D->_orthoMatrix[1][2], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[1][3]);
+	//ImGui::SliderFloat("_orthoMatrix[1][3]", &main_camera2D->_orthoMatrix[1][3], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][0]);
+	//ImGui::SliderFloat("_orthoMatrix[2][0]", &main_camera2D->_orthoMatrix[2][0], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][1]);
+	//ImGui::SliderFloat("_orthoMatrix[2][1]", &main_camera2D->_orthoMatrix[2][1], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][2]);
+	//ImGui::SliderFloat("_orthoMatrix[2][2]", &main_camera2D->_orthoMatrix[2][2], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[2][3]);
+	//ImGui::SliderFloat("_orthoMatrix[2][3]", &main_camera2D->_orthoMatrix[2][3], -1.0f, 1.0f);
+	//ImGui::Text("Camera Value: %f}", main_camera2D->_orthoMatrix[3][3]);
+	//ImGui::SliderFloat("_orthoMatrix[3][3]", &main_camera2D->_orthoMatrix[3][3], -1.0f, 1.0f);
+
 
 	ImGui::Text("Mouse Coords: {x: %f, y: %f}", _game->_inputManager.getMouseCoords().x, _game->_inputManager.getMouseCoords().y);
 

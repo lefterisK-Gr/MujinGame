@@ -7,7 +7,10 @@
 class Camera2D : public ICamera{
 public:
 	glm::ivec2 worldDimensions;
-	glm::mat4 _orthoMatrix; // changed once in init
+
+	glm::vec3 eyePos;
+	glm::vec3 aimPos;
+	glm::vec3 upDir;
 
 
 	Camera2D() : _position(0.0f, 0.0f),
@@ -29,39 +32,14 @@ public:
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
 
-		_orthoMatrix = glm::perspective(45.0f, (float)_screenWidth/ (float)_screenHeight, 0.1f, 100.0f); //left, right, top, bottom
-		_orthoMatrix = glm::lookAt(glm::vec3(1.f, 1.f, -3.f), //< eye position
-			glm::vec3(0.f, 0.f, 0.f),  //< aim position
-			glm::vec3(0.f, 1.f, 0.f)); //< up direction
+		eyePos = glm::vec3(400.f, 320.f, 0.0f);
+		aimPos = glm::vec3(400.f, 320.f, 1.f);
+		upDir = glm::vec3(0.f, -1.f, 0.f);
+		_orthoMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, 10.0f); //left, right, top, bottom
+		_orthoMatrix = glm::lookAt(eyePos, //< eye position
+			aimPos,  //< aim position
+			upDir); //< up direction
 
-		//GLdouble vvLeft = 0.0f;
-		//GLdouble vvRight = (float)_screenWidth;
-		//GLdouble vvBottom = (float)_screenHeight;
-		//GLdouble vvTop = 0.0f;
-		//GLdouble vvNear = 0.1f;
-		//GLdouble vvFar = 200.0f;
-
-		//GLdouble vvDepth = vvFar - vvNear;
-		//GLdouble vvHeight = vvTop - vvBottom;
-
-		//const GLdouble vvFovDegs = 45.0;
-		//GLdouble vvFovRads = 1.0f;
-
-		//_orthoMatrix[0][0] = (2) / (vvRight - vvLeft);
-		//_orthoMatrix[1][1] = (2) / (vvTop - vvBottom);
-		//_orthoMatrix[3][0] = -(vvRight + vvLeft) / (vvRight - vvLeft);
-		//_orthoMatrix[3][1] = -(vvTop + vvBottom) / (vvTop - vvBottom);
-		//_orthoMatrix[3][2] = -(vvFar + vvNear) / (vvFar - vvNear);
-
-		//_orthoMatrix[2][1] = (vvTop + vvBottom) / (vvTop - vvBottom);
-		//_orthoMatrix[2][2] = -(vvFar + vvNear) / (vvFar - vvNear);
-		//_orthoMatrix[2][3] = (-1);
-		
-		
-		
-		/*Result[3][2] = -(static_cast<T>(2) * farVal * nearVal) / (farVal - nearVal); */
-		//glm::frustum
-		//_orthoMatrix = glm::frustum(vvLeft, vvRight, vvBottom, vvTop, vvNear, vvFar); //left, right, top, bottom
 	}
 
 	void update() override {
@@ -72,6 +50,7 @@ public:
 			glm::vec3 scale(_scale, _scale, 0.0f);
 
 			_cameraMatrix = glm::scale(glm::mat4(1.0f), scale) * _cameraMatrix;
+			_cameraMatrix[2][3] = -1.0f;// -f.z;
 
 			//_cameraMatrix = glm::scale(_cameraMatrix, scale);
 			_cameraChange = false;
@@ -137,10 +116,17 @@ public:
 		return cameraRect;
 	}
 
+	void setCameraMatrix(glm::mat4 newMatrix) {
+		_cameraChange = true;
+	}
+
+
 private:
 	int _screenWidth, _screenHeight;
-	bool _cameraChange;
 	float _scale;
+	bool _cameraChange;
+
 	glm::vec2 _position;
+	glm::mat4 _orthoMatrix; // changed once in init
 	glm::mat4 _cameraMatrix;
 };
