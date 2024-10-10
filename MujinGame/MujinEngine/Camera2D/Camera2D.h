@@ -15,7 +15,8 @@ public:
 
 	Camera2D() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
-		_orthoMatrix(1.0f),		//I
+		_projectionMatrix(1.0f),		//I
+		_viewMatrix(1.0f),
 		_scale(1.0f),
 		_cameraChange(true),
 		_screenWidth(800),
@@ -32,11 +33,11 @@ public:
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
 
-		eyePos = glm::vec3(400.f, 320.f, 0.0f);
-		aimPos = glm::vec3(400.f, 320.f, 1.f);
+		eyePos = glm::vec3(400.f,320.f,-780.0f);
+		aimPos = glm::vec3(400.f, 320.f, 0.f);
 		upDir = glm::vec3(0.f, -1.f, 0.f);
-		_orthoMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, 10.0f); //left, right, top, bottom
-		_orthoMatrix = glm::lookAt(eyePos, //< eye position
+		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, 1000.0f); //left, right, top, bottom
+		_viewMatrix = glm::lookAt(eyePos, //< eye position
 			aimPos,  //< aim position
 			upDir); //< up direction
 
@@ -45,12 +46,21 @@ public:
 	void update() override {
 
 		if (_cameraChange) {
-			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
-			_cameraMatrix = glm::translate(_orthoMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
-			glm::vec3 scale(_scale, _scale, 0.0f);
+			_viewMatrix = glm::lookAt(eyePos, //< eye position
+				aimPos,  //< aim position
+				upDir); //< up direction
 
-			_cameraMatrix = glm::scale(glm::mat4(1.0f), scale) * _cameraMatrix;
-			_cameraMatrix[2][3] = -1.0f;// -f.z;
+
+			_cameraMatrix = glm::mat4(1.0f);
+
+			glm::vec3 scale(_scale, _scale, 0.0f);
+			_cameraMatrix = glm::scale(_cameraMatrix, scale);
+
+
+			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
+			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
+			
+			_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
 
 			//_cameraMatrix = glm::scale(_cameraMatrix, scale);
 			_cameraChange = false;
@@ -127,6 +137,7 @@ private:
 	bool _cameraChange;
 
 	glm::vec2 _position;
-	glm::mat4 _orthoMatrix; // changed once in init
+	glm::mat4 _projectionMatrix; // changed once in init
+	glm::mat4 _viewMatrix;
 	glm::mat4 _cameraMatrix;
 };

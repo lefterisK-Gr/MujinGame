@@ -49,7 +49,7 @@ struct Vertex {
 	// UV texture coordinates
 	UV uv;
 
-	void setPosition(float x, float y, float z = -100.0f) {
+	void setPosition(float x, float y, float z = -5.0f) {
 		position.x = x;
 		position.y = y;
 		position.z = z;

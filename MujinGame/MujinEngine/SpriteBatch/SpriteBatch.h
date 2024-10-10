@@ -49,26 +49,26 @@ public:
 			);
 			};
 
-		glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y + destRect.w);
-		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y);
-		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y);
-		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w);
+		glm::vec2 rotatedTopLeft = rotatePoint(destRect.x, destRect.y );
+		glm::vec2 rotatedBottomLeft = rotatePoint(destRect.x, destRect.y + destRect.w);
+		glm::vec2 rotatedBottomRight = rotatePoint(destRect.x + destRect.z, destRect.y + destRect.w);
+		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y );
 
 		topLeft.color = color;
 		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y);
-		topLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use bottom y for top
+		topLeft.setUV(uvRect.x, uvRect.y ); // Use bottom y for top
 
 		bottomLeft.color = color;
 		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y);
-		bottomLeft.setUV(uvRect.x, uvRect.y); // Use top y for bottom
+		bottomLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use top y for bottom
 
 		bottomRight.color = color;
 		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y);
-		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y); // Use top y for bottom
+		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use top y for bottom
 
 		topRight.color = color;
 		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y);
-		topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use bottom y for top
+		topRight.setUV(uvRect.x + uvRect.z, uvRect.y ); // Use bottom y for top
 	};
 
 	GLuint texture;
