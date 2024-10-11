@@ -6,7 +6,7 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 private:
-	float _zIndex = -500.0f;
+	float _zIndex = -5.0f;
 
 	glm::vec2 _position;
 	glm::vec2 _velocity;
@@ -30,30 +30,23 @@ public:
 		scale = sc;
 	}
 
-	TransformComponent(float x, float y)
+	TransformComponent(glm::vec2 position)
 	{
-		_position.x = x;
-		_position.y = y;
+		_position = position;
 	}
 
-	TransformComponent(float x, float y, int h, int w, int sc)
-	{
-		_position.x = x;
-		_position.y = y;
-		height = h;
-		width = w;
+	TransformComponent(glm::vec2 position, glm::ivec2 size, int sc) : TransformComponent(position){
+		width = size.x;
+		height = size.y;
 		scale = sc;
 	}
 
-	TransformComponent(float x, float y, int h, int w, int sc, int sp)
+	TransformComponent(glm::vec2 position, glm::ivec2 size, int sc, int sp) : TransformComponent(position, size, sc)
 	{
-		_position.x = x;
-		_position.y = y;
-		height = h;
-		width = w;
-		scale = sc;
 		speed = sp;
 	}
+
+	
 	
 	void init() override
 	{
@@ -98,7 +91,7 @@ public:
 		_zIndex = newZIndex;
 	}
 
-	glm::ivec2 getPosition() {
+	glm::vec2 getPosition() {
 		return _position;
 	}
 

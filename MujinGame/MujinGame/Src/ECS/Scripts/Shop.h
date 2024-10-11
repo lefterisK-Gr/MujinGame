@@ -37,7 +37,7 @@ public:
 
 	void init() override {
 		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(50.0f, 50.0f, 400.0f, 600.0f, 1);
+			entity->addComponent<TransformComponent>(glm::vec2(50.0f, 50.0f), glm::ivec2(400, 600), 1);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 		if (!entity->hasComponent<Rectangle_w_Color>()) {

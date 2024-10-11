@@ -163,4 +163,18 @@ public:
 		groupCircles
 	};
 
+	
+	enum layerIndexes : short
+	{
+		actionLayer = -500,
+		foregroundLayer = -5000,
+		backgroundLayer = 500,
+		fogLayer = -50000,
+		cloudsLayer = 0,
+
+	};
+
+	float getLayerValue(layerIndexes layer_indx) {
+		return layer_indx / 100.0f;
+	}
 };

@@ -78,8 +78,8 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		light = &manager.addEntity(); 
 
-		light->addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y,
-			600.0f, 600.0f, transform->scale);
+		light->addComponent<TransformComponent>(transform->getPosition(),
+			glm::ivec2(600, 600), transform->scale);
 		light->addComponent<LightComponent>();
 		light->GetComponent<LightComponent>().color = Color(255, 0, 0, 150);
 

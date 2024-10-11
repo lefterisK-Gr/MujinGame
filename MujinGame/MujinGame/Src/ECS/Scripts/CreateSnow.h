@@ -35,7 +35,7 @@ public:
 
 		for (auto& pl : players) {
 			TransformComponent* tr = &pl->GetComponent<TransformComponent>();
-			std::uniform_int_distribution<int> distributionX(tr->getPosition().x - main_camera2D->getCameraDimensions().x, tr->getPosition().x + main_camera2D->getCameraDimensions().x);
+			std::uniform_real_distribution<int> distributionX(tr->getPosition().x - main_camera2D->getCameraDimensions().x, tr->getPosition().x + main_camera2D->getCameraDimensions().x);
 
 			const unsigned short prevNumOfParticles = static_cast<unsigned short>(numOfParticles);
 
@@ -47,9 +47,9 @@ public:
 				Entity* raindrop;
 				raindrop = &manager.addEntity();
 
-				int randX = distributionX(generator);  // Generate random X within camera width
+				float randX = distributionX(generator);  // Generate random X within camera width
 
-				TransformComponent& tc = raindrop->addComponent<TransformComponent>(randX, 0, 10, 10, 1);
+				TransformComponent& tc = raindrop->addComponent<TransformComponent>(glm::vec2(randX, 0), glm::ivec2(10, 10), 1);
 				tc.setVelocity_X(0) ;
 				tc.setVelocity_Y(2);
 
