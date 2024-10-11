@@ -97,7 +97,6 @@ public: // it is like it has init that creates Animator Component since it inher
 		sprite->destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		sprite->destRect.y = static_cast<int>(transform->getPosition().y);
 
-		float parallaxFactor = 1.0f / _zIndex;
 		if (light) {
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
 			light->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + transform->width / 2 );

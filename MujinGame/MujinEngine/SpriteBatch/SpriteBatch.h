@@ -55,19 +55,19 @@ public:
 		glm::vec2 rotatedTopRight = rotatePoint(destRect.x + destRect.z, destRect.y );
 
 		topLeft.color = color;
-		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y);
+		topLeft.setPosition(rotatedTopLeft.x, rotatedTopLeft.y, depth);
 		topLeft.setUV(uvRect.x, uvRect.y ); // Use bottom y for top
 
 		bottomLeft.color = color;
-		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y);
+		bottomLeft.setPosition(rotatedBottomLeft.x, rotatedBottomLeft.y, depth);
 		bottomLeft.setUV(uvRect.x, uvRect.y + uvRect.w); // Use top y for bottom
 
 		bottomRight.color = color;
-		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y);
+		bottomRight.setPosition(rotatedBottomRight.x, rotatedBottomRight.y, depth);
 		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w); // Use top y for bottom
 
 		topRight.color = color;
-		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y);
+		topRight.setPosition(rotatedTopRight.x, rotatedTopRight.y, depth);
 		topRight.setUV(uvRect.x + uvRect.z, uvRect.y ); // Use bottom y for top
 	};
 

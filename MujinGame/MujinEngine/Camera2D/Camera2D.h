@@ -53,7 +53,7 @@ public:
 
 			_cameraMatrix = glm::mat4(1.0f);
 
-			glm::vec3 scale(_scale, _scale, 0.0f);
+			glm::vec3 scale(_scale, _scale, 1.0f);
 			_cameraMatrix = glm::scale(_cameraMatrix, scale);
 
 

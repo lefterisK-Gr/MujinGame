@@ -76,7 +76,6 @@ public:
 		srcRect.w = transform->width;
 		srcRect.h = transform->height;
 
-		float parallaxFactor = 1.0f / transform->getZIndex();
 		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->getPosition().y);
 
@@ -88,7 +87,6 @@ public:
 
 	void update(float deltaTime) override
 	{
-		float parallaxFactor = 1.0f / transform->getZIndex();
 		destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
 		destRect.y = static_cast<int>(transform->getPosition().y);
 	}
@@ -115,9 +113,8 @@ public:
 
 		glm::vec4 uv(srcUVposX, srcUVposY, srcUVw, srcUVh);
 
-		batch.draw(pos, uv, gl_texture->id, -1.0f, color);
+		batch.draw(pos, uv, gl_texture->id, transform->getZIndex(), color);
 		
-
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);

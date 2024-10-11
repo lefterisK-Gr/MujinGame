@@ -6,8 +6,7 @@
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
 private:
-	float _zIndex = 0.0f;
-	float parallaxFactor = 1.0f;
+	float _zIndex = -500.0f;
 
 	glm::vec2 _position;
 	glm::vec2 _velocity;
@@ -58,7 +57,6 @@ public:
 	
 	void init() override
 	{
-		parallaxFactor = 1.0f / _zIndex;
 		_velocity = glm::zero<glm::ivec2>();
 	}
 	void update(float deltaTime) override
@@ -85,7 +83,7 @@ public:
 		}
 			
 		_position.x += _velocity.x * speed * deltaTime;
-		_position.y += _velocity.y * speed; //needs to have deltaTime
+		_position.y += _velocity.y * speed ; //needs to have deltaTime
 	}
 
 	glm::vec2 getCenterTransform()
