@@ -35,13 +35,14 @@ public:
 		_position = position;
 	}
 
-	TransformComponent(glm::vec2 position, glm::ivec2 size, int sc) : TransformComponent(position){
+	TransformComponent(glm::vec2 position, Layer layer , glm::ivec2 size, int sc) : TransformComponent(position){
 		width = size.x;
 		height = size.y;
+		_zIndex = entity->getLayerValue(layer);
 		scale = sc;
 	}
 
-	TransformComponent(glm::vec2 position, glm::ivec2 size, int sc, int sp) : TransformComponent(position, size, sc)
+	TransformComponent(glm::vec2 position, Layer layer, glm::ivec2 size, int sc, int sp) : TransformComponent(position, layer, size, sc)
 	{
 		speed = sp;
 	}
@@ -86,9 +87,6 @@ public:
 
 	float getZIndex() {
 		return _zIndex;
-	}
-	void setZIndex( float newZIndex) {
-		_zIndex = newZIndex;
 	}
 
 	glm::vec2 getPosition() {

@@ -43,7 +43,7 @@ void AssetManager::ProjectileExplosion(int camerapos)
 
 void AssetManager::CreatePlayer(Entity& player)
 {
-	player.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), glm::ivec2(64, 64), 1); // 1448 for near pipe, 200 for start
+	player.addComponent<TransformComponent>(glm::vec2(200.0f, 320.0f), Manager::actionLayer, glm::ivec2(64, 64), 1); // 1448 for near pipe, 200 for start
 	player.addComponent<AnimatorComponent>("warrior");
 	player.addComponent<MovingAnimatorComponent>("warrior");
 	player.addComponent<FlashAnimatorComponent>("warrior");
@@ -78,10 +78,8 @@ void AssetManager::CreateBackground()
 {
 	auto& background(manager->addEntity());
 
-	background.addComponent<TransformComponent>(glm::vec2(0, 0), glm::ivec2(640, 1142), 1);
+	background.addComponent<TransformComponent>(glm::vec2(0, 0), Manager::backgroundLayer, glm::ivec2(1142, 640), 1);
 	background.addComponent<SpriteComponent>("backgroundMountains");
-	background.GetComponent<TransformComponent>().setZIndex(10.0f);
-
 
 	background.addGroup(Manager::groupBackgrounds);
 
@@ -112,7 +110,7 @@ void AssetManager::CreateProjectile(glm::ivec2 pos, glm::ivec2 dest,int range, i
 { //this is almost how we create the player
 	auto& projectile(manager->addEntity());
 	const GLTexture* gl_texture = TextureManager::getInstance().Get_GLTexture(id);
-	projectile.addComponent<TransformComponent>(glm::vec2(pos.x-gl_texture->width/2, pos.y- gl_texture->height/2), glm::ivec2(gl_texture->width, gl_texture->height), 1, speed);
+	projectile.addComponent<TransformComponent>(glm::vec2(pos.x-gl_texture->width/2, pos.y- gl_texture->height/2), Manager::actionLayer, glm::ivec2(gl_texture->width, gl_texture->height), 1, speed);
 	projectile.addComponent<AnimatorComponent>(id);
 	glm::ivec2 direction = glm::normalize(glm::vec2(dest - pos));
 	projectile.addComponent<ProjectileComponent>(range, speed, direction);
@@ -131,7 +129,7 @@ void AssetManager::CreateProjectile(glm::ivec2 pos, glm::ivec2 dest,int range, i
 void AssetManager::CreateSkeleton(glm::ivec2 pos, glm::ivec2 vel, std::string id, bool isGiant)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
-	enemy.addComponent<TransformComponent>(static_cast<glm::vec2>(pos), glm::ivec2(64, 64), isGiant ? 2 : 1);
+	enemy.addComponent<TransformComponent>(static_cast<glm::vec2>(pos), Manager::actionLayer, glm::ivec2(64, 64), isGiant ? 2 : 1);
 	enemy.GetComponent<TransformComponent>().setVelocity_X(vel.x);
 	enemy.GetComponent<TransformComponent>().setVelocity_Y(vel.y);
 	enemy.addComponent<AnimatorComponent>(id);
@@ -148,7 +146,7 @@ void AssetManager::CreateSkeleton(glm::ivec2 pos, glm::ivec2 vel, std::string id
 void AssetManager::CreateStageUpButtons() {
 	auto& stageupbuttons(manager->addEntity());
 
-	stageupbuttons.addComponent<TransformComponent>(glm::vec2(284, 600), glm::zero<glm::ivec2>(), 1);
+	stageupbuttons.addComponent<TransformComponent>(glm::vec2(284, 600), Manager::foregroundLayer, glm::zero<glm::ivec2>(), 1);
 	stageupbuttons.addComponent<StageUpButtons>(true);
 }
 
@@ -182,7 +180,7 @@ void AssetManager::CreateFog()
 	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
 	auto& fog(manager->addEntity());
 
-	fog.addComponent<TransformComponent>(glm::zero<glm::vec2>(), glm::ivec2(main_camera2D->worldDimensions.y, main_camera2D->worldDimensions.x), 1);
+	fog.addComponent<TransformComponent>(glm::zero<glm::vec2>(), Manager::fogLayer, glm::ivec2(main_camera2D->worldDimensions.x, main_camera2D->worldDimensions.y), 1);
 	fog.addComponent<Rectangle_w_Color>();
 
 	fog.addGroup(Manager::groupFog);
@@ -221,7 +219,7 @@ void AssetManager::SetBackGroundColor(float r, float g, float b, float a)
 void AssetManager::CreateGreenKoopaTroopa(glm::ivec2 pos, glm::ivec2 vel, int speed, std::string id)
 { //this is almost how we create the player
 	auto& enemy(manager->addEntity());
-	enemy.addComponent<TransformComponent>(static_cast<glm::vec2> (pos), glm::ivec2(64, 64), 1);
+	enemy.addComponent<TransformComponent>(static_cast<glm::vec2> (pos), Manager::actionLayer, glm::ivec2(64, 64), 1);
 	enemy.GetComponent<TransformComponent>().setVelocity_X(vel.x);
 	enemy.GetComponent<TransformComponent>().setVelocity_Y(vel.y);
 	enemy.addComponent<AnimatorComponent>(id);

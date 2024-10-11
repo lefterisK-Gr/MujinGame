@@ -51,7 +51,7 @@ public:
 	{
 		if (!entity->hasComponent<TransformComponent>())
 		{
-			entity->addComponent<TransformComponent>(static_cast<glm::vec2>(position) , glm::ivec2(32, 32), 1);
+			entity->addComponent<TransformComponent>(static_cast<glm::vec2>(position) , Manager::actionLayer, glm::ivec2(32, 32), 1);
 			entity->GetComponent<TransformComponent>().setVelocity_X(0);
 			entity->GetComponent<TransformComponent>().setVelocity_Y(0);
 		}

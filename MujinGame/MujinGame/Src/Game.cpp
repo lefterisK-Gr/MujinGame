@@ -190,7 +190,7 @@ void Game::onEntry()
 	assets->CreateShop();
 	assets->CreateInventory();
 
-	stagelabel.addComponent<TransformComponent>(glm::vec2(32, 608), glm::ivec2(32, 32), 1);
+	stagelabel.addComponent<TransformComponent>(glm::vec2(32, 608), Manager::actionLayer, glm::ivec2(32, 32), 1);
 	stagelabel.addComponent<UILabel>(&manager, "stage 0", "arial", true);
 	stagelabel.addGroup(Manager::groupLabels);
 

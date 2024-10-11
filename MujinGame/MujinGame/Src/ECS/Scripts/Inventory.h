@@ -33,7 +33,7 @@ public:
 
 	void init() override {
 		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(glm::vec2(50.0f, 50.0f), glm::ivec2( 400, 600), 1);
+			entity->addComponent<TransformComponent>(glm::vec2(50.0f, 50.0f), Manager::actionLayer, glm::ivec2( 600, 400), 1);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 		if (!entity->hasComponent<Rectangle_w_Color>()) {
@@ -47,7 +47,7 @@ public:
 			for (auto j = 0; j < SLOTS_PER_ROW; j++)
 			{
 				auto& slot = manager.addEntity();
-				slot.addComponent<TransformComponent>(glm::vec2(0.0f, 0.0f), glm::ivec2(64, 64), transform->scale);
+				slot.addComponent<TransformComponent>(glm::vec2(0.0f, 0.0f), Manager::actionLayer, glm::ivec2(64, 64), transform->scale);
 				slot.addComponent<Rectangle_w_Color>();
 				slot.GetComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
 				slot.addGroup(Manager::groupSlots);

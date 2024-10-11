@@ -11,7 +11,7 @@ private:
 	float numOfParticles = 0;
 	float spawnRate = 0.1f;
 	std::default_random_engine generator;  // Random number generator
-	std::uniform_real_distribution<int> distributionY;
+	std::uniform_real_distribution<float> distributionY;
 	std::uniform_real_distribution<float> distributionVX; // Distribution for X velocity
 	std::uniform_real_distribution<float> distributionVY;
 public:
@@ -38,7 +38,7 @@ public:
 
 		for (auto& pl : players) {
 			TransformComponent* tr = &pl->GetComponent<TransformComponent>();
-			std::uniform_real_distribution<int> distributionX(tr->getPosition().x - main_camera2D->getCameraDimensions().x,
+			std::uniform_real_distribution<float> distributionX(tr->getPosition().x - main_camera2D->getCameraDimensions().x,
 				tr->getPosition().x + main_camera2D->getCameraDimensions().x);
 			const unsigned short prevNumOfParticles = static_cast<unsigned short>(numOfParticles);
 

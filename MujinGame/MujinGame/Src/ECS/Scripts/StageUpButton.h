@@ -35,7 +35,7 @@ public:
 
 	void init() override {
 		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(glm::vec2(0.0f, offsetY),
+			entity->addComponent<TransformComponent>(glm::vec2(0.0f, offsetY), Manager::actionLayer,
 				glm::ivec2(
 					TextureManager::getInstance().Get_GLTexture(idName)->width,
 					TextureManager::getInstance().Get_GLTexture(idName)->height
@@ -50,7 +50,7 @@ public:
 		entity->addGroup(Manager::groupStageUpButtons);
 
 		stageUpBtnBack = &manager.addEntity();
-		stageUpBtnBack->addComponent<TransformComponent>(transform->getPosition(), glm::ivec2( 32, 32), transform->scale);
+		stageUpBtnBack->addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer, glm::ivec2( 32, 32), transform->scale);
 		stageUpBtnBack->addComponent<Rectangle_w_Color>();
 		stageUpBtnBack->GetComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
 

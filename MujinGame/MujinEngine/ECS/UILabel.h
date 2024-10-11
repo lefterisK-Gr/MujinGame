@@ -65,8 +65,8 @@ public:
 		for (char c : label) {
 			auto& label(_manager->addEntity());
 			SDL_Rect charRect = getLetterRect(c);
-			label.addComponent<TransformComponent>(transform->getPosition().x, transform->getPosition().y,
-				charRect.w, charRect.h,//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position
+			label.addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer,
+				glm::ivec2(charRect.w, charRect.h),//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position
 				1);
 			label.addComponent<SpriteComponent>(fontFamily);
 			label.GetComponent<SpriteComponent>().srcRect.x = charRect.x;

@@ -164,17 +164,16 @@ public:
 	};
 
 	
-	enum layerIndexes : short
+	enum layerIndexes : int
 	{
-		actionLayer = -500,
+		fogLayer = -10000,
 		foregroundLayer = -5000,
-		backgroundLayer = 500,
-		fogLayer = -50000,
-		cloudsLayer = 0,
+		actionLayer = 0,
 
+		cloudsLayer = 1000,
+
+
+		backgroundLayer = 5000,
 	};
 
-	float getLayerValue(layerIndexes layer_indx) {
-		return layer_indx / 100.0f;
-	}
 };

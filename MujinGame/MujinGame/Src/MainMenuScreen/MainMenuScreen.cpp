@@ -88,7 +88,7 @@ void MainMenuScreen::onEntry()
 	TextureManager::getInstance().Add_GLTexture("startgame", "assets/Sprites/StartGame.png");
 	TextureManager::getInstance().Add_GLTexture("exitgame", "assets/Sprites/ExitGame.png");
 
-	StartGameButton.addComponent<TransformComponent>(glm::vec2(230.0f, 100.0f),
+	StartGameButton.addComponent<TransformComponent>(glm::vec2(230.0f, 100.0f), Manager::actionLayer,
 		glm::ivec2(
 			TextureManager::getInstance().Get_GLTexture("startgame")->width,
 			TextureManager::getInstance().Get_GLTexture("startgame")->height
@@ -98,7 +98,7 @@ void MainMenuScreen::onEntry()
 	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this));
 	StartGameButton.addGroup(MainMenuScreen::startGameGroup);
 
-	ExitGameButton.addComponent<TransformComponent>(glm::vec2(240.0f, 250.0f),
+	ExitGameButton.addComponent<TransformComponent>(glm::vec2(240.0f, 250.0f), Manager::actionLayer,
 		glm::ivec2(
 		TextureManager::getInstance().Get_GLTexture("exitgame")->width,
 			TextureManager::getInstance().Get_GLTexture("exitgame")->height

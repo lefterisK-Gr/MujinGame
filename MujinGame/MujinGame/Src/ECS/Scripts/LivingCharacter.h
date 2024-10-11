@@ -44,20 +44,20 @@ public:
 		
 		
 		if (entity->hasComponent<Player_Script>()) {
-			greyBar->addComponent<TransformComponent>(glm::vec2(transform->getPosition().x, transform->getPosition().y - 10.0f), glm::ivec2(10, 100), transform->scale);
+			greyBar->addComponent<TransformComponent>(glm::vec2(transform->getPosition().x, transform->getPosition().y - 10.0f), Manager::actionLayer, glm::ivec2(100, 10), transform->scale);
 			greyBar->addComponent<HPBar>();
 			greyBar->GetComponent<HPBar>().rectangle->color= Color(128, 128, 128, 255); // Grey color
 			greyBar->addGroup(Manager::groupHPBars);
 
-			hp_bar->addComponent<TransformComponent>(glm::vec2(transform->getPosition().x, transform->getPosition().y - 10.0f), glm::ivec2(10, 100), transform->scale);
+			hp_bar->addComponent<TransformComponent>(glm::vec2(transform->getPosition().x, transform->getPosition().y - 10.0f), Manager::actionLayer, glm::ivec2(100, 10), transform->scale);
 			hp_bar->addComponent<HPBar>();
 			hp_bar->GetComponent<HPBar>().rectangle->color = Color(255, 0, 0, 255);
 			hp_bar->addGroup(Manager::groupHPBars);
 
 			mana_bar = &manager.addEntity();
 
-			mana_bar->addComponent<TransformComponent>(transform->getPosition(),
-				glm::ivec2(5, 100), transform->scale);
+			mana_bar->addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer,
+				glm::ivec2(100, 5 ), transform->scale);
 			mana_bar->addComponent<HPBar>();
 			mana_bar->GetComponent<HPBar>().rectangle->color = Color(0, 0, 255, 255);
 
@@ -65,20 +65,20 @@ public:
 
 			stamina_bar = &manager.addEntity();
 
-			stamina_bar->addComponent<TransformComponent>(glm::vec2(transform->getPosition().x, transform->getPosition().y + 5),
-				glm::ivec2(5, 100), transform->scale);
+			stamina_bar->addComponent<TransformComponent>(glm::vec2(transform->getPosition().x, transform->getPosition().y + 5), Manager::actionLayer,
+				glm::ivec2(100, 5), transform->scale);
 			stamina_bar->addComponent<HPBar>();
 			stamina_bar->GetComponent<HPBar>().rectangle->color = Color(0, 100, 0, 255);
 
 			stamina_bar->addGroup(Manager::groupHPBars);
 		}
 		else {
-			greyBar->addComponent<TransformComponent>(transform->getPosition(), glm::ivec2(5, 50), transform->scale);
+			greyBar->addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer, glm::ivec2(50, 5), transform->scale);
 			greyBar->addComponent<HPBar>();
 			greyBar->GetComponent<HPBar>().rectangle->color = Color(128, 128, 128, 255); // Grey color
 			greyBar->addGroup(Manager::groupHPBars);
-			hp_bar->addComponent<TransformComponent>(transform->getPosition(),
-				glm::ivec2(5, 50), transform->scale);
+			hp_bar->addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer,
+				glm::ivec2(50, 5), transform->scale);
 			hp_bar->addComponent<HPBar>();
 			hp_bar->GetComponent<HPBar>().rectangle->color = Color(0, 255, 0, 255);
 			hp_bar->addGroup(Manager::groupHPBars);
