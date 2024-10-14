@@ -57,11 +57,7 @@ public:
 			if (Collision::checkCollision(sl->GetComponent<ColliderComponent>().collider, entity->GetComponent<ColliderComponent>().collider))
 			{
 				for (auto& pl : players) {
-					if (living->applyDamage(sl->GetComponent<Slice>().sliceDamage)) {
-						pl->GetComponent<ScoreComponent>().addToScore(100);
-						entity->destroy();
-						return;
-					}
+					living->applyDamage(sl->GetComponent<Slice>().sliceDamage);
 				}
 			}
 		}
@@ -70,11 +66,7 @@ public:
 			if (Collision::checkCollision(entity->GetComponent<ColliderComponent>().collider, wpr->GetComponent<ColliderComponent>().collider))
 			{
 				for (auto& pl : players) {
-					if (entity->GetComponent<LivingCharacter>().applyDamage(1)) {
-						pl->GetComponent<ScoreComponent>().addToScore(100);
-						entity->destroy();
-						return;
-					}
+					entity->GetComponent<LivingCharacter>().applyDamage(1);
 				}
 			}
 		}

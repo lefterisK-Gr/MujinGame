@@ -165,6 +165,7 @@
     <ClInclude Include="Src\ECS\Scripts\CreateRain.h" />
     <ClInclude Include="Src\ECS\Scripts\CreateRandomParticles.h" />
     <ClInclude Include="Src\ECS\Scripts\CreateSnow.h" />
+    <ClInclude Include="Src\ECS\Scripts\Gem_Script.h" />
     <ClInclude Include="Src\ECS\Scripts\ScoreComponent.h" />
     <ClInclude Include="Src\ECS\ScriptComponents.h" />
     <ClInclude Include="Src\ECS\Scripts\HPBar.h" />

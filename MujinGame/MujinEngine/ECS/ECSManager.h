@@ -133,6 +133,7 @@ public:
 		//groupEnemies,
 		groupColliders,
 		groupMysteryBoxes,
+		groupGems,
 		groupWinningTiles,
 		groupSlices,
 		groupEnemySlices,

@@ -24,3 +24,5 @@
 #include "Scripts/CreateRandomParticles.h"
 #include "Scripts/CreateRain.h"
 #include "Scripts/CreateSnow.h"
+
+#include "Scripts/Gem_Script.h"

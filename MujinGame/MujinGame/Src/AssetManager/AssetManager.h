@@ -47,6 +47,8 @@ public:
 
 	void CreateEnemies();
 
+	Entity& CreateGem(glm::vec2 pos);
+
 	//triggers
 	bool OnPipeTrigger(SDL_Rect collider) const;
 	bool LeftOfPipeTrigger(SDL_Rect collider) const;

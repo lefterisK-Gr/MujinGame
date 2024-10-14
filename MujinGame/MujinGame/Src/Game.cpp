@@ -220,6 +220,7 @@ auto& shop(manager.getGroup(Manager::groupShops));
 auto& inventory(manager.getGroup(Manager::groupInventories));
 auto& greenkoopatroopas(manager.getGroup(Manager::groupGreenKoopaTroopas));
 auto& mysteryboxtiles(manager.getGroup(Manager::groupMysteryBoxes));
+auto& gemtiles(manager.getGroup(Manager::groupGems));
 auto& winningtiles(manager.getGroup(Manager::groupWinningTiles));
 auto& slices(manager.getGroup(Manager::groupSlices));
 auto& enemyslices(manager.getGroup(Manager::groupEnemySlices));
@@ -401,13 +402,14 @@ void Game::update(float deltaTime) //game objects updating
 				}
 
 				if (collision.movingRectColSide == Collision::ColSide::TOP) {
-					if (c->hasComponent<MysteryBox_Script>()
-						&& !c->GetComponent<MysteryBox_Script>().getCoinAnimation()
-						)// hitted mystery box
-					{
+					if (c->hasComponent<MysteryBox_Script>())// hitted mystery box
+					{ 
+						auto& gem = assets->CreateGem(c->GetComponent<TransformComponent>().getPosition());
+
+						gem.GetComponent<Gem_Script>().doCoinAnimation = true;
+						// when collision done then destroy mysterybox and create gem in its place where its going to have the same position and then exec its animation
 						p->GetComponent<ScoreComponent>().addToScore(100);
-						c->GetComponent<MysteryBox_Script>().doCoinAnimation = true;
-						c->GetComponent<AnimatorComponent>().Play("CoinFlip");
+						c->destroy();
 					}
 				}
 
@@ -518,6 +520,12 @@ void Game::update(float deltaTime) //game objects updating
 			}
 			if (enemy->GetComponent<TransformComponent>().getPosition().y > (main_camera2D->getPosition().y + main_camera2D->worldDimensions.y))
 				enemy->destroy();
+			if (enemy->GetComponent<LivingCharacter>().hp_bar->GetComponent<HPBar>()._healthPoints <= 0) {
+				auto& gem = assets->CreateGem(enemy->GetComponent<TransformComponent>().getCenterTransform());
+				gem.GetComponent<Gem_Script>().doCoinAnimation = true;
+
+				enemy->destroy();
+			}
 		}
 	}
 
@@ -562,14 +570,10 @@ void Game::update(float deltaTime) //game objects updating
 						}
 						else //skeleton case
 						{
-							if (e->GetComponent<LivingCharacter>().applyDamage(10)) {
-								player->GetComponent<ScoreComponent>().addToScore(100);
-								e->destroy();
-							}
+							e->GetComponent<LivingCharacter>().applyDamage(10);
+								
 							if (!player->GetComponent<Player_Script>().tookDamage) {
-								if (player->GetComponent<LivingCharacter>().applyDamage(5)) {
-									player->destroy();
-								}
+								player->GetComponent<LivingCharacter>().applyDamage(5);
 							}
 						}
 
@@ -579,9 +583,7 @@ void Game::update(float deltaTime) //game objects updating
 						for (auto& pl : players)
 						{
 							if (!pl->GetComponent<Player_Script>().tookDamage) {
-								if (pl->GetComponent<LivingCharacter>().applyDamage(5)) {
-									pl->destroy();
-								}
+								pl->GetComponent<LivingCharacter>().applyDamage(5);
 							}
 						}
 					}
@@ -630,9 +632,7 @@ void Game::update(float deltaTime) //game objects updating
 			if (Collision::checkCollision(pl->GetComponent<ColliderComponent>().collider, p->GetComponent<ColliderComponent>().collider))
 			{
 				if (!pl->GetComponent<Player_Script>().tookDamage) {
-					if (pl->GetComponent<LivingCharacter>().applyDamage(5)) {
-						pl->destroy();
-					}
+					pl->GetComponent<LivingCharacter>().applyDamage(5);
 				}
 				p->destroy();
 			}
@@ -652,9 +652,7 @@ void Game::update(float deltaTime) //game objects updating
 			if (Collision::checkCollision(esl->GetComponent<ColliderComponent>().collider, pl->GetComponent<ColliderComponent>().collider))
 			{
 				if (!pl->GetComponent<Player_Script>().tookDamage) {
-					if (pl->GetComponent<LivingCharacter>().applyDamage(esl->GetComponent<Slice>().sliceDamage)) {
-						pl->destroy();
-					}
+					pl->GetComponent<LivingCharacter>().applyDamage(esl->GetComponent<Slice>().sliceDamage);
 				}
 			}
 		}
@@ -687,7 +685,7 @@ void Game::update(float deltaTime) //game objects updating
 		if (collision.isCollision)
 			break;
 	}
-	
+
 	for (auto& pl : players) //player rules
 	{
 		main_camera2D->setPosition_X(pl->GetComponent<TransformComponent>().getPosition().x - main_camera2D->getCameraDimensions().x / 2);
@@ -698,6 +696,9 @@ void Game::update(float deltaTime) //game objects updating
 			{
 				player->destroy();
 			}
+		}
+		if (pl->GetComponent<LivingCharacter>().hp_bar->GetComponent<HPBar>()._healthPoints <= 0) {
+			pl->destroy();
 		}
 	}
 	

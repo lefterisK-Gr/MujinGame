@@ -76,9 +76,11 @@ void AssetManager::CreatePlayer(Entity& player)
 
 void AssetManager::CreateBackground()
 {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
 	auto& background(manager->addEntity());
 
-	background.addComponent<TransformComponent>(glm::vec2(0, 0), Manager::backgroundLayer, glm::ivec2(1142, 640), 1);
+	background.addComponent<TransformComponent>(glm::vec2(0, 0), Manager::backgroundLayer, glm::ivec2(main_camera2D->worldDimensions.x + _window.getScreenWidth(), main_camera2D->worldDimensions.y + _window.getScreenHeight()), 1);
 	background.addComponent<SpriteComponent>("backgroundMountains");
 
 	background.addGroup(Manager::groupBackgrounds);
@@ -180,7 +182,7 @@ void AssetManager::CreateFog()
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	auto& fog(manager->addEntity());
 
-	fog.addComponent<TransformComponent>(glm::zero<glm::vec2>(), Manager::fogLayer, glm::ivec2(main_camera2D->worldDimensions.x, main_camera2D->worldDimensions.y), 1);
+	fog.addComponent<TransformComponent>(glm::zero<glm::vec2>(), Manager::fogLayer, glm::ivec2(main_camera2D->worldDimensions.x + _window.getScreenWidth(), main_camera2D->worldDimensions.y + _window.getScreenHeight()), 1);
 	fog.addComponent<Rectangle_w_Color>();
 
 	fog.addGroup(Manager::groupFog);
@@ -266,6 +268,21 @@ void AssetManager::CreateEnemies() {
 
 		CreateGreenKoopaTroopa(pos, vel, speed, "greenkoopatroopa");
 	}
+}
+
+Entity& AssetManager::CreateGem(glm::vec2 pos) {
+	auto& gem(manager->addEntity());
+
+	gem.addComponent<TransformComponent>(pos);
+	gem.addComponent<SpriteComponent>("terrain");
+	gem.addComponent<AnimatorComponent>("terrain");
+	gem.addComponent<MovingAnimatorComponent>("terrain");
+	gem.addComponent<Gem_Script>(Game::audioEngine.loadSoundEffect("Sounds/coin_collect.wav"));
+
+	gem.addGroup(Manager::groupGems);
+	gem.addGroup(Manager::groupActionLayer);
+	
+	return gem;
 }
 
 bool AssetManager::OnPipeTrigger(SDL_Rect collider) const

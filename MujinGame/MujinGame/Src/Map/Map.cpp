@@ -345,8 +345,7 @@ void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
 		tile2.addComponent<TileComponent>(tileComp.srcRect.x, tileComp.srcRect.y, tileComp.position.x, tileComp.position.y, tileSize, mapScale, texID, tileComp.fullSolid); //insert tile and grid and colliders(somehow we refer to background)
 		tile2.addComponent<AnimatorComponent>(texID);
 		tile2.addComponent<MovingAnimatorComponent>(texID);
-		tile2.addComponent<MysteryBox_Script>(Game::audioEngine.loadSoundEffect("Sounds/coin_collect.wav")); //insert tile and grid (texID is set in Game::init() ("terrain"))
-		tile2.GetComponent<AnimatorComponent>().Play("QuestionMark");
+		tile2.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
 		tile2.addGroup(Manager::groupForegroundLayer);
 		tile2.addGroup(Manager::groupMysteryBoxes);
 		manager.grid->addEntity(&tile2);
