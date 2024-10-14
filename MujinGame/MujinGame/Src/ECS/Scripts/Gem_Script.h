@@ -9,7 +9,6 @@ class Gem_Script : public Component //PlayerAnimator -> Animator -> Sprite -> Tr
 private:
 	SoundEffect _gemEffect;
 public: // it is like it has init that creates Animator Component since it inherits it
-	bool doCoinAnimation = false;
 	bool lockCoinAnimation = false;
 
 	AnimatorComponent* animator;
@@ -39,22 +38,16 @@ public: // it is like it has init that creates Animator Component since it inher
 	}
 
 	void update(float deltaTime) override {
-		if (doCoinAnimation && !lockCoinAnimation) //add finished coin animation so its not checked everytime
-		{
-			_gemEffect.play();
-			moving_animator->Play("CoinBounce");
-
-			doCoinAnimation = false;
-			lockCoinAnimation = true;
-		}
 
 		if (sprite->moving_animation.hasFinished() && lockCoinAnimation) {
-			entity->GetComponent<SpriteComponent>().DestroyGlTex();
+			entity->destroy();
 		}
 	}
 
-	bool getCoinAnimation()
-	{
-		return doCoinAnimation;
+	void doCoinAnimation() {
+		_gemEffect.play();
+		moving_animator->Play("CoinBounce");
+
+		lockCoinAnimation = true;
 	}
 };

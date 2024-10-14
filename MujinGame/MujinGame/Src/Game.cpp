@@ -406,7 +406,7 @@ void Game::update(float deltaTime) //game objects updating
 					{ 
 						auto& gem = assets->CreateGem(c->GetComponent<TransformComponent>().getPosition());
 
-						gem.GetComponent<Gem_Script>().doCoinAnimation = true;
+						gem.GetComponent<Gem_Script>().doCoinAnimation();
 						// when collision done then destroy mysterybox and create gem in its place where its going to have the same position and then exec its animation
 						p->GetComponent<ScoreComponent>().addToScore(100);
 						c->destroy();
@@ -522,7 +522,11 @@ void Game::update(float deltaTime) //game objects updating
 				enemy->destroy();
 			if (enemy->GetComponent<LivingCharacter>().hp_bar->GetComponent<HPBar>()._healthPoints <= 0) {
 				auto& gem = assets->CreateGem(enemy->GetComponent<TransformComponent>().getCenterTransform());
-				gem.GetComponent<Gem_Script>().doCoinAnimation = true;
+
+				gem.addGroup(Manager::groupGems);
+
+				TransformComponent* gem_tr = &gem.GetComponent<TransformComponent>();
+				gem.addComponent<ColliderComponent>("gem", gem_tr->getPosition().x, gem_tr->getPosition().y, gem_tr->width);
 
 				enemy->destroy();
 			}
@@ -624,6 +628,24 @@ void Game::update(float deltaTime) //game objects updating
 			}
 		}
 	}
+
+	for (auto& p : players) {
+		for (auto& gem : gemtiles) {
+			SDL_Rect gemCol = gem->GetComponent<ColliderComponent>().collider;
+			SDL_Rect pCol = p->GetComponent<ColliderComponent>().collider;
+
+			bool hasCollision = collision.checkCollision(pCol, gemCol);
+
+			if (hasCollision)
+			{
+				p->GetComponent<ScoreComponent>().addToScore(100);
+			}
+
+			collision.isCollision = false;
+			gem->destroy();
+		}
+	}
+
 
 	for (auto& p : projectiles) //projectiles with players
 	{

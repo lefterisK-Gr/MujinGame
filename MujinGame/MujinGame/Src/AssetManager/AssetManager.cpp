@@ -279,7 +279,6 @@ Entity& AssetManager::CreateGem(glm::vec2 pos) {
 	gem.addComponent<MovingAnimatorComponent>("terrain");
 	gem.addComponent<Gem_Script>(Game::audioEngine.loadSoundEffect("Sounds/coin_collect.wav"));
 
-	gem.addGroup(Manager::groupGems);
 	gem.addGroup(Manager::groupActionLayer);
 	
 	return gem;
