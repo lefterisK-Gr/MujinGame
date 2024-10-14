@@ -57,7 +57,7 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		transform->setPosition_X(isOpen ? 50.0f : -1000.0f);
 		

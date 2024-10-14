@@ -4,16 +4,11 @@
 #include <SDL/SDL.h>
 #include "ICamera.h"
 
-class Camera2D : public ICamera{
+class OrthoCamera : public ICamera {
 public:
 	glm::ivec2 worldDimensions;
 
-	glm::vec3 eyePos;
-	glm::vec3 aimPos;
-	glm::vec3 upDir;
-
-
-	Camera2D() : _position(0.0f, 0.0f),
+	OrthoCamera() : _position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),	//I
 		_projectionMatrix(1.0f),		//I
 		_viewMatrix(1.0f),
@@ -24,7 +19,7 @@ public:
 	{
 
 	}
-	~Camera2D()
+	~OrthoCamera()
 	{
 
 	}
@@ -33,23 +28,13 @@ public:
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
 
-		eyePos = glm::vec3(400.f,320.f,-780.0f);
-		aimPos = glm::vec3(400.f, 320.f, 0.f);
-		upDir = glm::vec3(0.f, -1.f, 0.f);
-		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, 1000.0f); //left, right, top, bottom
-		_viewMatrix = glm::lookAt(eyePos, //< eye position
-			aimPos,  //< aim position
-			upDir); //< up direction
+		_projectionMatrix = glm::ortho(0.0f, (float)_screenWidth, (float)_screenHeight, 0.0f);
 
 	}
 
 	void update() override {
 
 		if (_cameraChange) {
-			_viewMatrix = glm::lookAt(eyePos, //< eye position
-				aimPos,  //< aim position
-				upDir); //< up direction
-
 
 			_cameraMatrix = glm::mat4(1.0f);
 
@@ -59,7 +44,7 @@ public:
 
 			glm::vec3 translate(-_position.x, -_position.y, 0.0f);
 			_cameraMatrix = glm::translate(_cameraMatrix, translate); //if glm ortho = -1,1,-1,1 then 1 horizontal with -400,-320 to bottom-left
-			
+
 			_cameraMatrix = _projectionMatrix * _viewMatrix * _cameraMatrix;
 
 			//_cameraMatrix = glm::scale(_cameraMatrix, scale);

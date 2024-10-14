@@ -4,7 +4,7 @@
 #include "ScreenList.h"
 #include "IGameScreen.h"
 
-#include "../Camera2D/CameraManager.h"
+#include "../Camera2.5D/CameraManager.h"
 
 IMainGame::IMainGame() {
 	_screenList = std::make_unique<ScreenList>(this);

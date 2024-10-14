@@ -9,7 +9,7 @@
 
 #include <SDL/SDL.h>
 #include "../SpriteBatch/SpriteBatch.h"
-#include "../Camera2D/CameraManager.h"
+#include "../Camera2.5D/CameraManager.h"
 #include "../Window/Window.h"
 
 #define CULLING_OFFSET 100

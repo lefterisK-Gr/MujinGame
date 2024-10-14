@@ -81,6 +81,9 @@
     <ClCompile Include="DebugRenderer\DebugRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera2.5D\OrthoCamera.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioEngine\AudioEngine.h">
@@ -122,7 +125,7 @@
     <ClInclude Include="SpriteBatch\SpriteBatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2D\Camera2D.h">
+    <ClInclude Include="Camera2.5D\PerspectiveCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\ColliderComponent.h">
@@ -173,10 +176,10 @@
     <ClInclude Include="ECS\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2D\CameraManager.h">
+    <ClInclude Include="Camera2.5D\CameraManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Camera2D\ICamera.h">
+    <ClInclude Include="Camera2.5D\ICamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PNG_Letters.h">

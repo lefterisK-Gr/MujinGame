@@ -48,8 +48,8 @@ public:
 	void CreateEnemies();
 
 	//triggers
-	bool OnPipeTrigger(SDL_Rect collider);
-	bool LeftOfPipeTrigger(SDL_Rect collider);
+	bool OnPipeTrigger(SDL_Rect collider) const;
+	bool LeftOfPipeTrigger(SDL_Rect collider) const;
 
 private:
 	Weather _weather;

@@ -4,7 +4,8 @@
 #include <memory>
 #include <string>
 #include "ICamera.h"
-#include "Camera2D.h"
+#include "PerspectiveCamera.h"
+#include "OrthoCamera.h"
 
 class CameraManager {
 public:
@@ -29,15 +30,15 @@ public:
     }
 
     void initializeCameras() {
-        auto mainCamera = std::make_shared<Camera2D>();
+        auto mainCamera = std::make_shared<PerspectiveCamera>();
         // Configure your mainCamera as needed
         CameraManager::getInstance().addCamera("main", mainCamera);
 
-        auto hudCamera = std::make_shared<Camera2D>();
+        auto hudCamera = std::make_shared<OrthoCamera>();
         // Configure your hudCamera as needed, usually orthographic with fixed positioning
         CameraManager::getInstance().addCamera("hud", hudCamera);
 
-        auto mainMenu_hudCamera = std::make_shared<Camera2D>();
+        auto mainMenu_hudCamera = std::make_shared<OrthoCamera>();
         // Configure your hudCamera as needed, usually orthographic with fixed positioning
         CameraManager::getInstance().addCamera("mainMenu_hud", mainMenu_hudCamera);
     }

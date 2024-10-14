@@ -9,7 +9,7 @@
 #undef main
 #include <iostream>
 #include <vector>
-#include "Camera2D/Camera2D.h"
+#include "Camera2.5D/PerspectiveCamera.h"
 #include "SpriteBatch/SpriteBatch.h"
 #include "InputManager/InputManager.h"
 #include "Timing/Timing.h"
@@ -59,10 +59,10 @@ public:
 
 	/////////////////////////
 	
-	void setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera);
-	void setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, Camera2D& camera);
-	void setupShaderAndWaveTexture(const std::string& textureName, Camera2D& camera);
-	void setupShaderAndFogTexture(Camera2D& camera);
+	void setupShaderAndLightTexture(const std::string& textureName, PerspectiveCamera& camera);
+	void setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera);
+	void setupShaderAndWaveTexture(const std::string& textureName, PerspectiveCamera& camera);
+	void setupShaderAndFogTexture(PerspectiveCamera& camera);
 	void renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch);
 	void drawHUD(const std::vector<Entity*>& entities, const std::string& textureName);
 

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <SDL/SDL.h>
 #include "ECS/Components.h"
-#include "Camera2D/CameraManager.h"
+#include "Camera2.5D/CameraManager.h"
 #include "../ECS/ScriptComponents.h"
 #include "../Collision/Collision.h"
 #include "../AssetManager/AssetManager.h"
@@ -54,7 +54,7 @@ void MainMenuScreen::onEntry()
 {
 	assets = new AssetManager(&manager, _game->_inputManager, _game->_window);
 
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
 	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
 	hud_camera2D->setPosition_X(hud_camera2D->getPosition().x /*+ glm::vec2(
@@ -122,7 +122,7 @@ void MainMenuScreen::onExit()
 
 void MainMenuScreen::update(float deltaTime)
 {
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
 	checkInput();
 
@@ -152,7 +152,7 @@ void MainMenuScreen::update(float deltaTime)
 }
 
 void MainMenuScreen::setupShaderAndTexture(const std::string& textureName) {
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("mainMenu_hud"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
 	_textureProgram.use();
 	glActiveTexture(GL_TEXTURE0);

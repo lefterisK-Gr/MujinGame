@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include "../Vertex.h"
-#include "../Camera2D/CameraManager.h"
+#include "../Camera2.5D/CameraManager.h"
 #include <vector>
 
 

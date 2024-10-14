@@ -56,7 +56,7 @@ public:
 	void update(float deltaTime) override
 	{
 
-		std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 		SDL_Rect dimensions = { _position.x, _position.y, width, height };
 		SDL_Rect cameraDimensions = main_camera2D->getCameraRect();

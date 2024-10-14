@@ -1,7 +1,7 @@
 ﻿
 #include "Game.h"
 #include "TextureManager/TextureManager.h"
-#include "Camera2D/CameraManager.h"
+#include "Camera2.5D/CameraManager.h"
 #include "Map/Map.h"
 #include "ECS/Components.h"
 #include "ECS/ScriptComponents.h"
@@ -62,8 +62,8 @@ void Game::onEntry()
 {
 	assets = new AssetManager(&manager, _game->_inputManager, _game->_window);
 
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	_debugRenderer.init();
 
@@ -239,8 +239,8 @@ auto& generators(manager.getGroup(Manager::groupEnvironmentGenerators));
 
 void Game::update(float deltaTime) //game objects updating
 {
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 
 	if (map->getMapCompleted()) {
@@ -741,14 +741,14 @@ void Game::update(float deltaTime) //game objects updating
 }
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	screenCoords = main_camera2D->convertScreenToWorld(screenCoords);  
 	return screenCoords;
 }
 
 void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	for (auto& groups : { tiles,skeletons , greenkoopatroopas })
 	{
 		for (auto& entity : groups) {
@@ -766,8 +766,8 @@ void Game::selectEntityAtPosition(glm::vec2 worldCoords) {
 }
 
 void Game::checkInput() {
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	_game->_inputManager.update();
 
@@ -848,7 +848,7 @@ void Game::updateUI() {
 	ImGui::PopStyleColor(1);
 	ImGui::Text("Camera Position");
 
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	ImGui::Text("Rect: {x: %d, y: %d, w: %d, h: %d}", main_camera2D->getCameraRect().x, main_camera2D->getCameraRect().y, main_camera2D->getCameraRect().w, main_camera2D->getCameraRect().h);
 	
@@ -906,7 +906,7 @@ void Game::updateUI() {
 
 }
 
-void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
+void Game::setupShaderAndLightTexture(const std::string& textureName, PerspectiveCamera& camera) { // todo add camera2D.worldLocation argument
 	_textureLightProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
@@ -950,7 +950,7 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Camera2D& 
 	//glUniform2fv(lightPosLocation2, 1, &(lightsPos[1].position[0]));  // Pass the address of the first element of lightPos
 }
 
-void Game::setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
+void Game::setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) { // todo add camera2D.worldLocation argument
 	shaderProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
@@ -962,7 +962,7 @@ void Game::setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& 
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-void Game::setupShaderAndWaveTexture(const std::string& textureName, Camera2D& camera) { // todo add camera2D.worldLocation argument
+void Game::setupShaderAndWaveTexture(const std::string& textureName, PerspectiveCamera& camera) { // todo add camera2D.worldLocation argument
 	_waveProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
@@ -978,7 +978,7 @@ void Game::setupShaderAndWaveTexture(const std::string& textureName, Camera2D& c
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-void Game::setupShaderAndFogTexture(Camera2D& camera) { // todo add camera2D.worldLocation argument
+void Game::setupShaderAndFogTexture(PerspectiveCamera& camera) { // todo add camera2D.worldLocation argument
 	_fogProgram.use();
 	float currentTime = SDL_GetTicks() / 1000.0f;
 	float elapsedTime = currentTime - Game::startTime;
@@ -990,7 +990,7 @@ void Game::setupShaderAndFogTexture(Camera2D& camera) { // todo add camera2D.wor
 }
 
 void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
 	batch.begin();
 	for (const auto& entity : entities) {
@@ -1010,8 +1010,8 @@ void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch)
 
 void Game::draw()
 {
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	////////////OPENGL USE
 	glClearDepth(1.0);
@@ -1218,7 +1218,7 @@ void Game::draw()
 
 
 void Game::drawHUD(const std::vector<Entity*>& entities, const std::string& textureName) {
-	std::shared_ptr<Camera2D> hud_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("hud"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	setupShaderAndTexture(_textureProgram, textureName, *hud_camera2D);
 	renderBatch(entities, _hudSpriteBatch);

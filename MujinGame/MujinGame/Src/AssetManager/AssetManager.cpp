@@ -177,7 +177,7 @@ void AssetManager::CreateInventory() {
 
 void AssetManager::CreateFog()
 {
-	std::shared_ptr<Camera2D> main_camera2D = std::dynamic_pointer_cast<Camera2D>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	auto& fog(manager->addEntity());
 
 	fog.addComponent<TransformComponent>(glm::zero<glm::vec2>(), Manager::fogLayer, glm::ivec2(main_camera2D->worldDimensions.x, main_camera2D->worldDimensions.y), 1);
@@ -268,7 +268,7 @@ void AssetManager::CreateEnemies() {
 	}
 }
 
-bool AssetManager::OnPipeTrigger(SDL_Rect collider)
+bool AssetManager::OnPipeTrigger(SDL_Rect collider) const
 {
 	for (int i = 0; i < 2; i++)
 	{
@@ -279,7 +279,7 @@ bool AssetManager::OnPipeTrigger(SDL_Rect collider)
 	return false;
 }
 
-bool AssetManager::LeftOfPipeTrigger(SDL_Rect collider)
+bool AssetManager::LeftOfPipeTrigger(SDL_Rect collider) const
 {
 	for (int i = 0; i < 1; i++)
 	{
