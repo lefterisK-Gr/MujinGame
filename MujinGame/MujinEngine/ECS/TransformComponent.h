@@ -2,6 +2,7 @@
 
 #include "Components.h"
 
+#include "ECSManager.h"
 
 class TransformComponent : public Component //transform as in graphics, we have rotation and scale
 {
@@ -66,18 +67,22 @@ public:
 		}
 		else {
 			entity->paused = true;
-			if (!entity->hasGroup(static_cast<Group>(17)) &&
-				!entity->hasGroup(static_cast<Group>(0)) &&
-				!entity->hasGroup(static_cast<Group>(11)) &&
-				!entity->hasGroup(static_cast<Group>(12)) &&
-				!entity->hasGroup(static_cast<Group>(13)) &&
-				!entity->hasGroup(static_cast<Group>(4))) {
+			if (!entity->hasGroup(static_cast<Group>(Manager::groupLabels)) &&
+				!entity->hasGroup(static_cast<Group>(Manager::groupBackgroundLayer)) &&
+				!entity->hasGroup(static_cast<Group>(Manager::groupTextureLights)) &&
+				!entity->hasGroup(static_cast<Group>(Manager::groupRainDrop)) &&
+				!entity->hasGroup(static_cast<Group>(Manager::groupSnow)) &&
+				!entity->hasGroup(static_cast<Group>(Manager::groupBackgrounds))) {
 				return;
 			}
 		}
 			
 		_position.x += _velocity.x * speed * deltaTime;
-		_position.y += _velocity.y * speed ; //needs to have deltaTime
+		float distanceY = _velocity.y * speed * deltaTime;
+		if(distanceY < 1)
+			_position.y += _velocity.y * speed;
+		else
+			_position.y += _velocity.y * speed * deltaTime;
 	}
 
 	glm::vec2 getCenterTransform()
@@ -104,10 +109,10 @@ public:
 		return _velocity;
 	}
 
-	void setVelocity_X(int newVelocity_X) {
+	void setVelocity_X(float newVelocity_X) {
 		_velocity.x = newVelocity_X;
 	}
-	void setVelocity_Y(int newVelocity_Y) {
+	void setVelocity_Y(float newVelocity_Y) {
 		_velocity.y = newVelocity_Y;
 	}
 };

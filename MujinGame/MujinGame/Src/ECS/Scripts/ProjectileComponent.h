@@ -6,7 +6,7 @@
 class ProjectileComponent : public Component
 {
 public:
-	ProjectileComponent(int rng, int sp, glm::ivec2 vel) : range(rng), speed(sp), velocity(vel)
+	ProjectileComponent(int rng, int sp, glm::vec2 vel) : range(rng), speed(sp), velocity(vel)
 	{}
 	~ProjectileComponent()
 	{}

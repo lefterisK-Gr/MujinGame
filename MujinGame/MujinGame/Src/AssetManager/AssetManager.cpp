@@ -114,7 +114,7 @@ void AssetManager::CreateProjectile(glm::ivec2 pos, glm::ivec2 dest,int range, i
 	const GLTexture* gl_texture = TextureManager::getInstance().Get_GLTexture(id);
 	projectile.addComponent<TransformComponent>(glm::vec2(pos.x-gl_texture->width/2, pos.y- gl_texture->height/2), Manager::actionLayer, glm::ivec2(gl_texture->width, gl_texture->height), 1, speed);
 	projectile.addComponent<AnimatorComponent>(id);
-	glm::ivec2 direction = glm::normalize(glm::vec2(dest - pos));
+	glm::vec2 direction = glm::normalize(glm::vec2(dest - pos));
 	projectile.addComponent<ProjectileComponent>(range, speed, direction);
 	if (direction.x < 0) {
 		projectile.GetComponent<SpriteComponent>().spriteFlip = SDL_FLIP_HORIZONTAL;
