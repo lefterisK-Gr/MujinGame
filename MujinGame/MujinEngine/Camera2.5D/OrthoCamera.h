@@ -24,12 +24,9 @@ public:
 
 	}
 
-	void init(int screenWidth, int screenHeight) override {
-		_screenWidth = screenWidth;
-		_screenHeight = screenHeight;
+	void init() override {
 
 		_projectionMatrix = glm::ortho(0.0f, (float)_screenWidth, (float)_screenHeight, 0.0f);
-
 	}
 
 	void update() override {

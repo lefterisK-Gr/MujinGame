@@ -56,7 +56,7 @@ void MainMenuScreen::onEntry()
 
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("mainMenu_hud"));
 
-	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
+	hud_camera2D->init(); // Assuming a screen resolution of 800x600
 	hud_camera2D->setPosition_X(hud_camera2D->getPosition().x /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
@@ -192,10 +192,21 @@ void MainMenuScreen::draw()
 }
 
 void MainMenuScreen::checkInput() {
+	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
+
+
 	SDL_Event evnt;
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_game->onSDLEvent(evnt);
+
+		switch (evnt.type)
+		{
+			case SDL_MOUSEMOTION:
+				glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();
+				_game->_inputManager.setMouseCoords(mouseCoordsVec.x * main_camera2D->getCameraDimensions().x / _window->getScreenWidth(), mouseCoordsVec.y * main_camera2D->getCameraDimensions().y / _window->getScreenHeight());
+		}
 
 		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoordsVec = _game->_inputManager.getMouseCoords();

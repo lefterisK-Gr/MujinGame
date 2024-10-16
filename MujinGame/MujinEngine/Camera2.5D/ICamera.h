@@ -8,7 +8,7 @@ public:
     virtual ~ICamera() = default;
 
     // Initializes the camera2D.worldLocation with the screen's width and height
-    virtual void init(int screenWidth, int screenHeight) = 0;
+    virtual void init() = 0;
 
     // Updates the camera2D.worldLocation's matrix if there have been any changes
     virtual void update() = 0;

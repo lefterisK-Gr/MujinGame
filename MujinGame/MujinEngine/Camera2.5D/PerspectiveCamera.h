@@ -29,10 +29,7 @@ public:
 
 	}
 
-	void init(int screenWidth, int screenHeight) override {
-		_screenWidth = screenWidth;
-		_screenHeight = screenHeight;
-
+	void init() override {
 		eyePos = glm::vec3(400.f,320.f,-780.0f);
 		aimPos = glm::vec3(400.f, 320.f, 0.f);
 		upDir = glm::vec3(0.f, -1.f, 0.f);

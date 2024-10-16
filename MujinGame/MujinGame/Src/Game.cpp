@@ -67,7 +67,7 @@ void Game::onEntry()
 
 	_debugRenderer.init();
 
-	main_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight()); // Assuming a screen resolution of 800x600
+	main_camera2D->init(); // Assuming a screen resolution of 800x600
 	main_camera2D->setPosition_X(main_camera2D->getPosition().x /*+ glm::vec2(
 		width / 2.0f,
 		height / 2.0f
@@ -75,7 +75,7 @@ void Game::onEntry()
 	main_camera2D->setPosition_Y(main_camera2D->getPosition().y);
 	main_camera2D->setScale(1.0f);
 
-	hud_camera2D->init(_window->getScreenWidth(), _window->getScreenHeight());
+	hud_camera2D->init();
 
 	audioEngine.init();
 	AnimatorManager& animManager = AnimatorManager::getInstance();
@@ -164,9 +164,8 @@ void Game::onEntry()
 	Game::map = new Map("terrain", 1, 32);
 
 	main_camera2D->worldDimensions= map->GetLayerDimensions("assets/Maps/map_v3_Tile_Layer.csv");
-	main_camera2D->worldDimensions.x = main_camera2D->worldDimensions.x - _window->getScreenWidth();
 
-	manager.grid = std::make_unique<Grid>(main_camera2D->worldDimensions.x + _window->getScreenWidth(), main_camera2D->worldDimensions.y, CELL_SIZE);
+	manager.grid = std::make_unique<Grid>(main_camera2D->worldDimensions.x, main_camera2D->worldDimensions.y, CELL_SIZE);
 
 	map->LoadMap("assets/Maps/background.csv","assets/Maps/background_v3.csv","assets/Maps/map_v3_Tile_Layer.csv", "assets/Maps/foreground_foreground.csv");
 
@@ -735,14 +734,13 @@ void Game::update(float deltaTime) //game objects updating
 				pl->GetComponent<TransformComponent>().setPosition_Y(scenes->GetSceneStartupPosition(0).y);
 			}
 			main_camera2D->worldDimensions = map->GetLayerDimensions("assets/Maps/RandomMap.csv");
-			main_camera2D->worldDimensions.x = main_camera2D->worldDimensions.x - _window->getScreenWidth();
 		}
 		p->GetComponent<Player_Script>().finishedHorAnimation = false;
 	}
 
 	for (auto& clouds : backgroundtiles) {
 		if (clouds->GetComponent<TransformComponent>().getPosition().x + clouds->GetComponent<TransformComponent>().width < 0) {
-			clouds->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldDimensions.x * 1.0f / 3.0f + _window->getScreenWidth())  ; //due to cloud z-index
+			clouds->GetComponent<TransformComponent>().setPosition_X(main_camera2D->worldDimensions.x * 1.0f / 3.0f)  ; //due to cloud z-index
 		}
 	}
 
@@ -759,8 +757,8 @@ void Game::update(float deltaTime) //game objects updating
 
 	if (main_camera2D->getPosition().x < 0)
 		main_camera2D->setPosition_X(0.0f);
-	if (main_camera2D->getPosition().x > main_camera2D->worldDimensions.x)
-		main_camera2D->setPosition_X(main_camera2D->worldDimensions.x);
+	if (main_camera2D->getPosition().x > main_camera2D->worldDimensions.x - main_camera2D->getCameraDimensions().x)
+		main_camera2D->setPosition_X(main_camera2D->worldDimensions.x - main_camera2D->getCameraDimensions().x);
 }
 
 glm::vec2 convertScreenToWorld(glm::vec2 screenCoords) {
