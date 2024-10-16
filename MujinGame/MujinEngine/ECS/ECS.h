@@ -93,6 +93,11 @@ public:
 	Cell* ownerCell = nullptr;
 	std::vector<std::unique_ptr<Component>> components; //create 2 arrays, this is for the concurrent access
 	Entity(Manager& mManager, bool is_hud ) : manager(mManager), isHud(is_hud) {}
+
+	bool getIsHud() {
+		return isHud;
+	}
+
 	void update(float deltaTime)
 	{
 		if (isHud) {

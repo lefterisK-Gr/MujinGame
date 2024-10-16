@@ -10,7 +10,6 @@ public:
 
 	float offsetX = 0;
 	float offsetY = 0;
-	bool isHud = false;
 
 	TransformComponent* transform = nullptr;
 
@@ -21,12 +20,11 @@ public:
 
 	}
 
-	StageUpButton(std::string textId, float offset_x, float offset_y, bool is_hud)
+	StageUpButton(std::string textId, float offset_x, float offset_y)
 	{
 		idName = textId;
 		offsetX = offset_x;
 		offsetY = offset_y;
-		isHud = is_hud;
 	}
 
 	~StageUpButton() {
@@ -49,7 +47,7 @@ public:
 		}
 		entity->addGroup(Manager::groupStageUpButtons);
 
-		stageUpBtnBack = &manager.addEntity();
+		stageUpBtnBack = &manager.addEntity(true);
 		stageUpBtnBack->addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer, glm::ivec2( 32, 32), transform->scale);
 		stageUpBtnBack->addComponent<Rectangle_w_Color>();
 		stageUpBtnBack->GetComponent<Rectangle_w_Color>().color = Color(128, 128, 128, 255); // Grey color
@@ -58,10 +56,8 @@ public:
 	}
 
 	void update(float deltaTime) override {
-		if (isHud) {
-			entity->GetComponent<TransformComponent>().setPosition_X( offsetX);
-			stageUpBtnBack->GetComponent<TransformComponent>().setPosition_X(offsetX);
-		}
+		entity->GetComponent<TransformComponent>().setPosition_X( offsetX);
+		stageUpBtnBack->GetComponent<TransformComponent>().setPosition_X(offsetX);
 	}
 
 };

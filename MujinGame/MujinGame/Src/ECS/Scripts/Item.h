@@ -46,7 +46,7 @@ public:
 		}
 		entity->addGroup(Manager::groupStageUpButtons);
 
-		itemBack = &manager.addEntity();
+		itemBack = &manager.addEntity(true);
 		itemBack->addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer, glm::ivec2(32, 32), transform->scale);
 		itemBack->addComponent<Rectangle_w_Color>();
 		itemBack->GetComponent<Rectangle_w_Color>().color = Color(255, 0, 0, 255); // Grey color

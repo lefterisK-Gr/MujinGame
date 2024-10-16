@@ -8,7 +8,6 @@ class StageUpButtons : public Component
 private:
 	std::vector<Entity*> _stageupbtns;
 public:
-	bool isHud = false;
 
 	TransformComponent* transform = nullptr;
 
@@ -19,11 +18,6 @@ public:
 	StageUpButtons()
 	{
 
-	}
-
-	StageUpButtons(bool is_hud)
-	{
-		isHud = is_hud;
 	}
 
 	~StageUpButtons() {
@@ -44,19 +38,19 @@ public:
 	void init() override {
 		transform = &entity->GetComponent<TransformComponent>();
 
-		auto& attackDamageBtn(manager.addEntity());
-		auto& defenceBtn(manager.addEntity());
-		auto& hpPotionBtn(manager.addEntity());
+		auto& attackDamageBtn(manager.addEntity(true));
+		auto& defenceBtn(manager.addEntity(true));
+		auto& hpPotionBtn(manager.addEntity(true));
 
-		attackDamageBtn.addComponent<StageUpButton>("sword", transform->getPosition().x + 0.0f, transform->getPosition().y, isHud);
+		attackDamageBtn.addComponent<StageUpButton>("sword", transform->getPosition().x + 0.0f, transform->getPosition().y);
 		attackDamageBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleAttackDamageBtn, this));
 		attackDamageBtn.addGroup(Manager::groupStageUpAttackButtons);
 
-		defenceBtn.addComponent<StageUpButton>("shield", transform->getPosition().x + 100.0f, transform->getPosition().y, isHud);
+		defenceBtn.addComponent<StageUpButton>("shield", transform->getPosition().x + 100.0f, transform->getPosition().y);
 		defenceBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleDefenceBtn, this));
 		defenceBtn.addGroup(Manager::groupStageUpDefenceButtons);
 
-		hpPotionBtn.addComponent<StageUpButton>("healthPotion", transform->getPosition().x + 200.0f, transform->getPosition().y, isHud);
+		hpPotionBtn.addComponent<StageUpButton>("healthPotion", transform->getPosition().x + 200.0f, transform->getPosition().y);
 		hpPotionBtn.addComponent<ButtonComponent>(std::bind(&StageUpButtons::handleHpPotionBtn, this));
 		hpPotionBtn.addGroup(Manager::groupStageUpHpButtons);
 

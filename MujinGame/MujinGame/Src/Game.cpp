@@ -973,7 +973,7 @@ void Game::setupShaderAndLightTexture(const std::string& textureName, Perspectiv
 	//glUniform2fv(lightPosLocation2, 1, &(lightsPos[1].position[0]));  // Pass the address of the first element of lightPos
 }
 
-void Game::setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) { // todo add camera2D.worldLocation argument
+void Game::setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& textureName, ICamera& camera) {
 	shaderProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
@@ -985,7 +985,7 @@ void Game::setupShaderAndTexture(GLSLProgram& shaderProgram, const std::string& 
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-void Game::setupShaderAndWaveTexture(const std::string& textureName, PerspectiveCamera& camera) { // todo add camera2D.worldLocation argument
+void Game::setupShaderAndWaveTexture(const std::string& textureName, PerspectiveCamera& camera) { 
 	_waveProgram.use();
 	glActiveTexture(GL_TEXTURE0);
 	const GLTexture* texture = TextureManager::getInstance().Get_GLTexture(textureName);
@@ -1001,7 +1001,7 @@ void Game::setupShaderAndWaveTexture(const std::string& textureName, Perspective
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-void Game::setupShaderAndFogTexture(PerspectiveCamera& camera) { // todo add camera2D.worldLocation argument
+void Game::setupShaderAndFogTexture(PerspectiveCamera& camera) { 
 	_fogProgram.use();
 	float currentTime = SDL_GetTicks() / 1000.0f;
 	float elapsedTime = currentTime - Game::startTime;
@@ -1012,14 +1012,15 @@ void Game::setupShaderAndFogTexture(PerspectiveCamera& camera) { // todo add cam
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 }
 
-void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { // todo add batch argument
+void Game::renderBatch(const std::vector<Entity*>& entities, SpriteBatch& batch) { 
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
 	batch.begin();
 	for (const auto& entity : entities) {
-		if (entity->hasComponent<SpriteComponent>()) {
+		if (!entity->getIsHud() && entity->hasComponent<SpriteComponent>()) {
 			SpriteComponent entitySprite = entity->GetComponent<SpriteComponent>();
-			if (collision.checkCollision(entitySprite.destRect, main_camera2D->getCameraRect())) { //culling
+			if (entity->checkCollision(entitySprite.destRect, main_camera2D->getCameraRect())) { //draw culling
 				entity->draw(batch, *Game::_window);
 			}
 		}
