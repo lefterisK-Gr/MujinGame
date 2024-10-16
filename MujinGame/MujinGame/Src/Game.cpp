@@ -404,7 +404,7 @@ void Game::update(float deltaTime) //game objects updating
 				if (collision.movingRectColSide == Collision::ColSide::TOP) {
 					if (c->hasComponent<MysteryBox_Script>())// hitted mystery box
 					{ 
-						auto& gem = assets->CreateGem(c->GetComponent<TransformComponent>().getPosition());
+						auto& gem = assets->CreateGem(&c->GetComponent<TransformComponent>());
 
 						gem.GetComponent<Gem_Script>().doCoinAnimation();
 						// when collision done then destroy mysterybox and create gem in its place where its going to have the same position and then exec its animation
@@ -521,12 +521,13 @@ void Game::update(float deltaTime) //game objects updating
 			if (enemy->GetComponent<TransformComponent>().getPosition().y > (main_camera2D->getPosition().y + main_camera2D->worldDimensions.y))
 				enemy->destroy();
 			if (enemy->GetComponent<LivingCharacter>().hp_bar->GetComponent<HPBar>()._healthPoints <= 0) {
-				auto& gem = assets->CreateGem(enemy->GetComponent<TransformComponent>().getCenterTransform());
-
-				gem.addGroup(Manager::groupGems);
+				auto& gem = assets->CreateGem(&enemy->GetComponent<TransformComponent>());
 
 				TransformComponent* gem_tr = &gem.GetComponent<TransformComponent>();
+
 				gem.addComponent<ColliderComponent>("gem", gem_tr->getPosition().x, gem_tr->getPosition().y, gem_tr->width);
+
+				gem.addGroup(Manager::groupGems);
 
 				enemy->destroy();
 			}
@@ -639,10 +640,10 @@ void Game::update(float deltaTime) //game objects updating
 			if (hasCollision)
 			{
 				p->GetComponent<ScoreComponent>().addToScore(100);
+				gem->destroy();
 			}
 
 			collision.isCollision = false;
-			gem->destroy();
 		}
 	}
 

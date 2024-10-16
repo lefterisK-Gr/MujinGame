@@ -47,7 +47,7 @@ public:
 
 	void CreateEnemies();
 
-	Entity& CreateGem(glm::vec2 pos);
+	Entity& CreateGem(TransformComponent* target_tr);
 
 	//triggers
 	bool OnPipeTrigger(SDL_Rect collider) const;

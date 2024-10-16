@@ -87,7 +87,7 @@ public:
 
 	glm::vec2 getCenterTransform()
 	{
-		return glm::vec2(_position.x + width * scale / 2, _position.y + height * scale / 2);
+		return getPosition() + getSizeCenter();
 	}
 
 	float getZIndex() {
@@ -96,6 +96,10 @@ public:
 
 	glm::vec2 getPosition() {
 		return _position;
+	}
+
+	glm::vec2 getSizeCenter() {
+		return glm::vec2(width * scale / 2,height * scale / 2);
 	}
 
 	void setPosition_X(int newPosition_X) {

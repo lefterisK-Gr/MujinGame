@@ -103,6 +103,27 @@ public: // it is like it has init that creates Animator Component since it inher
 			light->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y + transform->height / 2);
 		}
 
+		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
+		{
+			if (sprite->moving_animation.hasFinished()) {
+				if (vertTransitionPlayerAnimation) {
+					finishedVertAnimation = true;
+					vertTransitionPlayerAnimation = false;
+				}
+				else {
+					finishedHorAnimation = true;
+					horTransitionPlayerAnimation = false;
+					//map completed
+					Game::map->setMapCompleted(true);
+				}
+			}
+		}
+
+		if (horTransitionPlayerAnimation) // transition on pipe
+		{
+			return;
+		}
+
 		if (!attackAnimation) {
 			if (keyboard->_inputManager.isKeyDown(keyboard->attackKey) && !living->exhaust(10)) {
 				animator->Play("P1Attack");
@@ -168,6 +189,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				{
 					sprite->transform->setVelocity_X(0);
 					moving_animator->Play("PlayerHorTransition");
+					animator->Play("P1Walk");
 					this->horTransitionPlayerAnimation = true;
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
 				}
@@ -183,21 +205,7 @@ public: // it is like it has init that creates Animator Component since it inher
 				}
 			}
 		}
-		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
-		{	
-			if (sprite->moving_animation.hasFinished()) {
-				if (vertTransitionPlayerAnimation) {
-					finishedVertAnimation = true;
-					vertTransitionPlayerAnimation = false;
-				}
-				else {
-					finishedHorAnimation = true;
-					horTransitionPlayerAnimation = false;
-					//map completed
-					Game::map->setMapCompleted(true);
-				}
-			}
-		}
+		
 
 		if (!tookDamage) {
 			if (living->tookDamage) {

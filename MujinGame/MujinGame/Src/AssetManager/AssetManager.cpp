@@ -270,10 +270,16 @@ void AssetManager::CreateEnemies() {
 	}
 }
 
-Entity& AssetManager::CreateGem(glm::vec2 pos) {
+Entity& AssetManager::CreateGem(TransformComponent* target_tr) {
 	auto& gem(manager->addEntity());
 
-	gem.addComponent<TransformComponent>(pos);
+	gem.addComponent<TransformComponent>(target_tr->getPosition());
+	
+	TransformComponent* gem_tr = &gem.GetComponent<TransformComponent>();
+
+	gem_tr->setPosition_X(gem_tr->getPosition().x + target_tr->getSizeCenter().x - gem_tr->getSizeCenter().x);
+	gem_tr->setPosition_Y(gem_tr->getPosition().y + target_tr->getSizeCenter().y - gem_tr->getSizeCenter().y);
+
 	gem.addComponent<SpriteComponent>("terrain");
 	gem.addComponent<AnimatorComponent>("terrain");
 	gem.addComponent<MovingAnimatorComponent>("terrain");
