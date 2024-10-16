@@ -88,9 +88,9 @@ void MainMenuScreen::onEntry()
 	TextureManager::getInstance().Add_GLTexture("startgame", "assets/Sprites/StartGame.png");
 	TextureManager::getInstance().Add_GLTexture("exitgame", "assets/Sprites/ExitGame.png");
 
-	StartGameButton.addComponent<TransformComponent>(glm::vec2(230.0f, 100.0f), Manager::actionLayer,
+	StartGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - TextureManager::getInstance().Get_GLTexture("startgame")->width / 2, 100.0f), Manager::actionLayer,
 		glm::ivec2(
-			TextureManager::getInstance().Get_GLTexture("startgame")->width,
+			TextureManager::getInstance().Get_GLTexture("startgame")->width ,
 			TextureManager::getInstance().Get_GLTexture("startgame")->height
 		),
 		1.0f);
@@ -98,9 +98,9 @@ void MainMenuScreen::onEntry()
 	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this));
 	StartGameButton.addGroup(MainMenuScreen::startGameGroup);
 
-	ExitGameButton.addComponent<TransformComponent>(glm::vec2(240.0f, 250.0f), Manager::actionLayer,
+	ExitGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - TextureManager::getInstance().Get_GLTexture("exitgame")->width / 2, 250.0f), Manager::actionLayer,
 		glm::ivec2(
-		TextureManager::getInstance().Get_GLTexture("exitgame")->width,
+			TextureManager::getInstance().Get_GLTexture("exitgame")->width,
 			TextureManager::getInstance().Get_GLTexture("exitgame")->height
 		),
 		1.0f);

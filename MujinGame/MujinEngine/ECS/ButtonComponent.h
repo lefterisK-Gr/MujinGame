@@ -19,6 +19,12 @@ public:
     ButtonComponent(std::function<void()> onClick)
         : _state(ButtonState::NORMAL), _onClick(onClick) {}
 
+    ButtonComponent(std::function<void()> onClick, std::string button_label, glm::ivec2 b_dimensions, Color b_background)
+        : _state(ButtonState::NORMAL), _onClick(onClick) {
+           // create UI label with the string given
+           // set the button background color
+    }
+
     void setOnClick(std::function<void()> newOnClick) {
         _onClick = newOnClick;
     }

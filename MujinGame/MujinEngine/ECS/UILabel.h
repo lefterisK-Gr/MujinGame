@@ -12,15 +12,18 @@ private:
 	std::vector<Entity*> letters;
 	std::string label;
 	std::string fontFamily;
+
+	Entity* parent_entity = nullptr;
 public:
 	TransformComponent* transform = nullptr;
 
 	UILabel() = default;
-	UILabel(Manager* manager, std::string lab, std::string fontFam)
+	UILabel(Manager* manager, std::string lab, std::string fontFam, Entity* entity = nullptr)
 	{
 		_manager = manager;
 		fontFamily = fontFam;
 		label = lab;
+		parent_entity = entity;
 	}
 
 	~UILabel() {
@@ -40,6 +43,12 @@ public:
 	void update(float deltaTime) override {
 		//if string changes then for all the labels that have been created,
 		//find the ones that are for that string and delete them?
+		
+		if (parent_entity != nullptr) {
+			transform->setPosition_X(parent_entity->GetComponent<TransformComponent>().getPosition().x);
+			transform->setPosition_Y(parent_entity->GetComponent<TransformComponent>().getPosition().y);
+		}
+
 		int previousCharX = 0;
 
 		for (auto& l : letters) {
