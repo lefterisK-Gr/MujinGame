@@ -30,7 +30,7 @@ float Game::backgroundColor[4] = {0.025f, 0.05f, 0.15f, 1.0f};
 MujinEngine::Window* Game::_window = nullptr;
 
 auto& player1(manager.addEntity());
-auto& stagelabel(manager.addEntity());
+auto& stagelabel(manager.addEntity(true));
 
 Game::Game(MujinEngine::Window* window)
 {
@@ -191,7 +191,7 @@ void Game::onEntry()
 	assets->CreateInventory();
 
 	stagelabel.addComponent<TransformComponent>(glm::vec2(32, 608), Manager::actionLayer, glm::ivec2(32, 32), 1);
-	stagelabel.addComponent<UILabel>(&manager, "stage 0", "arial", true);
+	stagelabel.addComponent<UILabel>(&manager, "stage 0", "arial");
 	stagelabel.addGroup(Manager::groupLabels);
 
 	Music music = audioEngine.loadMusic("Sounds/JPEGSnow.ogg");
@@ -738,7 +738,6 @@ void Game::update(float deltaTime) //game objects updating
 			main_camera2D->worldDimensions.x = main_camera2D->worldDimensions.x - _window->getScreenWidth();
 		}
 		p->GetComponent<Player_Script>().finishedHorAnimation = false;
-		p->GetComponent<Player_Script>().finishedVertAnimation = false;
 	}
 
 	for (auto& clouds : backgroundtiles) {

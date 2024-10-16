@@ -12,15 +12,13 @@ private:
 	std::vector<Entity*> letters;
 	std::string label;
 	std::string fontFamily;
-	bool isHud = false;
 public:
 	TransformComponent* transform = nullptr;
 
 	UILabel() = default;
-	UILabel(Manager* manager, std::string lab, std::string fontFam, bool is_hud)
+	UILabel(Manager* manager, std::string lab, std::string fontFam)
 	{
 		_manager = manager;
-		isHud = is_hud;
 		fontFamily = fontFam;
 		label = lab;
 	}
@@ -42,13 +40,11 @@ public:
 	void update(float deltaTime) override {
 		//if string changes then for all the labels that have been created,
 		//find the ones that are for that string and delete them?
-		if (isHud) {
-			int previousCharX = 0;
+		int previousCharX = 0;
 
-			for (auto& l : letters) {
-				l->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + previousCharX) ;
-				previousCharX += l->GetComponent<TransformComponent>().width;
-			}
+		for (auto& l : letters) {
+			l->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + previousCharX) ;
+			previousCharX += l->GetComponent<TransformComponent>().width;
 		}
 	}
 
@@ -63,7 +59,7 @@ public:
 		letters.clear();
 		label = lab;
 		for (char c : label) {
-			auto& label(_manager->addEntity());
+			auto& label(_manager->addEntity(true));
 			SDL_Rect charRect = getLetterRect(c);
 			label.addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer,
 				glm::ivec2(charRect.w, charRect.h),//!set the dest.w/h from the table and then also set src.x/y/w/h. dest.x/y is based on previous letter and original label position

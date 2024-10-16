@@ -6,7 +6,7 @@
 #include <MMSystem.h>
 #include "../InputManager/InputManager.h"
 
-constexpr float walkingSpeed = 3.5f, runningSpeed = 4.5f, jumpingSpeed = 3.0f;
+constexpr float walkingSpeed = 3.5f, runningSpeed = 8.5f, jumpingSpeed = 3.0f;
 
 
 class KeyboardControllerComponent : public Component //! moving animation

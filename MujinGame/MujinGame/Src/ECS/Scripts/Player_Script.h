@@ -21,13 +21,10 @@ private:
 public: // it is like it has init that creates Animator Component since it inherits it
 	bool attackAnimation = false;
 
-	bool vertTransitionPlayerAnimation = false;
 	bool horTransitionPlayerAnimation = false;
 
-	bool finishedVertAnimation = false;
 	bool finishedHorAnimation = false;
 
-	bool onPipe = false;
 	bool leftofPipe = false;
 
 	bool tookDamage = false;
@@ -94,48 +91,18 @@ public: // it is like it has init that creates Animator Component since it inher
 
 	void update(float deltaTime) override {
 
-		sprite->destRect.x = static_cast<int>(transform->getPosition().x); //make player move with the camera, being stable in centre, except on edges
-		sprite->destRect.y = static_cast<int>(transform->getPosition().y);
-
 		if (light) {
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
 			light->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + transform->width / 2 );
 			light->GetComponent<TransformComponent>().setPosition_Y(transform->getPosition().y + transform->height / 2);
 		}
 
-		if (vertTransitionPlayerAnimation || horTransitionPlayerAnimation) // transition on pipe
-		{
-			if (sprite->moving_animation.hasFinished()) {
-				if (vertTransitionPlayerAnimation) {
-					finishedVertAnimation = true;
-					vertTransitionPlayerAnimation = false;
-				}
-				else {
-					finishedHorAnimation = true;
-					horTransitionPlayerAnimation = false;
-					//map completed
-					Game::map->setMapCompleted(true);
-				}
-			}
-		}
-
-		if (horTransitionPlayerAnimation) // transition on pipe
-		{
-			return;
-		}
-
 		if (!attackAnimation) {
 			if (keyboard->_inputManager.isKeyDown(keyboard->attackKey) && !living->exhaust(10)) {
-				animator->Play("P1Attack");
-				_slashEffect.play();
-				this->attackAnimation = true;
-				this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
+				doAttack();
 			}
 			if (keyboard->_inputManager.isKeyDown(keyboard->ability1Key) && !living->exhaust(10)) {
-				animator->Play("P1Ability1");
-				_slashSkillEffect.play();
-				this->attackAnimation = true;
-				this->action = Player_Script::playerAction::PLAYERACTION_ABILITY_1;
+				doAbility();
 			}
 		}
 		else {
@@ -157,52 +124,43 @@ public: // it is like it has init that creates Animator Component since it inher
 
 		if (keyboard->_inputManager.isKeyPressed(keyboard->pickUpKey))
 		{
-			auto& markettiles(manager.getGroup(Manager::groupMarket));
-
-			for (auto& mt : markettiles) {
-				if (Collision::checkCollision(mt->GetComponent<ColliderComponent>().collider, entity->GetComponent<ColliderComponent>().collider)) {
-					// ****OPEN SHOP****
-					auto& shops(manager.getGroup(Manager::groupShops));
-					for (auto& sh : shops)
-					{
-						sh->GetComponent<Shop>().isOpen = !sh->GetComponent<Shop>().isOpen;
-					}
-					break;
-				}
-			}
+			doPickupInteraction();
 		}
 
 		if (keyboard->_inputManager.isKeyPressed(keyboard->inventoryKey))
 		{
-			auto& inventories(manager.getGroup(Manager::groupInventories));
-			for (auto& sh : inventories)
-			{
-				sh->GetComponent<Inventory>().isOpen = !sh->GetComponent<Inventory>().isOpen;
-			}
+			doOpenInventory();
 		}
 
-		if (!vertTransitionPlayerAnimation && !horTransitionPlayerAnimation) 
+		if (!horTransitionPlayerAnimation) 
 		{
 			if (keyboard->_inputManager.isKeyDown(keyboard->walkRightKey))
 			{
 				if (this->leftofPipe)
 				{
+					//doHorTransition();
 					sprite->transform->setVelocity_X(0);
 					moving_animator->Play("PlayerHorTransition");
-					animator->Play("P1Walk");
 					this->horTransitionPlayerAnimation = true;
 					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
 				}
 			}
-			if (keyboard->_inputManager.isKeyDown(keyboard->downKey))
-			{
-				if (this->onPipe)
-				{
-					sprite->transform->setVelocity_X(0);
-					moving_animator->Play("PlayerVertTransition");
-					this->vertTransitionPlayerAnimation = true;
-					this->action = Player_Script::playerAction::PLAYERACTION_JUMP;
-				}
+		}
+
+		if (horTransitionPlayerAnimation) // transition on pipe
+		{
+			this->transform->setVelocity_X(0);
+			this->transform->setVelocity_Y(0);
+
+			sprite->spriteFlip = SDL_FLIP_NONE;
+
+			if (sprite->moving_animation.hasFinished()) {
+				//std::cout << "Done horizontal transition" << std::endl;
+
+				finishedHorAnimation = true;
+				horTransitionPlayerAnimation = false;
+				//map completed
+				Game::map->setMapCompleted(true);
 			}
 		}
 		
@@ -275,8 +233,44 @@ public: // it is like it has init that creates Animator Component since it inher
 			break;
 		}
 
-		onPipe = false;
 		leftofPipe = false;
 	}
 
+	void doAttack() {
+		animator->Play("P1Attack");
+		_slashEffect.play();
+		this->attackAnimation = true;
+		this->action = Player_Script::playerAction::PLAYERACTION_ATTACK;
+	}
+
+	void doAbility() {
+		animator->Play("P1Ability1");
+		_slashSkillEffect.play();
+		this->attackAnimation = true;
+		this->action = Player_Script::playerAction::PLAYERACTION_ABILITY_1;
+	}
+
+	void doPickupInteraction() {
+		auto& markettiles(manager.getGroup(Manager::groupMarket));
+
+		for (auto& mt : markettiles) {
+			if (Collision::checkCollision(mt->GetComponent<ColliderComponent>().collider, entity->GetComponent<ColliderComponent>().collider)) {
+				// ****OPEN SHOP****
+				auto& shops(manager.getGroup(Manager::groupShops));
+				for (auto& sh : shops)
+				{
+					sh->GetComponent<Shop>().isOpen = !sh->GetComponent<Shop>().isOpen;
+				}
+				break;
+			}
+		}
+	}
+
+	void doOpenInventory() {
+		auto& inventories(manager.getGroup(Manager::groupInventories));
+		for (auto& sh : inventories)
+		{
+			sh->GetComponent<Inventory>().isOpen = !sh->GetComponent<Inventory>().isOpen;
+		}
+	}
 };

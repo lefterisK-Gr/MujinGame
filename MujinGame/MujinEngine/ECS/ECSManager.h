@@ -90,9 +90,9 @@ public:
 		return groupedEntities[mGroup];
 	}
 
-	Entity& addEntity()
+	Entity& addEntity(bool is_hud = false)
 	{
-		Entity* e = new Entity(*this);
+		Entity* e = new Entity(*this, is_hud);
 		std::unique_ptr<Entity> uPtr{ e };
 		entities.emplace_back(std::move(uPtr));
 

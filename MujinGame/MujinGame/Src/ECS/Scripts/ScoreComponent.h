@@ -23,9 +23,9 @@ public:
 
 	void init() override
 	{
-		scorelabel = &manager.addEntity();
+		scorelabel = &manager.addEntity(true);
 		scorelabel->addComponent<TransformComponent>(glm::vec2(32, 576), Manager::actionLayer, glm::ivec2( 32, 32), 1);
-		scorelabel->addComponent<UILabel>(&manager, "score 0", "arial", true);
+		scorelabel->addComponent<UILabel>(&manager, "score 0", "arial");
 		scorelabel->addGroup(Manager::groupLabels);
 	}
 
