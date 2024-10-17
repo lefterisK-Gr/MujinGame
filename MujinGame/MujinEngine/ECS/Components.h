@@ -8,6 +8,7 @@
 #include "./MovingAnimatorComponent.h"
 #include "./FlashAnimatorComponent.h"
 #include "./ColliderComponent.h"
+#include "./Rectangle_w_Color.h"
 #include "./ButtonComponent.h"
 #include "./RigidBodyComponent.h"
 
@@ -18,4 +19,3 @@
 #include "./GridComponent.h"
 #include "./TileComponent.h"
 
-#include "./Rectangle_w_Color.h"

@@ -86,6 +86,9 @@ SDL_Rect getLetterRect(char letter) {
 	case '-':return RECT_DASH;
 	case '+':return RECT_PLUS;
 	case '@':return RECT_AT;
+
+	case ' ':return RECT_SPACE;
+
 	default:
 		// Return a default SDL_Rect in case of an unsupported character.
 		return SDL_Rect{ 0, 0, 0, 10 };

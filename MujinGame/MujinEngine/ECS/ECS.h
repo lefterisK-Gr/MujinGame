@@ -80,6 +80,8 @@ private:
 	GroupBitSet groupBitSet;
 
 	bool isHud = false;
+
+	Entity* parent_entity = nullptr;
 public:
 	bool paused = false;
 
@@ -167,6 +169,19 @@ public:
 	{
 		auto ptr(componentArray[GetComponentTypeID<T>()]);
 		return *static_cast<T*>(ptr);
+	}
+
+	// for when wanting to add new entities from components
+	Manager* getManager() {
+		return &manager;
+	}
+
+	Entity* getParentEntity() {
+		return parent_entity;
+	}
+
+	void setParentEntity(Entity* pEntity) {
+		parent_entity = pEntity;
 	}
 
 };

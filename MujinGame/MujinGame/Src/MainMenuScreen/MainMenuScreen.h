@@ -53,12 +53,6 @@ public:
     void setupShaderAndTexture(const std::string& textureName);
     void renderBatch(const std::vector<Entity*>& entities);
 
-    enum groupLabels : std::size_t //todo should add groups at end for some reason
-    {
-        startGameGroup,
-        exitGameGroup
-    };
-
 private:
     void checkInput();
     bool onStartGame();
@@ -66,6 +60,8 @@ private:
     void onExitGame();
 
     MujinEngine::Window* _window;
+
+    GLSLProgram _colorProgram;
     GLSLProgram _textureProgram;
 
     int _nextScreenIndex = SCREEN_INDEX_GAMEPLAY;

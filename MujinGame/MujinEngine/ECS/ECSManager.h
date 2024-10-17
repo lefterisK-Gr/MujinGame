@@ -127,6 +127,7 @@ public:
 	{
 		groupBackgroundLayer,
 		groupSewerBackgroundLayer,
+		backgroundPanels,
 		groupActionLayer,
 		groupPlayers,
 		groupBackgrounds,
@@ -161,6 +162,9 @@ public:
 		groupHPBars,
 		groupFog,
 		groupEnvironmentGenerators,
+		startGameGroup,
+		exitGameGroup,
+		buttonLabels,
 		groupCircles
 	};
 
@@ -175,6 +179,7 @@ public:
 
 
 		backgroundLayer = 5000,
+		menubackgroundLayer = 10000,
 	};
 
 };

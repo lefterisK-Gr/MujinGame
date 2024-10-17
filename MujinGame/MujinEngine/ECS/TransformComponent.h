@@ -14,7 +14,7 @@ private:
 public:
 	int height = 32;
 	int width = 32;
-	int scale = 1;
+	float scale = 1;
 
 	int speed = 1;
 
@@ -25,7 +25,7 @@ public:
 		_position = glm::zero<glm::vec2>();
 	}
 
-	TransformComponent(int sc)
+	TransformComponent(float sc)
 	{
 		_position = glm::zero<glm::vec2>();
 		scale = sc;
@@ -36,14 +36,14 @@ public:
 		_position = position;
 	}
 
-	TransformComponent(glm::vec2 position, Layer layer , glm::ivec2 size, int sc) : TransformComponent(position){
+	TransformComponent(glm::vec2 position, Layer layer , glm::ivec2 size, float sc) : TransformComponent(position){
 		width = size.x;
 		height = size.y;
 		_zIndex = entity->getLayerValue(layer);
 		scale = sc;
 	}
 
-	TransformComponent(glm::vec2 position, Layer layer, glm::ivec2 size, int sc, int sp) : TransformComponent(position, layer, size, sc)
+	TransformComponent(glm::vec2 position, Layer layer, glm::ivec2 size, float sc, int sp) : TransformComponent(position, layer, size, sc)
 	{
 		speed = sp;
 	}
@@ -67,16 +67,21 @@ public:
 		}
 		else {
 			entity->paused = true;
-			if (!entity->hasGroup(static_cast<Group>(Manager::groupLabels)) &&
-				!entity->hasGroup(static_cast<Group>(Manager::groupBackgroundLayer)) &&
-				!entity->hasGroup(static_cast<Group>(Manager::groupTextureLights)) &&
-				!entity->hasGroup(static_cast<Group>(Manager::groupRainDrop)) &&
-				!entity->hasGroup(static_cast<Group>(Manager::groupSnow)) &&
-				!entity->hasGroup(static_cast<Group>(Manager::groupBackgrounds))) {
-				return;
-			}
 		}
-			
+		
+		if (entity->getParentEntity() != nullptr) {
+			_position.x = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().x;
+			_position.y = entity->getParentEntity()->GetComponent<TransformComponent>().getPosition().y;
+
+			// here i can have specific positioning based on display layout of entity
+			// todo: create a UILayout Class for the entities that have inside them other entities that also has a enum 
+			// todo: for the layout mode
+			_position.x += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().x 
+				- getSizeCenter().x ;
+			_position.y += entity->getParentEntity()->GetComponent<TransformComponent>().getSizeCenter().y 
+				- getSizeCenter().y ;
+		}
+
 		_position.x += _velocity.x * speed * deltaTime;
 		float distanceY = _velocity.y * speed * deltaTime;
 		if(distanceY < 1)
