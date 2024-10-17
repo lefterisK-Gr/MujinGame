@@ -81,5 +81,6 @@ $RECYCLE.BIN/
 *.tmp
 *.temp
 
-MujinGame/MujinGame/assets/Maps/RandomMap.csv
-MujinGame/MujinGame/assets/Maps/RandomBackground.csv
+/MujinGame/MujinGame/assets/Maps/RandomBackground.csv
+/MujinGame/MujinGame/assets/Maps/RandomMap.csv
+/MujinGame/MujinGame/imgui.ini
