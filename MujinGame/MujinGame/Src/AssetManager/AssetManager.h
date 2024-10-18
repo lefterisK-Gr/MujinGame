@@ -33,7 +33,6 @@ public:
 	void CreateSnow(Entity& entity);
 	void CreateProjectile(glm::ivec2 pos, glm::ivec2 vel,int range, int speed, std::string id);
 	void CreateSkeleton(glm::ivec2 pos, glm::ivec2 vel, std::string id, bool isGiant);
-	void CreateStageUpButtons();
 	void CreateShop();
 	void RefreshShop();
 	void CreateInventory();

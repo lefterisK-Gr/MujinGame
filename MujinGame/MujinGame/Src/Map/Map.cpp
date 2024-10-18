@@ -346,7 +346,7 @@ void Map::addMysteryBoxTileFeature(Entity& tile, int wordNum) {
 		tile2.addComponent<AnimatorComponent>(texID);
 		tile2.addComponent<MovingAnimatorComponent>(texID);
 		tile2.addComponent<MysteryBox_Script>(); //insert tile and grid (texID is set in Game::init() ("terrain"))
-		tile2.addGroup(Manager::groupForegroundLayer);
+		tile2.addGroup(Manager::groupForeActionLayer);
 		tile2.addGroup(Manager::groupMysteryBoxes);
 		manager.grid->addEntity(&tile2);
 	}
@@ -361,7 +361,7 @@ void Map::addMarketTileFeature(Entity& tile, int wordNum) {
 
 void Map::addPipeTileFeature(Entity& tile, int wordNum) {
 	if (tileHasFeature(tile, wordNum, pipeTiles, ARRAY_SIZE(pipeTiles))) {
-		tile.addGroup(Manager::groupForegroundLayer);
+		tile.addGroup(Manager::groupForeActionLayer);
 	}
 }
 
@@ -374,11 +374,11 @@ void Map::LoadMap(std::string background1layerpath, std::string background2layer
 	mapFile.close();
 
 	mapFile.open(foregroundpath);
-	ProcessLayer(mapFile, &Map::AddForegroundTile);
+	ProcessLayer(mapFile, &Map::AddForeActionTile);
 	mapFile.close();
 
 	mapFile.open(background1layerpath);
-	ProcessLayer(mapFile, &Map::AddSewersBackgroundTile);
+	ProcessLayer(mapFile, &Map::AddBackActionTile);
 	mapFile.close();
 
 	mapFile.open(background2layerpath);
@@ -398,10 +398,10 @@ void Map::AddActionTile(Entity &tile, int srcX, int srcY, int xpos, int ypos, bo
 	}
 }
 
-void Map::AddForegroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
+void Map::AddForeActionTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid); //insert foregroundtile
-	tile.addGroup(Manager::groupForegroundLayer);
+	tile.addGroup(Manager::groupForeActionLayer);
 }
 
 void Map::AddBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
@@ -410,10 +410,10 @@ void Map::AddBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos
 	tile.addGroup(Manager::groupBackgroundLayer);
 }
 
-void Map::AddSewersBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
+void Map::AddBackActionTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid)
 {
 	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, tileSize, mapScale, texID, isSolid); //insert backgroundtile
-	tile.addGroup(Manager::groupSewerBackgroundLayer);
+	tile.addGroup(Manager::groupBackActionLayer);
 }
 
 void Map::setMapCompleted(bool completed)

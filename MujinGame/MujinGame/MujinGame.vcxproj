@@ -175,8 +175,6 @@
     <ClInclude Include="Src\ECS\Scripts\LivingCharacter.h" />
     <ClInclude Include="Src\ECS\Scripts\Shop.h" />
     <ClInclude Include="Src\ECS\Scripts\Slice.h" />
-    <ClInclude Include="Src\ECS\Scripts\StageUpButton.h" />
-    <ClInclude Include="Src\ECS\Scripts\StageUpButtons.h" />
     <ClInclude Include="Src\ECS\Scripts\Sword.h" />
     <ClInclude Include="Src\Game.h" />
     <ClInclude Include="Src\MainMenuScreen\MainMenuScreen.h" />

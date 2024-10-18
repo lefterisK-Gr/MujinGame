@@ -14,8 +14,6 @@
 #include "Scripts/MysteryBox_Script.h"
 
 #include "Scripts/ProjectileComponent.h"
-#include "Scripts/StageUpButton.h"
-#include "Scripts/StageUpButtons.h"
 
 #include "Scripts/Item.h"
 #include "Scripts/Shop.h"

@@ -86,12 +86,6 @@
     <ClInclude Include="Src\ECS\ScriptComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ECS\Scripts\StageUpButtons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\ECS\Scripts\StageUpButton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\ECS\Scripts\Shop.h">
       <Filter>Header Files</Filter>
     </ClInclude>

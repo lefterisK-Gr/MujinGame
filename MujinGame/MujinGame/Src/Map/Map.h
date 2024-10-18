@@ -26,16 +26,15 @@ public:
 	glm::ivec2 GetLayerDimensions(std::string mapFile);
 	void LoadMap(std::string background1layerpath, std::string background2layerpath, std::string actionlayerpath, std::string foregroundpath);
 	void AddActionTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
-	void AddForegroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
+	void AddForeActionTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
 	void AddBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
-	void AddSewersBackgroundTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
+	void AddBackActionTile(Entity& tile, int srcX, int srcY, int xpos, int ypos, bool isSolid);
 
 	void addBouncyTileFeature(Entity& tile, int wordNum);
 	void addWinningTileFeature(Entity& tile, int wordNum);
 	void addMysteryBoxTileFeature(Entity& tile, int wordNum);
 	void addMarketTileFeature(Entity& tile, int wordNum);
 	void addPipeTileFeature(Entity& tile, int wordNum);
-	void addPuddleTileFeature(Entity& tile, int wordNum);
 	bool tileHasFeature(Entity& tile, int wordNum, int featureTileArray[], int featureTileArraySize); //, void (Map::* addTileFeature)(Entity&)
 	//void DrawMap();
 

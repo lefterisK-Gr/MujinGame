@@ -116,16 +116,17 @@ void MainMenuScreen::onEntry()
 	Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
 
 	// initial entities
-	StartGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - 200 / 2, 200.0f), Manager::actionLayer,
-		glm::ivec2(300, 100),
+	glm::ivec2 mainMenuButtonsDims = glm::ivec2(200,50);
+	StartGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 200.0f), Manager::actionLayer,
+		mainMenuButtonsDims,
 		1.0f);
-	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this), "PLAY GAME", glm::ivec2(200,50), Color(120, 120, 120, 200));
+	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this), "PLAY GAME", mainMenuButtonsDims, Color(120, 120, 120, 200));
 	StartGameButton.addGroup(Manager::startGameGroup);
 
-	ExitGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - 200 / 2, 300.0f), Manager::actionLayer,
-		glm::ivec2(300, 100),
+	ExitGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - mainMenuButtonsDims.x / 2, 300.0f), Manager::actionLayer,
+		mainMenuButtonsDims,
 		1.0f);
-	ExitGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitGame, this), "EXIT GAME", glm::ivec2(200, 50), Color(70, 70, 70, 255));
+	ExitGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitGame, this), "EXIT GAME", mainMenuButtonsDims, Color(70, 70, 70, 255));
 	ExitGameButton.addGroup(Manager::exitGameGroup);
 }
 

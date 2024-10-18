@@ -32,8 +32,16 @@ public:
 	}
 
 	void init() override {
+		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
+
 		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(glm::vec2(50.0f, 50.0f), Manager::actionLayer, glm::ivec2( 600, 400), 1);
+			glm::ivec2 inventoryDims = glm::ivec2(600, 400);
+			entity->addComponent<TransformComponent>(
+				glm::vec2(
+					main_camera2D->getCameraDimensions().x / 2 - inventoryDims.x / 2,
+					main_camera2D->getCameraDimensions().y / 2 - inventoryDims.y / 2
+				),
+				Manager::actionLayer, inventoryDims, 1);
 		}
 		transform = &entity->GetComponent<TransformComponent>();
 		if (!entity->hasComponent<Rectangle_w_Color>()) {
@@ -59,7 +67,7 @@ public:
 	void update(float deltaTime) override {
 		std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 
-		transform->setPosition_X(isOpen ? 50.0f : -1000.0f);
+		transform->setPosition_X(isOpen ? main_camera2D->getCameraDimensions().x / 2 - transform->width / 2 : -1000.0f);
 		
 		for (int i = 0; i < SLOTS_PER_COLUMN; i++) {
 			for (int j = 0; j < SLOTS_PER_ROW; j++) {

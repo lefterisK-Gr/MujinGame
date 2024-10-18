@@ -82,6 +82,9 @@ private:
 	bool isHud = false;
 
 	Entity* parent_entity = nullptr;
+
+
+
 public:
 	bool paused = false;
 

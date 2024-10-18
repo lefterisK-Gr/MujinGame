@@ -209,11 +209,6 @@ auto& projectiles(manager.getGroup(Manager::groupProjectiles));
 auto& warriorprojectiles(manager.getGroup(Manager::groupWarriorProjectiles));
 auto& skeletons(manager.getGroup(Manager::groupSkeletons));
 auto& labels(manager.getGroup(Manager::groupLabels));
-auto& stageupbtns(manager.getGroup(Manager::groupStageUpButtons));
-auto& stageupattackbtns(manager.getGroup(Manager::groupStageUpAttackButtons));
-auto& stageupdefencebtns(manager.getGroup(Manager::groupStageUpDefenceButtons));
-auto& stageuphpbtns(manager.getGroup(Manager::groupStageUpHpButtons));
-auto& stageupbtnsback(manager.getGroup(Manager::groupStageUpButtonsBack));
 auto& itemslots(manager.getGroup(Manager::groupSlots));
 auto& shop(manager.getGroup(Manager::groupShops));
 auto& inventory(manager.getGroup(Manager::groupInventories));
@@ -227,10 +222,9 @@ auto& lights(manager.getGroup(Manager::groupLights));
 auto& texturelights(manager.getGroup(Manager::groupTextureLights));
 auto& raindrops(manager.getGroup(Manager::groupRainDrop));
 auto& snowdrops(manager.getGroup(Manager::groupSnow));
-auto& pipeforegroundsprites(manager.getGroup(Manager::groupPipeRingForeground));
-auto& foregroundtiles(manager.getGroup(Manager::groupForegroundLayer));
+auto& foreactiontiles(manager.getGroup(Manager::groupForeActionLayer));
 auto& backgroundtiles(manager.getGroup(Manager::groupBackgroundLayer));
-auto& sewerbackgroundtiles(manager.getGroup(Manager::groupSewerBackgroundLayer));
+auto& backactiontiles(manager.getGroup(Manager::groupBackActionLayer));
 auto& markettiles(manager.getGroup(Manager::groupMarket));
 auto& screenshapes(manager.getGroup(Manager::screenShapes));
 auto& hpbars(manager.getGroup(Manager::groupHPBars));
@@ -256,13 +250,13 @@ void Game::update(float deltaTime) //game objects updating
 			collider->destroy();
 		}
 		colliders.clear();
-		for (auto& sewerbackgroundtile : sewerbackgroundtiles)
+		for (auto& backactiontile : backactiontiles)
 		{
-			sewerbackgroundtile->destroy();
+			backactiontile->destroy();
 		}
-		sewerbackgroundtiles.clear();
+		backactiontiles.clear();
 		backgroundtiles.clear();
-		foregroundtiles.clear();
+		foreactiontiles.clear();
 		mysteryboxtiles.clear();
 		for (auto& enemy : skeletons)
 		{
@@ -302,7 +296,6 @@ void Game::update(float deltaTime) //game objects updating
 		projectiles.clear();
 		map->resetMap();
 		assets->CreateEnemies();
-		assets->CreateStageUpButtons();
 		assets->RefreshShop();
 		stagelabel.GetComponent<UILabel>().setLetters("stage" + std::to_string(map->getStage()));
 		assets->CreateWeather(player1);
@@ -744,17 +737,6 @@ void Game::update(float deltaTime) //game objects updating
 		}
 	}
 
-	for (auto& sb : stageupbtns)
-	{
-		TransformComponent entityTr = sb->GetComponent<TransformComponent>();
-
-		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _game->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
-			std::cout << "clicked button" << std::endl; 
-			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
-			break;
-		}
-	}
-
 	if (main_camera2D->getPosition().x < 0)
 		main_camera2D->setPosition_X(0.0f);
 	if (main_camera2D->getPosition().x > main_camera2D->worldDimensions.x - main_camera2D->getCameraDimensions().x)
@@ -1057,7 +1039,7 @@ void Game::draw()
 	if (assets->getWeather() == AssetManager::Weather::RAIN) {
 		setupShaderAndLightTexture("terrain", *main_camera2D);
 		renderBatch(backgroundtiles, _spriteBatch);
-		renderBatch(sewerbackgroundtiles, _spriteBatch);
+		renderBatch(backactiontiles, _spriteBatch);
 		renderBatch(tiles, _spriteBatch);
 		//renderBatch(colliders);
 		//based on weather change Shader of textures
@@ -1073,13 +1055,13 @@ void Game::draw()
 		renderBatch(players, _spriteBatch);
 		setupShaderAndLightTexture("terrain", *main_camera2D);
 		renderBatch(winningtiles, _spriteBatch);
-		renderBatch(foregroundtiles, _spriteBatch);
+		renderBatch(foreactiontiles, _spriteBatch);
 		_textureLightProgram.unuse();
 	}
 	else {
 		setupShaderAndTexture(_textureProgram,"terrain", *main_camera2D);
 		renderBatch(backgroundtiles, _spriteBatch);
-		renderBatch(sewerbackgroundtiles, _spriteBatch);
+		renderBatch(backactiontiles, _spriteBatch);
 		if (assets->getWeather() == AssetManager::Weather::SNOW) {
 			setupShaderAndTexture(_textureSnowProgram, "terrain", *main_camera2D);
 		}
@@ -1099,7 +1081,7 @@ void Game::draw()
 		renderBatch(players, _spriteBatch);
 		setupShaderAndTexture(_textureProgram, "terrain", *main_camera2D);
 		renderBatch(winningtiles, _spriteBatch);
-		renderBatch(foregroundtiles, _spriteBatch);
+		renderBatch(foreactiontiles, _spriteBatch);
 		_textureLightProgram.unuse();
 	}
 	
@@ -1122,18 +1104,12 @@ void Game::draw()
 	cameraMatrix = hud_camera2D->getCameraMatrix();
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 	renderBatch(shop, _hudSpriteBatch);
-	renderBatch(stageupbtnsback, _hudSpriteBatch);
 	renderBatch(inventory, _hudSpriteBatch);
 	renderBatch(itemslots, _hudSpriteBatch);
 
 	_colorProgram.unuse();
 
-	drawHUD(stageupattackbtns, "sword");
-	drawHUD(stageupdefencebtns, "shield");
-	drawHUD(stageuphpbtns, "healthPotion");
-
 	glBindTexture(GL_TEXTURE_2D, 0);
-	_textureLightProgram.unuse();
 	setupShaderAndFogTexture(*main_camera2D);
 
 	renderBatch(fog, _spriteBatch);

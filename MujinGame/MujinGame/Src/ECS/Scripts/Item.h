@@ -31,31 +31,10 @@ public:
 
 	void init() override {
 
-		if (!entity->hasComponent<TransformComponent>()) {
-			entity->addComponent<TransformComponent>(glm::vec2(0.0f, 100.0f), Manager::actionLayer,
-				glm::ivec2(
-				TextureManager::getInstance().Get_GLTexture(idName)->width,
-				TextureManager::getInstance().Get_GLTexture(idName)->height
-				),
-				2.0f);
-		}
-		transform = &entity->GetComponent<TransformComponent>();
 
-		if (!entity->hasComponent<SpriteComponent>()) {
-			entity->addComponent<SpriteComponent>(idName);
-		}
-		entity->addGroup(Manager::groupStageUpButtons);
-
-		itemBack = &manager.addEntity(true);
-		itemBack->addComponent<TransformComponent>(transform->getPosition(), Manager::actionLayer, glm::ivec2(32, 32), transform->scale);
-		itemBack->addComponent<Rectangle_w_Color>();
-		itemBack->GetComponent<Rectangle_w_Color>().color = Color(255, 0, 0, 255); // Grey color
-
-		itemBack->addGroup(Manager::groupStageUpButtonsBack);
 	}
 
 	void update(float deltaTime) override {
-		itemBack->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x);
 	}
 
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override {

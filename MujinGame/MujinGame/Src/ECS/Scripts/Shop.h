@@ -63,34 +63,4 @@ public:
 	void draw(SpriteBatch&  batch, MujinEngine::Window& window) override {
 	}
 
-	void generateRandomItems() {
-		_items.clear();
-
-		auto& item1(manager.addEntity());
-		auto& item2(manager.addEntity());
-		auto& item3(manager.addEntity());
-
-		item1.addComponent<Item>("sword", 100);
-		item1.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
-		item1.addGroup(Manager::groupStageUpAttackButtons);
-
-		item2.addComponent<Item>("shield", 200);
-		item2.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
-		item2.addGroup(Manager::groupStageUpDefenceButtons);
-
-		item3.addComponent<Item>("healthPotion", 300);
-		item3.addComponent<ButtonComponent>(std::bind(&Shop::handleBuyItem, this));
-		item3.addGroup(Manager::groupStageUpHpButtons);
-
-		// Generate 3 random items
-		_items.push_back(&item1); // Example item
-		_items.push_back(&item2);  // Another example
-		_items.push_back(&item3);  // Yet another example
-
-		// Consider adding more randomness here, like randomizing names, types, or prices
-	}
-
-	void handleBuyItem() {
-
-	}
 };

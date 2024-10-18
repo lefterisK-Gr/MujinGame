@@ -145,13 +145,6 @@ void AssetManager::CreateSkeleton(glm::ivec2 pos, glm::ivec2 vel, std::string id
 	manager->grid->addEntity(&enemy);
 }
 
-void AssetManager::CreateStageUpButtons() {
-	auto& stageupbuttons(manager->addEntity(true));
-
-	stageupbuttons.addComponent<TransformComponent>(glm::vec2(284, 600), Manager::foregroundLayer, glm::zero<glm::ivec2>(), 1);
-	stageupbuttons.addComponent<StageUpButtons>();
-}
-
 void AssetManager::CreateShop() {
 	auto& shop(manager->addEntity());
 
@@ -165,7 +158,7 @@ void AssetManager::RefreshShop() {
 
 	for (auto& s : shop)
 	{
-		s->GetComponent<Shop>().generateRandomItems();
+		//s->GetComponent<Shop>().generateRandomItems();
 	}
 }
 
