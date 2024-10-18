@@ -22,16 +22,22 @@ public:
 		_screenWidth(800),
 		_screenHeight(640)
 	{
-
+		eyePos = glm::vec3(400.f, 320.f, -780.0f);
+		aimPos = glm::vec3(400.f, 320.f, 0.f);
 	}
+
+	PerspectiveCamera(glm::vec3 eye_pos, glm::vec3 aim_pos) : PerspectiveCamera()
+	{
+		eyePos = eye_pos;
+		aimPos = aim_pos;
+	}
+
 	~PerspectiveCamera()
 	{
 
 	}
 
 	void init() override {
-		eyePos = glm::vec3(400.f,320.f,-780.0f);
-		aimPos = glm::vec3(400.f, 320.f, 0.f);
 		upDir = glm::vec3(0.f, -1.f, 0.f);
 		_projectionMatrix = glm::perspective(glm::radians(45.0f), (float)_screenWidth / (float)_screenHeight, 0.1f, 10000.0f); //left, right, top, bottom
 		_viewMatrix = glm::lookAt(eyePos, //< eye position

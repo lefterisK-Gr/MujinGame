@@ -95,6 +95,10 @@ public:
 		return getPosition() + getSizeCenter();
 	}
 
+	void setZIndex(float newZ) {
+		_zIndex = newZ;
+	}
+
 	float getZIndex() {
 		return _zIndex;
 	}

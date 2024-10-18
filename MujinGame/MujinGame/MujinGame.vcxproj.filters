@@ -113,5 +113,8 @@
     <ClInclude Include="Src\ECS\Scripts\Gem_Script.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\ECS\Scripts\MainMenuBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

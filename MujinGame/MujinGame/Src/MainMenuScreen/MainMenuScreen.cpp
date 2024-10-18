@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SDL/SDL.h>
 #include "ECS/Components.h"
+#include "../ECS/ScriptComponents.h"
 #include "Camera2.5D/CameraManager.h"
 #include "../ECS/ScriptComponents.h"
 #include "../Collision/Collision.h"
@@ -16,7 +17,7 @@ SpriteBatch MainMenuScreen::_spriteBatch;
 
 AssetManager* MainMenuScreen::assets = nullptr;
 
-auto& MainMenuBackground(main_menu_manager.addEntity());
+auto& Mainmenubackground(main_menu_manager.addEntity());
 auto& StartGameButton(main_menu_manager.addEntity());
 auto& ExitGameButton(main_menu_manager.addEntity());
 
@@ -66,7 +67,6 @@ void MainMenuScreen::onEntry()
 	main_camera2D->setPosition_Y(main_camera2D->getPosition().y);
 	main_camera2D->setScale(1.0f);
 
-
 	hud_camera2D->init(); // Assuming a screen resolution of 800x600
 	hud_camera2D->setPosition_X(hud_camera2D->getPosition().x /*+ glm::vec2(
 		width / 2.0f,
@@ -111,34 +111,21 @@ void MainMenuScreen::onEntry()
 	TextureManager::getInstance().Add_GLTexture("arial", "assets/Fonts/arial_cropped_white.png");
 
 	//main menu moving background
-	MainMenuBackground.addComponent<TransformComponent>(glm::vec2(main_camera2D->getCameraDimensions().x / 2 - TextureManager::getInstance().Get_GLTexture("dungeonhall")->width / 2, 100.0f), Manager::menubackgroundLayer,
-		glm::ivec2(
-			TextureManager::getInstance().Get_GLTexture("dungeonhall")->width,
-			TextureManager::getInstance().Get_GLTexture("dungeonhall")->height
-		),
-		1.0f);
-	MainMenuBackground.addComponent<SpriteComponent>("dungeonhall", true);
-	MainMenuBackground.addGroup(Manager::groupBackgroundLayer);
+	Mainmenubackground.addComponent<MainMenuBackground>();
+
+	Mainmenubackground.addGroup(Manager::groupBackgroundLayer);
 
 	// initial entities
-	StartGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - TextureManager::getInstance().Get_GLTexture("startgame")->width / 2, 100.0f), Manager::actionLayer,
-		glm::ivec2(
-			TextureManager::getInstance().Get_GLTexture("startgame")->width ,
-			TextureManager::getInstance().Get_GLTexture("startgame")->height
-		),
+	StartGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - 200 / 2, 200.0f), Manager::actionLayer,
+		glm::ivec2(300, 100),
 		1.0f);
-	StartGameButton.addComponent<SpriteComponent>("startgame", true);
-	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this), "PLAY GAME", glm::ivec2(300,100), Color(120, 120, 120, 200));
+	StartGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onStartGame, this), "PLAY GAME", glm::ivec2(200,50), Color(120, 120, 120, 200));
 	StartGameButton.addGroup(Manager::startGameGroup);
 
-	ExitGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - TextureManager::getInstance().Get_GLTexture("exitgame")->width / 2, 250.0f), Manager::actionLayer,
-		glm::ivec2(
-			TextureManager::getInstance().Get_GLTexture("exitgame")->width,
-			TextureManager::getInstance().Get_GLTexture("exitgame")->height
-		),
+	ExitGameButton.addComponent<TransformComponent>(glm::vec2(hud_camera2D->getCameraDimensions().x / 2 - 200 / 2, 300.0f), Manager::actionLayer,
+		glm::ivec2(300, 100),
 		1.0f);
-	ExitGameButton.addComponent<SpriteComponent>("exitgame", true);
-	ExitGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitGame, this), "EXIT GAME", glm::ivec2(300, 100), Color(0, 0, 255, 255));
+	ExitGameButton.addComponent<ButtonComponent>(std::bind(&MainMenuScreen::onExitGame, this), "EXIT GAME", glm::ivec2(200, 50), Color(70, 70, 70, 255));
 	ExitGameButton.addGroup(Manager::exitGameGroup);
 }
 
@@ -175,16 +162,16 @@ void MainMenuScreen::update(float deltaTime)
 
 	for (auto& sb : startgamebuttons)
 	{
-		SpriteComponent entitySprite = sb->GetComponent<SpriteComponent>();
-		if (_game->_inputManager.checkMouseCollision(entitySprite.destRect)) { //culling
+		TransformComponent entityTr = sb->GetComponent<TransformComponent>();
+		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _game->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
 			std::cout << "clicked button" << std::endl;
 			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
 	}
 	for (auto& eb : exitgamebuttons)
 	{
-		SpriteComponent entitySprite = eb->GetComponent<SpriteComponent>();
-		if (_game->_inputManager.checkMouseCollision(entitySprite.destRect)) { //culling
+		TransformComponent entityTr = eb->GetComponent<TransformComponent>();
+		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _game->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
 			std::cout << "clicked button" << std::endl;
 			eb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 		}
@@ -265,8 +252,10 @@ void MainMenuScreen::checkInput() {
 	std::shared_ptr<PerspectiveCamera> main_camera2D = std::dynamic_pointer_cast<PerspectiveCamera>(CameraManager::getInstance().getCamera("main"));
 	std::shared_ptr<OrthoCamera> hud_camera2D = std::dynamic_pointer_cast<OrthoCamera>(CameraManager::getInstance().getCamera("hud"));
 
-
 	SDL_Event evnt;
+
+	_game->_inputManager.update();
+
 	while (SDL_PollEvent(&evnt)) {
 		ImGui_ImplSDL2_ProcessEvent(&evnt);
 		_game->onSDLEvent(evnt);
@@ -283,7 +272,6 @@ void MainMenuScreen::checkInput() {
 			std::cout << mouseCoordsVec.x << " " << mouseCoordsVec.y << std::endl;
 		}
 
-		_game->_inputManager.update();
 
 	}
 }

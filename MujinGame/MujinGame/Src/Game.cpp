@@ -746,10 +746,10 @@ void Game::update(float deltaTime) //game objects updating
 
 	for (auto& sb : stageupbtns)
 	{
-		SpriteComponent entitySprite = sb->GetComponent<SpriteComponent>();
+		TransformComponent entityTr = sb->GetComponent<TransformComponent>();
 
-		if (_game->_inputManager.checkMouseCollision(entitySprite.destRect)) { //culling
-			std::cout << "clicked button" << std::endl;
+		if (_game->_inputManager.isKeyPressed(SDL_BUTTON_LEFT) && _game->_inputManager.checkMouseCollision(entityTr.getPosition(), glm::ivec2(entityTr.width, entityTr.height))) { //culling
+			std::cout << "clicked button" << std::endl; 
 			sb->GetComponent<ButtonComponent>().setState(ButtonComponent::ButtonState::PRESSED);
 			break;
 		}

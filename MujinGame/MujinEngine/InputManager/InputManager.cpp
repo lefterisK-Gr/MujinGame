@@ -50,9 +50,9 @@ bool InputManager::wasKeyDown(unsigned int keyID) {
     }
 }
 
-bool InputManager::checkMouseCollision(SDL_Rect entity) {
-    if (_mouseCoords.x > entity.x && _mouseCoords.x < entity.x + entity.w &&
-        _mouseCoords.y > entity.y && _mouseCoords.y < entity.y + entity.h) {
+bool InputManager::checkMouseCollision(glm::vec2 position, glm::ivec2 tr_size) {
+    if (_mouseCoords.x > position.x && _mouseCoords.x < position.x + tr_size.x &&
+        _mouseCoords.y > position.y && _mouseCoords.y < position.y + tr_size.y) {
         return true;
     }
     return false;

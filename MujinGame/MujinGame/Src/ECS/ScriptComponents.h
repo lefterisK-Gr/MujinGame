@@ -26,3 +26,4 @@
 #include "Scripts/CreateSnow.h"
 
 #include "Scripts/Gem_Script.h"
+#include "Scripts/MainMenuBackground.h"
