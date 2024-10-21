@@ -203,6 +203,7 @@ void Game::onExit() {
 
 auto& tiles(manager.getGroup(Manager::groupActionLayer));
 auto& players(manager.getGroup(Manager::groupPlayers));
+auto& p_sword(manager.getGroup(Manager::groupEquipment));
 auto& backgrounds(manager.getGroup(Manager::groupBackgrounds));
 auto& colliders(manager.getGroup(Manager::groupColliders));
 auto& projectiles(manager.getGroup(Manager::groupProjectiles));
@@ -1053,6 +1054,8 @@ void Game::draw()
 
 		setupShaderAndLightTexture("warrior", *main_camera2D);
 		renderBatch(players, _spriteBatch);
+		setupShaderAndLightTexture("sword", *main_camera2D);
+		renderBatch(p_sword, _spriteBatch);
 		setupShaderAndLightTexture("terrain", *main_camera2D);
 		renderBatch(winningtiles, _spriteBatch);
 		renderBatch(foreactiontiles, _spriteBatch);
@@ -1079,6 +1082,8 @@ void Game::draw()
 
 		setupShaderAndTexture(_textureProgram, "warrior", *main_camera2D);
 		renderBatch(players, _spriteBatch);
+		setupShaderAndLightTexture("sword", *main_camera2D);
+		renderBatch(p_sword, _spriteBatch);
 		setupShaderAndTexture(_textureProgram, "terrain", *main_camera2D);
 		renderBatch(winningtiles, _spriteBatch);
 		renderBatch(foreactiontiles, _spriteBatch);

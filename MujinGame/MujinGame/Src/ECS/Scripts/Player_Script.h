@@ -91,6 +91,14 @@ public: // it is like it has init that creates Animator Component since it inher
 
 	void update(float deltaTime) override {
 
+		auto& p_equipment(manager.getGroup(Manager::groupEquipment));
+
+		for (auto& p_equip : p_equipment) {
+			if (p_equip->GetComponent<SpriteComponent>().moving_animation.hasFinished()) {
+				p_equip->GetComponent<MovingAnimatorComponent>().Play("SwordPlayAround");
+			}
+		}
+
 		if (light) {
 			TransformComponent* lightTransform = &light->GetComponent<TransformComponent>();
 			light->GetComponent<TransformComponent>().setPosition_X(transform->getPosition().x + transform->width / 2 );

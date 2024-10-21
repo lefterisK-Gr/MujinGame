@@ -69,6 +69,17 @@ void AssetManager::CreatePlayer(Entity& player)
 	player.addComponent<ScoreComponent>();
 
 	player.addComponent<Sword>();
+
+
+	auto& sword_entity(manager->addEntity());
+	sword_entity.addComponent<TransformComponent>();
+	sword_entity.addComponent<SpriteComponent>("sword");
+	sword_entity.addComponent<MovingAnimatorComponent>("sword");
+	sword_entity.setParentEntity(&player);
+	sword_entity.addGroup(Manager::groupEquipment);
+
+	sword_entity.GetComponent<MovingAnimatorComponent>().Play("PlayerHorTransition");
+
 	player.addComponent<Player_Script>();
 
 	player.addGroup(Manager::groupPlayers);

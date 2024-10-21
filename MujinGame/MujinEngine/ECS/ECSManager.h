@@ -130,6 +130,7 @@ public:
 		backgroundPanels,
 		groupActionLayer,
 		groupPlayers,
+		groupEquipment,
 		groupBackgrounds,
 		//groupEnemies,
 		groupColliders,

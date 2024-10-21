@@ -69,12 +69,24 @@ public:
 
 		MovingAnimation block_bounce = MovingAnimation(0, 0, 10, 0.5, "back_forth", 0, -4, 1);
 		MovingAnimation coin_bounce = MovingAnimation(0, 0, 20, 1, "back_forth", 0, -2, 1);
+
+		std::vector<glm::vec2> path = {
+			glm::vec2(100, 200),
+			glm::vec2(150, 250),
+			glm::vec2(200, 300)
+		};
+		std::vector<int> zIndices = { 1, 3, 2 };   // Example zIndex values for each position
+		std::vector<int> rotations = { 0, 90, 45 };
+
+		MovingAnimation sword_play_around = MovingAnimation(path, zIndices, rotations,0, 0, 20, 1, "back_forth", 1);
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);
 		moving_animations.emplace("PlayerVertTransition", playerVertTransition);
 		moving_animations.emplace("PlayerHorTransition", playerHorTransition);
 		moving_animations.emplace("BlockBounce", block_bounce);
 		moving_animations.emplace("CoinBounce", coin_bounce);
+
+		moving_animations.emplace("SwordPlayAround", sword_play_around);
 
 		FlashAnimation defaultFlashAnimation = FlashAnimation(0, 0, 4, 0, "looped", { 0.2f, 1.0f, 0.2f, 1.0f }, { 255,255,255,255 });
 		FlashAnimation playerHit = FlashAnimation(0, 0, 4, 0, "play_n_times", { 0.2f, 0.2f, 0.2f, 0.2f }, { 255,0,0,50 }, 10);

@@ -8,6 +8,7 @@ class TransformComponent : public Component //transform as in graphics, we have 
 {
 private:
 	float _zIndex = -5.0f;
+	float _rotation = 0.0f;
 
 	glm::vec2 _position;
 	glm::vec2 _velocity;
@@ -101,6 +102,14 @@ public:
 
 	float getZIndex() {
 		return _zIndex;
+	}
+
+	void setRotation(float newRot) {
+		_rotation = newRot;
+	}
+
+	float getRotation() {
+		return _rotation;
 	}
 
 	glm::vec2 getPosition() {
