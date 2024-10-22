@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "Components.h"
+#include "../Components.h"
 #include <map>
 #include "Animation.h"
 #include "AnimatorManager.h"
@@ -35,7 +35,7 @@ public:
 		}
 		sprite = &entity->GetComponent<SpriteComponent>();
 
-		Play("Default");
+		Play("Default");	
 		sprite->setTex(textureid);
 	}
 
@@ -54,7 +54,12 @@ public:
 		sprite->destRect.h = sprite->transform->height * sprite->transform->scale;
 
 		sprite->moving_animation.advanceFrame(deltaTime);
-		sprite->setMoveFrame();
+		if (sprite->moving_animation.positions.size() == 1) {
+			sprite->setMoveFrame();
+		}
+		else {
+			sprite->setSpecificMoveFrame();
+		}
 	}
 
 	void draw(SpriteBatch& batch, MujinEngine::Window& window) override
@@ -70,7 +75,7 @@ public:
 			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
-			animManager.moving_animations[animationName].distanceX, animManager.moving_animations[animationName].distanceY,
+			animManager.moving_animations[animationName].positions, animManager.moving_animations[animationName].zIndices, animManager.moving_animations[animationName].rotations, // here needs to be vector
 			reps ? reps : animManager.moving_animations[animationName].reps
 		);
 	}
@@ -82,7 +87,7 @@ public:
 			animManager.moving_animations[animationName].indexX, animManager.moving_animations[animationName].indexY,
 			animManager.moving_animations[animationName].total_frames, animManager.moving_animations[animationName].speed,
 			animManager.moving_animations[animationName].type,
-			animManager.moving_animations[animationName].distanceX, animManager.moving_animations[animationName].distanceY);
+			animManager.moving_animations[animationName].positions, animManager.moving_animations[animationName].zIndices, animManager.moving_animations[animationName].rotations);
 	}
 
 	const char* getPlayName()

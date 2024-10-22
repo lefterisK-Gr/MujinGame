@@ -4,9 +4,9 @@
 #include <SDL/SDL.h>
 #include "GL/glew.h"
 #include "../TextureManager/TextureManager.h"
-#include "Animation.h"
-#include "MovingAnimation.h"
-#include "FlashAnimation.h"
+#include "Animators/Animation.h"
+#include "Animators/MovingAnimation.h"
+#include "Animators/FlashAnimation.h"
 #include <map>
 #include "../Vertex.h"
 #include <cstddef>
@@ -129,9 +129,9 @@ public:
 		animation = Animation(idX, idY, fr, sp, type, reps);
 	}
 
-	void SetMovingAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, int dx, int dy, int reps = 0)
+	void SetMovingAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, const std::vector<glm::vec2>& _positions, const std::vector<int>& _zIndices, const std::vector<int>& _rotations, int reps = 0)
 	{
-		moving_animation = MovingAnimation(idX, idY, fr, sp, type, dx, dy, reps);
+		moving_animation = MovingAnimation(idX, idY, fr, sp, type, _positions, _zIndices, _rotations, reps); // dx,dy needs to be vector, if yes then dont need int dx dy
 	}
 
 	void SetFlashAnimation(int idX, int idY, int fr, float sp, const Animation::animType type, const std::vector<float>& flashTimes, Color flashC, int reps = 0)
@@ -146,8 +146,14 @@ public:
 
 	void setMoveFrame() {
 
-		this->destRect.x = (static_cast<int>(this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.distanceX * moving_animation.cur_frame_index);
-		this->destRect.y = (static_cast<int>(this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.distanceY * moving_animation.cur_frame_index);
+		this->destRect.x = (static_cast<int>(this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[0].x * moving_animation.cur_frame_index);
+		this->destRect.y = (static_cast<int>(this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[0].y * moving_animation.cur_frame_index);
+	}
+
+	void setSpecificMoveFrame() {
+
+		this->destRect.x = (static_cast<int>(this->transform->getPosition().x) + this->moving_animation.indexX) /* init */ + (this->moving_animation.positions[moving_animation.cur_frame_index].x);
+		this->destRect.y = (static_cast<int>(this->transform->getPosition().y) + this->moving_animation.indexY) + (this->moving_animation.positions[moving_animation.cur_frame_index].y);
 	}
 
 	void setFlashFrame() {

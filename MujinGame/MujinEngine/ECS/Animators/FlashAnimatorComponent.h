@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "Components.h"
+#include "../Components.h"
 #include <map>
 #include "Animation.h"
 #include "AnimatorManager.h"

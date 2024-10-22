@@ -71,14 +71,14 @@ public:
 		MovingAnimation coin_bounce = MovingAnimation(0, 0, 20, 1, "back_forth", 0, -2, 1);
 
 		std::vector<glm::vec2> path = {
-			glm::vec2(100, 200),
+			glm::vec2(0, 0),
 			glm::vec2(150, 250),
-			glm::vec2(200, 300)
+			glm::vec2(-200, -300)
 		};
 		std::vector<int> zIndices = { 1, 3, 2 };   // Example zIndex values for each position
 		std::vector<int> rotations = { 0, 90, 45 };
 
-		MovingAnimation sword_play_around = MovingAnimation(path, zIndices, rotations,0, 0, 20, 1, "back_forth", 1);
+		MovingAnimation sword_play_around = MovingAnimation(0, 0, 20, 1, "back_forth", path, zIndices, rotations, 1);
 		
 		moving_animations.emplace("Default", defaultMoveAnimation);
 		moving_animations.emplace("PlayerVertTransition", playerVertTransition);

@@ -155,22 +155,22 @@
     <ClInclude Include="ECS\GridComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\FlashAnimatorComponent.h">
+    <ClInclude Include="ECS\Animators\FlashAnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\FlashAnimation.h">
+    <ClInclude Include="ECS\Animators\FlashAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\ButtonComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\AnimatorManager.h">
+    <ClInclude Include="ECS\Animators\AnimatorManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\AnimatorComponent.h">
+    <ClInclude Include="ECS\Animators\AnimatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\Animation.h">
+    <ClInclude Include="ECS\Animators\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ECS\Components.h">
